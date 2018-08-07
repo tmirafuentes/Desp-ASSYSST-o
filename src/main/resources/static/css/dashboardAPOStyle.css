@@ -1,0 +1,707 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body{
+  background:#f4f4f4;
+  padding-right:0px !important; /*scrollbar modal issue*/
+  margin-right:0px !important;  /*scrollbar modal issue*/
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+}
+
+body.modal-open {
+    overflow: auto;
+}
+/*******************CUSTOMS***********************/
+/*Custom Modal*/
+@media (min-width: 768px) {
+  .modal-xl {
+    width: 98%;
+    max-width:1500px;
+  }
+}
+/*Custom Modal*/
+/* Custom Color*/
+.sideBar-cell-color{
+  background-color: #2f822d !important;
+  border-color: #2f822d !important;
+  color:#ffffff !important;
+}
+
+.clickedPanel-color{
+  background-color: #373737 !important;
+  border-color: #2f822d !important;
+  color:#ffffff !important;
+}
+
+.inactivePanel{
+	display:none;
+}
+
+.match-room-offering{
+  background-color: #309953 !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.room-collision{
+  background-color: #b30000 !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.clicked-offering-active{
+  background-color: #309953 !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.clicked-offering-inactive:hover{
+	cursor: pointer;
+	background-color: #b6b6b6!important;
+}
+
+.publish-active{
+  background-color: #35a4f4!important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.publish-inactive, .trash-button, .unassign-button{
+  background-color: #b30000 !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.add-button, .save-button, .assign-button, .okay-button{
+  background-color: #099b10 !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.edit-button{
+  background-color: #fa9c1f !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.pushed-option, .disabled-toggle{
+  background-color: #9f9f9f !important;
+  cursor: pointer;
+  color:#ffffff !important;
+}
+
+.editable-cell{
+  /*background-color: #c7c2c2 !important;*/
+  cursor: pointer;
+  margin:1px;
+  color:#000000 !important;
+}
+/********************FONTS************************/
+@font-face {
+	font-family: RalewayLight;
+	src: url(../../resources/fonts/RalewayLight.ttf);
+}
+@font-face {
+	font-family: FjallaOne;
+	src: url(../../resources/fonts/FjallaOne.ttf);
+}
+@font-face {
+	font-family: GalliardRoman;
+	src: url(../../resources/fonts/GalliardRoman.otf);
+}
+/********************NAVBAR***********************/
+.navbar{
+  min-height: 50px !important;
+  margin-bottom:0;
+  border-radius:0;
+  opacity:0.8;
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+  font-family: RalewayLight;
+  font-size: 13px; 
+}
+
+.navbar-nav > li > a, .navbar-brand{
+  padding-top:15px !important;
+  padding-bottom:0 !important;
+  height: 50px;
+}
+
+.navbar-default {
+  transition: all ease .5s;
+  background-color: #225c20;
+  border-color: #225c20;
+}
+.navbar-default .navbar-brand {
+  color: #ffffff;
+  font-size: 15px;
+  font-family: FjallaOne;
+  z-index: 3;
+  position: relative;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-text {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a{
+  color: #f8fafa;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #f8fafa;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #f8fafa;
+  background-color: #2f822d;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #f8fafa;
+  background-color: #2f822d;
+}
+.navbar-default .navbar-toggle {
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #2f822d;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ecf0f1;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+}
+.navbar-default .navbar-link {
+  color: #f8fafa;
+}
+.navbar-default .navbar-link:hover {
+  color: #f8fafa;
+}
+.dropdown-menu .dropdown-item{
+  color: #373737;
+  font-family: RalewayLight;
+  font-size: 13px;
+}
+
+/******************WHEN SCROLLED DOWN******************/
+#nav.shrink {
+  min-height: 40px;
+  transition: all ease .5s;
+  background-color: black;
+  border-color: black;
+  opacity:0.8;
+}
+
+#nav.shrink .navbar-nav > li > a, .navbar-brand{
+  padding-top:15px !important;
+  padding-bottom:0 !important;
+  min-height: 40px;
+}
+
+#navbar.shrink {
+  min-height: 40px;
+  transition: all ease .5s;
+  background-color: black;
+  border-color: black;
+  opacity:0.8;
+}
+
+#navbar.shrink .navbar-nav > .active > a,
+#navbar.shrink .navbar-nav > .active > a:hover,
+#navbar.shrink .navbar-nav > .active > a:focus {
+  color: #f8fafa;
+  background-color: #373737;
+}
+
+#navbar.shrink .navbar-nav > .open > a,
+#navbar.shrink .navbar-nav > .open > a:hover,
+#navbar.shrink .navbar-nav > .open > a:focus {
+  color: #f8fafa;
+  background-color: #373737;
+}
+
+#navbar.shrink .navbar-toggle:hover,
+#navbar.shrink .navbar-toggle:focus {
+  background-color: #373737;
+}
+
+#nav.shrink .navbar-toggle:hover,
+#nav.shrink .navbar-toggle:focus {
+  background-color: #373737;
+}
+
+/********************NAVBAR************************/
+/********************PARALLAX***********************/
+
+#parallaxText{
+	font-family: GalliardRoman;
+  	font-size: 30px; 
+  	position: absolute;
+  	margin-top: 150px;
+  	color: #ffffff;
+  	width: 100%;
+  	text-align: center;
+  	z-index: 1;
+}
+.parallax-window {
+    min-height: 300px;
+    background: #225c20;
+    opacity: 0.5;
+}
+/********************PARALLAX***********************/
+/********************SIDEBAR***********************/
+/* Progress Bars */
+.progress-bar{
+  background:#333333;
+  color:#ffffff;
+}
+
+#dashboardSideBar{
+	margin-top: 20px;
+	/*margin-bottom: 90px;*/
+	z-index: 1;
+}
+
+/********************SIDEBAR***********************/
+/*************ALL TABLES***********/
+	/*All tables should have header-fixed class.*/
+.header-fixed {
+    width: 100%;
+}
+
+.header-fixed {
+    width: 100%;
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 300px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 25%; /*kasi 4 columns lang. if 5, 20%. If etc, adjust*/
+    float: left;
+}
+
+.header-fixed > thead > tr > th{
+	white-space: nowrap; /*If headers start wrapping white spaces, it messes things up*/
+}
+/**********************************CUSTOM TABLE**************************/
+/*All tables should have different stuff below*/
+#panelBuildingsAndRooms, #panelViewRoomAssignment{
+	margin-top: 20px;
+	height: 300px;
+	margin-bottom: 170px;
+}
+
+#panelViewOfferings{ /*may add oferring button kaya hiwalay*/
+	margin-top: 20px;
+	height: 300px;
+	margin-bottom: 200px;
+}
+
+#panelFlowcharts{ /*may extra stuff kaya hiwalay*/
+	margin-top: 20px;
+	height: 250px;
+	margin-bottom: 290px;
+}
+
+.header-fixed-viewbuildingsandrooms > tbody > tr > td,
+.header-fixed-viewbuildingsandrooms > thead > tr > th {
+    width: 25%; /*kasi 4 columns lang. if 5, 20%. If etc, adjust*/
+    float: left;
+}
+
+.header-fixed-viewroomassignment > tbody > tr > td,
+.header-fixed-viewroomassignment  > thead > tr > th {
+    width: 33%; /*kasi 4 columns lang.*/
+    float: left;
+}
+
+.header-fixed-viewofferings > tbody > tr > td,
+.header-fixed-viewofferings > thead > tr > th {
+    width: 25%; /*kasi 4 columns lang. if 5, 20%. If etc, adjust*/
+    float: left;
+}
+
+.header-fixed-viewflowchart > tbody > tr > td,
+.header-fixed-viewflowchart > thead > tr > th {
+    width: 20%; /*kasi 4 columns lang. if 5, 20%. If etc, adjust*/
+    float: left;
+}
+
+.header-fixed-viewbuildingsandroomsmodal > tbody > tr > td,
+.header-fixed-viewbuildingsandroomsmodal > thead > tr > th {
+    width: 33%; /*kasi 3 columns lang. if 4, 25%. If etc, adjust*/
+    float: left;
+}
+
+.header-fixed-offerringlistRAmodal > tbody > tr > td,
+.header-fixed-offerringlistRAmodal > thead > tr > th {
+    width: 14%; /*kasi 7 columns */
+    float: left;
+}
+
+.header-fixed-offerringlistVOmodal > tbody > tr > td,
+.header-fixed-offerringlistVOmodal > thead > tr > th {
+    width: 8%; /*kasi 12 columns */
+    float: left;
+}
+
+.header-fixed-roomlistRAmodal > tbody > tr > td,
+.header-fixed-roomlistRAmodal > thead > tr > th {
+    width: 20%; /*kasi 5 columns */
+    float: left;
+}
+
+.header-fixed-ANOroomlistRAmodal > tbody > tr > td,
+.header-fixed-ANOroomlistRAmodal > thead > tr > th {
+    width: 20%; /*kasi 5 columns */
+    float: left;
+}
+
+.header-fixed-offerringlistANOmodal > tbody > tr > td,
+.header-fixed-offerringlistANOmodal > thead > tr > th {
+    width: 11%; /*kasi 9 columns */
+    float: center;
+}
+
+.header-fixed-flowchartcourseslistANOmodal > tbody > tr > td,
+.header-fixed-flowchartcourseslistANOmodal > thead > tr > th,
+.header-fixed-courseslistANOmodal > tbody > tr > td,
+.header-fixed-courseslistANOmodal > thead > tr > th  {
+    width: 33%; /*kasi 3 columns */
+    float: left;
+}
+
+.header-fixed-viewbuildingsandrooms > body, .header-fixed-viewroomassignment > body, 
+.header-fixed-viewofferings > body{
+	overflow-y: auto;
+    height: 300px;
+}
+
+.header-fixed-viewflowchart > body{
+	overflow-y: auto;
+    height: 240px;
+}
+
+.header-fixed-viewbuildingsandroomsmodal > tbody, .header-fixed-viewroomassignmentmodal > tbody {
+    overflow-y: auto;
+    height: 250px;
+}
+
+.header-fixed-viewbuildingsandroomsmodal > tbody{
+	overflow-y: auto;
+    height: 250px;
+    margin-left:10px;
+}
+
+.header-fixed-offerringlistRAmodal > tbody{
+	overflow-y: auto;
+    height: 350px;
+    margin-left:10px;
+}
+
+.header-fixed-offerringlistVOmodal > tbody{
+	overflow-y: auto;
+    height: 350px;
+    margin-left:10px;
+}
+
+.header-fixed-offerringlistANOmodal > tbody{
+	overflow-y: auto;
+    height: 350px;
+    margin-left:10px;
+}
+
+.header-fixed-flowchartcourseslistANOmodal > tbody{
+	overflow-y: auto;
+    height: 220px;
+}
+
+.header-fixed-courseslistANOmodal > tbody{
+	overflow-y: auto;
+    height: 240px;
+}
+
+#tableModalRAOfferingListHeaders, #tableModalBuildingRoomsHeaders, #tableModalRARoomListHeaders,
+#tableModalViewOfferingsHeaders, #tableModalANOOfferingListHeaders, #tableModalANOCoursesListHeaders,
+#tableModalANOFlowchartCoursesListHeaders, #tableViewFlowchartHeaders, #tableANOModalRARoomListHeaders{
+	 margin-left:10px;
+}
+
+.header-fixed-roomlistRAmodal > tbody{
+	overflow-y: auto;
+    height: 300px;
+    margin-left:10px;
+}
+
+.header-fixed-ANOroomlistRAmodal > tbody{
+	overflow-y: auto;
+    height: 180px;
+    margin-left:10px;
+}
+
+/**********************************CUSTOM TABLE**************************/
+/*************ALL TABLES***********/
+/*************FOOTER***************/
+#footerDiv{
+	background-color: #1b1b1b;
+	border-color: #1b1b1b;
+	color: #ffffff;
+	font-family: RalewayLight;
+	font-size: 12px;
+	
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+}
+
+#footerBrand{
+	font-family: FjallaOne;
+	color: #ffffff;
+	font-size: 15px;
+}
+/*************FOOTER***************/
+/*************MODAL***************/
+body.modal-open-noscroll {
+  margin-right: 0!important;
+  overflow: hidden;
+}
+.modal-open-noscroll .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+  margin-right: 0!important;
+}
+#viewRoomsModalBody{
+	/*margin-bottom: 50px;*/
+}
+
+#divModalBuildingRooms{
+	/*margin-left: 10px;*/
+}
+
+#viewRoomsModal{
+	/*padding-left: 10px;*/
+	/*padding-right: 10px;*/
+}
+
+#roomAssignmentModal{
+	padding: 10px;
+    overflow-y: scroll;
+    font-size: 13px;
+}
+
+#addNewOfferingsModal{
+	padding: 10px;
+    overflow-y: scroll;
+    font-size: 13px;
+}
+
+#addNewOfferingsModal table{
+	border: 2px solid;
+	border-color: #595959;
+}
+
+#searchFlowchartModalBody{
+	background-color: rgba(178, 178, 178,0.4);
+	padding-bottom: 20px;
+}
+
+#searchCourseModalBody{
+	background-color: rgba(178, 178, 178,0.4);
+}
+
+#divModalANOInfoandSearch{
+	background-color: rgba(178, 178, 178,0.4);
+}
+
+#tableModalBuildingRooms, #tableModalRAOfferingList{
+	width: 90%;
+	margin-left:20px;
+	font-size: 13px;
+}
+
+#tableModalANOOfferingList{
+	width: 100%;
+	margin-left:10px;
+	font-size: 13px;
+}
+
+#tableModalRARoomList{
+	width: 90%;
+ 	font-size: 13px;
+ 	margin-left: 20px;
+}
+
+#tableANOModalRARoomList{
+	width: 97%;
+ 	font-size: 13px;
+ 	margin-left: 20px;
+}
+
+#tableModalVOOfferingList{
+	width: 95%;
+ 	font-size: 13px;
+ 	margin-left: 10px;
+}
+
+#RAModalBody{
+	font-size: 11px;
+}
+/*************MODAL***************/
+/*************LABELS*************/
+.deleteTemporaryOfferingMessage{
+	margin-left: 10px;
+}
+/*************LABELS*************/
+/***********************TOGGLES*******************/
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { 
+	border-radius: 20px; 
+}
+.toggle.ios .toggle-handle { 
+	border-radius: 20px; 
+}
+/***********************TOGGLES*******************/
+/******************FORM GROUPS*******************/
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+/******************FORM GROUPS*******************/
+/******************FILE UPLOAD IGNORE MUNA*******************/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+/******************FILE UPLOAD IGNORE MUNA*******************/
+/******************TOGGLE*******************/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/******************TOGGLE*******************/
+/************LOADING MODAL************/
+.loading-modal{
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url(../images/arrowsmith_loading5.gif) 
+                no-repeat;
+    background-size: 3em 3em;
+    background-attachment: fixed;
+    background-position: center; 
+}
+
+.loading-img{
+	height: 10em;
+	width: 10em;
+}
+/************LOADING MODAL************/
