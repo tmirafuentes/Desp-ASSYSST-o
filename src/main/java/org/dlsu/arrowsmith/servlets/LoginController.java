@@ -2,7 +2,9 @@ package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.dao.UserDAO;
 import org.dlsu.arrowsmith.models.User;
+import org.dlsu.arrowsmith.repositories.UserRepository;
 import org.dlsu.arrowsmith.utility.Scrambler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ public class LoginController {
 	public void setUsernameNav(@ModelAttribute("user") User user, Model mav) {
 		mav.addAttribute("user", user);
 	}
+
+	@Autowired
+	private UserRepository userRepository;
 	
 	@RequestMapping(value={"/", "/index"}, method=RequestMethod.GET)
 	public ModelAndView index() {
@@ -45,22 +50,22 @@ public class LoginController {
                                          @CookieValue(value="Class", defaultValue="Mage") String type,
                                          HttpServletRequest request, HttpServletResponse response) throws SQLException{
 		
-		String ID = pathVars.get("idnumber");
+		long ID = Long.parseLong(pathVars.get("idnumber"));
 		String password = pathVars.get("password");
 		Cookie toBake;
 		HttpSession session = request.getSession();
 		
-		User u = UserDAO.getUserByID(ID);
+		User u = userRepository.findByUserId(ID);
 		
-		if(u.getUserId() == null){
+		if(u.getUser_id() == 0){
 			ModelAndView mav = new ModelAndView("index");
 			mav.addObject("msg", "USER DOES NOT EXIST");
 			return mav; 
 		}else{
-			if(u.getUserId().equals(ID) && Scrambler.isSamePassword(u.getUserPassword(), password)){
+			if(u.getUser_id() == ID && Scrambler.isSamePassword(u.getPassword(), password)){
 				ModelAndView mav = null;
 				
-				toBake = new Cookie("Gamer", ID);//same shit as before
+				toBake = new Cookie("Gamer", Long.toString(ID));//same shit as before
 				toBake.setMaxAge(9999); //in secs
 				
 				response.addCookie(toBake);
@@ -70,17 +75,17 @@ public class LoginController {
 				
 				response.addCookie(toBake);//to seal the deal... para ma dag dag sa session? browser? ang cookie
 				
-				toBake = new Cookie("Class", u.getUserType());
+				toBake = new Cookie("Class", u.getUser_type());
 				toBake.setMaxAge(9999);
 				
 				response.addCookie(toBake);//to seal the deal... para ma dag dag sa session and cookie
 				
 				session.setAttribute("user", u);
 				
-				if(u.getUserType().equals("Academic Programming Officer")) {
+				if(u.getUser_type().equals("Academic Programming Officer")) {
 					mav = new ModelAndView("dashboardAPO");
 					mav.addObject(u);
-				}else if(u.getUserType().equals("Chair") || u.getUserType().equals("Vice Chair")) {
+				}else if(u.getUser_type().equals("Chair") || u.getUser_type().equals("Vice Chair")) {
 					mav = new ModelAndView("dashboardCVC2");
 					mav.addObject(u);
 				}

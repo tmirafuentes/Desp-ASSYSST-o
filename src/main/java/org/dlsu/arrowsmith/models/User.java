@@ -1,47 +1,29 @@
 package org.dlsu.arrowsmith.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class User {
     private long user_id;
-    private long college_id;
-    private long department_id;
     private String first_name;
     private String middle_name;
     private String last_name;
     private String user_type;
     private String password;
     private Alias alias;
+    private College college;
+    private Department department;
 
     public User() {
     }
 
+    @Id
     public long getUser_id() {
         return user_id;
     }
 
     public void setUser_id(long user_id) {
         this.user_id = user_id;
-    }
-
-    public long getCollege_id() {
-        return college_id;
-    }
-
-    public void setCollege_id(long college_id) {
-        this.college_id = college_id;
-    }
-
-    public long getDepartment_id() {
-        return department_id;
-    }
-
-    public void setDepartment_id(long department_id) {
-        this.department_id = department_id;
     }
 
     public String getFirst_name() {
@@ -87,5 +69,25 @@ public class User {
 
     public void setAlias(Alias alias) {
         this.alias = alias;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "college_id")
+    public College getCollege() {
+        return college;
+    }
+
+    public void setCollege(College college) {
+        this.college = college;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
