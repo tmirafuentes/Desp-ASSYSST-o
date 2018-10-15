@@ -1,49 +1,57 @@
 package org.dlsu.arrowsmith.models;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Building {
-	String id, buildingName, buildingCode, roomsAvailable;
+	private long building_id;
+	private String building_name;
+	private String building_code;
+	private Set<Room> rooms;
 	
 	public Building(){
 		
 	}
-	
-	public Building(String id, String buildingName, String buildingCode, String roomsAvailable){
-		this.id = id;
-		this.buildingName = buildingName;
-		this.buildingCode = buildingCode;
-		this.roomsAvailable = roomsAvailable;
+
+	public Building(long building_id, String building_name, String building_code) {
+		this.building_id = building_id;
+		this.building_name = building_name;
+		this.building_code = building_code;
 	}
 
-	public String getId() {
-		return id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getBuilding_id() {
+		return building_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setBuilding_id(long building_id) {
+		this.building_id = building_id;
 	}
 
-	public String getBuildingName() {
-		return buildingName;
+	public String getBuilding_name() {
+		return building_name;
 	}
 
-	public void setBuildingName(String buildingName) {
-		this.buildingName = buildingName;
+	public void setBuilding_name(String building_name) {
+		this.building_name = building_name;
 	}
 
-	public String getBuildingCode() {
-		return buildingCode;
+	public String getBuilding_code() {
+		return building_code;
 	}
 
-	public void setBuildingCode(String buildingCode) {
-		this.buildingCode = buildingCode;
+	public void setBuilding_code(String building_code) {
+		this.building_code = building_code;
 	}
 
-	public String getRoomsAvailable() {
-		return roomsAvailable;
+	@OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+	public Set<Room> getRooms() {
+		return rooms;
 	}
 
-	public void setRoomsAvailable(String roomsAvailable) {
-		this.roomsAvailable = roomsAvailable;
+	public void setRooms(Set<Room> rooms) {
+		this.rooms = rooms;
 	}
-	
 }

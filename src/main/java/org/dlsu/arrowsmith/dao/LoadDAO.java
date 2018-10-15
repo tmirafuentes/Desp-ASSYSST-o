@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.dao;
 
+import org.dlsu.arrowsmith.extraModels.Timeframe;
 import org.dlsu.arrowsmith.repositories.Connector;
 import org.dlsu.arrowsmith.models.*;
 
@@ -49,7 +50,7 @@ public class LoadDAO {
             
             //System.out.println("isOnLeave: " + l.getIsOnLeave());
             
-            l.setTimeframe(new Timeframe(loadstartYear, loadendYear, loadterm)); //what is this for bro haha   
+            l.setTimeframe(new Timeframe(loadstartYear, loadendYear, loadterm)); //what is this for bro haha
         }
 
         con.close();

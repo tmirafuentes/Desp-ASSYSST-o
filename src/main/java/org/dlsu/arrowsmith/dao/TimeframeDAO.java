@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.dao;
 
+import org.dlsu.arrowsmith.extraModels.Timeframe;
 import org.dlsu.arrowsmith.repositories.Connector;
 import org.dlsu.arrowsmith.models.*;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class TimeframeDAO {
-	public static ArrayList<Timeframe> getDistinctTimeframes() throws SQLException{        
+	public static ArrayList<Timeframe> getDistinctTimeframes() throws SQLException{
         Connection con = Connector.getConnector();
         String query = "SELECT DISTINCT start_year, end_year, term FROM " + Constants.OFFERING_TABLE;
         PreparedStatement st = (PreparedStatement) con.prepareStatement(query);

@@ -1,5 +1,8 @@
 package org.dlsu.arrowsmith.models;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Constants {
 	public static final String NO_ROOM_ID = "60";
 	public static final String NO_PROFESSOR = "11111111";

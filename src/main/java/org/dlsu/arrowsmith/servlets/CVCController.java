@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.dao.*;
+import org.dlsu.arrowsmith.extraModels.*;
 import org.dlsu.arrowsmith.models.*;
 import org.dlsu.arrowsmith.utility.RandomString;
 import org.dlsu.arrowsmith.utility.Scrambler;

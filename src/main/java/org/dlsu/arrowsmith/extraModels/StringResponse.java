@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.models;
+package org.dlsu.arrowsmith.extraModels;
 
 //use if you're returning a plain String as JSON
 public class StringResponse {

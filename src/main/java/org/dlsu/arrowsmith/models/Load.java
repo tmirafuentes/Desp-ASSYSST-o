@@ -1,162 +1,203 @@
 package org.dlsu.arrowsmith.models;
 
+import org.dlsu.arrowsmith.extraModels.Timeframe;
+
+import javax.persistence.*;
+
+@Entity
 public class Load {
-	private String loadId;
-	private String facultyId;
-	private String collegeId;
-	private String deptId;
-	private String adminLoad;
-	private String researchLoad;
-	private String teachingLoad;
-	private String nonAcadLoad;
-	private String deloading;
-	private String totalLoad;
-	private String preparations;
-	private String isOnLeave;
-	private String leaveType;
-	private String timestamp;
+	private long load_id;
+	private int start_year;
+	private int end_year;
+	private int term;
+	private float admin_load;
+	private float research_load;
+	private float teaching_load;
+	private float non_acad_load;
+	private float deloading;
+	private float total_load;
+	private int preparations;
+	private boolean has_research_load;
+	private boolean is_admin;
+	private boolean is_on_leave;
+	private String leave_type;
+	private Faculty faculty;
+	private College college;
+	private Department department;
 
-	private Timeframe timeframe;
+	public Load() {
+	}
 
-	public Load(String facultyId, String collegeId, String deptId, String adminLoad, String researchLoad,
-			String teachingLoad, String nonAcadLoad, String deloading, String totalLoad, String preparations, String isOnLeave, String leaveType){
-		this.facultyId = facultyId;
-		this.collegeId = collegeId;
-		this.deptId = deptId;
-		this.adminLoad = adminLoad;
-		this.researchLoad = researchLoad;
-		this.teachingLoad = teachingLoad;
-		this.nonAcadLoad = nonAcadLoad;
+	public Load(long load_id, int start_year, int end_year, int term, float admin_load, float research_load, float teaching_load, float non_acad_load, float deloading, float total_load, int preparations, boolean has_research_load, boolean is_admin, boolean is_on_leave, String leave_type, Faculty faculty, College college, Department department) {
+		this.load_id = load_id;
+		this.start_year = start_year;
+		this.end_year = end_year;
+		this.term = term;
+		this.admin_load = admin_load;
+		this.research_load = research_load;
+		this.teaching_load = teaching_load;
+		this.non_acad_load = non_acad_load;
 		this.deloading = deloading;
-		this.totalLoad = totalLoad;
+		this.total_load = total_load;
 		this.preparations = preparations;
-		this.isOnLeave = isOnLeave;
-		this.leaveType = leaveType;
-	}
-	
-	public Load(){
-		
-	}
-	
-	public String getLoadId() {
-		return loadId;
+		this.has_research_load = has_research_load;
+		this.is_admin = is_admin;
+		this.is_on_leave = is_on_leave;
+		this.leave_type = leave_type;
+		this.faculty = faculty;
+		this.college = college;
+		this.department = department;
 	}
 
-	public void setLoadId(String loadId) {
-		this.loadId = loadId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getLoad_id() {
+		return load_id;
 	}
 
-	public String getFacultyId() {
-		return facultyId;
+	public void setLoad_id(long load_id) {
+		this.load_id = load_id;
 	}
 
-	public void setFacultyId(String facultyId) {
-		this.facultyId = facultyId;
+	public int getStart_year() {
+		return start_year;
 	}
 
-	public String getCollegeId() {
-		return collegeId;
+	public void setStart_year(int start_year) {
+		this.start_year = start_year;
 	}
 
-	public void setCollegeId(String collegeId) {
-		this.collegeId = collegeId;
+	public int getEnd_year() {
+		return end_year;
 	}
 
-	public String getDeptId() {
-		return deptId;
+	public void setEnd_year(int end_year) {
+		this.end_year = end_year;
 	}
 
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
+	public int getTerm() {
+		return term;
 	}
 
-	public String getAdminLoad() {
-		return adminLoad;
+	public void setTerm(int term) {
+		this.term = term;
 	}
 
-	public void setAdminLoad(String adminLoad) {
-		this.adminLoad = adminLoad;
+	public float getAdmin_load() {
+		return admin_load;
 	}
 
-	public String getResearchLoad() {
-		return researchLoad;
+	public void setAdmin_load(float admin_load) {
+		this.admin_load = admin_load;
 	}
 
-	public void setResearchLoad(String researchLoad) {
-		this.researchLoad = researchLoad;
+	public float getResearch_load() {
+		return research_load;
 	}
 
-	public String getTeachingLoad() {
-		return teachingLoad;
+	public void setResearch_load(float research_load) {
+		this.research_load = research_load;
 	}
 
-	public void setTeachingLoad(String teachingLoad) {
-		this.teachingLoad = teachingLoad;
+	public float getTeaching_load() {
+		return teaching_load;
 	}
 
-	public String getNonAcadLoad() {
-		return nonAcadLoad;
+	public void setTeaching_load(float teaching_load) {
+		this.teaching_load = teaching_load;
 	}
 
-	public void setNonAcadLoad(String nonAcadLoad) {
-		this.nonAcadLoad = nonAcadLoad;
+	public float getNon_acad_load() {
+		return non_acad_load;
 	}
 
-	public String getDeloading() {
+	public void setNon_acad_load(float non_acad_load) {
+		this.non_acad_load = non_acad_load;
+	}
+
+	public float getDeloading() {
 		return deloading;
 	}
 
-	public void setDeloading(String deloading) {
+	public void setDeloading(float deloading) {
 		this.deloading = deloading;
 	}
 
-	public String getTotalLoad() {
-		return totalLoad;
+	public float getTotal_load() {
+		return total_load;
 	}
 
-	public void setTotalLoad(String totalLoad) {
-		this.totalLoad = totalLoad;
+	public void setTotal_load(float total_load) {
+		this.total_load = total_load;
 	}
 
-	public String getPreparations() {
+	public int getPreparations() {
 		return preparations;
 	}
 
-	public void setPreparations(String preparations) {
+	public void setPreparations(int preparations) {
 		this.preparations = preparations;
 	}
 
-	public String getIsOnLeave() {
-		return isOnLeave;
+	public boolean isHas_research_load() {
+		return has_research_load;
 	}
 
-	public void setIsOnLeave(String isOnLeave) {
-		this.isOnLeave = isOnLeave;
+	public void setHas_research_load(boolean has_research_load) {
+		this.has_research_load = has_research_load;
 	}
 
-	public String getLeaveType() {
-		return leaveType;
+	public boolean isIs_admin() {
+		return is_admin;
 	}
 
-	public void setLeaveType(String leaveType) {
-		this.leaveType = leaveType;
+	public void setIs_admin(boolean is_admin) {
+		this.is_admin = is_admin;
 	}
 
-	public String getTimestamp() {
-		return timestamp;
+	public boolean isIs_on_leave() {
+		return is_on_leave;
 	}
 
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+	public void setIs_on_leave(boolean is_on_leave) {
+		this.is_on_leave = is_on_leave;
 	}
 
-	public Timeframe getTimeframe() {
-		return timeframe;
+	public String getLeave_type() {
+		return leave_type;
 	}
 
-	public void setTimeframe(Timeframe timeframe) {
-		this.timeframe = timeframe;
+	public void setLeave_type(String leave_type) {
+		this.leave_type = leave_type;
 	}
 
-	
+	@ManyToOne
+	@JoinColumn(name = "faculty_id")
+	public Faculty getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(Faculty faculty) {
+		this.faculty = faculty;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "course_id")
+	public College getCollege() {
+		return college;
+	}
+
+	public void setCollege(College college) {
+		this.college = college;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 }

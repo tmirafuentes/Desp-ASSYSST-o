@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.dao;
 
+import org.dlsu.arrowsmith.extraModels.CourseTimeframe;
 import org.dlsu.arrowsmith.repositories.Connector;
 import org.dlsu.arrowsmith.models.*;
 

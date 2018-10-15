@@ -1,4 +1,6 @@
-package org.dlsu.arrowsmith.models;
+package org.dlsu.arrowsmith.extraModels;
+
+import org.dlsu.arrowsmith.models.Course;
 
 import java.util.ArrayList;
 

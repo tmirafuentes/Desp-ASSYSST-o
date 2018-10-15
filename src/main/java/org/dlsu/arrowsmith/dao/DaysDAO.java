@@ -1,5 +1,7 @@
 package org.dlsu.arrowsmith.dao;
 
+import org.dlsu.arrowsmith.extraModels.LoadDay;
+import org.dlsu.arrowsmith.extraModels.LoadTimeblock;
 import org.dlsu.arrowsmith.repositories.Connector;
 import org.dlsu.arrowsmith.models.*;
 

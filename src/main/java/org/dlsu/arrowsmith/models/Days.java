@@ -1,72 +1,67 @@
 package org.dlsu.arrowsmith.models;
 
+import javax.persistence.*;
+
+@Entity
 public class Days {
-	private String daysId;
-	private String offeringId;
-	private String classDay;
-	private String beginTime;
-	private String endTime;
-	private String roomId;
+	private long days_id;
+	private String class_day;
+	private String begin_time;
+	private String end_time;
+	private Offering offering;
 	private Room room;
 	
 	public Days(){
 		
 	}
-	
-	public Days(String classDay, String beginTime, String endTime){
-		this.classDay = classDay;
-		this.beginTime = beginTime;
-		this.endTime = endTime;
-	}
-	
-	public String getDaysId() {
-		return daysId;
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getDays_id() {
+		return days_id;
 	}
 
-	public void setDaysId(String daysId) {
-		this.daysId = daysId;
+	public void setDays_id(long days_id) {
+		this.days_id = days_id;
 	}
 
-	public String getOfferingId() {
-		return offeringId;
+	public String getClass_day() {
+		return class_day;
 	}
 
-	public void setOfferingId(String offeringId) {
-		this.offeringId = offeringId;
+	public void setClass_day(String class_day) {
+		this.class_day = class_day;
 	}
 
-	public String getClassDay() {
-		return classDay;
+	public String getBegin_time() {
+		return begin_time;
 	}
 
-	public void setClassDay(String classDay) {
-		this.classDay = classDay;
+	public void setBegin_time(String begin_time) {
+		this.begin_time = begin_time;
 	}
 
-	public String getBeginTime() {
-		return beginTime;
+	public String getEnd_time() {
+		return end_time;
 	}
 
-	public void setBeginTime(String beginTime) {
-		this.beginTime = beginTime;
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
 	}
 
-	public String getEndTime() {
-		return endTime;
+	@ManyToOne
+	@JoinColumn(name = "offering_id")
+	public Offering getOffering() {
+		return offering;
 	}
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setOffering(Offering offering) {
+		this.offering = offering;
 	}
 
-	public String getRoomId() {
-		return roomId;
-	}
-
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
-	}
-
+	@ManyToOne
+	@JoinColumn(name = "room_id")
 	public Room getRoom() {
 		return room;
 	}
@@ -74,6 +69,4 @@ public class Days {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-
-
 }

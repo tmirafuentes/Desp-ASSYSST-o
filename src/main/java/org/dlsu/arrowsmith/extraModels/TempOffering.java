@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.models;
+package org.dlsu.arrowsmith.extraModels;
 
 public class TempOffering {
 	private String degreeProgram;

@@ -1,71 +1,78 @@
 package org.dlsu.arrowsmith.models;
 
+import org.dlsu.arrowsmith.extraModels.Timeframe;
+
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 
+@Entity
 public class Offering {
-	private String offeringId;
-	private String courseId;
-	private String course_code;
-	private String facultyId;
-	private String degreeProgram;
+	private long offering_id;
+	private String degree_program;
 	private String section;
-	private String batch;
-	private String maxStudentsEnrolled;
-	private String currStudentsEnrolled;
-	private String isNonAcad;
-	private String isShs;
-	private String isServiceCourse;
-	private String servicedeptId;
-	private String isMasters;
-	private String isElective;
-	private String electiveType;
-	private String remarks;
-	private String status;
-	private String iteoEval;
-	private String startYear;
-	private String endYear;
-	private String term;
-	private String isPublished;
-
-	private ArrayList<Days> days;
+	private int batch;
+	private int term;
+	private int start_year;
+	private int end_year;
+	private int max_students_enrolled;
+	private int curr_students_enrolled;
+	private boolean is_non_acad;
+	private boolean is_shs;
+	private boolean is_service_course;
+	private boolean is_masters;
+	private boolean is_elective;
+	private String elective_type;
+	private String offering_status;
+	private float iteo_eval;
+	private boolean is_published;
 	private Course course;
 	private Faculty faculty;
-	private Timeframe timeframe;
+	private Set<Course> electiveCourses;
+	private Set<Days> days;
 
 	public Offering() {
-		days = new ArrayList<Days>();
 	}
 
-	public String getOfferingId() {
-		return offeringId;
+	public Offering(long offering_id, String degree_program, String section, int batch, int term, int start_year, int end_year, int max_students_enrolled, int curr_students_enrolled, boolean is_non_acad, boolean is_shs, boolean is_service_course, boolean is_masters, boolean is_elective, String elective_type, String offering_status, float iteo_eval, boolean is_published, Course course, Faculty faculty) {
+		this.offering_id = offering_id;
+		this.degree_program = degree_program;
+		this.section = section;
+		this.batch = batch;
+		this.term = term;
+		this.start_year = start_year;
+		this.end_year = end_year;
+		this.max_students_enrolled = max_students_enrolled;
+		this.curr_students_enrolled = curr_students_enrolled;
+		this.is_non_acad = is_non_acad;
+		this.is_shs = is_shs;
+		this.is_service_course = is_service_course;
+		this.is_masters = is_masters;
+		this.is_elective = is_elective;
+		this.elective_type = elective_type;
+		this.offering_status = offering_status;
+		this.iteo_eval = iteo_eval;
+		this.is_published = is_published;
+		this.course = course;
+		this.faculty = faculty;
 	}
 
-	public void setOfferingId(String offeringId) {
-		this.offeringId = offeringId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getOffering_id() {
+		return offering_id;
 	}
 
-	public String getCourseId() {
-		return courseId;
+	public void setOffering_id(long offering_id) {
+		this.offering_id = offering_id;
 	}
 
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+	public String getDegree_program() {
+		return degree_program;
 	}
 
-	public String getFacultyId() {
-		return facultyId;
-	}
-
-	public void setFacultyId(String facultyId) {
-		this.facultyId = facultyId;
-	}
-
-	public String getDegreeProgram() {
-		return degreeProgram;
-	}
-
-	public void setDegreeProgram(String degreeProgram) {
-		this.degreeProgram = degreeProgram;
+	public void setDegree_program(String degree_program) {
+		this.degree_program = degree_program;
 	}
 
 	public String getSection() {
@@ -76,118 +83,128 @@ public class Offering {
 		this.section = section;
 	}
 
-	public String getBatch() {
+	public int getBatch() {
 		return batch;
 	}
 
-	public void setBatch(String batch) {
+	public void setBatch(int batch) {
 		this.batch = batch;
 	}
 
-	public String getMaxStudentsEnrolled() {
-		return maxStudentsEnrolled;
+	public int getTerm() {
+		return term;
 	}
 
-	public void setMaxStudentsEnrolled(String maxStudentsEnrolled) {
-		this.maxStudentsEnrolled = maxStudentsEnrolled;
+	public void setTerm(int term) {
+		this.term = term;
 	}
 
-	public String getCurrStudentsEnrolled() {
-		return currStudentsEnrolled;
+	public int getStart_year() {
+		return start_year;
 	}
 
-	public void setCurrStudentsEnrolled(String currStudentsEnrolled) {
-		this.currStudentsEnrolled = currStudentsEnrolled;
+	public void setStart_year(int start_year) {
+		this.start_year = start_year;
 	}
 
-	public String getIsNonAcad() {
-		return isNonAcad;
+	public int getEnd_year() {
+		return end_year;
 	}
 
-	public void setIsNonAcad(String isNonAcad) {
-		this.isNonAcad = isNonAcad;
+	public void setEnd_year(int end_year) {
+		this.end_year = end_year;
 	}
 
-	public String getIsShs() {
-		return isShs;
+	public int getMax_students_enrolled() {
+		return max_students_enrolled;
 	}
 
-	public void setIsShs(String isShs) {
-		this.isShs = isShs;
+	public void setMax_students_enrolled(int max_students_enrolled) {
+		this.max_students_enrolled = max_students_enrolled;
 	}
 
-	public String getIsServiceCourse() {
-		return isServiceCourse;
+	public int getCurr_students_enrolled() {
+		return curr_students_enrolled;
 	}
 
-	public void setIsServiceCourse(String isServiceCourse) {
-		this.isServiceCourse = isServiceCourse;
+	public void setCurr_students_enrolled(int curr_students_enrolled) {
+		this.curr_students_enrolled = curr_students_enrolled;
 	}
 
-	public String getServicedeptId() {
-		return servicedeptId;
+	public boolean isIs_non_acad() {
+		return is_non_acad;
 	}
 
-	public void setServicedeptId(String servicedeptId) {
-		this.servicedeptId = servicedeptId;
+	public void setIs_non_acad(boolean is_non_acad) {
+		this.is_non_acad = is_non_acad;
 	}
 
-	public String getIsMasters() {
-		return isMasters;
+	public boolean isIs_shs() {
+		return is_shs;
 	}
 
-	public void setIsMasters(String isMasters) {
-		this.isMasters = isMasters;
+	public void setIs_shs(boolean is_shs) {
+		this.is_shs = is_shs;
 	}
 
-	public String getIsElective() {
-		return isElective;
+	public boolean isIs_service_course() {
+		return is_service_course;
 	}
 
-	public void setIsElective(String isElective) {
-		this.isElective = isElective;
+	public void setIs_service_course(boolean is_service_course) {
+		this.is_service_course = is_service_course;
 	}
 
-	public String getElectiveType() {
-		return electiveType;
+	public boolean isIs_masters() {
+		return is_masters;
 	}
 
-	public void setElectiveType(String electiveType) {
-		this.electiveType = electiveType;
+	public void setIs_masters(boolean is_masters) {
+		this.is_masters = is_masters;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public boolean isIs_elective() {
+		return is_elective;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setIs_elective(boolean is_elective) {
+		this.is_elective = is_elective;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getElective_type() {
+		return elective_type;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setElective_type(String elective_type) {
+		this.elective_type = elective_type;
 	}
 
-	public String getIteoEval() {
-		return iteoEval;
+	public String getOffering_status() {
+		return offering_status;
 	}
 
-	public void setIteoEval(String iteoEval) {
-		this.iteoEval = iteoEval;
+	public void setOffering_status(String offering_status) {
+		this.offering_status = offering_status;
 	}
 
-	public ArrayList<Days> getDays() {
-		return days;
+	public float getIteo_eval() {
+		return iteo_eval;
 	}
 
-	public void setDays(ArrayList<Days> days) {
-		this.days = days;
+	public void setIteo_eval(float iteo_eval) {
+		this.iteo_eval = iteo_eval;
 	}
 
+	public boolean isIs_published() {
+		return is_published;
+	}
+
+	public void setIs_published(boolean is_published) {
+		this.is_published = is_published;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "course_id")
 	public Course getCourse() {
 		return course;
 	}
@@ -196,54 +213,8 @@ public class Offering {
 		this.course = course;
 	}
 
-	public Timeframe getTimeframe() {
-		return timeframe;
-	}
-
-	public void setTimeframe(Timeframe timeframe) {
-		this.timeframe = timeframe;
-	}
-
-	public String getCourse_code() {
-		return course_code;
-	}
-
-	public void setCourse_code(String course_code) {
-		this.course_code = course_code;
-	}
-
-	public String getStartYear() {
-		return startYear;
-	}
-
-	public void setStartYear(String startYear) {
-		this.startYear = startYear;
-	}
-
-	public String getEndYear() {
-		return endYear;
-	}
-
-	public void setEndYear(String endYear) {
-		this.endYear = endYear;
-	}
-
-	public String getTerm() {
-		return term;
-	}
-
-	public void setTerm(String term) {
-		this.term = term;
-	}
-
-	public String getIsPublished() {
-		return isPublished;
-	}
-
-	public void setIsPublished(String isPublished) {
-		this.isPublished = isPublished;
-	}
-
+	@ManyToOne
+	@JoinColumn(name = "faculty_id")
 	public Faculty getFaculty() {
 		return faculty;
 	}
@@ -251,5 +222,22 @@ public class Offering {
 	public void setFaculty(Faculty faculty) {
 		this.faculty = faculty;
 	}
-	
+
+	@ManyToMany(mappedBy = "offering")
+	public Set<Course> getElectiveCourses() {
+		return electiveCourses;
+	}
+
+	public void setElectiveCourses(Set<Course> electiveCourses) {
+		this.electiveCourses = electiveCourses;
+	}
+
+	@OneToMany(mappedBy = "offering", cascade = CascadeType.ALL)
+	public Set<Days> getDays() {
+		return days;
+	}
+
+	public void setDays(Set<Days> days) {
+		this.days = days;
+	}
 }

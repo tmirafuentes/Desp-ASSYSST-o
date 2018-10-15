@@ -1,50 +1,58 @@
 package org.dlsu.arrowsmith.models;
 
-public class BatchInfo {
+import javax.persistence.*;
 
-	private String batchinfo_id, degreeprogram_id, batch, student_count;
+@Entity
+public class BatchInfo {
+	private long batchinfo_id;
+	private long batch;
+	private long student_count;
+	private DegreeProgram degreeProgram;
 	
 	public BatchInfo(){
 		
 	}
-	
-	public BatchInfo(String batchinfo_id, String degreeprogram_id, String batch, String student_count){
+
+	public BatchInfo(long batchinfo_id, long batch, long student_count, DegreeProgram degreeProgram) {
 		this.batchinfo_id = batchinfo_id;
-		this.degreeprogram_id = degreeprogram_id;
 		this.batch = batch;
 		this.student_count = student_count;
+		this.degreeProgram = degreeProgram;
 	}
 
-	public String getBatchinfo_id() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getBatchinfo_id() {
 		return batchinfo_id;
 	}
 
-	public void setBatchinfo_id(String batchinfo_id) {
+	public void setBatchinfo_id(long batchinfo_id) {
 		this.batchinfo_id = batchinfo_id;
 	}
 
-	public String getDegreeprogram_id() {
-		return degreeprogram_id;
+	@ManyToOne
+	@JoinColumn(name = "degreeProgram_id")
+	public DegreeProgram getDegreeProgram() {
+		return degreeProgram;
 	}
 
-	public void setDegreeprogram_id(String degreeprogram_id) {
-		this.degreeprogram_id = degreeprogram_id;
+	public void setDegreeProgram(DegreeProgram degreeProgram) {
+		this.degreeProgram = degreeProgram;
 	}
 
-	public String getBatch() {
+	public long getBatch() {
 		return batch;
 	}
 
-	public void setBatch(String batch) {
+	public void setBatch(long batch) {
 		this.batch = batch;
 	}
 
-	public String getStudent_count() {
+	public long getStudent_count() {
 		return student_count;
 	}
 
-	public void setStudent_count(String student_count) {
+	public void setStudent_count(long student_count) {
 		this.student_count = student_count;
 	}
-	
 }

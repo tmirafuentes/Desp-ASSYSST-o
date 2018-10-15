@@ -1,8 +1,18 @@
-package org.dlsu.arrowsmith.models;
+package org.dlsu.arrowsmith.extraModels;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class AcademicYear {
-	
-	private String id, AY, batch, term, startYear, endYear, isPublished; //id should be concatination of AY, batch, term separated by (-)
+	private String id,
+			AY,
+			batch,
+			term,
+			startYear,
+			endYear,
+			isPublished; //id should be concatenation of AY, batch, term separated by (-)
 	private String unPublishedCount;
 	
 	public AcademicYear(){
@@ -25,6 +35,7 @@ public class AcademicYear {
 		this.isPublished = isPublished;
 	}
 
+	@Id
 	public String getId() {
 		return id;
 	}

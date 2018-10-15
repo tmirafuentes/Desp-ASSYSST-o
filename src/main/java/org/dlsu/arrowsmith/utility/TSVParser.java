@@ -3,9 +3,9 @@ package org.dlsu.arrowsmith.utility;
 import org.dlsu.arrowsmith.dao.CourseDAO;
 import org.dlsu.arrowsmith.dao.DegreeprogramDAO;
 import org.dlsu.arrowsmith.models.Course;
-import org.dlsu.arrowsmith.models.CourseTimeframe;
+import org.dlsu.arrowsmith.extraModels.CourseTimeframe;
 import org.dlsu.arrowsmith.models.Flowchart;
-import org.dlsu.arrowsmith.models.Timeframe;
+import org.dlsu.arrowsmith.extraModels.Timeframe;
 
 import java.io.BufferedReader;
 import java.io.File;

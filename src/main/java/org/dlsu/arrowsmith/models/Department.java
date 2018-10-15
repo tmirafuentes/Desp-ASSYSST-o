@@ -1,73 +1,129 @@
 package org.dlsu.arrowsmith.models;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Department {
-    
-    private String id;
-    private String deptCode; 
-    private String deptName;
-    private String collegeID; 
-    private String deptSize; 
-    private String isObsolete;
-    
-    public Department(){
-        
-    }
-    
-    public Department(String id, String collegeID, String deptName, String deptCode, String deptSize, String isObsolete){
-        this.id = id;
-        this.collegeID = collegeID;
-        this.deptName = deptName;
-        this.deptCode = deptCode;
-        this.deptSize = deptSize;
-        this.isObsolete = isObsolete;
+    private long department_id;
+    private String department_name;
+    private String department_code;
+    private int department_size;
+    private boolean is_obsolete;
+    private Set<DegreeProgram> degreePrograms;
+    private Set<Load> loads;
+    private Set<Deloading> deloadings;
+    private Set<Constraints> constraints;
+    private Set<User> users;
+    private Set<Course> courses;
+    private College college;
+
+    public Department() {
     }
 
-    public String getId() {
-        return id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long getDepartment_id() {
+        return department_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDepartment_id(long department_id) {
+        this.department_id = department_id;
     }
 
-    public String getDeptCode() {
-        return deptCode;
+    public String getDepartment_name() {
+        return department_name;
     }
 
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode;
+    public void setDepartment_name(String department_name) {
+        this.department_name = department_name;
     }
 
-    public String getDeptName() {
-        return deptName;
+    public String getDepartment_code() {
+        return department_code;
     }
 
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
+    public void setDepartment_code(String department_code) {
+        this.department_code = department_code;
     }
 
-    public String getCollegeID() {
-        return collegeID;
+    public int getDepartment_size() {
+        return department_size;
     }
 
-    public void setCollegeID(String collegeID) {
-        this.collegeID = collegeID;
+    public void setDepartment_size(int department_size) {
+        this.department_size = department_size;
     }
 
-    public String getDeptSize() {
-        return deptSize;
+    public boolean isIs_obsolete() {
+        return is_obsolete;
     }
 
-    public void setDeptSize(String deptSize) {
-        this.deptSize = deptSize;
+    public void setIs_obsolete(boolean is_obsolete) {
+        this.is_obsolete = is_obsolete;
     }
 
-    public String getIsObsolete() {
-        return isObsolete;
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    public Set<DegreeProgram> getDegreePrograms() {
+        return degreePrograms;
     }
 
-    public void setIsObsolete(String isObsolete) {
-        this.isObsolete = isObsolete;
+    public void setDegreePrograms(Set<DegreeProgram> degreePrograms) {
+        this.degreePrograms = degreePrograms;
     }
-    
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    public Set<Load> getLoads() {
+        return loads;
+    }
+
+    public void setLoads(Set<Load> loads) {
+        this.loads = loads;
+    }
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    public Set<Deloading> getDeloadings() {
+        return deloadings;
+    }
+
+    public void setDeloadings(Set<Deloading> deloadings) {
+        this.deloadings = deloadings;
+    }
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    public Set<Constraints> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(Set<Constraints> constraints) {
+        this.constraints = constraints;
+    }
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "college_id")
+    public College getCollege() {
+        return college;
+    }
+
+    public void setCollege(College college) {
+        this.college = college;
+    }
 }

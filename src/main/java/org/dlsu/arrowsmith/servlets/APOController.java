@@ -1,5 +1,9 @@
 package org.dlsu.arrowsmith.servlets;
 
+import org.dlsu.arrowsmith.extraModels.AcademicYear;
+import org.dlsu.arrowsmith.extraModels.StringResponse;
+import org.dlsu.arrowsmith.extraModels.TempOffering;
+import org.dlsu.arrowsmith.extraModels.Timeframe;
 import org.dlsu.arrowsmith.models.*;
 import org.dlsu.arrowsmith.dao.*;
 import org.dlsu.arrowsmith.utility.*;
@@ -290,7 +294,7 @@ public class APOController {
 	
 	@RequestMapping(value="/getBuildingNameModal", method= RequestMethod.GET, produces="application/json")
 	public @ResponseBody
-    StringResponse getBuildingsAndRooms(@RequestParam("buildingId") String buildingId) {
+	StringResponse getBuildingsAndRooms(@RequestParam("buildingId") String buildingId) {
 		Building b = new Building();
 		StringResponse sr = new StringResponse("");
 		try {

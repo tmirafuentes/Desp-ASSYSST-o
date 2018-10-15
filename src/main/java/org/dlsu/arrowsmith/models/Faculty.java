@@ -1,93 +1,57 @@
 package org.dlsu.arrowsmith.models;
 
-public class Faculty extends User{
-	
-	private String facultyId;
-	private String yearsOfService;
-	private String facultyType;
-	private String status; //if Searched or Recommended
-	private String teachCount;
-	
-	private Load load;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+public class Faculty extends User {
+	private long faculty_id;
+	private int years_of_service;
+	private String faculty_type;
 	private User user;
-	
-	public Faculty() {
-		
-	}
-	
-	public Faculty(User user, String yearsOfService, String facultyType) {
-		super(user.getUserId(), user.getCollegeID(), user.getDeptID(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUserType(), user.getUserPassword(), user.getDepartment(), user.getCollege());
-		this.yearsOfService = yearsOfService;
-		this.facultyType = facultyType;
-	}
-	
-	public Faculty(User user, String id, String yearsOfService, String facultyType) {
-		super(user.getUserId(), user.getCollegeID(), user.getDeptID(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUserType(), user.getUserPassword(), user.getDepartment(), user.getCollege());
-		this.facultyId = id;
-		this.yearsOfService = yearsOfService;
-		this.facultyType = facultyType;
-		this.status = "Searched";
-		this.teachCount = "N/A";
+	private Preference preference;
+	private Set<DeloadOffer> deloadOffers;
+	private Set<Offering> offerings;
+	private Set<Load> loads;
+	private Set<Specialization> specializations;
+
+	public Faculty(long faculty_id, int years_of_service, String faculty_type, User user) {
+		this.faculty_id = faculty_id;
+		this.years_of_service = years_of_service;
+		this.faculty_type = faculty_type;
 		this.user = user;
 	}
-	
-	public Faculty(User user, String id, String yearsOfService, String facultyType, String status, String teachCount) {
-		super(user.getUserId(), user.getCollegeID(), user.getDeptID(), user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUserType(), user.getUserPassword(), user.getDepartment(), user.getCollege());
-		this.facultyId = id;
-		this.yearsOfService = yearsOfService;
-		this.facultyType = facultyType;
-		this.status = status;
-		this.teachCount = teachCount;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getFaculty_id() {
+		return faculty_id;
 	}
 
-	public String getYearsOfService() {
-		return yearsOfService;
+	public void setFaculty_id(long faculty_id) {
+		this.faculty_id = faculty_id;
 	}
 
-	public void setYearsOfService(String yearsOfService) {
-		this.yearsOfService = yearsOfService;
+	public int getYears_of_service() {
+		return years_of_service;
 	}
 
-	public String getFacultyType() {
-		return facultyType;
+	public void setYears_of_service(int years_of_service) {
+		this.years_of_service = years_of_service;
 	}
 
-	public void setFacultyType(String facultyType) {
-		this.facultyType = facultyType;
+	public String getFaculty_type() {
+		return faculty_type;
 	}
 
-	public String getFacultyId() {
-		return facultyId;
+	public void setFaculty_type(String faculty_type) {
+		this.faculty_type = faculty_type;
 	}
 
-	public void setFacultyId(String facultyId) {
-		this.facultyId = facultyId;
-	}
-
-	public Load getLoad() {
-		return load;
-	}
-
-	public void setLoad(Load load) {
-		this.load = load;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getTeachCount() {
-		return teachCount;
-	}
-
-	public void setTeachCount(String teachCount) {
-		this.teachCount = teachCount;
-	}
-
+	@ManyToOne
+	@JoinColumn(name = "user_id")
 	public User getUser() {
 		return user;
 	}
@@ -95,6 +59,50 @@ public class Faculty extends User{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "preference_id")
+	public Preference getPreference() {
+		return preference;
+	}
+
+	public void setPreference(Preference preference) {
+		this.preference = preference;
+	}
+
+	@OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+	public Set<DeloadOffer> getDeloadOffers() {
+		return deloadOffers;
+	}
+
+	public void setDeloadOffers(Set<DeloadOffer> deloadOffers) {
+		this.deloadOffers = deloadOffers;
+	}
+
+	@OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+	public Set<Offering> getOfferings() {
+		return offerings;
+	}
+
+	public void setOfferings(Set<Offering> offerings) {
+		this.offerings = offerings;
+	}
+
+	@OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+	public Set<Load> getLoads() {
+		return loads;
+	}
+
+	public void setLoads(Set<Load> loads) {
+		this.loads = loads;
+	}
+
+	@OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+	public Set<Specialization> getSpecializations() {
+		return specializations;
+	}
+
+	public void setSpecializations(Set<Specialization> specializations) {
+		this.specializations = specializations;
+	}
 }

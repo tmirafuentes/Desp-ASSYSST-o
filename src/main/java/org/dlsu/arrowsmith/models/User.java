@@ -1,125 +1,91 @@
 package org.dlsu.arrowsmith.models;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class User {
-    
-    private String userId;
-    private String collegeID;  
-    private String deptID;
-    private String firstName;  
-    private String middleName;  
-    private String lastName;
-    private String userType;  
-    private String userPassword;
-    Department department;
-    College college;
-    
-    public User(){
-        
-    }
-    
-    public User(String userId, String collegeID, String deptID, String firstName, String middleName, String lastName, String userType, String userPassword){
-        this.userId = userId;
-        this.collegeID = collegeID;
-        this.deptID = deptID;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.userType = userType;
-        this.userPassword = userPassword;
-    }
-    
-    public User(String userId, String collegeID, String deptID, String firstName, String middleName, String lastName, String userType, String userPassword, Department department, College college){
-        this.userId = userId;
-        this.collegeID = collegeID;
-        this.deptID = deptID;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.userType = userType;
-        this.userPassword = userPassword;
-        this.department = department;
-        this.college = college;
+    private long user_id;
+    private long college_id;
+    private long department_id;
+    private String first_name;
+    private String middle_name;
+    private String last_name;
+    private String user_type;
+    private String password;
+    private Alias alias;
+
+    public User() {
     }
 
-    public String getUserId() {
-        return userId;
+    public long getUser_id() {
+        return user_id;
     }
 
-    public void setId(String id) {
-        this.userId = id;
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
     }
 
-    public String getCollegeID() {
-        return collegeID;
+    public long getCollege_id() {
+        return college_id;
     }
 
-    public void setCollegeID(String collegeID) {
-        this.collegeID = collegeID;
+    public void setCollege_id(long college_id) {
+        this.college_id = college_id;
     }
 
-    public String getDeptID() {
-        return deptID;
+    public long getDepartment_id() {
+        return department_id;
     }
 
-    public void setDeptID(String deptID) {
-        this.deptID = deptID;
+    public void setDepartment_id(long department_id) {
+        this.department_id = department_id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getMiddle_name() {
+        return middle_name;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setMiddle_name(String middle_name) {
+        this.middle_name = middle_name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getUser_type() {
+        return user_type;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    public Alias getAlias() {
+        return alias;
     }
 
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public College getCollege() {
-		return college;
-	}
-
-	public void setCollege(College college) {
-		this.college = college;
-	}
-    
-    
+    public void setAlias(Alias alias) {
+        this.alias = alias;
+    }
 }
