@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OfferingDAO {
-	
+    // Added
 	public static ArrayList<Offering> getListOfferingsByTerm(String startYear, String endYear, String term) throws SQLException{
         ArrayList<Offering> offerings = new ArrayList<Offering>();
         Connection con = Connector.getConnector();
@@ -67,7 +67,7 @@ public class OfferingDAO {
         
         return offerings;
     }
-	
+
 	public static ArrayList<Offering> getListOfferingsByTermWithKey(String startYear, String endYear, String term, String searchKeyword) throws SQLException{
         ArrayList<Offering> offerings = new ArrayList<Offering>();
         Connection con = Connector.getConnector();
@@ -128,7 +128,7 @@ public class OfferingDAO {
         
         return offerings;
     }
-	
+	// Added
 	public static ArrayList<Offering> getListOfferingsByFaculty(String facultyId, String startYear, String endYear, String term) throws SQLException{
         ArrayList<Offering> offerings = new ArrayList<Offering>();
         Connection con = Connector.getConnector();
@@ -299,7 +299,7 @@ public class OfferingDAO {
         
         return combineOfferings(offerings);
     }
-	
+	// Added
 	public static ArrayList<Offering> getListOfferingsByTermWithCourseKey(String startYear, String endYear, String term, String key) throws SQLException{
         ArrayList<Offering> offerings = new ArrayList<Offering>();
         Connection con = Connector.getConnector();
@@ -366,7 +366,7 @@ public class OfferingDAO {
         
         return offerings;
     }
-	
+	// Added
 	public static Offering getOfferingByID(String id) throws SQLException{
         Connection con = Connector.getConnector();
         String query = "SELECT * FROM " + Constants.OFFERING_TABLE + " ot WHERE ot." + Constants.OFFERING_ID + " = ?";
@@ -415,7 +415,7 @@ public class OfferingDAO {
         
         return o;
     }
-	
+
 	public static int countUnpublished(String startYear, String endYear, String term) throws SQLException{
         Connection con = Connector.getConnector();
         String query = "SELECT COUNT(*) AS unpublished FROM " + Constants.OFFERING_TABLE + " WHERE " + Constants.OFFERING_STARTYEAR + " = ? AND " + Constants.OFFERING_ENDYEAR + " = ? AND " + Constants.OFFERING_TERM + " = ? AND " + Constants.OFFERING_ISPUBLISHED + " = ?";
@@ -438,7 +438,7 @@ public class OfferingDAO {
         
         return unpublished;
     }
-	
+
 	public static ArrayList<Offering> getAllOfferingsWithIsPublished(String startYear, String endYear, String term, String state) throws SQLException{
         ArrayList<Offering> offerings = new ArrayList<Offering>();
         Connection con = Connector.getConnector();

@@ -72,12 +72,14 @@ public class LoginController {
 				
 				toBake = new Cookie("Class", u.getUserType());
 				toBake.setMaxAge(9999);
+
+				System.out.print(toBake.getValue());
 				
 				response.addCookie(toBake);//to seal the deal... para ma dag dag sa session and cookie
 				
 				session.setAttribute("user", u);
 				
-				if(u.getUserType().equals("Academic Programming Officer")) {
+				if(u.getUserType().equals("APO")) {
 					mav = new ModelAndView("dashboardAPO");
 					mav.addObject(u);
 				}else if(u.getUserType().equals("Chair") || u.getUserType().equals("Vice Chair")) {
@@ -104,7 +106,7 @@ public class LoginController {
 			mav = new ModelAndView("index");
 			
 			return mav;
-		} else if(type.equals("Academic Programming Officer")){
+		} else if(type.equals("APO")){
 			mav = new ModelAndView("dashboardAPO");
 		}
 		
