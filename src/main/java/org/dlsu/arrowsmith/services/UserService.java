@@ -1,6 +1,8 @@
 package org.dlsu.arrowsmith.services;
 
+import org.dlsu.arrowsmith.classes.Concern;
 import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.repositories.ConcernRepository;
 import org.dlsu.arrowsmith.repositories.UserRepository;
 import org.dlsu.arrowsmith.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class UserService {
     /* Repositories */
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ConcernRepository concernRepository;
 
     /* Services */
     @Autowired
@@ -23,6 +27,13 @@ public class UserService {
     /* Encryptor */
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    /**
+     **
+     ** USER
+     ** CRUD FUNCTIONS
+     **
+     */
 
     /*** Create New User ***/
     public void createNewUser(User u) {
@@ -58,6 +69,35 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     **
+     ** CONCERNS
+     ** CRUD FUNCTIONS
+     **
+     */
+
+    /* Create/Update Concerns */
+    public void saveConcern(Concern concern) {
+        concernRepository.save(concern);
+    }
+
+    /* Retrieve All Concerns By Sender */
+    public Iterator retrieveAllConcernsBySender(User user) {
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySender(user);
+        return concerns.iterator();
+    }
+
+    /* Retrieve All Concerns By Receiver */
+    public Iterator retrieveAllConcernsByReceiver(User user) {
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiver(user);
+        return concerns.iterator();
+    }
+
+    /* Retrieve All Concerns By Receiver or Sender */
+    public Iterator retrieveAllConcernsByUser(User sender, User receiver) {
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrReceiver(sender, receiver);
+        return concerns.iterator();
+    }
 
     /***
      *

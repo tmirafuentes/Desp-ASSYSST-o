@@ -12,4 +12,5 @@ public interface DaysRepository extends CrudRepository<Days, Long> {
     ArrayList<Days> findAllByCourseOffering(CourseOffering offering);
     ArrayList<Days> findAllByRoom(Room room);
     ArrayList<Days> findAllByBegin_timeAndEnd_time(String begin_time, String end_time);
+    ArrayList<Days> findAllByRoomAndBegin_timeAndEnd_time(Room room, String begin_time, String end_time);
 }

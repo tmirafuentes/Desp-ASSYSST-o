@@ -87,21 +87,33 @@ public class OfferingService {
     }
 
     /* Retrieve All Course Offerings Per Term */
-    public Iterator retrieveAllOfferingsByTerm(String start_AY, String end_AY, int term) {
+    public Iterator retrieveAllOfferingsByTerm(int start_AY, int end_AY, int term) {
         ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStart_AYAndEnd_AYAndTerm(start_AY, end_AY, term);
         return courseOfferings.iterator();
     }
 
     /* Retrieve All Course Offerings Per Faculty Per Term */
-    public Iterator retrieveAllOfferingsByFaculty(User faculty, String start_AY, String end_AY, int term) {
+    public Iterator retrieveAllOfferingsByFaculty(User faculty, int start_AY, int end_AY, int term) {
         ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFacultyAndStart_AYAndEnd_AYAndTerm(faculty, start_AY, end_AY, term);
         return courseOfferings.iterator();
     }
 
     /* Retrieve All Course Offerings Per Course Per Term */
-    public Iterator retrieveAllOfferingsByCourse(Course course, String start_AY, String end_AY, int term) {
+    public Iterator retrieveAllOfferingsByCourse(Course course, int start_AY, int end_AY, int term) {
         ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByCourseAndStart_AYAndEnd_AYAndTerm(course, start_AY, end_AY, term);
         return courseOfferings.iterator();
+    }
+
+    /* Retrieve all Offerings by Faculty */
+    public Iterator retrieveAllOfferingsByFaculty(int start_AY, int end_AY, int term, User faculty) {
+        ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFacultyAndStart_AYAndEnd_AYAndTerm(faculty, start_AY, end_AY, term);
+        return allOfferings.iterator();
+    }
+
+    /* Retrieve all Offerings by Status */
+    public Iterator retrieveAllOfferingsByStatus(int start_AY, int end_AY, int term, String status) {
+        ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStart_AYAndEnd_AYAndTerm(status, start_AY, end_AY, term);
+        return allOfferings.iterator();
     }
 
     /* Retrieve Specific Offering By ID */
@@ -144,6 +156,12 @@ public class OfferingService {
         return allDays.iterator();
     }
 
+    /* Retrieve All Days Per Room and Time Slot */
+    public Iterator retrieveAllDaysByRoomAndTimeslot(Room room, String begin_time, String end_time) {
+        ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAllByRoomAndBegin_timeAndEnd_time(room, begin_time, end_time);
+        return allDays.iterator();
+    }
+
     /* Delete Days Per Course Offering */
     public void deleteDaysPerCourseOffering(CourseOffering offering) {
         ArrayList<Days> allDays = (ArrayList<Days>) retrieveAllDaysByOffering(offering);
@@ -153,17 +171,64 @@ public class OfferingService {
 
     /**
      **
-     ** COURSE OFFERING
+     ** DEPARTMENT
      ** CRUD FUNCTIONS
      **
      */
 
+    /* Create/Update Department */
+    public void saveDepartment(Department department) {
+        departmentRepository.save(department);
+    }
 
+    /* Retrieve All Departments */
+    public Iterator retrieveAllDepartments() {
+        ArrayList<Department> allDepartments = (ArrayList<Department>) departmentRepository.findAll();
+        return allDepartments.iterator();
+    }
 
     /**
      **
-     ** COURSE OFFERING
+     ** ROOM
      ** CRUD FUNCTIONS
      **
      */
+
+    /* Create/Update Room */
+    public void saveRoom(Room room) {
+        roomRepository.save(room);
+    }
+
+    /* Retrieve All Rooms By Building */
+    public Iterator retrieveAllRoomsByBuilding(Building building) {
+        ArrayList<Room> allRooms = (ArrayList<Room>) roomRepository.findAllByBuilding(building);
+        return allRooms.iterator();
+    }
+
+    /**
+     **
+     ** SYSTEM FUNCTIONS
+     **
+     */
+
+    /* Room Allocation */
+    public void assignRoomToAllDaysPerOffering(CourseOffering offering, Room room, char[] class_day, String begin_time, String end_time) {
+        Iterator allDays = retrieveAllDaysByOffering(offering);
+        int dayCtr = 0;
+        while(allDays.hasNext()) {
+            Days currDay = (Days) allDays.next();
+            currDay.setRoom(room);
+            currDay.setBegin_time(begin_time);
+            currDay.setEnd_time(end_time);
+            currDay.setClass_day(class_day[dayCtr]);
+
+            daysRepository.save(currDay);
+        }
+    }
+
+    /* Faculty Assignment to Course Offering */
+    public void assignFacultyToCourseOffering(CourseOffering offering, User faculty) {
+        offering.setFaculty(faculty);
+        courseOfferingRepository.save(offering);
+    }
 }
