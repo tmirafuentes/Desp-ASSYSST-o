@@ -11,5 +11,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findUserByUser_id(Long id);
     ArrayList<User> findUsersByCollege(College college);
     ArrayList<User> findUsersByUser_typeEquals(String user_type);
-    ArrayList<CourseOffering> findAllByCour
 }

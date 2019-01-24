@@ -83,6 +83,11 @@ public class FacultyService {
         facultyLoadRepository.save(facultyLoad);
     }
 
+    public Iterator retrieveAllFacultyLoadByFaculty(User faculty) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByFaculty(faculty);
+        return allLoads.iterator();
+    }
+
     /* Retrieve All Load Per Term */
     public Iterator retrieveAllFacultyLoadByTerm(int start_AY, int end_AY, int term) {
         ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStart_AYAndEnd_AYAndTerm(start_AY, end_AY, term);

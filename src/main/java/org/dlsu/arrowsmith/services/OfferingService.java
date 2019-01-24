@@ -29,6 +29,24 @@ public class OfferingService {
 
     /**
      **
+     ** COLLEGE
+     ** CRUD FUNCTIONS
+     **
+     */
+
+    /* Create/Update New College */
+    public void saveCollege(College college) {
+        collegeRepository.save(college);
+    }
+
+    /* Retrieve All Colleges */
+    public Iterator retrieveAllColleges() {
+        ArrayList<College> allColleges = (ArrayList<College>) collegeRepository.findAll();
+        return allColleges.iterator();
+    }
+
+    /**
+     **
      ** COURSE
      ** CRUD FUNCTIONS
      **

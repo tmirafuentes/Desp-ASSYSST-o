@@ -5,16 +5,20 @@ import org.dlsu.arrowsmith.security.Login.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.context.request.RequestContextListener;
 
 @Configuration
-public class SecurityConfiguration {
+@EnableWebSecurity
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -40,7 +44,43 @@ public class SecurityConfiguration {
     public RequestContextListener requestContextListener() {return new RequestContextListener();}
 
     @Override
-    protected void configure(HttpSecurity http) {
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/",
+                        "/welcome",
+                        "/index").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/signin")
+                .defaultSuccessUrl("/welcome")
+                .failureUrl("/signin?error=true")
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/signin")
+                .permitAll()
+                .and()
+                .sessionManagement()
+                .sessionFixation().migrateSession()
+                .maximumSessions(1)
+                .expiredUrl("/signin?expired");
+        http.headers()
+                .xssProtection()
+                .and()
+                .cacheControl();
+    }
 
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {return new HttpSessionEventPublisher();}
+
+    @Autowired
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
     }
 }

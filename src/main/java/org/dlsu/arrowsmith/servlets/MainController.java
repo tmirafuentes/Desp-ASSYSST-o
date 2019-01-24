@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.servlets;
 
+import org.dlsu.arrowsmith.classes.User;
 import org.dlsu.arrowsmith.models.Faculty;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class MainController {
      */
 
     /* Default Home Page - Login Screen */
-    @RequestMapping(value = {"/", "/login", "/welcome", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/login", "/welcome", "/index", "/signin"}, method = RequestMethod.GET)
     public String index(Model model, String expired, String error, String logout) {
         if(expired != null)
             model.addAttribute("error", messages.getMessage("message.sessionExpired", null, null));
@@ -49,7 +50,29 @@ public class MainController {
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
     public String APOHomePage(Model model) {
         /* Load all course offerings */
-        //model.addAttribute("allOfferings", )
-        return null;
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+
+        return "/apo";
+    }
+
+    /* Default Home Page - Chairs or Vice Chairs Screen */
+    @RequestMapping(value = {"/cvc", "/cvc/home"}, method = RequestMethod.GET)
+    public String CVCHomePage(Model model) {
+        /* Load all course offerings */
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+
+        return "/cvc";
+    }
+
+    /* Default Home Page - Faculty Screen */
+    @RequestMapping(value = {"/faculty", "/faculty/home"}, method = RequestMethod.GET)
+    public String FacultyHomePage(Model model) {
+        /* Get current user */
+        User currFaculty = userService.retrieveUser();
+
+        /* Load all faculty load */
+        model.addAttribute("allFacultyLoads", facultyService.retrieveAllFacultyLoadByFaculty(currFaculty));
+
+        return "/faculty";
     }
 }

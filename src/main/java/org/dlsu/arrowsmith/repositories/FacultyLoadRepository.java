@@ -13,4 +13,5 @@ public interface FacultyLoadRepository extends CrudRepository<FacultyLoad, Long>
     ArrayList<FacultyLoad> findAllByStart_AYAndEnd_AYAndTermAndFaculty(int start_ay, int end_ay, int term, User faculty);
     ArrayList<FacultyLoad> findAllByStart_AYAndEnd_AYAndTermAndDepartment(int start_ay, int end_ay, int term, Department department);
     ArrayList<FacultyLoad> findAllByStart_AYAndEnd_AYAndTermAndCollege(int start_ay, int end_ay, int term, College college);
+    ArrayList<FacultyLoad> findAllByFaculty(User faculty);
 }
