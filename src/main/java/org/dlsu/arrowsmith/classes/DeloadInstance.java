@@ -4,12 +4,14 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
 @Audited
 public class DeloadInstance {
-    private Long deloadIn_id;
-    private int start_AY;
-    private int end_AY;
+    private Long deloadInId;
+    private int startAY;
+    private int endAY;
     private int term;
     private String remarks;
     private Deloading deloading;
@@ -18,38 +20,38 @@ public class DeloadInstance {
     public DeloadInstance() {
     }
 
-    public DeloadInstance(Long deloadIn_id, int start_AY, int end_AY, int term, String remarks) {
-        this.deloadIn_id = deloadIn_id;
-        this.start_AY = start_AY;
-        this.end_AY = end_AY;
+    public DeloadInstance(Long deloadInId, int startAY, int endAY, int term, String remarks) {
+        this.deloadInId = deloadInId;
+        this.startAY = startAY;
+        this.endAY = endAY;
         this.term = term;
         this.remarks = remarks;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getDeloadIn_id() {
-        return deloadIn_id;
+    public Long getDeloadInId() {
+        return deloadInId;
     }
 
-    public void setDeloadIn_id(Long deloadIn_id) {
-        this.deloadIn_id = deloadIn_id;
+    public void setDeloadInId(Long deloadInId) {
+        this.deloadInId = deloadInId;
     }
 
-    public int getStart_AY() {
-        return start_AY;
+    public int getStartAY() {
+        return startAY;
     }
 
-    public void setStart_AY(int start_AY) {
-        this.start_AY = start_AY;
+    public void setStartAY(int startAY) {
+        this.startAY = startAY;
     }
 
-    public int getEnd_AY() {
-        return end_AY;
+    public int getEndAY() {
+        return endAY;
     }
 
-    public void setEnd_AY(int end_AY) {
-        this.end_AY = end_AY;
+    public void setEndAY(int endAY) {
+        this.endAY = endAY;
     }
 
     public int getTerm() {
@@ -69,7 +71,7 @@ public class DeloadInstance {
     }
 
     @ManyToOne
-    @JoinColumn(name = "deload_id")
+    @JoinColumn(name = "deloadId")
     public Deloading getDeloading() {
         return deloading;
     }
@@ -79,7 +81,7 @@ public class DeloadInstance {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     public User getFaculty() {
         return faculty;
     }

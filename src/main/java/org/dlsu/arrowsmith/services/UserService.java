@@ -48,7 +48,7 @@ public class UserService {
 
     /*** Retrieve User by ID number ***/
     public User findUserByIDNumber(Long idNumber) {
-        return userRepository.findUserByUser_id(idNumber);
+        return userRepository.findUserByUserId(idNumber);
     }
 
     /*** Retrieve all Users ***/
@@ -59,7 +59,7 @@ public class UserService {
 
     /*** Retrieve all Users by User Type ***/
     public Iterator findAllUsersByUserType(String type) {
-        ArrayList<User> allUsers = (ArrayList<User>) userRepository.findUsersByUser_typeEquals(type);
+        ArrayList<User> allUsers = (ArrayList<User>) userRepository.findUsersByUserTypeEquals(type);
         return allUsers.iterator();
     }
 
@@ -67,6 +67,11 @@ public class UserService {
     public void updateUserPassword(User user, String newPassword) {
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    /*** Delete User ***/
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 
     /**
@@ -107,6 +112,6 @@ public class UserService {
 
     public User retrieveUser() {
         Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
-        return userRepository.findUserByUser_id(idNumber);
+        return userRepository.findUserByUserId(idNumber);
     }
 }

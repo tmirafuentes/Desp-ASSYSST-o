@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import sun.misc.Request;
+import org.springframework.web.servlet.HandlerMapping;
 
-import javax.naming.Binding;
-
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class OfferingController {   // This Controller is for the Course Scheduling Module
@@ -136,5 +135,53 @@ public class OfferingController {   // This Controller is for the Course Schedul
 
         /* Message that course is successfully updated */
         return "redirect:/apo/add-offering";
+    }
+
+    /*** Update Course Offering ***/
+    @RequestMapping(value = {"/apo", "/apo/home", "/cvc", "/cvc/home"}, method = RequestMethod.POST)
+    public String editCourseOffering(@ModelAttribute("offeringForm") CourseOffering offeringForm, @RequestParam("offeringID") Long offeringID,
+                                     BindingResult bindingResult, HttpServletRequest request, Model model)
+    {
+        /* Errors */
+        if (bindingResult.hasErrors())
+            return "/apo/add-offering";
+
+        /* Else, save new course offering to the database */
+        offeringService.saveCourseOffering(offeringForm);
+
+        /* Message that course is successfully updated */
+        String urlPattern = (String) request.getServletPath();
+        if (urlPattern.contains("apo"))
+            return "redirect:/apo";
+        else if (urlPattern.contains("cvc"))
+            return "redirect:/cvc";
+
+        return "redirect:/error";
+    }
+
+    /*** Delete Course Offering ***/
+    @RequestMapping(value = "/apo/delete-offering", method = RequestMethod.POST)
+    public String deleteCourseOfferingSubmit(@RequestParam("offeringID") Long offeringID, Model model)
+    {
+        /* Find Chosen Offering */
+        CourseOffering currOffering = offeringService.retrieveCourseOffering(offeringID);
+
+        if(currOffering == null)
+            return "redirect:/error";
+
+        /* Delete from database */
+        offeringService.deleteCourseOffering(currOffering);
+
+        /* Message that course offering is successfully updated */
+        return "redirect:/apo";
+    }
+
+    /*** Room Allocation Feature ***/
+    @RequestMapping(value = "/apo/allocate-room", method = RequestMethod.GET)
+    public String allocateRoomPage(Model model)
+    {
+        model.addAttribute("roomList", offeringService.retrieveAllRooms());
+
+        return "/apo/allocate-room";
     }
 }

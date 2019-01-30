@@ -1,10 +1,15 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class Concern {
-    private Long concern_id;
+    private Long concernId;
     private String message;
     private boolean acknowledged;
     private User sender;
@@ -13,14 +18,14 @@ public class Concern {
     public Concern() {
     }
 
-    public Concern(Long concern_id, String message, boolean acknowledged) {
-        this.concern_id = concern_id;
+    public Concern(Long concernId, String message, boolean acknowledged) {
+        this.concernId = concernId;
         this.message = message;
         this.acknowledged = acknowledged;
     }
 
-    public Concern(Long concern_id, String message, boolean acknowledged, User sender, User receiver) {
-        this.concern_id = concern_id;
+    public Concern(Long concernId, String message, boolean acknowledged, User sender, User receiver) {
+        this.concernId = concernId;
         this.message = message;
         this.acknowledged = acknowledged;
         this.sender = sender;
@@ -29,12 +34,12 @@ public class Concern {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getConcern_id() {
-        return concern_id;
+    public Long getconcernId() {
+        return concernId;
     }
 
-    public void setConcern_id(Long concern_id) {
-        this.concern_id = concern_id;
+    public void setconcernId(Long concernId) {
+        this.concernId = concernId;
     }
 
     public String getMessage() {
@@ -54,7 +59,7 @@ public class Concern {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable=false, updatable=false)
     public User getSender() {
         return sender;
     }
@@ -64,7 +69,7 @@ public class Concern {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable=false, updatable=false)
     public User getReceiver() {
         return receiver;
     }

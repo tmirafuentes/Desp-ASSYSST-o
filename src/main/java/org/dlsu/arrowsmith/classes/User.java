@@ -1,14 +1,19 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class User {
-    private Long user_id;
-    private String first_name;
-    private String last_name;
-    private String user_type;
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private String userType;
     private String password;
     private College college;
     private Set<Course> coursePreferences;
@@ -21,46 +26,46 @@ public class User {
     public User() {
     }
 
-    public User(Long user_id, String first_name, String last_name, String user_type, String password) {
-        this.user_id = user_id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.user_type = user_type;
+    public User(Long userId, String firstName, String lastName, String userType, String password) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userType = userType;
         this.password = password;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getUser_type() {
-        return user_type;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setUser_type(String user_type) {
-        this.user_type = user_type;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getPassword() {
@@ -72,7 +77,7 @@ public class User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "college_id")
+    @JoinColumn(name = "collegeId")
     public College getCollege() {
         return college;
     }
@@ -81,7 +86,7 @@ public class User {
         this.college = college;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
     public Set<DeloadInstance> getDeloadInstances() {
         return deloadInstances;
     }
@@ -91,7 +96,7 @@ public class User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "dept_id")
+    @JoinColumn(name = "deptId")
     public Department getDepartment() {
         return department;
     }
@@ -100,7 +105,7 @@ public class User {
         this.department = department;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
     public Set<FacultyLoad> getFacultyLoads() {
         return facultyLoads;
     }
@@ -109,7 +114,7 @@ public class User {
         this.facultyLoads = facultyLoads;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     public Set<Concern> getConcernsSent() {
         return concernsSent;
     }
@@ -118,7 +123,7 @@ public class User {
         this.concernsSent = concernsSent;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     public Set<Concern> getConcernsReceived() {
         return concernsReceived;
     }
@@ -129,8 +134,8 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "preference",
-            joinColumns = @JoinColumn(name = "faculty_id", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
+            joinColumns = @JoinColumn(name = "facultyId", referencedColumnName = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "courseId", referencedColumnName = "courseId"))
     public Set<Course> getCoursePreferences() {
         return coursePreferences;
     }

@@ -41,7 +41,7 @@ public class UserController {
             return "user/account";
         }
 
-        userForm.setUser_id(userService.retrieveUser().getUser_id());
+        userForm.setUserId(userService.retrieveUser().getUserId());
 
         /* Save changes */
         userService.updateUser(userForm);

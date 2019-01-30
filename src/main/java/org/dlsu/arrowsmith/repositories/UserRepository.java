@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.ArrayList;
 
 public interface UserRepository extends CrudRepository<User, Long> {
-    User findUserByUser_id(Long id);
+    User findUserByUserId(Long id);
     ArrayList<User> findUsersByCollege(College college);
-    ArrayList<User> findUsersByUser_typeEquals(String user_type);
+    ArrayList<User> findUsersByUserTypeEquals(String user_type);
 }

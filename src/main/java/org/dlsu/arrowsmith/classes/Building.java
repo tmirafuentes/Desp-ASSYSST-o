@@ -1,49 +1,55 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class Building {
-    private Long bldg_id;
-    private String bldg_name;
-    private String bldg_code;
+    private Long bldgId;
+    private String bldgName;
+    private String bldgCode;
     private String campus;
     private Set<Room> rooms;
 
     public Building() { }
 
-    public Building(Long bldg_id, String bldg_name, String bldg_code, String campus) {
-        this.bldg_id = bldg_id;
-        this.bldg_name = bldg_name;
-        this.bldg_code = bldg_code;
+    public Building(Long bldgId, String bldgName, String bldgCode, String campus, Set<Room> rooms) {
+        this.bldgId = bldgId;
+        this.bldgName = bldgName;
+        this.bldgCode = bldgCode;
         this.campus = campus;
+        this.rooms = rooms;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getBldg_id() {
-        return bldg_id;
+    public Long getBldgId() {
+        return bldgId;
     }
 
-    public void setBldg_id(Long bldg_id) {
-        this.bldg_id = bldg_id;
+    public void setBldgId(Long bldgId) {
+        this.bldgId = bldgId;
     }
 
-    public String getBldg_name() {
-        return bldg_name;
+    public String getBldgName() {
+        return bldgName;
     }
 
-    public void setBldg_name(String bldg_name) {
-        this.bldg_name = bldg_name;
+    public void setBldgName(String bldgName) {
+        this.bldgName = bldgName;
     }
 
-    public String getBldg_code() {
-        return bldg_code;
+    public String getBldgCode() {
+        return bldgCode;
     }
 
-    public void setBldg_code(String bldg_code) {
-        this.bldg_code = bldg_code;
+    public void setBldgCode(String bldgCode) {
+        this.bldgCode = bldgCode;
     }
 
     public String getCampus() {

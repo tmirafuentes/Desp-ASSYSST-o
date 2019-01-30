@@ -1,14 +1,19 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class Deloading {
-    private Long deload_id;
-    private String deload_name;
-    private String deload_code;
-    private String deload_type;
+    private Long deloadId;
+    private String deloadName;
+    private String deloadCode;
+    private String deloadType;
     private String description;
     private double units;
     private College college;
@@ -18,47 +23,47 @@ public class Deloading {
     public Deloading() {
     }
 
-    public Deloading(Long deload_id, String deload_name, String deload_code, String deload_type, String description, double units) {
-        this.deload_id = deload_id;
-        this.deload_name = deload_name;
-        this.deload_code = deload_code;
-        this.deload_type = deload_type;
+    public Deloading(Long deloadId, String deloadName, String deloadCode, String deloadType, String description, double units) {
+        this.deloadId = deloadId;
+        this.deloadName = deloadName;
+        this.deloadCode = deloadCode;
+        this.deloadType = deloadType;
         this.description = description;
         this.units = units;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getDeload_id() {
-        return deload_id;
+    public Long getDeloadId() {
+        return deloadId;
     }
 
-    public void setDeload_id(Long deload_id) {
-        this.deload_id = deload_id;
+    public void setDeloadId(Long deloadId) {
+        this.deloadId = deloadId;
     }
 
-    public String getDeload_name() {
-        return deload_name;
+    public String getDeloadName() {
+        return deloadName;
     }
 
-    public void setDeload_name(String deload_name) {
-        this.deload_name = deload_name;
+    public void setDeloadName(String deloadName) {
+        this.deloadName = deloadName;
     }
 
-    public String getDeload_code() {
-        return deload_code;
+    public String getDeloadCode() {
+        return deloadCode;
     }
 
-    public void setDeload_code(String deload_code) {
-        this.deload_code = deload_code;
+    public void setDeloadCode(String deloadCode) {
+        this.deloadCode = deloadCode;
     }
 
-    public String getDeload_type() {
-        return deload_type;
+    public String getDeloadType() {
+        return deloadType;
     }
 
-    public void setDeload_type(String deload_type) {
-        this.deload_type = deload_type;
+    public void setDeloadType(String deloadType) {
+        this.deloadType = deloadType;
     }
 
     public String getDescription() {
@@ -78,7 +83,7 @@ public class Deloading {
     }
 
     @ManyToOne
-    @JoinColumn(name = "college_id")
+    @JoinColumn(name = "collegeId")
     public College getCollege() {
         return college;
     }
@@ -88,7 +93,7 @@ public class Deloading {
     }
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "departmentId")
     public Department getDepartment() {
         return department;
     }
@@ -97,7 +102,7 @@ public class Deloading {
         this.department = department;
     }
 
-    @OneToMany(mappedBy = "deload", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "deloading", cascade = CascadeType.ALL)
     public Set<DeloadInstance> getDeloadInstances() {
         return deloadInstances;
     }

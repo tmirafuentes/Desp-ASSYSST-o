@@ -1,16 +1,20 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class Department {
-    private Long dept_id;
-    private String dept_name;
-    private String dept_code;
+    private Long deptId;
+    private String deptName;
+    private String deptCode;
     private College college;
     private Constraints constraints;
-    private Set<Department> departments;
     private Set<Deloading> deloadings;
     private Set<FacultyLoad> facultyLoads;
     private Set<User> facultySet;
@@ -18,40 +22,40 @@ public class Department {
     public Department() {
     }
 
-    public Department(Long dept_id, String dept_name, String dept_code) {
-        this.dept_id = dept_id;
-        this.dept_name = dept_name;
-        this.dept_code = dept_code;
+    public Department(Long deptId, String deptName, String deptCode) {
+        this.deptId = deptId;
+        this.deptName = deptName;
+        this.deptCode = deptCode;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getDept_id() {
-        return dept_id;
+    public Long getDeptId() {
+        return deptId;
     }
 
-    public void setDept_id(Long dept_id) {
-        this.dept_id = dept_id;
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
     }
 
-    public String getDept_name() {
-        return dept_name;
+    public String getDeptName() {
+        return deptName;
     }
 
-    public void setDept_name(String dept_name) {
-        this.dept_name = dept_name;
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
-    public String getDept_code() {
-        return dept_code;
+    public String getDeptCode() {
+        return deptCode;
     }
 
-    public void setDept_code(String dept_code) {
-        this.dept_code = dept_code;
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
     }
 
     @ManyToOne
-    @JoinColumn(name = "college_id")
+    @JoinColumn(name = "collegeId")
     public College getCollege() {
         return college;
     }
@@ -67,15 +71,6 @@ public class Department {
 
     public void setConstraints(Constraints constraints) {
         this.constraints = constraints;
-    }
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    public Set<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(Set<Department> departments) {
-        this.departments = departments;
     }
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)

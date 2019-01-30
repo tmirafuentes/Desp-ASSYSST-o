@@ -11,5 +11,5 @@ import java.util.ArrayList;
 public interface CourseRepository extends CrudRepository<Course, Long> {
     ArrayList<Course> findAllByCollege(College college);
     ArrayList<Course> findAllByDepartment(Department department);
-    Course findCourseByCourse_code(String course_code);
+    Course findCourseByCourseCode(String course_code);
 }

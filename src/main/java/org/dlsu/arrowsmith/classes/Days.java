@@ -7,55 +7,55 @@ import javax.persistence.*;
 @Entity
 @Audited
 public class Days {
-    private Long days_id;
-    private char class_day;
-    private String begin_time;
-    private String end_time;
+    private Long daysId;
+    private char classDay;
+    private String beginTime;
+    private String endTime;
     private CourseOffering courseOffering;
     private Room room;
 
     public Days() {
     }
 
-    public Days(Long days_id, char class_day, String begin_time, String end_time) {
-        this.days_id = days_id;
-        this.class_day = class_day;
-        this.begin_time = begin_time;
-        this.end_time = end_time;
+    public Days(Long daysId, char classDay, String beginTime, String endTime) {
+        this.daysId = daysId;
+        this.classDay = classDay;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getDays_id() {
-        return days_id;
+    public Long getdaysId() {
+        return daysId;
     }
 
-    public void setDays_id(Long days_id) {
-        this.days_id = days_id;
+    public void setdaysId(Long daysId) {
+        this.daysId = daysId;
     }
 
-    public char getClass_day() {
-        return class_day;
+    public char getclassDay() {
+        return classDay;
     }
 
-    public void setClass_day(char class_day) {
-        this.class_day = class_day;
+    public void setclassDay(char classDay) {
+        this.classDay = classDay;
     }
 
-    public String getBegin_time() {
-        return begin_time;
+    public String getbeginTime() {
+        return beginTime;
     }
 
-    public void setBegin_time(String begin_time) {
-        this.begin_time = begin_time;
+    public void setbeginTime(String beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public String getEnd_time() {
-        return end_time;
+    public String getendTime() {
+        return endTime;
     }
 
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setendTime(String endTime) {
+        this.endTime = endTime;
     }
 
     @ManyToOne

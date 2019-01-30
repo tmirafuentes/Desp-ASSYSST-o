@@ -1,13 +1,18 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class College {
-    private Long college_id;
-    private String college_name;
-    private String college_code;
+    private Long collegeId;
+    private String collegeName;
+    private String collegeCode;
     private Set<Department> departments;
     private Set<Course> courses;
     private Set<DegreeProgram> degreePrograms;
@@ -18,36 +23,36 @@ public class College {
     public College() {
     }
 
-    public College(Long college_id, String college_name, String college_code) {
-        this.college_id = college_id;
-        this.college_name = college_name;
-        this.college_code = college_code;
+    public College(Long collegeId, String collegeName, String collegeCode) {
+        this.collegeId = collegeId;
+        this.collegeName = collegeName;
+        this.collegeCode = collegeCode;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getCollege_id() {
-        return college_id;
+    public Long getCollegeId() {
+        return collegeId;
     }
 
-    public void setCollege_id(Long college_id) {
-        this.college_id = college_id;
+    public void setCollegeId(Long collegeId) {
+        this.collegeId = collegeId;
     }
 
-    public String getCollege_name() {
-        return college_name;
+    public String getCollegeName() {
+        return collegeName;
     }
 
-    public void setCollege_name(String college_name) {
-        this.college_name = college_name;
+    public void setCollegeName(String collegeName) {
+        this.collegeName = collegeName;
     }
 
-    public String getCollege_code() {
-        return college_code;
+    public String getCollegeCode() {
+        return collegeCode;
     }
 
-    public void setCollege_code(String college_code) {
-        this.college_code = college_code;
+    public void setCollegeCode(String collegeCode) {
+        this.collegeCode = collegeCode;
     }
 
     @OneToMany(mappedBy = "college", cascade = CascadeType.ALL)

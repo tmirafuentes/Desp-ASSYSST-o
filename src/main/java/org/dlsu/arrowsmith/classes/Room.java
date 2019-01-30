@@ -1,52 +1,58 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
+@Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class Room {
-    private Long room_id;
-    private String room_type;
-    private int room_capacity;
+    private Long roomId;
+    private String roomType;
+    private int roomCapacity;
     private Building building;
     private Set<Days> daysSet;
 
     public Room() {
     }
 
-    public Room(Long room_id, String room_type, int room_capacity) {
-        this.room_id = room_id;
-        this.room_type = room_type;
-        this.room_capacity = room_capacity;
+    public Room(Long roomId, String roomType, int roomCapacity) {
+        this.roomId = roomId;
+        this.roomType = roomType;
+        this.roomCapacity = roomCapacity;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getRoom_id() {
-        return room_id;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoom_id(Long room_id) {
-        this.room_id = room_id;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
-    public String getRoom_type() {
-        return room_type;
+    public String getRoomType() {
+        return roomType;
     }
 
-    public void setRoom_type(String room_type) {
-        this.room_type = room_type;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
-    public int getRoom_capacity() {
-        return room_capacity;
+    public int getRoomCapacity() {
+        return roomCapacity;
     }
 
-    public void setRoom_capacity(int room_capacity) {
-        this.room_capacity = room_capacity;
+    public void setRoomCapacity(int roomCapacity) {
+        this.roomCapacity = roomCapacity;
     }
 
     @ManyToOne
-    @JoinColumn(name = "building_id")
+    @JoinColumn(name = "buildingId")
     public Building getBuilding() {
         return building;
     }

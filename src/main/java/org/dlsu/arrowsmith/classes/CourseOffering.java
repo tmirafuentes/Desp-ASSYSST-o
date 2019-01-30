@@ -1,6 +1,5 @@
 package org.dlsu.arrowsmith.classes;
 
-import org.dlsu.arrowsmith.models.Faculty;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -9,12 +8,12 @@ import java.util.Set;
 @Entity
 @Audited
 public class CourseOffering {
-    private Long offering_id;
+    private Long offeringId;
     private String section;
     private int term;
-    private int start_AY;
-    private int end_AY;
-    private int max_enrolled;
+    private int startAY;
+    private int endAY;
+    private int maxEnrolled;
     private String status;
     private Course course;
     private User faculty;
@@ -23,24 +22,24 @@ public class CourseOffering {
     public CourseOffering() {
     }
 
-    public CourseOffering(Long offering_id, String section, int term, int start_AY, int end_AY, int max_enrolled, String status) {
-        this.offering_id = offering_id;
+    public CourseOffering(Long offeringId, String section, int term, int startAY, int endAY, int maxEnrolled, String status) {
+        this.offeringId = offeringId;
         this.section = section;
         this.term = term;
-        this.start_AY = start_AY;
-        this.end_AY = end_AY;
-        this.max_enrolled = max_enrolled;
+        this.startAY = startAY;
+        this.endAY = endAY;
+        this.maxEnrolled = maxEnrolled;
         this.status = status;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getOffering_id() {
-        return offering_id;
+    public Long getofferingId() {
+        return offeringId;
     }
 
-    public void setOffering_id(Long offering_id) {
-        this.offering_id = offering_id;
+    public void setofferingId(Long offeringId) {
+        this.offeringId = offeringId;
     }
 
     public String getSection() {
@@ -59,28 +58,28 @@ public class CourseOffering {
         this.term = term;
     }
 
-    public int getStart_AY() {
-        return start_AY;
+    public int getStartAY() {
+        return startAY;
     }
 
-    public void setStart_AY(int start_AY) {
-        this.start_AY = start_AY;
+    public void setStartAY(int startAY) {
+        this.startAY = startAY;
     }
 
-    public int getEnd_AY() {
-        return end_AY;
+    public int getendAY() {
+        return endAY;
     }
 
-    public void setEnd_AY(int end_AY) {
-        this.end_AY = end_AY;
+    public void setendAY(int endAY) {
+        this.endAY = endAY;
     }
 
-    public int getMax_enrolled() {
-        return max_enrolled;
+    public int getmaxEnrolled() {
+        return maxEnrolled;
     }
 
-    public void setMax_enrolled(int max_enrolled) {
-        this.max_enrolled = max_enrolled;
+    public void setmaxEnrolled(int maxEnrolled) {
+        this.maxEnrolled = maxEnrolled;
     }
 
     public String getStatus() {
@@ -111,7 +110,7 @@ public class CourseOffering {
         this.faculty = faculty;
     }
 
-    @OneToMany(mappedBy = "CourseOffering", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "courseOffering", cascade = CascadeType.ALL)
     public Set<Days> getDaysSet() {
         return daysSet;
     }

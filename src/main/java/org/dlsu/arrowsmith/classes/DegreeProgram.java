@@ -1,52 +1,57 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class DegreeProgram {
-    private Long degree_id;
-    private String degree_name;
-    private String degree_code;
+    private Long degreeId;
+    private String degreeName;
+    private String degreeCode;
     private College college;
     private Department department;
 
     public DegreeProgram() {
     }
 
-    public DegreeProgram(Long degree_id, String degree_name, String degree_code) {
-        this.degree_id = degree_id;
-        this.degree_name = degree_name;
-        this.degree_code = degree_code;
+    public DegreeProgram(Long degreeId, String degreeName, String degreeCode) {
+        this.degreeId = degreeId;
+        this.degreeName = degreeName;
+        this.degreeCode = degreeCode;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getDegree_id() {
-        return degree_id;
+    public Long getDegreeId() {
+        return degreeId;
     }
 
-    public void setDegree_id(Long degree_id) {
-        this.degree_id = degree_id;
+    public void setDegreeId(Long degreeId) {
+        this.degreeId = degreeId;
     }
 
-    public String getDegree_name() {
-        return degree_name;
+    public String getDegreeName() {
+        return degreeName;
     }
 
-    public void setDegree_name(String degree_name) {
-        this.degree_name = degree_name;
+    public void setDegreeName(String degreeName) {
+        this.degreeName = degreeName;
     }
 
-    public String getDegree_code() {
-        return degree_code;
+    public String getDegreeCode() {
+        return degreeCode;
     }
 
-    public void setDegree_code(String degree_code) {
-        this.degree_code = degree_code;
+    public void setDegreeCode(String degreeCode) {
+        this.degreeCode = degreeCode;
     }
 
     @ManyToOne
-    @JoinColumn(name = "college_id")
+    @JoinColumn(name = "collegeId")
     public College getCollege() {
         return college;
     }
@@ -56,7 +61,7 @@ public class DegreeProgram {
     }
 
     @ManyToOne
-    @JoinColumn(name = "dept_id")
+    @JoinColumn(name = "deptId")
     public Department getDepartment() {
         return department;
     }

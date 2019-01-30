@@ -1,14 +1,19 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
+@Audited(targetAuditMode = NOT_AUDITED)
 public class Course {
-    private Long course_id;
-    private String course_code;
-    private String course_name;
-    private String course_desc;
+    private Long courseId;
+    private String courseCode;
+    private String courseName;
+    private String courseDesc;
     private double units;
     private College college;
     private Department department;
@@ -18,46 +23,46 @@ public class Course {
     public Course() {
     }
 
-    public Course(Long course_id, String course_code, String course_name, String course_desc, double units) {
-        this.course_id = course_id;
-        this.course_code = course_code;
-        this.course_name = course_name;
-        this.course_desc = course_desc;
+    public Course(Long courseId, String courseCode, String courseName, String courseDesc, double units) {
+        this.courseId = courseId;
+        this.courseCode = courseCode;
+        this.courseName = courseName;
+        this.courseDesc = courseDesc;
         this.units = units;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getCourse_id() {
-        return course_id;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(Long course_id) {
-        this.course_id = course_id;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
-    public String getCourse_code() {
-        return course_code;
+    public String getCourseCode() {
+        return courseCode;
     }
 
-    public void setCourse_code(String course_code) {
-        this.course_code = course_code;
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
-    public String getCourse_name() {
-        return course_name;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCourse_name(String course_name) {
-        this.course_name = course_name;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public String getCourse_desc() {
-        return course_desc;
+    public String getCourseDesc() {
+        return courseDesc;
     }
 
-    public void setCourse_desc(String course_desc) {
-        this.course_desc = course_desc;
+    public void setCourseDesc(String courseDesc) {
+        this.courseDesc = courseDesc;
     }
 
     public double getUnits() {
@@ -97,7 +102,7 @@ public class Course {
         this.courseOfferings = courseOfferings;
     }
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "coursePreferences")
     public Set<User> getFacultyPreferences() {
         return facultyPreferences;
     }

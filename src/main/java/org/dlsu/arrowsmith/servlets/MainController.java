@@ -1,7 +1,6 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.User;
-import org.dlsu.arrowsmith.models.Faculty;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
