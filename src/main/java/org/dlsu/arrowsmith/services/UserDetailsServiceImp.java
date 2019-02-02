@@ -1,9 +1,11 @@
 package org.dlsu.arrowsmith.services;
 
+import org.dlsu.arrowsmith.classes.Role;
 import org.dlsu.arrowsmith.classes.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,9 +20,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private HttpServletRequest request;
-
     private MessageSource messages;
 
     /* Functions */
@@ -28,15 +27,12 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         /* Try retrieving a user */
-        User user = userService.findUserByIDNumber(Long.parseLong(username));
-        if (user == null)
-            throw new UsernameNotFoundException("Wrong username or password");
+        User user = userService.findUserByUsername(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        //for (Role role : user.getRoles())
-            //grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        for (Role role : user.getRoles())
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
 
-        return new org.springframework.security.core.userdetails.User(String.valueOf(user.getUserId()), user.getPassword(), true,
-                true, true, true, grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

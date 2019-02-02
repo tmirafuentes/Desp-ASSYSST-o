@@ -11,23 +11,27 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 public class User {
     private Long userId;
+    private String username;
     private String firstName;
     private String lastName;
     private String userType;
     private String password;
     private College college;
     private Set<Course> coursePreferences;
+    private Set<CourseOffering> teachingLoads;
     private Set<DeloadInstance> deloadInstances;
     private Department department;
     private Set<FacultyLoad> facultyLoads;
     private Set<Concern> concernsSent;
     private Set<Concern> concernsReceived;
+    private Set<Role> roles;
 
     public User() {
     }
 
     public User(Long userId, String firstName, String lastName, String userType, String password) {
         this.userId = userId;
+        this.username = String.valueOf(userId);
         this.firstName = firstName;
         this.lastName = lastName;
         this.userType = userType;
@@ -35,13 +39,21 @@ public class User {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
+        this.username = String.valueOf(userId);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -142,5 +154,24 @@ public class User {
 
     public void setCoursePreferences(Set<Course> coursePreferences) {
         this.coursePreferences = coursePreferences;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+    public Set<CourseOffering> getTeachingLoads() {
+        return teachingLoads;
+    }
+
+    public void setTeachingLoads(Set<CourseOffering> teachingLoads) {
+        this.teachingLoads = teachingLoads;
     }
 }

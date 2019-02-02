@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.classes;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 

@@ -1,0 +1,267 @@
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+	font-family: Arial;
+	background-color:#e2e2e2;
+}
+#input_search_course{
+	background-color: white;
+}
+#submit_left_side_search{
+	position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:24%;
+	right:5;
+}
+#left_side{
+	background-color: #252525;
+	width:20%;
+	height:110%;
+	position:absolute;
+	z-index: 3;
+}
+#left_side_content{
+	position:relative;
+	top: 40;
+	left:30;
+	width:80%;
+	font-size: 14px;
+	border-bottom:1px solid #e1e1e1;
+}
+.left_side_rows{
+	color:white;
+}
+.left_side_rows > td{
+	padding-bottom: 1em;
+}
+.left_side_text{
+	height:8px;
+}
+.left_side_select{
+	margin-bottom:-5px;
+	height:25px;
+	width: 100%;
+	-webkit-border-radius:7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+.left_side_select:first-child{
+	background-color:#3cb878;
+	color:white;
+}
+.class_days{
+	background:none;
+	border:none;
+	margin-left:5px;
+	color: #3cb878;
+	font-weight:bold;
+}
+.class_days:last-child, .class_days:first-child{
+	color:#ed1c24;
+}
+#left_button_holder{
+	position:relative;
+	top: 70;
+}
+.left_buttons{
+	height:40px;
+	font-size:14px;
+	font-weight:bold;
+	color:#252525;
+	background-color:#e1e1e1;
+	text-align:justify;
+	width:80%;
+	 box-shadow: none;
+	 border:0;
+	 margin-top:10px;
+}
+#header{
+	width: 100%;
+	height:10%;
+	background-color: #3cb878;
+	z-index: 2;
+	position: relative;
+	top:0;
+	left: 0;
+}
+#smaller_header{
+	width: 100%;
+	height:5%;
+	background-color: #e2e2e2;
+	border-bottom: 1px solid black;
+	z-index: 1;
+	position: relative;
+	top:0;
+	left: 0;
+}
+#system_title{
+	text-align:center;
+	color:white;
+	font-size:25px;
+	position:relative;
+	font-weight:bold;
+	top:15;
+}
+#user_icon{
+	position:absolute;
+	top:20;
+	right:100;
+	color:white;
+	font-weight:bold;
+	text-decoration:none;
+}
+#online_icons{
+	position: relative;;
+	left:60%;
+	top:8;
+	color:black;
+	text-decoration:none;
+
+}
+#last_edited{
+	position:relative;
+	left:275;
+	top:8;
+	font-size:12px;
+	color:#979797;
+}
+#modify_offering{
+	position: absolute;;
+	left:87%;
+	top:-5;
+	font-weight:bold;
+	color:black;
+	font-size:13px;
+}
+#main_content{
+	height: 85%;
+	width: 60%;
+	margin-left:25%;
+}
+#generated_list{
+	width:80%;
+    border-collapse: collapse;
+}
+#generated_list th{
+	padding: 25px;
+	font-size:14px;
+}
+#generated_list tr:first-child{
+	background-color:#e2e2e2;
+}
+#generated_list tr{
+	background-color:white;
+	height: 30px;
+}
+#generated_list td{
+	text-align:center;
+	font-size:14px;
+
+}
+#right_side{
+	background-color:#e2e2e2;
+	width:20%;
+	height:110%;
+	position: absolute;
+	top:0;
+	right:0;
+	z-index: 0;
+	border-left:1px solid black;
+}
+
+#right_side th{
+	text-align: justify;
+}
+#modify_class_section, #modify_class_time{
+	position: relative;
+	top: 18%;
+	left: 40;
+	font-size:12px;
+	padding: 5px;
+	border-spacing: 10px;
+	
+}
+#modify_room{
+	position: relative;
+	top: 15%;
+	left: 40;
+	font-size:12px;
+	padding: 5px;
+	border-spacing: 10px;
+}
+#modify_faculty, #modify_concerns{
+	position: relative;
+	top: 13%;
+	left: 35;
+	font-size:12px;
+	padding: 5px;
+	border-spacing: 10px;
+}
+#modify_button_concerns{
+	position: relative;
+	top: 10%;
+	left: 50;
+	font-size:12px;
+	padding: 5px;
+	border-spacing: 10px;
+}
+#right_side select, #right_side input{
+	height:25px;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+#right_side button{
+	box-shadow: none;
+	border:0;
+	font-weight:bold;
+	color:white;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+#select_right_class_type, #select_right_timeblock{
+	width:80px;
+}
+#text_section{
+	width:50px;
+}
+#text_room{
+	width:70px;
+}
+#button_assign_room{
+	width:80px;
+	background-color:#959595;
+}
+#select_faculty{
+	width: 100px;
+}
+#button_assign_faculty{
+	width:80px;
+	height:30px;
+	display: inline-block;
+	background-color:#2e3192;
+}
+#area_concerns{
+	width:150px;
+	height:100px;
+	resize: none;
+}
+#button_submit_concerns{
+	background-color:#3cb878;
+	height:25px;
+	width:60px;
+}
+#button_cancel_concerns{
+	background-color:#ed1c24;
+	height:25px;
+	width:60px;
+}

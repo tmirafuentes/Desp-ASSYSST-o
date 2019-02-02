@@ -1,8 +1,10 @@
 package org.dlsu.arrowsmith.services;
 
 import org.dlsu.arrowsmith.classes.Concern;
+import org.dlsu.arrowsmith.classes.Role;
 import org.dlsu.arrowsmith.classes.User;
 import org.dlsu.arrowsmith.repositories.ConcernRepository;
+import org.dlsu.arrowsmith.repositories.RoleRepository;
 import org.dlsu.arrowsmith.repositories.UserRepository;
 import org.dlsu.arrowsmith.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 @Service
@@ -19,6 +22,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private ConcernRepository concernRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     /* Services */
     @Autowired
@@ -41,6 +46,12 @@ public class UserService {
         userRepository.save(u);
     }
 
+    public void createNewUser(User u, ArrayList<Role> roles) {
+        u.setPassword(bCryptPasswordEncoder.encode(u.getPassword()));
+        u.setRoles(new HashSet<>(roles));
+        userRepository.save(u);
+    }
+
     /*** Update New User ***/
     public void updateUser(User u) {
         userRepository.save(u);
@@ -49,6 +60,11 @@ public class UserService {
     /*** Retrieve User by ID number ***/
     public User findUserByIDNumber(Long idNumber) {
         return userRepository.findUserByUserId(idNumber);
+    }
+
+    /*** Retrieve User by Username ***/
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     /*** Retrieve all Users ***/
@@ -102,6 +118,18 @@ public class UserService {
     public Iterator retrieveAllConcernsByUser(User sender, User receiver) {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrReceiver(sender, receiver);
         return concerns.iterator();
+    }
+
+    /*** Add Role ***/
+    public void saveRole(Role r)
+    {
+        roleRepository.save(r);
+    }
+
+    /*** Retrieve Role Name ***/
+    public Role findRoleByName(String name)
+    {
+        return roleRepository.findByRoleName(name);
     }
 
     /***

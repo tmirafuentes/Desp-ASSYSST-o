@@ -12,6 +12,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 public class Room {
     private Long roomId;
     private String roomType;
+    private String roomCode;
     private int roomCapacity;
     private Building building;
     private Set<Days> daysSet;
@@ -33,6 +34,14 @@ public class Room {
 
     public void setRoomId(Long roomId) {
         this.roomId = roomId;
+    }
+
+    public String getRoomCode() {
+        return roomCode;
+    }
+
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
     }
 
     public String getRoomType() {

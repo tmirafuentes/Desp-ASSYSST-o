@@ -1,6 +1,8 @@
 package org.dlsu.arrowsmith.classes;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -34,6 +36,7 @@ public class CourseOffering {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Nullable
     public Long getofferingId() {
         return offeringId;
     }
@@ -90,6 +93,7 @@ public class CourseOffering {
         this.status = status;
     }
 
+    @NotAudited
     @ManyToOne
     @JoinColumn(name = "course_id")
     public Course getCourse() {

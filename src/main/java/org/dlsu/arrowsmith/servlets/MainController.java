@@ -42,7 +42,7 @@ public class MainController {
         if (logout != null)
             model.addAttribute("message", messages.getMessage("message.logoutSuccess", null, null));
 
-        return "index";
+        return "signin";
     }
 
     /* Default Home Page - Academic Programming Officer Screen */
@@ -51,7 +51,7 @@ public class MainController {
         /* Load all course offerings */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
 
-        return "/apo";
+        return "/apo/apoHome";
     }
 
     /* Default Home Page - Chairs or Vice Chairs Screen */
@@ -60,7 +60,8 @@ public class MainController {
         /* Load all course offerings */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
 
-        return "/cvc";
+        System.out.println("Hello World");
+        return "/cvc/cvcHome";
     }
 
     /* Default Home Page - Faculty Screen */
@@ -72,6 +73,6 @@ public class MainController {
         /* Load all faculty load */
         model.addAttribute("allFacultyLoads", facultyService.retrieveAllFacultyLoadByFaculty(currFaculty));
 
-        return "/faculty";
+        return "facultyHome";
     }
 }

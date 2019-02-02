@@ -22,7 +22,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
                                         final AuthenticationException exception) throws IOException, ServletException
     {
         if (exception.getMessage().equalsIgnoreCase("blocked"))
-            setDefaultFailureUrl("/index");
+            setDefaultFailureUrl("/signin");
         else
             setDefaultFailureUrl("/signin?error=true");
         super.onAuthenticationFailure(request, response, exception);

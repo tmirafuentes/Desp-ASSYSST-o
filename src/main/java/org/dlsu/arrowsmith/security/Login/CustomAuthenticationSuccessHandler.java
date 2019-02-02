@@ -1,8 +1,10 @@
 package org.dlsu.arrowsmith.security.Login;
 
+import org.dlsu.arrowsmith.classes.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -60,15 +62,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
         if(isAPO)
-            return "/APO/home";
+            return "/apo/home";
         else if(isCVC)
-            return "/CVC/home";
+            return "/cvc/home";
         else if(isFaculty)
-            return "/Faculty/home";
+            return "/faculty/home";
         else if(isAdmin)
             return "/admin";
 
-        return "/welcome";
+        return "/cvc/home";
     }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy)

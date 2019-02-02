@@ -57,6 +57,7 @@ public class Course {
         this.courseName = courseName;
     }
 
+    @Column(length = 1000)
     public String getCourseDesc() {
         return courseDesc;
     }

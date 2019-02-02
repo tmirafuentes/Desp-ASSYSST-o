@@ -52,25 +52,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/",
                         "/welcome",
-                        "/index").permitAll()
+                        "/index",
+                        "/signin",
+                        "/user/**",
+                        "/apo/**",
+                        "/cvc/**").permitAll()
+                //.antMatchers("/cvc",
+                //        "/cvc/home",
+                //        "/cvc/add-faculty").hasRole("CVC")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/signin")
-                .defaultSuccessUrl("/welcome")
-                .failureUrl("/signin?error=true")
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(customAuthenticationFailureHandler)
-                .permitAll()
-                .and()
+                    .loginPage("/signin")
+                    .failureUrl("/sigin?error=true")
+                    .permitAll()
+                    .and()
                 .logout()
-                .logoutSuccessUrl("/signin")
-                .permitAll()
-                .and()
+                    .logoutSuccessUrl("/signin")
+                    .permitAll()
+                    .and()
                 .sessionManagement()
-                .sessionFixation().migrateSession()
-                .maximumSessions(1)
-                .expiredUrl("/signin?expired");
+                    .sessionFixation().migrateSession()
+                    .maximumSessions(1)
+                    .expiredUrl("/signin?expired");
         http.headers()
                 .xssProtection()
                 .and()

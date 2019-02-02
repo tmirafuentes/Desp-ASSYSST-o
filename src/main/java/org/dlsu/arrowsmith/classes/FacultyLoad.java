@@ -1,6 +1,8 @@
 package org.dlsu.arrowsmith.classes;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -123,6 +125,7 @@ public class FacultyLoad {
         this.totalLoad = totalLoad;
     }
 
+    @ColumnDefault("false")
     public boolean isOnLeave() {
         return onLeave;
     }
@@ -139,6 +142,7 @@ public class FacultyLoad {
         this.leaveType = leaveType;
     }
 
+    @NotAudited
     @ManyToOne
     @JoinColumn(name = "college_id")
     public College getCollege() {
@@ -149,6 +153,7 @@ public class FacultyLoad {
         this.college = college;
     }
 
+    @NotAudited
     @ManyToOne
     @JoinColumn(name = "dept_id")
     public Department getDepartment() {
