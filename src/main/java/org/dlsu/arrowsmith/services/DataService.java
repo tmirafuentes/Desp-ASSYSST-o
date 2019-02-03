@@ -21,16 +21,5 @@ public class DataService implements ApplicationRunner {
         //userService.saveRole(cvcRole);
 
         /* Initialize Admin */
-        ArrayList<Role> roles = new ArrayList<Role>();
-        roles.add(userService.findRoleByName("ROLE_CVC"));
-
-        User sampleUser = new User();
-        sampleUser.setUserId(Long.valueOf(11526335));
-        sampleUser.setFirstName("Troy");
-        sampleUser.setLastName("Mirafuentes");
-        sampleUser.setPassword("R4inmaker");
-        sampleUser.setUserType("Chair");
-
-        userService.createNewUser(sampleUser, roles);
     }
 }

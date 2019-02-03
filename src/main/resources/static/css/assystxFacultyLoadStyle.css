@@ -18,13 +18,14 @@ body{
 	box-shadow: none;
 	border:0;
 	background-color:white;
-	top:24%;
+	top:46%;
 	right:5;
 }
+
 #left_side{
 	background-color: #252525;
 	width:20%;
-	height:100%;
+	height:120%;
 	position:absolute;
 	z-index: 3;
 }
@@ -133,7 +134,12 @@ body{
 	font-size:12px;
 	color:#979797;
 }
-#modify_offering{
+#input_search_faculty{
+    background-color:white;
+
+}
+
+#load_information{
 	position: absolute;;
 	left:87%;
 	top:-5;
@@ -148,7 +154,8 @@ body{
 }
 #generated_list{
 	width:80%;
-    border-collapse: collapse;
+	border-collapse: collapse;
+	overflow: auto;
 }
 #generated_list th{
 	padding: 25px;
@@ -170,20 +177,20 @@ body{
 #right_side{
 	background-color: #e1e1e1;
 	width:20%;
-	height:100%;
+	height:120%;
 	position: absolute;
 	top:0;
 	right:0;
 	z-index: 0;
-	border-left:1px solid black;
+    border-left:1px solid black;
 }
 #right_side th{
 	text-align: justify;
 }
-#modify_class_section, #modify_time, #modify_days{
+#table_faculty_name{
 	position: relative;
 	top: 18%;
-	left: 40;
+	left: 25%;
 	font-size:12px;
 	padding: 5px;
 	border-spacing: 10px;
@@ -197,7 +204,7 @@ body{
 	padding: 5px;
 	border-spacing: 10px;
 }
-#modify_faculty, #modify_concerns{
+#modify_faculty, #table_preferences, #table_currentlytaking{
 	position: relative;
 	top: 13%;
 	left: 35;
@@ -228,7 +235,7 @@ body{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
-#select_right_class_type, #select_right_start_timeblock, #select_right_end_timeblock{
+#select_right_class_type, #select_right_timeblock{
 	width:80px;
 }
 #text_section{
@@ -247,197 +254,52 @@ body{
 #button_assign_faculty{
 	width:80px;
 	height:30px;
-	display: inline-block;
+	position: relative;
+	left:50%;
 	background-color:#2e3192;
 }
-#area_concerns{
-	width:150px;
+#div_preferences, #div_load{
+	width:200px;
 	height:100px;
-	resize: none;
+    left:30;
+    position: relative;
+    
 }
-#button_submit_concerns{
+#submit_faculty_search{
+    position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:6%;
+	right:5;
+}
+#submit_expertise_search{
+    position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:20%;
+	right:5;
+}
+#image_faculty{
+    height:100px;
+    width:100px;
+    position: relative;
+    top:10;
+    left:20%;
+    margin-bottom:30px;
+    margin-top:20px;
+}
+.p_faculty{
+    font-size:14px;
+}
+#table_preferences{
+    font-size:13px;
+}
+#button_load_faculty{
 	background-color:#3cb878;
 	height:25px;
 	width:60px;
+	position: relative;
+	left:40%;
 }
-#button_cancel_concerns{
-	background-color:#ed1c24;
-	height:25px;
-	width:60px;
-}
-/*
-#modify_content td{
-	text-align: justify;
-	padding: 1em;
-}
-
-#modify_content select, #modify_content input{
-	height:25px;
-	-webkit-border-radius:3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-#select_right_class_type, #select_right_timeblock{
-	width:80px;
-}
-#text_section{
-	width:50px;
-}
-#select_day1, #select_day2{
-	width:30px;
-}
-#select_faculty{
-	width: 80px;
-}
-#button_assign_faculty{
-	width:80px;
-	height:30px;
-	display: inline-block;
-	background-color:#2e3192;
-}
-#text_room{
-	width:70px;
-}
-#button_assign_room{
-	width:80px;
-	background-color:#959595;
-}
-#area_concerns{
-	width:150px;
-	height:100px;
-	resize: none;
-}
-#button_submit_concerns{
-	background-color:#3cb878;
-	height:25px;
-	width:60px;
-}
-#button_cancel_concerns{
-	background-color:#ed1c24;
-	height:25px;
-	width:60px;
-}
-*/
-/* 
-#fullTable{
-	width:100%;
-	height:100%;	 
-	cellpadding:0;
-	cellspacing:0;
-}
-
-#fullTable td:nth-child(2){
-	width:65%;
-}
-#fullTable td:nth-child(3){
-	width:20%;
-}
-#titleCell{
-	height: 10%;
-}
-.options{
-	width:150px;
-	height: 23px;
-	-webkit-border-radius:7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	margin-left:20px;
-}
-.justBoldTitles{
-	font-weight:bold;
-	text-align:center;
-}
-.textSelect{
-	margin-top:10px;
-	font-size:12px;
-	padding-top:10px;
-	margin-left:20px;
-}
-.lowerButtons{
-	font-family:century gothic;
-	font-weight:bold;
-	text-align:left;
-	color:#252525;
-	background-color:#e1e1e1;
-	margin-top:10px;
-	width:180px;
-	padding-left:20px;
-	
-}
-#modifyTable{
-	margin-top: -150px;
-	font-size:12px;
-	font-weight:bold;
-}
-#viewLeft{
-	color:white;
-	width:15%;
-	background-color:#252525;
-}
-#secondaryTitles{
-	height: 5%;
-	background-color:#e1e1e1;
-	text-align:justify;
-}
-#titleCell, #userCell{
-	height: 10%;
-	text-align:center;
-	background-color:#3cb878;
-	color:white;
-}
-#titleCell{
-	font-size: 30px;
-	font-weight: bold;
-}
-#thirdCells{
-	background-color:#e1e1e1;
-	height:85%;
-	width:85%;
-}
-#lower{
-	border-top: 1px solid #eeeeee;
-	float:bottom;
-	height:40%;
-}
-#upper{
-	height:60%;
-	float:top;
-}
-#contentHolder{
-	position: absolute;
-	height:100%;
-	width:50%;
-}
-#contentHolderModify{
-	width: 35%;
-	height: 100%;
-}
-#offerings{
-	margin-top: -60px;
-}
-#offerings, th{
-	padding: 35px;
-}
-#offerings, td{
-	width:50%;
-	text-align:justify;
-}
-#textSection{
-	width:50%;
-	height: 20px;
-}
-select{
-	width: 75%;
-	height: 20px;
-}
-#timeBlock{
-	width:60%;
-}
-#dayOne, #dayTwo{
-	width: 20%;
-}
-#concernsInput{
-	width: 100%;
-	height: 100px;
-}
-*/

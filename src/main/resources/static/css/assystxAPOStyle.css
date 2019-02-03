@@ -160,6 +160,7 @@ body{
 #generated_list tr{
 	background-color:white;
 	height: 30px;
+	overflow: auto;
 }
 #generated_list td{
 	text-align:center;
@@ -180,7 +181,7 @@ body{
 #right_side th{
 	text-align: justify;
 }
-#modify_class_section, #modify_class_time{
+#modify_class_section, #modify_time, #modify_days{
 	position: relative;
 	top: 18%;
 	left: 40;
@@ -228,7 +229,7 @@ body{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
-#select_right_class_type, #select_right_timeblock{
+#select_right_class_type, #select_right_start_timeblock, #select_right_end_timeblock{
 	width:80px;
 }
 #text_section{

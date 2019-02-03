@@ -68,9 +68,10 @@
         </tr>
     </table>
     <div id = "left_button_holder">
-        <button class = left_buttons id ="button_view_faculty"> View Faculty<br>Load Information </button>
-        <button class = left_buttons id="button_deloading"> Deloading </button>
-        <button class = left_buttons id ="button_concerns"> Concerns </button>
+        <button class = left_buttons id = "button_view_faculty"> View Faculty<br>Load Information </button>
+        <button class = left_buttons id = "button_course_management"> Course Management </button>
+        <button class = left_buttons id = "button_deloading"> Deloading </button>
+        <button class = left_buttons id = "button_concerns"> Concerns </button>
     </div>
 </div>
 

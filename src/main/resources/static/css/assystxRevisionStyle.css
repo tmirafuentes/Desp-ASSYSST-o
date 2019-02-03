@@ -173,6 +173,7 @@ body{
 #generated_list tr{
 	background-color:white;
 	height: 30px;
+	overflow: auto;
 }
 #generated_list td{
 	text-align:center;

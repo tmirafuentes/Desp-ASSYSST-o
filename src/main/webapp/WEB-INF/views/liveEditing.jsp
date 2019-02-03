@@ -14,20 +14,10 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div id = "header">
-    <p id = "system_title"> ASSYSTX </p>
-    <c:choose>
-        <c:when test="${pageContext.request.userPrincipal.name != null}">
-            <a id="user_icon" href="/account">${pageContext.request.userPrincipal.name}</a> <!--leads to account settings-->
-            <form id="logoutForm" method="POST" action="${contextPath}/logout">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </form>
-            <a id="user_icon" onclick="document.forms['logoutForm'].submit()">Logout</a>
-        </c:when>
-        <c:otherwise>
-            <a href ="#" id = "user_icon">User</a>
-        </c:otherwise>
-    </c:choose>
+<div id = "smaller_header">
+    <a href ="ASSYSTXRevision.html" id = "last_edited">Last edited 1 hour ago</a>
+    <a href ="#" id = "online_icons">Online Users</a>
+    <p id = "modify_offering"> Modify Offering</p>
 </div>
 </body>
 </html>

@@ -49,7 +49,7 @@ public class MainController {
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
     public String APOHomePage(Model model) {
         /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
 
         return "/apo/apoHome";
     }
@@ -58,7 +58,7 @@ public class MainController {
     @RequestMapping(value = {"/cvc", "/cvc/home"}, method = RequestMethod.GET)
     public String CVCHomePage(Model model) {
         /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
 
         System.out.println("Hello World");
         return "/cvc/cvcHome";
