@@ -8,8 +8,9 @@ html,body
 
 body{
 	font-family: Arial;
-	background-color:#e2e2e2;
+	background-color:white;
 }
+/*Left Side Chairs */
 #input_search_course{
 	background-color: white;
 }
@@ -24,9 +25,10 @@ body{
 #left_side{
 	background-color: #252525;
 	width:20%;
-	height:100%;
+	height:120%;
 	position:absolute;
 	z-index: 3;
+	overflow: auto;
 }
 #left_side_content{
 	position:relative;
@@ -83,6 +85,7 @@ body{
 	 border:0;
 	 margin-top:10px;
 }
+/* Chair Headers */
 #header{
 	width: 100%;
 	height:10%;
@@ -95,7 +98,7 @@ body{
 #smaller_header{
 	width: 100%;
 	height:5%;
-	background-color: #e2e2e2;
+	background-color:white;
 	border-bottom: 1px solid black;
 	z-index: 1;
 	position: relative;
@@ -133,44 +136,49 @@ body{
 	font-size:12px;
 	color:#979797;
 }
+/*right side chairs */
 #modify_offering{
-	position: absolute;;
+	position: absolute;
 	left:87%;
 	top:-5;
 	font-weight:bold;
 	color:black;
 	font-size:13px;
 }
+/* central zone chairs */
+
 #main_content{
-	height: 85%;
+	height: 100%;
 	width: 60%;
 	margin-left:25%;
+	overflow: auto;
 }
 #generated_list{
 	width:80%;
     border-collapse: collapse;
 }
 #generated_list th{
-	padding: 25px;
+	margin-top: 50px;
 	font-size:14px;
 }
 #generated_list tr:first-child{
-	background-color:#e2e2e2;
+	background-color:white;
 }
 #generated_list tr{
-	background-color:white;
+	background-color:#e2e2e2;
 	height: 30px;
-	overflow: auto;
+	border-bottom:3px solid white;
 }
 #generated_list td{
 	text-align:center;
 	font-size:14px;
 
 }
+/* Right Side Chairs*/
 #right_side{
-	background-color: #e1e1e1;
+	background-color: white;
 	width:20%;
-	height:100%;
+	height:120%;
 	position: absolute;
 	top:0;
 	right:0;
@@ -197,7 +205,7 @@ body{
 	padding: 5px;
 	border-spacing: 10px;
 }
-#modify_faculty, #modify_concerns{
+#modify_faculty, #modify_concerns, #table_preferences, #table_currentlytaking{
 	position: relative;
 	top: 13%;
 	left: 35;
@@ -265,179 +273,183 @@ body{
 	height:25px;
 	width:60px;
 }
-/*
-#modify_content td{
-	text-align: justify;
-	padding: 1em;
+/* Added for Faculty */
+#faculty_table_area{
+	position: relative;
+	top:20%;
+	left:55;
 }
+#total_load{
+	position: absolute;
+	left:70%;
+	color:black;
+	text-decoration:none;
+	top:-10;
 
-#modify_content select, #modify_content input{
+}
+#concerns_right{
+	position: relative;
+	top:20%;
+	left:45;
+	font-size:12px;
+	padding: 5px;
+	border-spacing: 10px;
+}
+/*Added for Login */
+#table_login{
+	width: 50%;
+	height:25%;
+	text-align: center;
+	position: relative;
+	left:25%;
+	top:15%;
+}
+#login_smaller_header{
+	width: 100%;
+	height:5%;
+	background-color: #3cb878;
+	position: absolute;
+	bottom:0;
+	left: 0;
+}
+#login_main_content{
+	height: 100%;
+	width: 100%;
+}
+.p_table_label{
+	font-weight: bold;
+	font-size: 20px;
+	position: relative;
+	left:-110;
+}
+#login_main_content input{
+	border: 1px solid black;
+	height:30px;
+	width:50%;
+}
+#login_button_submit{
+	background-color:#3cb878;
 	height:25px;
+	width:200px;
+	box-shadow: none;
+	border:0;
+	font-weight:bold;
+	color:white;
 	-webkit-border-radius:3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	position: relative;
+	font-size: 16px;
+	top:10;
 }
-#select_right_class_type, #select_right_timeblock{
-	width:80px;
+/*For faculty load */
+#load_submit_faculty_search{
+	position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:6%;
+	right:5;
 }
-#text_section{
-	width:50px;
+#load_submit_expertise_search{
+	position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:20%;
+	right:5;
 }
-#select_day1, #select_day2{
-	width:30px;
-}
-#select_faculty{
-	width: 80px;
-}
-#button_assign_faculty{
-	width:80px;
-	height:30px;
-	display: inline-block;
-	background-color:#2e3192;
-}
-#text_room{
-	width:70px;
-}
-#button_assign_room{
-	width:80px;
-	background-color:#959595;
-}
-#area_concerns{
-	width:150px;
-	height:100px;
-	resize: none;
-}
-#button_submit_concerns{
-	background-color:#3cb878;
-	height:25px;
-	width:60px;
-}
-#button_cancel_concerns{
-	background-color:#ed1c24;
-	height:25px;
-	width:60px;
-}
-*/
-/* 
-#fullTable{
-	width:100%;
-	height:100%;	 
-	cellpadding:0;
-	cellspacing:0;
+#load_submit_left_side_search{
+	position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:46%;
+	right:5;
 }
 
-#fullTable td:nth-child(2){
-	width:65%;
+#div_preferences, #div_load{
+	width:200px;
+	height:100px;
+	left:30;
+	position: relative;
+
 }
-#fullTable td:nth-child(3){
-	width:20%;
+#image_faculty{
+	height:100px;
+	width:100px;
+	position: relative;
+	top:10;
+	left:20%;
+	margin-bottom:30px;
+	margin-top:20px;
 }
-#titleCell{
-	height: 10%;
+.p_faculty{
+	font-size:14px;
 }
-.options{
-	width:150px;
-	height: 23px;
-	-webkit-border-radius:7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	margin-left:20px;
+#table_preferences{
+	font-size:13px;
 }
-.justBoldTitles{
-	font-weight:bold;
-	text-align:center;
-}
-.textSelect{
-	margin-top:10px;
-	font-size:12px;
-	padding-top:10px;
-	margin-left:20px;
-}
-.lowerButtons{
-	font-family:century gothic;
-	font-weight:bold;
-	text-align:left;
-	color:#252525;
-	background-color:#e1e1e1;
-	margin-top:10px;
-	width:180px;
-	padding-left:20px;
-	
-}
-#modifyTable{
-	margin-top: -150px;
-	font-size:12px;
-	font-weight:bold;
-}
-#viewLeft{
-	color:white;
-	width:15%;
-	background-color:#252525;
-}
-#secondaryTitles{
-	height: 5%;
-	background-color:#e1e1e1;
-	text-align:justify;
-}
-#titleCell, #userCell{
-	height: 10%;
-	text-align:center;
+#load_button_assign_faculty{
 	background-color:#3cb878;
-	color:white;
+	height:35px;
+	width:60px;
+	position: relative;
+	left:25%;
 }
-#titleCell{
-	font-size: 30px;
+#table_faculty_name{
+	position: relative;
+	top: 18%;
+	left: 25%;
+	font-size:12px;
+	padding: 5px;
+	border-spacing: 10px;
+
+}
+/*Added for active/inactive Trs */
+.activeTr{
+	background-color:#3cb878;
+}
+.inactiveTr{
+	background-color:#e2e2e2;
+}
+
+/*Deload Screen*/
+#deload_image_faculty{
+	height:100px;
+	width:100px;
+	left: -95;
+	margin-bottom: 10%;
+	position: relative;
+}
+#load_img_names{
+	position: relative;
+	top: 10%;
+	left:30%;
+	text-align: center;
+	font-size:16px;
+	padding: 5px;
+	border-spacing: 10px;
+}
+#fType_department, #load_list{
+	top: 10%;
+	left:20%;
+	position: relative;
+}
+#load_summary{
+	position: relative;
+	top:10%;
+	left:30%;
+	font-size: 15px;
 	font-weight: bold;
+	width: 150px;
 }
-#thirdCells{
-	background-color:#e1e1e1;
-	height:85%;
-	width:85%;
+#deload_button{
+	background-color:#3cb878;
+	height:35px;
+	width:150px;
+	position: relative;
+	left:25%;
+	top:150;
+	font-size:14px;
 }
-#lower{
-	border-top: 1px solid #eeeeee;
-	float:bottom;
-	height:40%;
-}
-#upper{
-	height:60%;
-	float:top;
-}
-#contentHolder{
-	position: absolute;
-	height:100%;
-	width:50%;
-}
-#contentHolderModify{
-	width: 35%;
-	height: 100%;
-}
-#offerings{
-	margin-top: -60px;
-}
-#offerings, th{
-	padding: 35px;
-}
-#offerings, td{
-	width:50%;
-	text-align:justify;
-}
-#textSection{
-	width:50%;
-	height: 20px;
-}
-select{
-	width: 75%;
-	height: 20px;
-}
-#timeBlock{
-	width:60%;
-}
-#dayOne, #dayTwo{
-	width: 20%;
-}
-#concernsInput{
-	width: 100%;
-	height: 100px;
-}
-*/
