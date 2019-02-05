@@ -227,7 +227,7 @@ body{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
-#right_side button{
+#right_side button, .modal_buttons{
 	box-shadow: none;
 	border:0;
 	font-weight:bold;
@@ -418,9 +418,9 @@ body{
 #deload_image_faculty{
 	height:100px;
 	width:100px;
-	left: -95;
 	margin-bottom: 10%;
 	position: relative;
+	left:-100px;
 }
 #load_img_names{
 	position: relative;
@@ -430,6 +430,10 @@ body{
 	font-size:16px;
 	padding: 5px;
 	border-spacing: 10px;
+}
+#p_faculty_lname, #p_faculty_fname{
+	font-size:16px;
+	text-align: center;
 }
 #fType_department, #load_list{
 	top: 10%;
@@ -452,4 +456,41 @@ body{
 	left:25%;
 	top:150;
 	font-size:14px;
+}
+.p_modal{
+	font-size: 14px;
+	font-weight: bold;
+}
+#p_total_load{
+	font-size:16px;
+}
+#input_deload, #select_deload{
+	border-radius: 3px;
+}
+#input_deload{
+	height: 20px;
+	width: 50px;
+}
+#select_deload{
+	height: 20px;
+	width: 125px;
+}
+#dialog_professor_name{
+	font-size: 25px;
+	font-weight: bolder;
+	text-align: center;
+}
+#dialog_load_table{
+	position: relative;
+	left:15%;
+}
+.modal_buttons{
+	height:30px;
+	margin-top:25%;
+}
+#deload_confirm{
+	background-color:#3cb878 ;
+}
+#deload_cancel{
+	background-color:#ed1c24 ;
 }
