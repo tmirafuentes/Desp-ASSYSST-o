@@ -2,7 +2,7 @@ $(function (){
     var trActive = true;
     var clickedDiv;
 
-    var deloadTable = $( "<table id='dialog_load_table'></table>" );
+    var deloadTable = $( "<form id='modal_form_deload'><table id='dialog_load_table'></table></form>" );
     var professorName = $( "<p id='dialog_professor_name'>Jordan Deja</p>" );
     jQuery('<div/>', {
         id: 'div_dialog',
