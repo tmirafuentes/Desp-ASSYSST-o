@@ -1,4 +1,5 @@
 $(function (){
+    var modifyFaculty = $( "<form id='modal_form_faculty'></form>" );
     var hasClickedTableRow = false;
     jQuery('<div/>', {
         id: 'div_dialog',
@@ -14,7 +15,7 @@ $(function (){
       $("#modify_offering").hide();
 
     $("#button_concerns").click(function (){
-        console.log("pumapasok?");
+        //console.log("pumapasok?");
         $("#div_dialog").dialog({
             title:"Concerns",
             width:450,
@@ -22,6 +23,21 @@ $(function (){
             modal:true
         })
     })
+
+    $("#button_assign_faculty").click(function (){
+        $(modifyFaculty).empty();
+        $(modifyFaculty).append("<select id='faculty_select_modal'></select> " +
+            "<br><button id='faculty_set_button' class='modal_buttons'>Set Faculty</button>" +
+            "<button id='faculty_cancel_button' class='modal_buttons'>Cancel</button>");
+        $("#div_dialog").append(modifyFaculty);
+        $("#div_dialog").dialog({
+            title:"Re-assign Faculty",
+            width:300,
+            height:250,
+            modal:true
+        })
+    })
+
     $("#button_upload_flowchart").click(function (){
         $("#div_dialog").dialog({
             title:"Upload Flowchart",
