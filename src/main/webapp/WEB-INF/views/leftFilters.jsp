@@ -5,6 +5,8 @@
   Time: 1:14 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -19,7 +21,9 @@
     <tr class = "left_side_rows">
         <td class ="left_side_rows_content">
             <p class = "left_side_text"> View Offerings </p>
-            <select class = "left_side_select" id="select_view_offerings"> </select>
+            <select class = "left_side_select" id="select_view_offerings">
+                <option>All</option>
+            </select>
         </td>
     </tr>
     <tr class = "left_side_rows">

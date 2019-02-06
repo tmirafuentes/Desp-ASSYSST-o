@@ -111,9 +111,9 @@ public class FacultyService {
     }
 
     /* Retrieve Faculty Load of a Faculty per Term */
-    public Iterator retrieveFacultyLoadByFaculty(int startAY, int endAY, int term, User faculty) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTermAndFaculty(startAY, endAY, term, faculty);
-        return allLoads.iterator();
+    public FacultyLoad retrieveFacultyLoadByFaculty(int startAY, int endAY, int term, User faculty) {
+        FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByStartAYAndEndAYAndTermAndFaculty(startAY, endAY, term, faculty);
+        return facultyLoad;
     }
 
     /**
@@ -125,7 +125,7 @@ public class FacultyService {
     /* Summation of Faculty Load in a given Term */
     public void addTotalFacultyLoad(int startAY, int endAY, int term, User faculty) {
         if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty).next();
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
             double totalLoad = 0.0;
             totalLoad += facultyLoad.getAdminLoad() + facultyLoad.getNonacadLoad() +
                     facultyLoad.getResearchLoad() + facultyLoad.getTeachingLoad();
@@ -135,7 +135,7 @@ public class FacultyService {
     /* Set Faculty to Leave in a given Term */
     public void setLeaveFaculty(int startAY, int endAY, int term, User faculty, String leave_type) {
         if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty).next();
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
             facultyLoad.setOnLeave(true);
             facultyLoad.setLeaveType(leave_type);
         }
@@ -145,7 +145,7 @@ public class FacultyService {
     public void assignAcademicLoadToFaculty(int startAY, int endAY, int term, User faculty, CourseOffering courseOffering) {
         /* Assign Faculty to Course Offering */
         if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty).next();
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
             facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() + courseOffering.getCourse().getUnits());
             facultyLoadRepository.save(facultyLoad);
         }
@@ -154,7 +154,7 @@ public class FacultyService {
     /* Assign Deloading Load to a Faculty in a given Term */
     public void assignResearchLoadToFaculty(int startAY, int endAY, int term, User faculty, DeloadInstance deloadingInstance) {
         if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty).next();
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
             facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + deloadingInstance.getDeloading().getUnits());
             facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
         }
@@ -167,7 +167,7 @@ public class FacultyService {
      */
 
     public boolean checkFacultyInDatabase(int startAY, int endAY, int term, User faculty) {
-        if (retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty).hasNext())
+        if (retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty) != null)
             return true;
         return false;
     }

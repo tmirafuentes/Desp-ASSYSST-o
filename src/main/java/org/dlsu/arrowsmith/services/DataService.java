@@ -20,6 +20,7 @@ public class DataService implements ApplicationRunner {
         //cvcRole.setRoleName("ROLE_CVC");
         //userService.saveRole(cvcRole);
 
-        /* Initialize Admin */
+        /* Initialize Days */
+
     }
 }

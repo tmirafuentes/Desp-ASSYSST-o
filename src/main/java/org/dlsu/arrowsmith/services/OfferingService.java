@@ -123,8 +123,8 @@ public class OfferingService {
     }
 
     /* Retrieve all Offerings by Faculty */
-    public Iterator retrieveAllOfferingsByFaculty(int startAY, int endAY, int term, User faculty) {
-        ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFacultyAndStartAYAndEndAYAndTerm(faculty, startAY, endAY, term);
+    public Iterator retrieveAllOfferingsByFaculty(User faculty) {
+        ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFaculty(faculty);
         return allOfferings.iterator();
     }
 
@@ -255,4 +255,54 @@ public class OfferingService {
         offering.setFaculty(faculty);
         courseOfferingRepository.save(offering);
     }
+
+    /**
+     **
+     ** OTHER FUNCTIONS
+     **
+     */
+
+    /* Generate All The Corresponding Letters for Days */
+    public ArrayList<String> generateLetterDays() {
+        ArrayList<String> allLetterDays = new ArrayList<String>();
+        allLetterDays.add("M");
+        allLetterDays.add("T");
+        allLetterDays.add("W");
+        allLetterDays.add("H");
+        allLetterDays.add("F");
+        allLetterDays.add("S");
+        return allLetterDays;
+    }
+
+    /* Generate All The Hours */
+    public ArrayList<String> generateHours() {
+        ArrayList<String> allHours = new ArrayList<String>();
+        for (int i=0;i<24;i++)
+        {
+            if (i < 10)
+                allHours.add("0" + i);
+            else
+                allHours.add("" + i);
+        }
+        return allHours;
+    }
+
+    /* Generate All The Minutes */
+    public ArrayList<String> generateMinutes() {
+        ArrayList<String> allMinutes = new ArrayList<String>();
+        for (int i=0;i<60;i+=5)
+        {
+            if (i < 10)
+                allMinutes.add("0" + i);
+            else
+                allMinutes.add("" + i);
+        }
+        return allMinutes;
+    }
+
+    //public Iterator retrieveAllTermsAndAY() {
+        /* Get All Offerings */
+        //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;
+        //return termsAYear.iterator();
+    //}
 }

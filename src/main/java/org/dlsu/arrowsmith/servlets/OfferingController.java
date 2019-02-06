@@ -138,6 +138,24 @@ public class OfferingController {   // This Controller is for the Course Schedul
     }
 
     /*** Update Course Offering ***/
+    @RequestMapping(value = {"/apo/view"}, method = RequestMethod.GET)
+    public String viewCourseOffering(Model model, @RequestParam("v") Long offeringId)
+    {
+        /* Get All Offerings */
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allDays", offeringService.generateLetterDays());
+        model.addAttribute("allHours", offeringService.generateHours());
+        model.addAttribute("allMinutes", offeringService.generateMinutes());
+
+        /* Find Specific Offering */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(offeringId);
+        if(selectedOffering == null)
+            return "redirect:/error";
+        model.addAttribute("selOffering", selectedOffering);
+
+        return "/apo/apoHome";
+    }
+
     @RequestMapping(value = {"/apo", "/apo/home", "/cvc", "/cvc/home"}, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offeringForm") CourseOffering offeringForm, @RequestParam("offeringID") Long offeringID,
                                      BindingResult bindingResult, HttpServletRequest request, Model model)

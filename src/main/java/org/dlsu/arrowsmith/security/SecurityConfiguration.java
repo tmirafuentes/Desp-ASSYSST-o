@@ -33,6 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
 
+        System.out.println("Hello World");
+
         return daoAuthenticationProvider;
     }
 
@@ -63,18 +65,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/signin")
-                    .failureUrl("/sigin?error=true")
-                    .permitAll()
-                    .and()
+                .loginPage("/signin")
+                .failureUrl("/sigin?error=true")
+                .permitAll()
+                .and()
                 .logout()
-                    .logoutSuccessUrl("/signin")
-                    .permitAll()
-                    .and()
+                .logoutSuccessUrl("/signin")
+                .permitAll()
+                .and()
                 .sessionManagement()
-                    .sessionFixation().migrateSession()
-                    .maximumSessions(1)
-                    .expiredUrl("/signin?expired");
+                .sessionFixation().migrateSession()
+                .maximumSessions(1)
+                .expiredUrl("/signin?expired");
         http.headers()
                 .xssProtection()
                 .and()

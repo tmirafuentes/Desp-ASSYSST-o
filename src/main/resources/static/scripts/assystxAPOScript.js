@@ -3,15 +3,8 @@ $(function (){
     jQuery('<div/>', {
         id: 'div_dialog',
     }).appendTo('body');
-      //hide the right side
-      $("#modify_class_section").hide();
-      $("#modify_time").hide();
-      $("#modify_days").hide();
-      $("#modify_room").hide();
-      $("#modify_faculty").hide();
-      $("#modify_concerns").hide();
-      $("#modify_button_concerns").hide();
-      $("#modify_offering").hide();
+    //hide the right side
+    //$(".modify_sidebar").hide();
 
     $("#button_concerns").click(function (){
         console.log("pumapasok?");
@@ -21,7 +14,7 @@ $(function (){
             height:450,
             modal:true
         })
-    })
+    });
     $("#button_upload_flowchart").click(function (){
         $("#div_dialog").dialog({
             title:"Upload Flowchart",
@@ -29,7 +22,7 @@ $(function (){
             height:300,
             modal:true
         })
-    })
+    });
 
     $("#button_add_offering").click(function (){
         $("#div_dialog").dialog({
@@ -38,7 +31,7 @@ $(function (){
             height:500,
             modal:true
         })
-    })
+    });
 
     $("#button_concerns").click(function (){
         $("#div_dialog").dialog({
@@ -47,25 +40,27 @@ $(function (){
             height:450,
             modal:true
         })
-    })
-    $("#generated_list tr").click(function (){
-        hasClickedTableRow = !hasClickedTableRow;
-        if(hasClickedTableRow == true)
-        {
-            $(this).css({'background-color': '#3cb878'})
-        }
-        else{
-            $(this).css({'background-color': 'white'})
-        }
-        
-        $("#modify_class_section").toggle();
-        $("#modify_time").toggle();
-        $("#modify_days").toggle();
-        $("#modify_room").toggle();
-        $("#modify_faculty").toggle();
-        $("#modify_concerns").toggle();
-        $("#modify_button_concerns").toggle();
-        $("#modify_offering").toggle();
+    });
 
-    })
+    /* Selecting an offering */
+    var selectedOffering = null;
+    /*$("#generated_list .genList_rows:not(:first-child)").click(function (){
+        hasClickedTableRow = !hasClickedTableRow;
+        /* Check if selected already
+        if ($(this).css("background-color") === "rgb(60, 184, 120)")
+        {
+            $(".modify_sidebar").hide();
+            $(this).removeClass("selectedOffering");
+            $(this).css({'background-color' : '#e2e2e2'});
+        }
+        /* It has not been selected yet
+        else if ($(this).css("background-color") === "rgb(226, 226, 226)")
+        {
+            $(".modify_sidebar").show();
+            $("#generated_list .genList_rows:not(:first-child)").removeClass("selectedOffering");
+            $("#generated_list .genList_rows:not(:first-child)").css({'background-color' : '#e2e2e2'});
+            $(this).css({'background-color' : '#3cb878'});
+            $(this).addClass("selectedOffering");
+        }
+    })*/
 })

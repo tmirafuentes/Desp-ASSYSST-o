@@ -23,13 +23,13 @@
             <td><p class = "p_table_label"> ID Number</p></td>
         </tr>
         <tr>
-            <td><input placeholder = "" id="text_ID" name="username"></td>
+            <td><input type="text" id="text_ID" name="username"></td>
         </tr>
         <tr>
-            <td><p class = "p_table_label">${contextPath} Password</p></td>
+            <td><p class = "p_table_label">Password</p></td>
         </tr>
         <tr>
-            <td><input  type = "password" placeholder = "" id="text_password" name="password"></td>
+            <td><input type="password"  id="text_password" name="password"></td>
         </tr>
         <tr>
             <td><button id="button_submit" type="submit">Submit</button></td>

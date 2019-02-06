@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 @Controller
 public class MainController {
     /* All Services */
@@ -48,8 +51,12 @@ public class MainController {
     /* Default Home Page - Academic Programming Officer Screen */
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
     public String APOHomePage(Model model) {
-        /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        /* Load all course offerings and stuff */
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allDays", offeringService.generateLetterDays());
+        model.addAttribute("allHours", offeringService.generateHours());
+        model.addAttribute("allMinutes", offeringService.generateMinutes());
+        //model.addAttribute("allTerms", offeringService.retrieveAllTermsAndAY());
 
         return "/apo/apoHome";
     }
@@ -58,9 +65,11 @@ public class MainController {
     @RequestMapping(value = {"/cvc", "/cvc/home"}, method = RequestMethod.GET)
     public String CVCHomePage(Model model) {
         /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allDays", offeringService.generateLetterDays());
+        model.addAttribute("allHours", offeringService.generateHours());
+        model.addAttribute("allMinutes", offeringService.generateMinutes());
 
-        System.out.println("Hello World");
         return "/cvc/cvcHome";
     }
 
@@ -68,10 +77,11 @@ public class MainController {
     @RequestMapping(value = {"/faculty", "/faculty/home"}, method = RequestMethod.GET)
     public String FacultyHomePage(Model model) {
         /* Get current user */
-        User currFaculty = userService.retrieveUser();
+        User currFaculty = userService.findUserByIDNumber(Long.valueOf(22734526));
 
         /* Load all faculty load */
-        model.addAttribute("allFacultyLoads", facultyService.retrieveAllFacultyLoadByFaculty(currFaculty));
+        model.addAttribute("facLoadInfo", facultyService.retrieveFacultyLoadByFaculty(2017, 2018, 2, currFaculty).getTotalLoad());
+        model.addAttribute("allTeachingLoads", offeringService.retrieveAllOfferingsByFaculty(currFaculty, 2017, 2018, 2));
 
         return "facultyHome";
     }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public interface FacultyLoadRepository extends CrudRepository<FacultyLoad, Long> {
     ArrayList<FacultyLoad> findAllByStartAYAndEndAYAndTerm(int startAY, int endAY, int term);
-    ArrayList<FacultyLoad> findAllByStartAYAndEndAYAndTermAndFaculty(int startAY, int endAY, int term, User faculty);
+    FacultyLoad findFacultyLoadByStartAYAndEndAYAndTermAndFaculty(int startAY, int endAY, int term, User faculty);
     ArrayList<FacultyLoad> findAllByStartAYAndEndAYAndTermAndDepartment(int startAY, int endAY, int term, Department department);
     ArrayList<FacultyLoad> findAllByStartAYAndEndAYAndTermAndCollege(int startAY, int endAY, int term, College college);
     ArrayList<FacultyLoad> findAllByFaculty(User faculty);
