@@ -501,41 +501,48 @@ body{
 	border:0;
 }
 
-#deload_confirm, #faculty_set_button, #room_set_butto, #room_done_button{
+#deload_confirm, #faculty_set_button, #room_set_button, #room_done_button, #course_done_button{
 	background-color:#3cb878 ;
 }
-#deload_cancel, #faculty_cancel_button, #room_cancel_button, #room_cancel_button{
+#deload_cancel, #faculty_cancel_button, #room_cancel_button, #room_cancel_button, #course_cancel_button{
 	background-color:#ed1c24 ;
 	margin-left:5%;
 }
 #modal_form_faculty, #modal_form_room{
 	text-align: center;
 }
-#modal_table_room{
+#modal_table_room, #modal_table_add_courses{
 	width: 100%;
 	text-align: center;
 	border-collapse: collapse;
 }
 /*Room Assignment*/
-#modal_table_room tr{
+#modal_table_room tr, #modal_table_add_courses tr{
 	background-color: #e2e2e2;
 	border-bottom:3px solid white;
 	height: 10%;
 }
+#modal_table_add_courses tr {
+	height: 15%;
+}
 
-#modal_table_room tr:first-child{
+#modal_table_room tr:first-child, #modal_table_add_courses tr:first-child{
 	background-color: white;
 	height: 20%;
 	font-size: 20px;
+}
+#modal_table_add_courses th{
+	text-align: center;
 }
 #modal_header{
 	width: 100%;
 	margin-bottom: 30px;
 }
 #modal_header td:first-child{
-	width: 40%;
-	padding: 5px;
-}
+	 width: 40%;
+	 padding: 5px;
+ }
+
 #modal_header td{
 	width: 30%;
 }
@@ -551,7 +558,15 @@ body{
 	top:6.5%;
 	font-size: 14px;
 	left:240;
-
+}
+#button_search_course{
+	position: absolute;
+	box-shadow: none;
+	border:0;
+	background-color:white;
+	top:6.5%;
+	font-size: 14px;
+	left:753;
 }
 #div_dialog{
 	overflow: auto;
@@ -569,6 +584,7 @@ body{
 #select_building{
 	width: 200px;
 }
+
 #modal_footer{
 	position: relative;
 	bottom: 0;
@@ -591,4 +607,30 @@ body{
 .concern_time{
 	font-size: 14px;
 	font-weight: bold;
+}
+.add_modal_buttons {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background-color:#3cb878;
+	font-size: 14px;
+	color: white;
+	box-shadow: none;
+	border:0;
+	font-weight: bold;
+}
+#select_degree{
+	width:150px;
+}
+#select_batch{
+	width:60px;
+}
+#select_academic_year{
+	width:100px;
+}
+#select_term{
+	width:40px;
+}
+#modal_input_search_course{
+	width: 200px;
 }

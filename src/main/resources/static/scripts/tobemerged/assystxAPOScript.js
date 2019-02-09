@@ -3,6 +3,7 @@ $(function (){
     var modifyHeader = $( "<table id='modal_header'></table>" );
     var modifyFooter = $( "<table id='modal_footer'></table>" );
     var modifyRoom = $( "<table id='modal_table_room'></table>" );
+    var addCourse = $( "<table id='modal_table_add_courses'></table>" );
     var concernEntry = $("<table class='concern_entry'>" +
         "<tr>" +
         "<td class ='concern_name'>Ryan Dimaunahan</td>" +
@@ -94,20 +95,57 @@ $(function (){
             modal:true
         })
     })
+    $("#button_add_offering").click(function (){
+        $(modifyHeader).empty();
+        $(addCourse).empty();
+        $("#div_dialog").empty();
+        $(modifyFooter).empty();
+        $(modifyHeader).append("<tr>" +
+            "<th>Degree Program</th>" +
+            "<th>Batch</th>" +
+            "<th>Academic Year</th>" +
+            "<th>Term</th>" +
+            "<th>Search</th>" +
+            "<tr><form id='add_course_form'>" +
+            "<td><select class = 'modal_select' id='select_degree'></select></td>" +
+            "<td><select class = 'modal_select' id='select_batch'></select></td>" +
+            "<td><select class = 'modal_select' id='select_academic_year'></select></td>" +
+            "<td><select class = 'modal_select' id='select_term'></select></td>" +
+            "<td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search'></i></button></td>" +
+            "</form>" +
+            "</tr>" +
+            "</tr>");
+        $(addCourse).append("<tr>" +
+            "<th>Course</th>" +
+            "<th>Name</th>" +
+            "<th>Units</th>" +
+            "<th>Add</th>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>INOVATE</td>" +
+            "<td>Technology and Innovation Management</td>" +
+            "<td>3.0</td>" +
+            "<td><button class = 'add_modal_buttons'>+</button></td>" +
+            "</tr>");
+        $(modifyFooter).append("<tr>" +
+            "<td><button id='course_done_button' class='modal_buttons'>Done</button></td>" +
+            "<td><button id='course_cancel_button' class='modal_buttons'>Cancel</button></td>" +
+            "</tr>");
+        $("#div_dialog").append(modifyHeader);
+        $("#div_dialog").append(addCourse);
+        $("#div_dialog").append(modifyFooter);
+        $("#div_dialog").dialog({
+            title:"Add Course Offerings",
+            width:800,
+            height:600,
+            modal:true
+        })
+    })
     $("#button_upload_flowchart").click(function (){
         $("#div_dialog").dialog({
             title:"Upload Flowchart",
             width:300,
             height:300,
-            modal:true
-        })
-    })
-
-    $("#button_add_offering").click(function (){
-        $("#div_dialog").dialog({
-            title:"Upload Flowchart",
-            width:500,
-            height:500,
             modal:true
         })
     })
@@ -131,7 +169,7 @@ $(function (){
         else{
             $(this).css({'background-color': 'white'})
         }
-        
+
         $("#modify_class_section").toggle();
         $("#modify_time").toggle();
         $("#modify_days").toggle();
