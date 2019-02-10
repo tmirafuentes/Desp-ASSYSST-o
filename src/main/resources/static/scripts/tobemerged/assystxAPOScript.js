@@ -13,6 +13,20 @@ $(function (){
         "<td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>" +
         "</tr>" +
         "</table>");
+    var roomEntry = $("<tr>" +
+        "<td></td>" +
+        "<td></td>" +
+        "<td></td>" +
+        "<td></td>" +
+        "<td><button class = 'assign_modal_buttons'>Assign</button></td>" +
+        "</tr>");
+    var courseEntry = $( "<tr>" +
+        "<td>INOVATE</td>" +
+        "<td>Technology and Innovation Management</td>" +
+        "<td>3.0</td>" +
+        "<td><button class = 'add_modal_buttons'>+</button></td>" +
+        "</tr>");
+
     var hasClickedTableRow = false;
     jQuery('<div/>', {
         id: 'div_dialog',
@@ -160,24 +174,25 @@ $(function (){
             modal:true
         })
     })
-    $("#generated_list tr").click(function (){
+    /* Selecting an offering
+    var selectedOffering = null;
+    $("#generated_list.genList_rows:not(:first-child)").click(function (){
         hasClickedTableRow = !hasClickedTableRow;
-        if(hasClickedTableRow == true)
+        // Check if selected already
+        if ($(this).css("background-color") === "rgb(60, 184, 120)")
         {
-            $(this).css({'background-color': '#3cb878'})
+            $(".modify_sidebar").hide();
+            $(this).removeClass("selectedOffering");
+            $(this).css({'background-color' : '#e2e2e2'});
         }
-        else{
-            $(this).css({'background-color': 'white'})
+        // It has not been selected yet
+        else if ($(this).css("background-color") === "rgb(226, 226, 226)")
+        {
+            $(".modify_sidebar").show();
+            $("#generated_list .genList_rows:not(:first-child)").removeClass("selectedOffering");
+            $("#generated_list .genList_rows:not(:first-child)").css({'background-color' : '#e2e2e2'});
+            $(this).css({'background-color' : '#3cb878'});
+            $(this).addClass("selectedOffering");
         }
-
-        $("#modify_class_section").toggle();
-        $("#modify_time").toggle();
-        $("#modify_days").toggle();
-        $("#modify_room").toggle();
-        $("#modify_faculty").toggle();
-        $("#modify_concerns").toggle();
-        $("#modify_button_concerns").toggle();
-        $("#modify_offering").toggle();
-
-    })
+    })*/
 })
