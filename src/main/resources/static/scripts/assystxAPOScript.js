@@ -1,3 +1,4 @@
+
 $(function (){
     var modifyFaculty = $( "<form id='modal_form_faculty'></form>" );
     var hasClickedTableRow = false;

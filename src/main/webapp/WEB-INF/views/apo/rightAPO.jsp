@@ -56,7 +56,7 @@
                         <option value="${letDay1}">
                             <c:out value="${letDay1}" />
                         </option>
-                    </c:forEach>
+                </c:forEach>
                 </select>
             </td>
             <td>

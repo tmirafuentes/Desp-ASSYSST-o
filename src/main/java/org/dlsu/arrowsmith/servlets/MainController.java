@@ -65,7 +65,7 @@ public class MainController {
         /* Load all course offerings */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
         model.addAttribute("allDays", offeringService.generateLetterDays());
-
+        model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         return "/cvc/cvcHome";
     }
 
