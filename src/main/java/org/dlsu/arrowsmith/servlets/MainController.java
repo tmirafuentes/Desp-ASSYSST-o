@@ -54,8 +54,6 @@ public class MainController {
         /* Load all course offerings and stuff */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
         model.addAttribute("allDays", offeringService.generateLetterDays());
-        model.addAttribute("allHours", offeringService.generateHours());
-        model.addAttribute("allMinutes", offeringService.generateMinutes());
         //model.addAttribute("allTerms", offeringService.retrieveAllTermsAndAY());
 
         return "/apo/apoHome";
@@ -67,8 +65,6 @@ public class MainController {
         /* Load all course offerings */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
         model.addAttribute("allDays", offeringService.generateLetterDays());
-        model.addAttribute("allHours", offeringService.generateHours());
-        model.addAttribute("allMinutes", offeringService.generateMinutes());
 
         return "/cvc/cvcHome";
     }

@@ -2,31 +2,38 @@
   Created by IntelliJ IDEA.
   User: admin
   Date: 03-Feb-19
-  Time: 3:40 AM
+  Time: 2:31 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
 <head>
     <title>ASSYSTX</title>
-    <link rel="stylesheet" type="text/css" href="css/assystxStyle.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery/jquery-ui.css">
+    <c:url value="/css/assystxStyle.css" var="mainCss" />
+    <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
+    <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+    <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
+    <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+
+    <link rel="stylesheet" type="text/css" href="${mainCss}">
+    <link rel="stylesheet" type="text/css" href="${jqueryCss}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="scripts/jquery/jquery-3.3.1.min.js"></script>
-    <script src="scripts/jquery/jquery-ui.js"></script>
-    <script src="scripts/assystxFacultyScript.js"></script>
+    <script src="${minJquery}"></script>
+    <script src="${uiJquery}"></script>
+    <script src="${mainScript}"></script>
 </head>
 <body>
 <%@ include file="leftChair.jsp" %>
-<%@ include file="headerFaculty.jsp" %>
+<%@ include file="../user/header.jsp" %>
 <div id = "main_content">
     <form:form method="get">
         <c:choose>
-            <c:when test="${empty allTeachingLoads}">
-                No teaching load to display.
+            <c:when test="${empty allOfferings}">
+                No offerings to display.
             </c:when>
             <c:otherwise>
                 <table id = "generated_list">
@@ -36,9 +43,9 @@
                         <th>Day</th>
                         <th>Time</th>
                         <th>Room</th>
-                        <th>Load</th>
+                        <th>Faculty</th>
                     </tr>
-                    <c:forEach items="${allTeachingLoads}" var="offering">
+                    <c:forEach items="${allOfferings}" var="offering">
                         <tr>
                             <td name="courseCode"><c:out value="${offering.course.courseCode}" /></td>
                             <td name="section"><c:out value="${offering.section}" /></td>
@@ -58,7 +65,14 @@
                                 </c:forEach>
                             </td>
                             <td>
-                                <c:out value="${offering.course.units}"/>
+                                <c:choose>
+                                    <c:when test="${empty offering.faculty}">
+                                        None
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${offering.faculty.firstName} ${offering.faculty.lastName}"/>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
@@ -67,7 +81,7 @@
         </c:choose>
     </form:form>
 </div>
-<%@ include file="rightFaculty.jsp" %>
+<%@ include file="rightDeloading.jsp" %>
 </body>
 
 </html>

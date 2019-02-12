@@ -3,6 +3,7 @@ package org.dlsu.arrowsmith.servlets;
 import org.dlsu.arrowsmith.classes.Course;
 import org.dlsu.arrowsmith.classes.CourseOffering;
 import org.dlsu.arrowsmith.classes.Days;
+import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -144,8 +145,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
         /* Get All Offerings */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
         model.addAttribute("allDays", offeringService.generateLetterDays());
-        model.addAttribute("allHours", offeringService.generateHours());
-        model.addAttribute("allMinutes", offeringService.generateMinutes());
 
         /* Find Specific Offering */
         CourseOffering selectedOffering = offeringService.retrieveCourseOffering(offeringId);
@@ -153,11 +152,11 @@ public class OfferingController {   // This Controller is for the Course Schedul
             return "redirect:/error";
         model.addAttribute("selOffering", selectedOffering);
 
-        return "/apo/apoHome";
+        return "/apo/apoModify";
     }
 
     @RequestMapping(value = {"/apo", "/apo/home", "/cvc", "/cvc/home"}, method = RequestMethod.POST)
-    public String editCourseOffering(@ModelAttribute("offeringForm") CourseOffering offeringForm, @RequestParam("offeringID") Long offeringID,
+    public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                      BindingResult bindingResult, HttpServletRequest request, Model model)
     {
         /* Errors */
@@ -165,7 +164,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
             return "/apo/add-offering";
 
         /* Else, save new course offering to the database */
-        offeringService.saveCourseOffering(offeringForm);
+
 
         /* Message that course is successfully updated */
         String urlPattern = (String) request.getServletPath();

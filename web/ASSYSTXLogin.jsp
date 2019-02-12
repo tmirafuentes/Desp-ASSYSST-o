@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>Unnamed System</title>
-    <link rel="stylesheet" type="text/css" href="css/assystxStyle.css">
+    <link rel="stylesheet" type="text/css" href="../src/main/resources/static/css/assystxStyle2.css">
     <!-- <script src="myScript.js"/> -->
 </head>
 <body>

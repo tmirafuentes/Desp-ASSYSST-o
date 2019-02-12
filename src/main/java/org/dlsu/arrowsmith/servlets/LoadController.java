@@ -89,4 +89,6 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         /* Message that course is successfully updated */
         return "redirect:/cvc/manage-faculty";
     }
+
+    /*** Deloading Screen ***/
 }

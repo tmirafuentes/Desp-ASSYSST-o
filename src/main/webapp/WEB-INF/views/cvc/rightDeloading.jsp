@@ -5,6 +5,9 @@
   Time: 3:26 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,7 +22,7 @@
 <div id = "right_side">
     <table id = "load_img_names">
         <tr>
-            <td><td><img src  id="deload_image_faculty"></img></td></td>
+            <td><td><img src id="deload_image_faculty"></td></td>
         </tr>
         <tr>
             <th>Last Name</th>

@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <div id = "header">
-    <p id = "system_title"> Unnamed System </p>
+    <p id = "system_title"> ASSYSTX </p>
     <a href ="#" id = "user_icon">User</a>
 </div>
 <div id = "smaller_header">

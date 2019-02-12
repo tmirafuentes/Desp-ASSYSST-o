@@ -5,21 +5,31 @@
   Time: 3:25 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
 <head>
     <title>Unnamed System</title>
-    <link rel="stylesheet" type="text/css" href="css/assystxStyle.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery/jquery-ui.css">
+    <title>ASSYSTX</title>
+    <c:url value="/css/assystxStyle.css" var="mainCss" />
+    <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
+    <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+    <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
+    <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+
+    <link rel="stylesheet" type="text/css" href="${mainCss}">
+    <link rel="stylesheet" type="text/css" href="${jqueryCss}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="scripts/jquery/jquery-3.3.1.min.js"></script>
-    <script src="scripts/jquery/jquery-ui.js"></script>
-    <script src="scripts/assystxFacultyLoadScript.js"></script>
+    <script src="${minJquery}"></script>
+    <script src="${uiJquery}"></script>
+    <script src="${mainScript}"></script>
 </head>
 <body>
 <%@ include file="leftFacultyLoad.jsp" %>
-<%@ include file="header.jsp" %>
+<%@ include file="../user/header.jsp" %>
 <div id = "main_content">
     <table id = "generated_list">
         <tr>

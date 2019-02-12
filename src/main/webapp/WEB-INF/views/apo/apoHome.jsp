@@ -20,7 +20,7 @@
     <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
     <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
     <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
-    <c:url value="/scripts/assystxAPOScript.js" var="mainScript" />
+    <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
 
     <link rel="stylesheet" type="text/css" href="${mainCss}">
     <link rel="stylesheet" type="text/css" href="${jqueryCss}">
@@ -30,8 +30,8 @@
     <script src="${mainScript}"></script>
 </head>
 <body>
-<%@ include file="../leftAPO.jsp" %>
-<%@ include file="../header.jsp" %>
+<%@ include file="leftAPO.jsp" %>
+<%@ include file="../user/header.jsp" %>
 <div id = "main_content">
     <form:form method="get">
         <c:choose>
@@ -59,41 +59,90 @@
                                 <div class="genList_rows">
                             </c:otherwise>
                         </c:choose>
-                            <c:choose>
-                                <c:when test="${currOffer == selOffer}">
-                                    <a href="/apo/home"><span class="offLink"></span></a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="/apo/view?v=${offering.offeringId}"><span class="offLink"></span></a>
-                                </c:otherwise>
-                            </c:choose>
-                            <div class="genList_cols" name="courseCode"><c:out value="${offering.course.courseCode}" /></div>
-                            <div class="genList_cols" name="section"><c:out value="${offering.section}" /></div>
-                            <div class="genList_cols" name="days">
-                                <c:forEach items="${offering.daysSet}" var="days">
-                                    <c:out value="${days.classDay}" />
-                                </c:forEach>
+                            <!-- Course Code of Offering -->
+                            <div class="genList_cols" name="courseCode">
+                                <c:out value="${offering.course.courseCode}" />
                             </div>
-                            <div class="genList_cols">
-                                <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
-                                    <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
-                                </c:forEach>
-                            </div>
-                            <div class="genList_cols">
-                                <c:forEach items="${offering.daysSet}" var="rooms" begin="0" end="0">
-                                    <c:out value="${rooms.room.roomCode}" />
-                                </c:forEach>
-                            </div>
-                            <div class="genList_cols">
+                            <!-- Section of Offering -->
+                            <div class="genList_cols genList_section">
                                 <c:choose>
-                                    <c:when test="${empty offering.faculty}">
+                                    <c:when test="${empty offering.section}">
                                         None
                                     </c:when>
                                     <c:otherwise>
-                                        <c:out value="${offering.faculty.firstName} ${offering.faculty.lastName}"/>
+                                        <c:out value="${offering.section}" />
+                                        <input type="text" id='off_section' value="${offering.section}" hidden>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
+                            <!-- Days Held of Offering -->
+                            <div class="genList_cols" name="days">
+                                <c:choose>
+                                    <c:when test="${empty offering.daysSet}">
+                                        None
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
+                                            <c:out value="${days.classDay}" />
+                                            <input type="text" id='off_day${dCtr.count}' value="${days.classDay}" hidden>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <!-- Time Slot of Offering -->
+                            <div class="genList_cols">
+                                <c:choose>
+                                    <c:when test="${empty offering.daysSet}">
+                                        Unassigned
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
+                                            <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
+                                            <input type="text" value="${time.beginTime}" id="off_startTime" hidden>
+                                            <input type="text" value="${time.endTime}" id="off_EndTime" hidden>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <!-- Room of Offering -->
+                            <div class="genList_cols">
+                                <c:choose>
+                                    <c:when test="${empty offering.daysSet}">
+                                        Unassigned
+                                        <input type="text" value="Unassigned" id="off_room" hidden>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${offering.daysSet}" var="rooms" begin="0" end="0">
+                                            <c:choose>
+                                                <c:when test="${rooms.room.roomCode == 'No Room'}">
+                                                    Unassigned
+                                                    <input type="text" value="Unassigned" id="off_room" hidden>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:out value="${rooms.room.roomCode}" />
+                                                    <input type="text" value="${rooms.room.roomCode}" id="off_room" hidden>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <!-- Faculty of Offering -->
+                            <div class="genList_cols">
+                                <c:choose>
+                                    <c:when test="${offering.faculty.userId  == 11111111}">
+                                        Unassigned
+                                        <input type="text" value="Unassigned" id="off_faculty" hidden>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${offering.faculty.firstName} ${offering.faculty.lastName}"/>
+                                        <input type="text" value="${offering.faculty.lastName}, ${offering.faculty.firstName}" id="off_faculty" hidden>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <!-- Other Information -->
+                            <input type="text" id='off_status' value="${offering.status}" hidden>
+                            <input type="text" id="off_id" value="${offering.offeringId}" hidden>
                         </div>
                     </c:forEach>
                 </div>
@@ -101,7 +150,7 @@
         </c:choose>
     </form:form>
 </div>
-<%@ include file="../rightAPOChair.jsp" %>
+<%@ include file="../apo/rightAPO.jsp" %>
 </body>
 
 </html>

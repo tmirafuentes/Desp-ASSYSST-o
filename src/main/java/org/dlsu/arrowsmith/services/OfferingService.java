@@ -274,30 +274,13 @@ public class OfferingService {
         return allLetterDays;
     }
 
-    /* Generate All The Hours */
-    public ArrayList<String> generateHours() {
-        ArrayList<String> allHours = new ArrayList<String>();
-        for (int i=0;i<24;i++)
-        {
-            if (i < 10)
-                allHours.add("0" + i);
-            else
-                allHours.add("" + i);
-        }
-        return allHours;
-    }
-
-    /* Generate All The Minutes */
-    public ArrayList<String> generateMinutes() {
-        ArrayList<String> allMinutes = new ArrayList<String>();
-        for (int i=0;i<60;i+=5)
-        {
-            if (i < 10)
-                allMinutes.add("0" + i);
-            else
-                allMinutes.add("" + i);
-        }
-        return allMinutes;
+    public ArrayList<String> generateClassType() {
+        ArrayList<String> allClassTypes = new ArrayList<String>();
+        allClassTypes.add("Regular");
+        allClassTypes.add("Elective");
+        allClassTypes.add("Special");
+        allClassTypes.add("Dissolved");
+        return allClassTypes;
     }
 
     //public Iterator retrieveAllTermsAndAY() {
