@@ -231,6 +231,18 @@ public class OfferingService {
 
     /**
      **
+     ** BUILDING
+     ** CRUD FUNCTIONS
+     **
+     */
+
+    public Iterator retrieveAllBuildings() {
+        ArrayList<Building> allBuildings = (ArrayList<Building>) buildingRepository.findAll();
+        return allBuildings.iterator();
+    }
+
+    /**
+     **
      ** SYSTEM FUNCTIONS
      **
      */

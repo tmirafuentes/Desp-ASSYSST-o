@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
 <body>
 <div id = "left_side">
     <table id = "left_side_content">

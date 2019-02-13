@@ -10,10 +10,12 @@ body{
 	font-family: Arial;
 	background-color:white;
 }
-/*Left Side Chairs */
-#input_search_course{
+
+/* Filter Sidebar */
+#input_search_course {
 	background-color: white;
 }
+
 #submit_left_side_search{
 	position: absolute;
 	box-shadow: none;
@@ -564,19 +566,19 @@ body{
 #modal_table_add_courses th{
 	text-align: center;
 }
-#modal_header{
+.modal_header{
 	width: 100%;
 	margin-bottom: 30px;
 }
-#modal_header td:first-child{
+.modal_header td:first-child{
 	 width: 40%;
 	 padding: 5px;
  }
 
-#modal_header td{
+.modal_header td{
 	width: 30%;
 }
-#modal_header th{
+.modal_header th{
 	font-size:16px;
 	text-align: left;
 }
@@ -598,7 +600,7 @@ body{
 	font-size: 14px;
 	left:753;
 }
-#div_dialog{
+.divModals {
 	overflow: auto;
 }
 .modal_search{
@@ -615,7 +617,7 @@ body{
 	width: 200px;
 }
 
-#modal_footer{
+.modal_footer{
 	position: relative;
 	bottom: 0;
 	left: 650;

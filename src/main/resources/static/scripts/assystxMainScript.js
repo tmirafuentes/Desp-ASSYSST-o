@@ -1,4 +1,8 @@
 $(function() {
+    var getAllBuildings = "<option value='All'>All</option><c:forEach items='${allBuildings}' var='building'>" +
+        "<option value='${building.bldgName}'><c:out value='${building.bldgName}' /></option>" +
+        "</c:forEach>";
+
     var modifyFaculty = $( "<form id='modal_form_faculty'></form>" );
     var modifyHeader = $( "<table id='modal_header'></table>" );
     var modifyFooter = $( "<table id='modal_footer'></table>" );
@@ -221,8 +225,22 @@ $(function() {
         }
     });
 
+    $(".divModals").dialog({
+        autoOpen: false
+    });
+
+    $("#button_assign_room").click(function() {
+        $("#modalAssignRoom").dialog({
+            title:"Assign Room",
+            width:800,
+            height:600,
+            modal:true
+        });
+        $("#modalAssignRoom").dialog("open");
+    });
+
     /* Button Listener for Add Room */
-    $("#button_assign_room").click(function (){
+    /*$("#button_assign_room").click(function (){
         $(modifyHeader).empty();
         $(modifyRoom).empty();
         $("#div_dialog").empty();
@@ -231,11 +249,11 @@ $(function() {
             "<th>Search</th>" +
             "<th margin-left='50px'>Room Type</th>" +
             "<th>Building</th>" +
-            "<tr><form id='assign_room_form'>" +
+            "<tr><form:form method='get' id='assign_room_form'>" +
             "<td><input class = 'modal_search' id='input_search_room'><button id='button_search_room'><i class='fas fa-search'></i></button></td>" +
-            "<td><select class = 'modal_select' id='select_room_type'></select></td>" +
+            "<td><select class = 'modal_select' id='select_room_type'>" + getAllBuildings + "</select></td>" +
             "<td><select class = 'modal_select' id='select_building'></select></td>" +
-            "</form>" +
+            "</form:form>" +
             "</tr>" +
             "</tr>");
         $(modifyRoom).append("<tr>" +
@@ -265,5 +283,5 @@ $(function() {
             height:600,
             modal:true
         });
-    });
+    });*/
 });
