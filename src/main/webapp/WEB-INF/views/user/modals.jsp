@@ -60,12 +60,58 @@
 
         <!-- Modal for Concerns -->
         <div class="divModals" id="modalConcerns">
-
+            <table class='concern_entry'>
+            <tr>
+                <td class ='concern_name'>Ryan Dimaunahan</td>
+                <td class ='concern_time'>1:29 PM</td>
+                </tr>
+            <tr>
+                <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                </tr>
+            </table>
         </div>
 
         <!-- Modal for Add Course Offering -->
         <div class="divModals" id="modalAddOffering">
+            <table class="modal_header">
+                <tr>
+                    <th>Degree Program</th>
+                    <th>Batch</th>
+                    <th>Academic Year</th>
+                    <th>Term</th>
+                    <th>Search</th>
+                </tr>
+                <tr>
+                    <td><select class = 'modal_select' id='select_degree'></select></td>
+                    <td><select class = 'modal_select' id='select_batch'></select></td>
+                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                    <td><select class = 'modal_select' id='select_term'></select></td>
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search'></i></button></td>
+                </tr>
+            </table>
+            <table id='modal_table_add_courses'>
+                <tr>
+                    <th>Course</th>
+                    <th>Name</th>
+                    <th>Units</th>
+                    <th>Add</th>
+                </tr>
+                <tr>
+                    <td>INOVATE</td>
+                    <td>Technology and Innovation Management</td>
+                    <td>3.0</td>
+                    <td><button class = 'add_modal_buttons'>+</button></td>
+                </tr>
+            </table>
+            <table class="modal_footer">
+                <tr>
+                    <td><button id='course_done_button' class='modal_buttons'>Done</button></td>
+                    <td><button id='course_cancel_button' class='modal_buttons'>Cancel</button></td>
+                </tr>
+            </table>
+        </div>
 
+        <div class="divModals" id="modalAssignFaculty">
         </div>
     </body>
 </html>
