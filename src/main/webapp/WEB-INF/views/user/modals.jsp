@@ -22,7 +22,12 @@
                         <button id='button_search_room'><i class='fas fa-search'></i></button>
                     </td>
                     <td>
-                        <select class = 'modal_select' id='select_room_type'></select>
+                        <select class = 'modal_select' id='select_room_type'>
+                            <option value="All">All</option>
+                            <c:forEach items="${allRoomTypes}" var="roomType">
+                                <option value="${roomType}"><c:out value="${roomType}" /></option>
+                            </c:forEach>
+                        </select>
                     </td>
                     <td>
                         <select class = 'modal_select' id='select_building'>
@@ -42,19 +47,15 @@
                     <th>Capacity</th>
                     <th>Assign</th>
                 </tr>
-                <tr>
-                    <td>G201</td>
-                    <td>Lecture</td>
-                    <td>Gokongwei</td>
-                    <td>45</td>
-                    <td><button class = 'assign_modal_buttons'>Assign</button></td>
-                </tr>
-            </table>
-            <table class="modal_footer">
-                <tr>
-                    <td><button id='room_done_button' class='modal_buttons'>Done</button></td>
-                    <td><button id='room_cancel_button' class='modal_buttons'>Cancel</button></td>
-                </tr>
+                <c:forEach items="${allRooms}" var="room">
+                    <tr>
+                        <td>${room.roomCode}</td>
+                        <td>${room.roomType}</td>
+                        <td>${room.building.bldgName}</td>
+                        <td>${room.roomCapacity}</td>
+                        <td><button class = 'assign_modal_buttons'>Assign</button></td>
+                    </tr>
+                </c:forEach>
             </table>
         </div>
 
@@ -96,17 +97,19 @@
                     <th>Units</th>
                     <th>Add</th>
                 </tr>
+                <c:forEach items="${allCourses}" var="course">
+                    <tr>
+                        <td>${course.courseCode}</td>
+                        <td>${course.courseName}</td>
+                        <td>${course.units}</td>
+                        <td><button class = 'add_modal_buttons'>+</button></td>
+                    </tr>
+                </c:forEach>
                 <tr>
                     <td>INOVATE</td>
                     <td>Technology and Innovation Management</td>
                     <td>3.0</td>
                     <td><button class = 'add_modal_buttons'>+</button></td>
-                </tr>
-            </table>
-            <table class="modal_footer">
-                <tr>
-                    <td><button id='course_done_button' class='modal_buttons'>Done</button></td>
-                    <td><button id='course_cancel_button' class='modal_buttons'>Cancel</button></td>
                 </tr>
             </table>
         </div>

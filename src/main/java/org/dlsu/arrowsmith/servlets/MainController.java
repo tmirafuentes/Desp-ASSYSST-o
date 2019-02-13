@@ -57,6 +57,8 @@ public class MainController {
         //model.addAttribute("allTerms", offeringService.retrieveAllTermsAndAY());
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
+        model.addAttribute("allRoomTypes", offeringService.generateRoomType());
+        model.addAttribute("allCourses", offeringService.retrieveAllCourses());
 
         return "/apo/apoHome";
     }

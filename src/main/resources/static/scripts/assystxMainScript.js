@@ -83,54 +83,6 @@ $(function() {
         })
     });
 
-    /* Button Listener for Add Offering Modal */
-    $("#button_add_offering").click(function (){
-        $(modifyHeader).empty();
-        $(addCourse).empty();
-        $("#div_dialog").empty();
-        $(modifyFooter).empty();
-        $(modifyHeader).append("<tr>" +
-            "<th>Degree Program</th>" +
-            "<th>Batch</th>" +
-            "<th>Academic Year</th>" +
-            "<th>Term</th>" +
-            "<th>Search</th>" +
-            "<tr><form id='add_course_form'>" +
-            "<td><select class = 'modal_select' id='select_degree'></select></td>" +
-            "<td><select class = 'modal_select' id='select_batch'></select></td>" +
-            "<td><select class = 'modal_select' id='select_academic_year'></select></td>" +
-            "<td><select class = 'modal_select' id='select_term'></select></td>" +
-            "<td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search'></i></button></td>" +
-            "</form>" +
-            "</tr>" +
-            "</tr>");
-        $(addCourse).append("<tr>" +
-            "<th>Course</th>" +
-            "<th>Name</th>" +
-            "<th>Units</th>" +
-            "<th>Add</th>" +
-            "</tr>" +
-            "<tr>" +
-            "<td>INOVATE</td>" +
-            "<td>Technology and Innovation Management</td>" +
-            "<td>3.0</td>" +
-            "<td><button class = 'add_modal_buttons'>+</button></td>" +
-            "</tr>");
-        $(modifyFooter).append("<tr>" +
-            "<td><button id='course_done_button' class='modal_buttons'>Done</button></td>" +
-            "<td><button id='course_cancel_button' class='modal_buttons'>Cancel</button></td>" +
-            "</tr>");
-        $("#div_dialog").append(modifyHeader);
-        $("#div_dialog").append(addCourse);
-        $("#div_dialog").append(modifyFooter);
-        $("#div_dialog").dialog({
-            title:"Add Course Offerings",
-            width:800,
-            height:600,
-            modal:true
-        });
-    });
-
     /* Button Listener for Deload Modal */
     var deloadTable = $( "<form id='modal_form_deload'><table id='dialog_load_table'></table></form>" );
     var professorName = $( "<p id='dialog_professor_name'>Jordan Deja</p>" );
@@ -225,6 +177,7 @@ $(function() {
         }
     });
 
+    /* New Modals Code */
     $(".divModals").dialog({
         autoOpen: false
     });
@@ -239,49 +192,13 @@ $(function() {
         $("#modalAssignRoom").dialog("open");
     });
 
-    /* Button Listener for Add Room */
-    /*$("#button_assign_room").click(function (){
-        $(modifyHeader).empty();
-        $(modifyRoom).empty();
-        $("#div_dialog").empty();
-        $(modifyFooter).empty();
-        $(modifyHeader).append("<tr>" +
-            "<th>Search</th>" +
-            "<th margin-left='50px'>Room Type</th>" +
-            "<th>Building</th>" +
-            "<tr><form:form method='get' id='assign_room_form'>" +
-            "<td><input class = 'modal_search' id='input_search_room'><button id='button_search_room'><i class='fas fa-search'></i></button></td>" +
-            "<td><select class = 'modal_select' id='select_room_type'>" + getAllBuildings + "</select></td>" +
-            "<td><select class = 'modal_select' id='select_building'></select></td>" +
-            "</form:form>" +
-            "</tr>" +
-            "</tr>");
-        $(modifyRoom).append("<tr>" +
-            "<th>Room</th>" +
-            "<th>Room Type</th>" +
-            "<th>Building</th>" +
-            "<th>Capacity</th>" +
-            "<th>Assign</th>" +
-            "</tr>" +
-            "<tr>" +
-            "<td>G201</td>" +
-            "<td>Lecture</td>" +
-            "<td>Gokongwei Building</td>" +
-            "<td>45</td>" +
-            "<td><button class = 'assign_modal_buttons'>Assign</button></td>" +
-            "</tr>");
-        $(modifyFooter).append("<tr>" +
-            "<td><button id='room_done_button' class='modal_buttons'>Done</button></td>" +
-            "<td><button id='room_cancel_button' class='modal_buttons'>Cancel</button></td>" +
-            "</tr>");
-        $("#div_dialog").append(modifyHeader);
-        $("#div_dialog").append(modifyRoom);
-        $("#div_dialog").append(modifyFooter);
-        $("#div_dialog").dialog({
-            title:"Assign Room",
+    $("#button_add_offering").click(function() {
+        $("#modalAddOffering").dialog({
+            title:"Add Course Offerings",
             width:800,
             height:600,
             modal:true
         });
-    });*/
+        $("#modalAddOffering").dialog("open");
+    });
 });

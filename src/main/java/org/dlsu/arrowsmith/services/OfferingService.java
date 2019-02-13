@@ -295,6 +295,14 @@ public class OfferingService {
         return allClassTypes;
     }
 
+    /* Generate All Room Types */
+    public Iterator generateRoomType() {
+        ArrayList<String> allRoomTypes = new ArrayList<String>();
+        allRoomTypes.add("Lecture");
+        allRoomTypes.add("Computer Laboratory");
+        return allRoomTypes.iterator();
+    }
+
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */
         //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;

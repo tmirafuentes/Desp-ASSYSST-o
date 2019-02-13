@@ -16,7 +16,7 @@
                 <select class = "left_side_select" id="select_view_offerings">
                     <option value="All">All</option>
                 </select>
-            </td>dfd
+            </td>
         </tr>
         <tr class = "left_side_rows">
             <td class ="left_side_rows_content">
