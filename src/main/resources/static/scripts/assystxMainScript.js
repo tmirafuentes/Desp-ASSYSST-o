@@ -201,4 +201,11 @@ $(function() {
         });
         $("#modalAddOffering").dialog("open");
     });
+
+    /* Assign New Room */
+    $(".assignRoomBtns").click(function() {
+       var roomCode = $(this).attr("value");
+       $("#text_room").val(roomCode);
+       $("#modalAssignRoom").dialog("close");
+    });
 });

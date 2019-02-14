@@ -53,7 +53,7 @@
                         <td>${room.roomType}</td>
                         <td>${room.building.bldgName}</td>
                         <td>${room.roomCapacity}</td>
-                        <td><button class = 'assign_modal_buttons'>Assign</button></td>
+                        <td><button class = 'assign_modal_buttons assignRoomBtns' value="${room.roomCode}" type="button">Assign</button></td>
                     </tr>
                 </c:forEach>
             </table>

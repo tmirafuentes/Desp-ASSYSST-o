@@ -210,7 +210,6 @@ body{
 	right:0;
 	z-index: 0;
 	border-left:1px solid black;
-	//visibility: hidden;
 }
 #right_side th{
 	text-align: justify;
@@ -531,6 +530,7 @@ body{
 	color: white;
 	box-shadow: none;
 	border:0;
+    cursor: pointer;
 }
 
 #deload_confirm, #faculty_set_button, #room_set_button, #room_done_button, #course_done_button{

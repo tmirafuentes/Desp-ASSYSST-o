@@ -229,6 +229,11 @@ public class OfferingService {
         return allRooms.iterator();
     }
 
+    /* Retrieve Room by Room Code */
+    public Room retrieveRoomByRoomCode(String roomCode) {
+        return roomRepository.findRoomByRoomCode(roomCode);
+    }
+
     /**
      **
      ** BUILDING

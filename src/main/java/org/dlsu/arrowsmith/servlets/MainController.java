@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -54,11 +55,13 @@ public class MainController {
         /* Load all course offerings and stuff */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
         model.addAttribute("allDays", offeringService.generateLetterDays());
-        //model.addAttribute("allTerms", offeringService.retrieveAllTermsAndAY());
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
+
+        /* Load Dto for Modify Course Offering */
+        model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
         return "/apo/apoHome";
     }

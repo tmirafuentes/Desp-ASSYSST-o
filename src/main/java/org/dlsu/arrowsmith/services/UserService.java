@@ -67,6 +67,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    /*** Retrieve User by First Name and Last Name ***/
+    public User findUserByFirstNameLastName(String givenName) {
+        if(givenName.equals("Unassigned"))
+            return null;
+
+        String[] facultyName = givenName.split(" ");
+        return userRepository.findByFirstNameContainsAndLastNameContains(facultyName[0], facultyName[1]);
+    }
+
     /*** Retrieve all Users ***/
     public Iterator findAllUsers() {
         ArrayList<User> allUsers = (ArrayList<User>) userRepository.findAll();

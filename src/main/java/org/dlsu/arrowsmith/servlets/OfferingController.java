@@ -1,10 +1,9 @@
 package org.dlsu.arrowsmith.servlets;
 
-import org.dlsu.arrowsmith.classes.Course;
-import org.dlsu.arrowsmith.classes.CourseOffering;
-import org.dlsu.arrowsmith.classes.Days;
+import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.OfferingService;
+import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -17,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 @Controller
 public class OfferingController {   // This Controller is for the Course Scheduling Module
     /*** Services ***/
     @Autowired
     private OfferingService offeringService;
+
+    @Autowired
+    private UserService userService;
 
     /*** Extra Stuff ***/
     private MessageSource messages;
@@ -160,14 +163,97 @@ public class OfferingController {   // This Controller is for the Course Schedul
                                      BindingResult bindingResult, HttpServletRequest request, Model model)
     {
         /* Errors */
+        String urlPattern = (String) request.getServletPath();
         if (bindingResult.hasErrors())
-            return "/apo/add-offering";
+            return "/apo";
 
         /* Else, save new course offering to the database */
+        CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
+        currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section
+        currOffering.setStatus(offerModifyForm.getClassStatus()); // Offering Status
 
+        // Find Room Object
+        Room newRoom = offeringService.retrieveRoomByRoomCode(offerModifyForm.getRoomCode());
+
+        // Days
+        Set<Days> daysSet = currOffering.getDaysSet();
+        // If there are no current daysSet
+        if (daysSet == null)
+        {
+            // If Day 1 is not null or "-" in the form
+            if(!(offerModifyForm.getDay1() == '-'))
+            {
+                Days newDay1 = new Days();
+                newDay1.setclassDay(offerModifyForm.getDay1());
+                newDay1.setbeginTime(offerModifyForm.getStartTimeParsed());
+                newDay1.setendTime(offerModifyForm.getEndTimeParsed());
+                newDay1.setCourseOffering(currOffering);
+                newDay1.setRoom(newRoom);
+                daysSet.add(newDay1);
+            }
+
+            // If Day 2 is not null or "-" in the form
+            if(!(offerModifyForm.getDay2() == '-'))
+            {
+                Days newDay2 = new Days();
+                newDay2.setclassDay(offerModifyForm.getDay2());
+                newDay2.setbeginTime(offerModifyForm.getStartTimeParsed());
+                newDay2.setendTime(offerModifyForm.getEndTimeParsed());
+                newDay2.setCourseOffering(currOffering);
+                newDay2.setRoom(newRoom);
+                daysSet.add(newDay2);
+            }
+        }
+        // If there is a DaysSet
+        else {
+            boolean isDay1Done = false;
+            for(Days dayInstance : daysSet)
+            {
+                // If Day 1 is not null or not "-" in the form
+                if(!(offerModifyForm.getDay1() == '-') && !isDay1Done)
+                {
+                    dayInstance.setclassDay(offerModifyForm.getDay1());
+                    dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
+                    dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
+                    dayInstance.setCourseOffering(currOffering);
+                    dayInstance.setRoom(newRoom);
+                    isDay1Done = true;
+                    System.out.println("Hello");
+                    continue;
+                }
+                // If Day 1 is null or "-" in the form
+                else if(offerModifyForm.getDay1() == '-' && !isDay1Done)
+                {
+                    daysSet.remove(dayInstance);
+                    isDay1Done = true;
+                    continue;
+                }
+
+                // If Day 2 is not null or not "-" in the form
+                if(!(offerModifyForm.getDay2() == '-') && isDay1Done)
+                {
+                    dayInstance.setclassDay(offerModifyForm.getDay2());
+                    dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
+                    dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
+                    dayInstance.setCourseOffering(currOffering);
+                    dayInstance.setRoom(newRoom);
+                }
+                // If Day 2 is null or "-" in the form
+                else if(offerModifyForm.getDay2() == '-' && isDay1Done)
+                {
+                    daysSet.remove(dayInstance);
+                }
+            }
+        }
+
+        // Faculty
+        User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFacultyName());
+        currOffering.setFaculty(newFaculty);
+
+        // Save it to the database
+        offeringService.saveCourseOffering(currOffering);
 
         /* Message that course is successfully updated */
-        String urlPattern = (String) request.getServletPath();
         if (urlPattern.contains("apo"))
             return "redirect:/apo";
         else if (urlPattern.contains("cvc"))

@@ -133,7 +133,7 @@
                                     <!-- Faculty of Offering -->
                                     <div class="genList_cols">
                                         <c:choose>
-                                            <c:when test="${offering.faculty.userId  == 11111111}">
+                                            <c:when test="${offering.faculty.userId  == 11111111 || empty offering.faculty.userId}">
                                                 Unassigned
                                                 <input type="text" value="Unassigned" id="off_faculty" hidden>
                                             </c:when>

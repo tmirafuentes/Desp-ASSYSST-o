@@ -1,6 +1,8 @@
 package org.dlsu.arrowsmith.classes.dtos;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class OfferingModifyDto {
     private Long offeringId;
@@ -8,8 +10,8 @@ public class OfferingModifyDto {
     private String classSection;
     private String startTime;
     private String endTime;
-    private String day1;
-    private String day2;
+    private char day1;
+    private char day2;
     private String roomCode;
     private String facultyName;
 
@@ -41,6 +43,11 @@ public class OfferingModifyDto {
         return startTime;
     }
 
+    public String getStartTimeParsed() {
+        //System.out.println(startTime);
+        return startTime.replace(":", "");
+    }
+
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
@@ -49,23 +56,34 @@ public class OfferingModifyDto {
         return endTime;
     }
 
+    public String getEndTimeParsed() {
+        return endTime.replace(":", "");
+    }
+
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public String getDay1() {
+    public Iterator getAllDays() {
+        ArrayList<Character> allDays = new ArrayList<Character>();
+        allDays.add(day1);
+        allDays.add(day2);
+        return allDays.iterator();
+    }
+
+    public char getDay1() {
         return day1;
     }
 
-    public void setDay1(String day1) {
+    public void setDay1(char day1) {
         this.day1 = day1;
     }
 
-    public String getDay2() {
+    public char getDay2() {
         return day2;
     }
 
-    public void setDay2(String day2) {
+    public void setDay2(char day2) {
         this.day2 = day2;
     }
 
