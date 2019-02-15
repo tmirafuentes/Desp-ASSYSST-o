@@ -203,6 +203,7 @@ body{
 /* Right Side Chairs*/
 #right_side{
 	background-color: white;
+	font-size: 16px;
 	width:20%;
 	height:120%;
 	position: absolute;
@@ -222,7 +223,7 @@ body{
 #modify_class_section, #modify_time, #modify_days{
 	position: relative;
 	top: 18%;
-	left: 40;
+	left: 35;
 	font-size:12px;
 	padding: 5px;
 	border-spacing: 10px;
@@ -231,7 +232,7 @@ body{
 #modify_room{
 	position: relative;
 	top: 15%;
-	left: 40;
+	left: 35;
 	font-size:12px;
 	padding: 5px;
 	border-spacing: 10px;
@@ -277,7 +278,7 @@ body{
 	width:70px;
 }
 #button_assign_room{
-	width:80px;
+	height:35px;
 	background-color:#959595;
 }
 #select_faculty{
@@ -286,7 +287,6 @@ body{
 #button_assign_faculty{
 	width:80px;
 	height:30px;
-	display: inline-block;
 	background-color:#2e3192;
 }
 #area_concerns{
@@ -665,4 +665,13 @@ body{
 }
 #modal_input_search_course{
 	width: 200px;
+}
+#offerModifyForm{
+	position: relative;
+	top:15%;
+}
+#button_submit_modifyOffering{
+	background-color: #3cb878;
+	height:25px;
+	width:60px;
 }
