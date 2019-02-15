@@ -203,7 +203,6 @@ body{
 /* Right Side Chairs*/
 #right_side{
 	background-color: white;
-	font-size: 16px;
 	width:20%;
 	height:120%;
 	position: absolute;
@@ -224,7 +223,7 @@ body{
 	position: relative;
 	top: 18%;
 	left: 35;
-	font-size:12px;
+	font-size:16px;
 	padding: 5px;
 	border-spacing: 10px;
 	
@@ -233,7 +232,7 @@ body{
 	position: relative;
 	top: 15%;
 	left: 35;
-	font-size:12px;
+	font-size:16px;
 	padding: 5px;
 	border-spacing: 10px;
 }
@@ -241,23 +240,24 @@ body{
 	position: relative;
 	top: 13%;
 	left: 35;
-	font-size:12px;
+	font-size:16px;
 	padding: 5px;
 	border-spacing: 10px;
 }
 #modify_button_concerns{
 	position: relative;
 	top: 10%;
-	left: 50;
-	font-size:12px;
+	left: 55;
+	font-size:16px;
 	padding: 5px;
 	border-spacing: 10px;
 }
 #right_side select, #right_side input{
-	height:25px;
+	height:35px;
 	-webkit-border-radius:3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	font-size: 14px;
 }
 #right_side button, .modal_buttons{
 	box-shadow: none;
@@ -280,17 +280,18 @@ body{
 #button_assign_room{
 	height:35px;
 	background-color:#959595;
+	font-size: 14px;
 }
 #select_faculty{
 	width: 100px;
 }
 #button_assign_faculty{
-	width:80px;
-	height:30px;
+	height:35px;
+	font-size: 14px;
 	background-color:#2e3192;
 }
 #area_concerns{
-	width:150px;
+	width:170px;
 	height:100px;
 	resize: none;
 }
@@ -301,8 +302,9 @@ body{
 }
 #button_cancel_concerns{
 	background-color:#ed1c24;
-	height:25px;
+	height:35px;
 	width:60px;
+	font-size: 14px;
 }
 /* Added for Faculty */
 #faculty_table_area{
@@ -672,6 +674,7 @@ body{
 }
 #button_submit_modifyOffering{
 	background-color: #3cb878;
-	height:25px;
+	height:35px;
 	width:60px;
+	font-size: 14px;
 }
