@@ -236,11 +236,19 @@ body{
 	padding: 5px;
 	border-spacing: 10px;
 }
-#modify_faculty, #modify_concerns, #table_preferences, #table_currentlytaking{
+#modify_faculty, #modify_concerns, #table_currentlytaking{
 	position: relative;
 	top: 13%;
 	left: 35;
 	font-size:16px;
+	padding: 5px;
+	border-spacing: 10px;
+}
+#table_preferences{
+	position: relative;
+	top: 10%;
+	left: 30%;
+	text-align: center;
 	padding: 5px;
 	border-spacing: 10px;
 }
@@ -482,6 +490,9 @@ body{
 	font-size:16px;
 	text-align: center;
 }
+#p_faculty_type, #p_faculty_department{
+	font-size: 14px;
+}
 #fType_department, #load_list{
 	top: 10%;
 	left:20%;
@@ -689,6 +700,37 @@ body{
 #button_submit_modifyOffering{
 	background-color: #3cb878;
 	height:35px;
+	height:35px;
 	width:60px;
 	font-size: 14px;
+}
+#label_currLoad{
+	position: relative;
+	top:25%;
+	font-weight: bold;
+	font-size: 16px;
+	left: 36%;
+	width: 65%;
+}
+#table_curr_load{
+	position: relative;
+	top:15%;
+	font-size: 14px;
+	width: 100%;
+
+}
+#table_curr_load tr{
+	padding: 3px;
+}
+#table_curr_load td,  #table_curr_load th{
+	text-align: center;
+}
+
+#table_curr_load .generated_current_load{
+	margin-top: 3px;
+}
+#table_faculty_name th{
+	font-size: 14px;
+	text-align: center;
+
 }
