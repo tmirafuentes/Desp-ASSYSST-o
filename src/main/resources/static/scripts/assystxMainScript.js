@@ -47,16 +47,6 @@ $(function() {
         });
     });
 
-    /* Button Listener for View Faculty Modal */
-    $("#button_view_faculty").click(function() {
-        $("#div_dialog").dialog({
-            title: "View Faculty",
-            width: 500,
-            height: 500,
-            modal: true
-        });
-    });
-
     /* Button Listener for Assign Faculty Modal */
     var modifyFacultyForm = $("<form id='modal_form_faculty'></form>");
     $("#button_assign_faculty").click(function() {
@@ -133,6 +123,7 @@ $(function() {
         else if ($(this).css("background-color") === "rgb(226, 226, 226)")
         {
             /* Modify row appearance */
+            $(".modify_sidebar").find("input:text").val("");
             $("#generated_list .genList_rows:not(:first-child)").removeClass("selectedOffering");
             $("#generated_list .genList_rows:not(:first-child)").css({'background-color' : '#e2e2e2'});
             $(this).css({'background-color' : '#3cb878'});

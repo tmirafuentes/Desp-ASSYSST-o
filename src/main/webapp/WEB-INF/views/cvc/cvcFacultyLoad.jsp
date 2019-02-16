@@ -11,55 +11,96 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
-<head>
-    <title>Unnamed System</title>
-    <title>ASSYSTX</title>
-    <c:url value="/css/assystxStyle.css" var="mainCss" />
-    <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
-    <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
-    <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
-    <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+    <head>
+        <title>ASSYSTX</title>
+        <c:url value="/css/assystxStyle.css" var="mainCss" />
+        <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
+        <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+        <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
+        <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
 
-    <link rel="stylesheet" type="text/css" href="${mainCss}">
-    <link rel="stylesheet" type="text/css" href="${jqueryCss}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="${minJquery}"></script>
-    <script src="${uiJquery}"></script>
-    <script src="${mainScript}"></script>
-</head>
-<body>
-<%@ include file="leftFacultyLoad.jsp" %>
-<%@ include file="../user/header.jsp" %>
-<div id = "main_content">
-    <table id = "generated_list">
-        <tr>
-            <th>Last name</th>
-            <th>First name</th>
-            <th>Teaching Load</th>
-            <th>Admin Load</th>
-            <th>Research Load</th>
-            <th>Total Load</th>
-        </tr>
-        <tr>
-            <td>Deja</td>
-            <td>Jordan</td>
-            <td>12</td>
-            <td>3</td>
-            <td>3</td>
-            <td>18</td>
-        </tr>
-        <tr>
-            <td>Deja</td>
-            <td>Jordan</td>
-            <td>12</td>
-            <td>3</td>
-            <td>3</td>
-            <td>18</td>
-        </tr>
-    </table>
-</div>
-<%@ include file="rightFacultyLoad.jsp" %>
+        <link rel="stylesheet" type="text/css" href="${mainCss}">
+        <link rel="stylesheet" type="text/css" href="${jqueryCss}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <script src="${minJquery}"></script>
+        <script src="${uiJquery}"></script>
+        <script src="${mainScript}"></script>
+    </head>
+    <body>
+        <!-- Filter Sidebar for CVC - Faculty Load -->
+        <%@ include file="leftFacultyLoad.jsp" %>
 
-</body>
+        <!-- General Header for ASSYSTX -->
+        <%@ include file="../user/header.jsp" %>
 
+        <!-- Collaborative Workspace for ASSYSTX -->
+        <div id = "main_content">
+            <form:form method="get">
+                <c:choose>
+                    <c:when test="${empty allFacultyLoad}">
+                        No faculty load to display.
+                    </c:when>
+                    <c:otherwise>
+                        <div id="generated_list">
+                            <div class="genList_rows">
+                                <div class="genList_cols">Name</div>
+                                <div class="genList_cols">Teaching Load</div>
+                                <div class="genList_cols">Admin Load</div>
+                                <div class="genList_cols">Research Load</div>
+                                <div class="genList_cols">Total Load</div>
+                            </div>
+                            <c:forEach items="${allFacultyLoad}" var="facLoad">
+                                <div class="genList_rows">
+                                    <!-- Faculty Name -->
+                                    <div class="genList_cols" name="facultyName">
+                                        <c:out value="${facLoad.faculty.lastName}" />, <c:out value="${facLoad.faculty.firstName}" />
+                                    </div>
+                                    <!-- Teaching Load -->
+                                    <div class="genList_cols" name="teachLoad">
+                                        <c:out value="${facLoad.teachingLoad}" />
+                                    </div>
+                                    <!-- Admin Load -->
+                                    <div class="genList_cols" name="adminLoad">
+                                        <c:out value="${facLoad.adminLoad}" />
+                                    </div>
+                                    <!-- Research Load -->
+                                    <div class="genList_cols" name="resLoad">
+                                        <c:out value="${facLoad.researchLoad}" />
+                                    </div>
+                                    <!-- Total Load -->
+                                    <div class="genList_cols" name="totalLoad">
+                                        <c:out value="${facLoad.totalLoad}" />
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </form:form>
+            <table id = "generated_list">
+                <tr>
+                    <td>Deja</td>
+                    <td>Jordan</td>
+                    <td>12</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>18</td>
+                </tr>
+                <tr>
+                    <td>Deja</td>
+                    <td>Jordan</td>
+                    <td>12</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>18</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- View Faculty Information -->
+        <%@ include file="rightFacultyLoad.jsp" %>
+
+        <!-- Load all Modals for ASSYSTX -->
+        <%@ include file="../user/modals.jsp" %>
+    </body>
 </html>

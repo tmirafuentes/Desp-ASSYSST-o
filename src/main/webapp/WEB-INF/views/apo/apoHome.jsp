@@ -52,16 +52,7 @@
                                 <div class="genList_cols">Faculty</div>
                             </div>
                             <c:forEach items="${allOfferings}" var="offering">
-                                <c:set var="currOffer" value="${offering.offeringId}" />
-                                <c:set var="selOffer" value="${selOffering.offeringId}" />
-                                <c:choose>
-                                    <c:when test="${currOffer == selOffer}">
-                                        <div class="genList_rows selectedOffering">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="genList_rows">
-                                    </c:otherwise>
-                                </c:choose>
+                                <div class="genList_rows">
                                     <!-- Course Code of Offering -->
                                     <div class="genList_cols" name="courseCode">
                                         <c:out value="${offering.course.courseCode}" />

@@ -22,9 +22,6 @@
     </table>
     <table id = "table_preferences">
         <tr>
-            <td><img src  id="image_faculty"></img></td>
-        </tr>
-        <tr>
             <td><p class = "p_faculty" id = "p_faculty_type">Full-Time Professor</p></td>
         </tr>
         <tr>

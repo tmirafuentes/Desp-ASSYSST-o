@@ -40,7 +40,7 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
     {
         model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoad());
 
-        return "cvc/manage-loads";
+        return "cvc/cvcFacultyLoad";
     }
 
     /*** Add Faculty ***/

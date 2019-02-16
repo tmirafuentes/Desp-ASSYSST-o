@@ -73,6 +73,13 @@ public class MainController {
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
         model.addAttribute("allDays", offeringService.generateLetterDays());
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
+        model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
+        model.addAttribute("allRoomTypes", offeringService.generateRoomType());
+        model.addAttribute("allCourses", offeringService.retrieveAllCourses());
+
+        /* Load Dto for Modify Course Offering */
+        model.addAttribute("offerModifyForm", new OfferingModifyDto());
+
         return "/cvc/cvcHome";
     }
 

@@ -278,7 +278,7 @@ body{
 }
 #button_assign_room{
 	width:80px;
-	background-color:#959595;
+	height: 30px;
 }
 #select_faculty{
 	width: 100px;
@@ -287,8 +287,18 @@ body{
 	width:80px;
 	height:30px;
 	display: inline-block;
-	background-color:#2e3192;
 }
+
+.button_usable {
+	background-color:#2e3192;
+	cursor: pointer;
+}
+
+.button_unusable {
+	background-color: #959595;
+	pointer-events: none;
+}
+
 #area_concerns{
 	width:150px;
 	height:100px;

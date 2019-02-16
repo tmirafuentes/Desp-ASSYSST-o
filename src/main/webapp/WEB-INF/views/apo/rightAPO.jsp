@@ -56,7 +56,6 @@
                     <form:input path="endTime" type="time" id="select_right_end_timeblock" />
                 </spring:bind>
             </td>
-
         </tr>
     </table>
     <table id = "modify_days" class="modify_sidebar">
@@ -100,11 +99,11 @@
         <tr>
             <td>
                 <spring:bind path="roomCode">
-                    <form:input path="roomCode" id = "text_room" type="text" />
+                    <form:input path="roomCode" id = "text_room" type="text" disabled="true" />
                 </spring:bind>
             </td>
             <td>
-                <button id="button_assign_room" type="button">Change Room</button>
+                <button id="button_assign_room" class="button_usable" type="button">Change Room</button>
             </td>
         </tr>
     </table>
@@ -115,11 +114,11 @@
         <tr>
             <td>
                 <spring:bind path="facultyName">
-                    <form:input path="facultyName" id = "select_faculty" type="text"/>
+                    <form:input path="facultyName" id = "select_faculty" type="text" disabled="true"/>
                 </spring:bind>
             </td>
             <td>
-                <button id="button_assign_faculty" type="button">Re-Assign</button>
+                <button id="button_assign_faculty" class="button_unusable" type="button" disabled>Re-Assign</button>
             </td>
         </tr>
     </table>
