@@ -13,7 +13,7 @@
 <html>
     <head>
         <title>ASSYSTX</title>
-        <c:url value="/css/assystxStyle.css" var="mainCss" />
+        <c:url value="/css/mainStyle.css" var="mainCss" />
         <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
@@ -34,41 +34,41 @@
         <%@ include file="../user/header.jsp" %>
 
         <!-- Collaborative Workspace for ASSYSTX -->
-        <div id = "main_content">
+        <div class="collabWorkspace">
             <form:form method="get">
                 <c:choose>
                     <c:when test="${empty allFacultyLoad}">
                         No faculty load to display.
                     </c:when>
                     <c:otherwise>
-                        <div id="generated_list">
-                            <div class="genList_rows">
-                                <div class="genList_cols">Name</div>
-                                <div class="genList_cols">Teaching Load</div>
-                                <div class="genList_cols">Admin Load</div>
-                                <div class="genList_cols">Research Load</div>
-                                <div class="genList_cols">Total Load</div>
+                        <div class="generatedContent">
+                            <div class="genContentRows">
+                                <div class="genContentCols">Name</div>
+                                <div class="genContentCols">Teaching Load</div>
+                                <div class="genContentCols">Admin Load</div>
+                                <div class="genContentCols">Research Load</div>
+                                <div class="genContentCols">Total Load</div>
                             </div>
                             <c:forEach items="${allFacultyLoad}" var="facLoad">
-                                <div class="genList_rows">
+                                <div class="genContentRows">
                                     <!-- Faculty Name -->
-                                    <div class="genList_cols" name="facultyName">
+                                    <div class="genContentCols" name="facultyName">
                                         <c:out value="${facLoad.faculty.lastName}" />, <c:out value="${facLoad.faculty.firstName}" />
                                     </div>
                                     <!-- Teaching Load -->
-                                    <div class="genList_cols" name="teachLoad">
+                                    <div class="genContentCols" name="teachLoad">
                                         <c:out value="${facLoad.teachingLoad}" />
                                     </div>
                                     <!-- Admin Load -->
-                                    <div class="genList_cols" name="adminLoad">
+                                    <div class="genContentCols" name="adminLoad">
                                         <c:out value="${facLoad.adminLoad}" />
                                     </div>
                                     <!-- Research Load -->
-                                    <div class="genList_cols" name="resLoad">
+                                    <div class="genContentCols" name="resLoad">
                                         <c:out value="${facLoad.researchLoad}" />
                                     </div>
                                     <!-- Total Load -->
-                                    <div class="genList_cols" name="totalLoad">
+                                    <div class="genContentCols" name="totalLoad">
                                         <c:out value="${facLoad.totalLoad}" />
                                     </div>
                                 </div>

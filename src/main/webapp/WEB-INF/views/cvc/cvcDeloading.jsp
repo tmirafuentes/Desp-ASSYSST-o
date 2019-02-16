@@ -27,7 +27,7 @@
     <script src="${mainScript}"></script>
 </head>
 <body>
-<%@ include file="leftChair.jsp" %>
+<%@ include file="leftDeloading.jsp" %>
 <%@ include file="../user/header.jsp" %>
 <div id = "main_content">
     <form:form method="get">

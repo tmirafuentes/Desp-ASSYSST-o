@@ -108,8 +108,7 @@ $(function() {
     });
 
     /* Selecting an offering */
-    $("#generated_list .genList_rows:not(:first-child)").click(function(){
-        //hasClickedTableRow = !hasClickedTableRow;
+    $(".generatedContent .genContentRows:not(:first-child)").click(function(){
         /* Check if selected already */
         if ($(this).css("background-color") === "rgb(60, 184, 120)")
         {
@@ -124,8 +123,8 @@ $(function() {
         {
             /* Modify row appearance */
             $(".modify_sidebar").find("input:text").val("");
-            $("#generated_list .genList_rows:not(:first-child)").removeClass("selectedOffering");
-            $("#generated_list .genList_rows:not(:first-child)").css({'background-color' : '#e2e2e2'});
+            $(".generatedContent .genContentRows:not(:first-child)").removeClass("selectedOffering");
+            $(".generatedContent .genContentRows:not(:first-child)").css({'background-color' : '#e2e2e2'});
             $(this).css({'background-color' : '#3cb878'});
             $(this).addClass("selectedOffering");
 
@@ -144,7 +143,6 @@ $(function() {
                             "0" + offStartTime.substr(0, 1) + ":" + offStartTime.substr(1);
             offEndTime = offEndTime.length > 3 ? offEndTime.substr(0, 2) + ":" + offEndTime.substr(2) :
                             "0" + offEndTime.substr(0, 1) + ":" + offEndTime.substr(1);
-            console.log("Offstarttime: " + offStartTime);
             $("#select_right_start_timeblock").val(offStartTime);
             $("#select_right_end_timeblock").val(offEndTime);
 
@@ -173,7 +171,7 @@ $(function() {
         autoOpen: false
     });
 
-    $("#button_assign_room").click(function() {
+    $("#modOffRoomButton").click(function() {
         $("#modalAssignRoom").dialog({
             title:"Assign Room",
             width:800,

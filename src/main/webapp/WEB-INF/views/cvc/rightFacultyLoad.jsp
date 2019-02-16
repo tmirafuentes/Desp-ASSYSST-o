@@ -16,16 +16,16 @@
             <th>First Name</th>
         </tr>
         <tr>
-            <td><p class = "p_faculty" id = "p_faculty_lname">Jordan</td>
-            <td><p class = "p_faculty" id = "p_faculty_fname">Deja</td>
+            <td><p class = "facultyInfoTitles" id = "facultyInfoTitles_lname">Jordan</td>
+            <td><p class = "facultyInfoTitles" id = "facultyInfoTitles_fname">Deja</td>
         </tr>
     </table>
     <table id = "table_preferences">
         <tr>
-            <td><p class = "p_faculty" id = "p_faculty_type">Full-Time</p></td>
+            <td><p class = "facultyInfoTitles" id = "facultyInfoTitles_type">Full-Time</p></td>
         </tr>
         <tr>
-            <td><p class = "p_faculty" id = "p_faculty_department">Software Technology</p></td>
+            <td><p class = "facultyInfoTitles" id = "facultyInfoTitles_department">Software Technology</p></td>
         </tr>
         <!--
         <tr>
@@ -35,7 +35,7 @@
             <td><div id ="div_preferences"></div></td>
         </tr>
         -->
-        <p class = "p_faculty" id="label_currLoad">Current Load: </p>
+        <p class = "facultyInfoTitles" id="label_currLoad">Current Load: </p>
     </table>
     <table id = "table_curr_load">
         <tr>
@@ -50,20 +50,13 @@
             <td>0915 - 1045</td>
             <td>G201</td>
         </tr>
-    </table>
-    <!--
-    <table id = "table_currentlytaking">
         <tr>
-            <th>Current Load:</th>
+            <td><button class="facultyInfoButtons">Assign Load</button></td>
         </tr>
         <tr>
-            <td><div id ="div_load"></div></td>
-        </tr>
-        <tr>
-            <td><button id="load_button_assign_faculty">Load Faculty</button></td>
+            <td><button class="facultyInfoButtons">Deload</button></td>
         </tr>
     </table>
-    -->
 </div>
 </body>
 </html>

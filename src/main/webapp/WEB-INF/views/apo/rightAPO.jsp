@@ -11,9 +11,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <body>
-<div id = "right_side">
+<div class = "rightSidebar">
     <form:form method="POST" modelAttribute="offerModifyForm">
-    <table id = "modify_class_section" class="modify_sidebar">
+    <table id = "modifyOfferingTypeSection" class="modify_sidebar">
         <tr>
             <th>Class Type</th>
             <th>Section</th>
@@ -38,7 +38,7 @@
             </td>
         </tr>
     </table>
-    <table id = "modify_time" class="modify_sidebar">
+    <table id = "modifyOfferingTime" class="modify_sidebar">
         <tr>
             <th>Start Time</th>
             <th>End Time</th>
@@ -58,7 +58,7 @@
             </td>
         </tr>
     </table>
-    <table id = "modify_days" class="modify_sidebar">
+    <table id = "modifyOfferingDays" class="modify_sidebar">
         <tr>
             <th>Day 1</th>
             <th>Day 2</th>
@@ -92,7 +92,7 @@
             </td>
         </tr>
     </table>
-    <table id = "modify_room" class="modify_sidebar">
+    <table id = "modifyOfferingRoom" class="modify_sidebar">
         <tr>
             <th>Room</th>
         </tr>
@@ -103,11 +103,11 @@
                 </spring:bind>
             </td>
             <td>
-                <button id="button_assign_room" class="button_usable" type="button">Change Room</button>
+                <button id="modOffRoomButton" class="modOffUsableButton" type="button">Change Room</button>
             </td>
         </tr>
     </table>
-    <table id = "modify_faculty" class="modify_sidebar">
+    <table id = "modifyOfferingFaculty" class="modify_sidebar">
         <tr>
             <th>Faculty</th>
         </tr>
@@ -118,11 +118,11 @@
                 </spring:bind>
             </td>
             <td>
-                <button id="button_assign_faculty" class="button_unusable" type="button" disabled>Re-Assign</button>
+                <button id="modOffFacultyButton" class="modOffBlockedButton" type="button" disabled>Re-Assign</button>
             </td>
         </tr>
     </table>
-    <table id = "modify_concerns" class="modify_sidebar">
+    <table id = "modifyOfferingConcerns" class="modify_sidebar">
         <tr>
             <th>Concerns</th>
         </tr>
@@ -130,7 +130,7 @@
             <td><textarea id="area_concerns"></textarea></td>
         </tr>
     </table>
-    <table id = "modify_button_concerns" class="modify_sidebar">
+    <table id = "modifyOfferingButtons" class="modify_sidebar">
         <tr>
             <spring:bind path="offeringId">
                 <form:input path="offeringId" type="text" id="text_offId" hidden="hidden" />

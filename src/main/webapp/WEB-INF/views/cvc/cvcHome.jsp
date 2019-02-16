@@ -15,7 +15,7 @@
 <html>
     <head>
         <title>ASSYSTX</title>
-        <c:url value="/css/assystxStyle.css" var="mainCss" />
+        <c:url value="/css/mainStyle.css" var="mainCss" />
         <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
@@ -35,39 +35,39 @@
         <%@ include file="../user/header.jsp" %>
 
         <!-- Collaborative Workspace for ASSYSTX -->
-        <div id = "main_content">
+        <div class="collabWorkspace">
             <form:form method="get">
                 <c:choose>
                     <c:when test="${empty allOfferings}">
                         No offerings to display.
                     </c:when>
                     <c:otherwise>
-                        <div id = "generated_list">
-                            <div class="genList_rows">
-                                <div class="genList_cols">Course</div>
-                                <div class="genList_cols">Section</div>
-                                <div class="genList_cols">Day</div>
-                                <div class="genList_cols">Time</div>
-                                <div class="genList_cols">Room</div>
-                                <div class="genList_cols">Faculty</div>
+                        <div class="generatedContent">
+                            <div class="genContentRows">
+                                <div class="genContentCols">Course</div>
+                                <div class="genContentCols">Section</div>
+                                <div class="genContentCols">Day</div>
+                                <div class="genContentCols">Time</div>
+                                <div class="genContentCols">Room</div>
+                                <div class="genContentCols">Faculty</div>
                             </div>
                             <c:forEach items="${allOfferings}" var="offering">
                                 <c:set var="currOffer" value="${offering.offeringId}" />
                                 <c:set var="selOffer" value="${selOffering.offeringId}" />
                                 <c:choose>
                                     <c:when test="${currOffer == selOffer}">
-                                        <div class="genList_rows selectedOffering">
+                                        <div class="genContentRows selectedOffering">
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="genList_rows">
+                                        <div class="genContentRows">
                                     </c:otherwise>
                                 </c:choose>
                                     <!-- Course Code of Offering -->
-                                    <div class="genList_cols" name="courseCode">
+                                    <div class="genContentCols" name="courseCode">
                                         <c:out value="${offering.course.courseCode}" />
                                     </div>
                                     <!-- Section of Offering -->
-                                    <div class="genList_cols genList_section">
+                                    <div class="genContentCols genList_section">
                                         <c:choose>
                                             <c:when test="${empty offering.section}">
                                                 None
@@ -79,7 +79,7 @@
                                         </c:choose>
                                     </div>
                                     <!-- Days Held of Offering -->
-                                    <div class="genList_cols" name="days">
+                                    <div class="genContentCols" name="days">
                                         <c:choose>
                                             <c:when test="${empty offering.daysSet}">
                                                 None
@@ -93,7 +93,7 @@
                                         </c:choose>
                                     </div>
                                     <!-- Time Slot of Offering -->
-                                    <div class="genList_cols">
+                                    <div class="genContentCols">
                                         <c:choose>
                                             <c:when test="${empty offering.daysSet}">
                                                 Unassigned
@@ -108,7 +108,7 @@
                                         </c:choose>
                                     </div>
                                     <!-- Room of Offering -->
-                                    <div class="genList_cols">
+                                    <div class="genContentCols">
                                         <c:choose>
                                             <c:when test="${empty offering.daysSet}">
                                                 Unassigned
@@ -131,7 +131,7 @@
                                         </c:choose>
                                     </div>
                                     <!-- Faculty of Offering -->
-                                    <div class="genList_cols">
+                                    <div class="genContentCols">
                                         <c:choose>
                                             <c:when test="${offering.faculty.userId  == 11111111 || empty offering.faculty.userId}">
                                                 Unassigned
