@@ -114,7 +114,51 @@
             </table>
         </div>
 
+		<!-- Modal for Assigning Faculty -->
         <div class="divModals" id="modalAssignFaculty">
+			<table class="modal_header">
+                <tr>
+                    <th>Search</th>
+                    <th>Recommendation</th>
+                    <th>Sort By</th>
+                </tr>
+                <tr>
+                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+					<td><select class = 'modal_select' id='select_recommend'></select></td>
+                    <td><select class = 'modal_select' id='select_sort'></select></td>                    
+                </tr>
+            </table>
+			<table id="modal_table_assign_faculty">
+				<tr>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th>Teaching Load</th>
+					<th>Admin Load</th>
+					<th>Research Load</th>
+					<th>Total Load</th>
+					<th>Assign</th>
+				</tr>
+				<c:forEach items="${allFacultyLoad}" var="facLoad">
+				<tr>
+					<td>${facLoad.faculty.lastName}</td>
+					<td>${facLoad.faculty.firstName}</td>
+					<td>${facLoad.teachingLoad}</td>
+					<td>${facLoad.adminLoad}</td>
+					<td>${facLoad.researchLoad}</td>
+					<td>${facLoad.totalLoad}</td>
+					<td><button class = 'add_modal_buttons'>Assign</button></td>
+				</tr>
+				<c:forEach>
+				<tr>
+					<td>Deja</td>
+					<td>Jordan</td>
+					<td>9</td>
+					<td>0</td>
+					<td>0</td>
+					<td>9</td>
+					<td><button class = 'add_modal_buttons'>Assign</button></td>
+				</tr>
+			</table>
         </div>
     </body>
 </html>
