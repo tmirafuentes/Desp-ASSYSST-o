@@ -112,6 +112,7 @@
 #button_view_faculty{
     color:#e1e1e1;
     background-color:#252525;
+    width: 80%;
 }
 #input_search_course{
     color: black;

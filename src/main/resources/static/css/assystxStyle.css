@@ -636,7 +636,7 @@
 }
 #label_currLoad{
 	position: relative;
-	top:30%;
+	top:35%;
 	font-weight: bold;
 	font-size: 16px;
 	left: 36%;
@@ -644,7 +644,7 @@
 }
 #table_curr_load{
 	position: relative;
-	top:20%;
+	top:25%;
 	font-size: 14px;
 	width: 100%;
 
