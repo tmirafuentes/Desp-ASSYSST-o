@@ -287,4 +287,13 @@ public class OfferingController {   // This Controller is for the Course Schedul
 
         return "/apo/allocate-room";
     }
+
+    /* Search Course Offering */
+    @RequestMapping(value = "/apo/search-course", method = RequestMethod.GET)
+    public String searchOffering(Model model, @RequestParam("searchString") String searchString)
+    {
+        model.addAttribute("allOfferings", offeringService.retrieveCourseByCourseCode(searchString));
+
+        return "/apo/search-course";
+    }
 }

@@ -21,7 +21,7 @@
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> Search Course </p>
-                <form id ="form_search_class">
+                <form id ="form_search_class" method="GET" action="${contextPath}/search-course">
                     <input class = "filterForms" id="input_search_course" placeholder = "Search Course...">
                     <button id = "submit_left_side_search"><i class="fas fa-search"></i></button>
                 </form>

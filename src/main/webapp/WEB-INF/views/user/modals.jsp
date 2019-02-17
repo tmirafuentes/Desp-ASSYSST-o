@@ -148,7 +148,7 @@
 					<td>${facLoad.totalLoad}</td>
 					<td><button class = 'add_modal_buttons'>Assign</button></td>
 				</tr>
-				<c:forEach>
+				</c:forEach>
 				<tr>
 					<td>Deja</td>
 					<td>Jordan</td>
