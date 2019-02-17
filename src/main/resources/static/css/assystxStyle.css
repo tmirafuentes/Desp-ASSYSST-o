@@ -133,7 +133,7 @@
 	top:-5;
 	font-weight:bold;
 	color:black;
-	font-size:13px;
+	font-size:16px;
 }
 
 /* Right Side Chairs*/
@@ -255,7 +255,7 @@
 }
 #button_submit_concerns{
 	background-color:#3cb878;
-	height:25px;
+	height:35px;
 	width:60px;
 }
 #button_cancel_concerns{
@@ -625,6 +625,7 @@
 #offerModifyForm{
 	position: relative;
 	top:15%;
+	left:-15%;
 }
 #button_submit_modifyOffering{
 	background-color: #3cb878;
@@ -635,7 +636,7 @@
 }
 #label_currLoad{
 	position: relative;
-	top:25%;
+	top:30%;
 	font-weight: bold;
 	font-size: 16px;
 	left: 36%;
@@ -643,11 +644,22 @@
 }
 #table_curr_load{
 	position: relative;
-	top:15%;
+	top:20%;
 	font-size: 14px;
 	width: 100%;
 
 }
+.rightDeloadingLoadingButtons{
+	position: relative;
+	top:5%;
+	font-size: 14px;
+	width: 100%;
+}
+.rightDeloadingLoadingButtons button{
+	width: 110px;
+
+}
+
 #table_curr_load tr{
 	padding: 3px;
 }

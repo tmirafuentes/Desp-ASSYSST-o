@@ -21,6 +21,7 @@ html,body
     width: 60%;
     margin-left:25%;
     overflow: auto;
+    margin-top: 1%;
 }
 
 .generatedContent	/* FKA generated_list */

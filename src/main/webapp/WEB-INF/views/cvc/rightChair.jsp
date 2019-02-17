@@ -112,7 +112,7 @@
                     </spring:bind>
                 </td>
                 <td>
-                    <button id="modOffFacultyButton" class="modOffUsableButton" type="button">Re-Assign</button>
+                    <button id="modOffFacultyButton" class="modOffUsableButton" type="button">Assign</button>
                 </td>
             </tr>
         </table>

@@ -50,11 +50,10 @@
             <td>0915 - 1045</td>
             <td>G201</td>
         </tr>
+    </table>
+    <table class = "rightDeloadingLoadingButtons">
         <tr>
-            <td><button class="facultyInfoButtons">Assign Load</button></td>
-        </tr>
-        <tr>
-            <td><button class="facultyInfoButtons">Deload</button></td>
+            <td><button class="facultyInfoButtons">Assign Load</button></td> <td><button class="facultyInfoButtons">Deload</button></td>
         </tr>
     </table>
 </div>
