@@ -59,7 +59,7 @@ public class MainController {
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
-
+        model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
@@ -76,7 +76,7 @@ public class MainController {
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
-
+        model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 

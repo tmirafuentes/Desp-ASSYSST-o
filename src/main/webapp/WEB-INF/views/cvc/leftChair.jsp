@@ -34,7 +34,11 @@
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> Room Type </p>
-                <select class = "filterForms" id="select_room_type"> </select>
+                <select class = "filterForms" id="select_room_type">
+                    <option value="All" selected>All</option>
+                    <option value="Lecture">Lecture</option>
+                    <option value="Laboratory">Laboratory</option>
+                </select>
             </td>
         </tr>
         <tr class = "leftSidebarRows">

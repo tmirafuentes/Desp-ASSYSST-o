@@ -289,15 +289,16 @@ public class OfferingController {   // This Controller is for the Course Schedul
     }
 
     /* Search Course Offering */
-    @RequestMapping(value = "/apo/search-course", method = RequestMethod.GET)
+    @RequestMapping(value = "/apo", method = RequestMethod.POST)
     public String searchOffering(Model model, @RequestParam("searchString") String searchString)
     {
+        System.out.println("Hello World");
         Course searchedCourse = offeringService.retrieveCourseByCourseCode(searchString);
         if(searchedCourse != null)
         //static for now
             model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByCourse(searchedCourse, 2017, 2018, 1));
 
-        return "/apo/search-course";
+        return "/apo";
     }
     /* Search by Class Type */
     @RequestMapping(value = "/apo/class-type", method = RequestMethod.GET)

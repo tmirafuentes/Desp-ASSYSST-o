@@ -83,7 +83,12 @@
                     <th>Search</th>
                 </tr>
                 <tr>
-                    <td><select class = 'modal_select' id='select_degree'></select></td>
+                    <td><select class = 'modal_select' id='select_degree'>
+                        <option value="All">All</option>
+                        <c:forEach items="${allDegrees}" var="degreeType">
+                            <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
+                        </c:forEach>
+                    </select></td>
                     <td><select class = 'modal_select' id='select_batch'></select></td>
                     <td><select class = 'modal_select' id='select_academic_year'></select></td>
                     <td><select class = 'modal_select' id='select_term'></select></td>

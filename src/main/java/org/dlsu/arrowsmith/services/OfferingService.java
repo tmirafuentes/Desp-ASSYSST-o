@@ -26,7 +26,8 @@ public class OfferingService {
     private DepartmentRepository departmentRepository;
     @Autowired
     private RoomRepository roomRepository;
-
+    @Autowired
+    private DegreeProgramRepository degreeProgramRepository;
     /**
      **
      ** COLLEGE
@@ -272,6 +273,12 @@ public class OfferingService {
         offering.setFaculty(faculty);
         courseOfferingRepository.save(offering);
     }
+    /* Get All degree programs*/
+    public Iterator retrieveAllDegreePrograms(){
+        ArrayList<DegreeProgram> allDegreePrograms = (ArrayList<DegreeProgram>) degreeProgramRepository.findAll();
+
+        return allDegreePrograms.iterator();
+    }
 
     /**
      **
@@ -307,6 +314,7 @@ public class OfferingService {
         allRoomTypes.add("Computer Laboratory");
         return allRoomTypes.iterator();
     }
+
 
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */
