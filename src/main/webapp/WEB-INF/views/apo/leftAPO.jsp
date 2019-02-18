@@ -15,6 +15,9 @@
                 <p class = "filterTitles">View Offerings Per Term</p>
                 <select class = "filterForms" id="select_view_offerings">
                     <option value="All">All</option>
+                    <option value="First">First Term</option>
+                    <option value="Second">Second Term</option>
+                    <option value="Third">Third Term</option>
                 </select>
             </td>
         </tr>
@@ -43,9 +46,9 @@
             <td>
                 <p class = "filterTitles"> Room Type </p>
                 <select class = "filterForms" id="select_room_type">
-                    <option value="All" selected>All</option>
-                    <option value="Lecture">Lecture</option>
-                    <option value="Laboratory">Laboratory</option>
+                    <c:forEach items="${allRoomTypes}" var="roomType">
+                        <option value="${roomType}"><c:out value="${roomType}" /></option>
+                    </c:forEach>
                 </select>
             </td>
         </tr>
