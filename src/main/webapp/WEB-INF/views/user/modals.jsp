@@ -87,7 +87,7 @@
                     <td><select class = 'modal_select' id='select_batch'></select></td>
                     <td><select class = 'modal_select' id='select_academic_year'></select></td>
                     <td><select class = 'modal_select' id='select_term'></select></td>
-                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search'></i></button></td>
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
                 </tr>
             </table>
             <table id='modal_table_add_courses'>

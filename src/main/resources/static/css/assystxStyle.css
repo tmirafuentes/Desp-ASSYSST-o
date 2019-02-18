@@ -525,6 +525,11 @@
 .modal_header{
 	width: 100%;
 	margin-bottom: 30px;
+	border-collapse: collapse;
+}
+.modal_header select, .modal_header input{
+	font-size: 16px;
+	height: 25px;
 }
 .modal_header td:first-child{
 	 width: 40%;
@@ -543,18 +548,18 @@
 	box-shadow: none;
 	border:0;
 	background-color:white;
-	top:6.5%;
+	top:6.9%;
 	font-size: 14px;
-	left:240;
+	left:235;
 }
 #button_search_course{
 	position: absolute;
 	box-shadow: none;
 	border:0;
 	background-color:white;
-	top:6.5%;
+	top:6.9%;
 	font-size: 14px;
-	left:753;
+	left:735;
 }
 .divModals {
 	overflow: auto;

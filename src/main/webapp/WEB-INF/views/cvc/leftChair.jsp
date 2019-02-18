@@ -61,7 +61,11 @@
     </table>
     <div class = "sidebarMenu">
         <!-- Go to Faculty Load Page -->
-        <a href="/cvc/manage-load" class = "menuLinks" id = "button_view_faculty"> View Faculty<br>Load Information</a>
+
+            <a href="/cvc/manage-load" class = "menuLinks" id="view_faculty_load">
+                <div id = "button_view_faculty"> View Faculty <br> Load Information</div>
+            </a>
+
 
         <!-- Go To Deloading Page -->
         <button class = "menuLinks" id="button_deloading"> Add New Course </button>
