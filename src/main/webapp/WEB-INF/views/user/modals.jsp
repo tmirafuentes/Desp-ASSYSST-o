@@ -24,8 +24,8 @@
                     <td>
                         <select class = 'modal_select' id='select_room_type'>
                             <option value="All">All</option>
-                            <c:forEach items="${allRoomTypes}" var="roomType">
-                                <option value="${roomType}"><c:out value="${roomType}" /></option>
+                            <c:forEach items="${allRoomTypesModal}" var="roomType">
+                                <option value="${roomType}"><c:out value="${roomType}"/></option>
                             </c:forEach>
                         </select>
                     </td>
@@ -91,7 +91,12 @@
                     </select></td>
                     <td><select class = 'modal_select' id='select_batch'></select></td>
                     <td><select class = 'modal_select' id='select_academic_year'></select></td>
-                    <td><select class = 'modal_select' id='select_term'></select></td>
+                    <td><select class = 'modal_select' id='select_term'>
+                        <option value="All">All</option>
+                        <option value="First">1st</option>
+                        <option value="Second">2nd</option>
+                        <option value="Third">3rd</option>
+                    </select></td>
                     <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
                 </tr>
             </table>

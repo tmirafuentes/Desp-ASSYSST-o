@@ -44,7 +44,7 @@ public class Days {
     }
 
     public String getbeginTime() {
-        return beginTime;
+        return beginTime.trim();
     }
 
     public void setbeginTime(String beginTime) {
@@ -52,7 +52,7 @@ public class Days {
     }
 
     public String getendTime() {
-        return endTime;
+        return endTime.trim();
     }
 
     public void setendTime(String endTime) {

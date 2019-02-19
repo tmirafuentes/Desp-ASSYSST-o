@@ -210,16 +210,45 @@ public class OfferingService {
         ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAll();
         ArrayList<String> timeslotList = new ArrayList<>();
         String timeslotTemplate;
+
+       //Collections.sort(allDays, Comparator.comparing(s -> Integer.parseInt(s.getbeginTime())));
+
         for(int i = 0; i < allDays.size(); i++)
         {
             timeslotTemplate = allDays.get(i).getbeginTime() + " - " + allDays.get(i).getendTime();
             timeslotList.add(timeslotTemplate);
         }
-        Collections.sort(timeslotList);//needs sorting based on time frame
-        Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
 
-        return uniqueTimeslots.iterator();
+        Collections.sort(timeslotList); //needs sorting based on time frame
+        Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
+        timeslotList = new ArrayList<String>(uniqueTimeslots);
+        Collections.sort(timeslotList);
+
+        return timeslotList.iterator();
     }
+
+    /* Retrieve All Unique Statuses
+    public Iterator getUniqueStatus()
+    {
+        ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) CourseOfferingRepository.get();
+        ArrayList<String> timeslotList = new ArrayList<>();
+        String timeslotTemplate;
+
+
+        for(int i = 0; i < allDays.size(); i++)
+        {
+            timeslotTemplate = allDays.get(i).getbeginTime() + " - " + allDays.get(i).getendTime();
+            timeslotList.add(timeslotTemplate);
+        }
+
+        Collections.sort(timeslotList); //needs sorting based on time frame
+        Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
+        timeslotList = new ArrayList<String>(uniqueTimeslots);
+        Collections.sort(timeslotList);
+
+        return timeslotList.iterator();
+    }
+    */
     /**
      **
      ** ROOM

@@ -58,6 +58,7 @@ public class MainController {
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
+        model.addAttribute("allRoomTypesModal", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
@@ -78,6 +79,7 @@ public class MainController {
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
+        model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
