@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 @Service
 public class OfferingService {
@@ -205,7 +204,22 @@ public class OfferingService {
         ArrayList<Department> allDepartments = (ArrayList<Department>) departmentRepository.findAll();
         return allDepartments.iterator();
     }
+    /* Retrieve All Unique Timeslots */
+    public Iterator getUniqueTimeSlots()
+    {
+        ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAll();
+        ArrayList<String> timeslotList = new ArrayList<>();
+        String timeslotTemplate;
+        for(int i = 0; i < allDays.size(); i++)
+        {
+            timeslotTemplate = allDays.get(i).getbeginTime() + " - " + allDays.get(i).getendTime();
+            timeslotList.add(timeslotTemplate);
+        }
+        Collections.sort(timeslotList);//needs sorting based on time frame
+        Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
 
+        return uniqueTimeslots.iterator();
+    }
     /**
      **
      ** ROOM

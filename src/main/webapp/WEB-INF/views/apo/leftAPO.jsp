@@ -56,6 +56,9 @@
             <td>
                 <p class = "filterTitles"> Time Block </p>
                 <select class = "filterForms" id="select_left_timeblock">
+                    <c:forEach items="${uniqueTimeslots}" var="timeslots">
+                        <option value="${timeslots}"><c:out value="${timeslots}" /></option>
+                    </c:forEach>
                 </select>
             </td>
         </tr>
