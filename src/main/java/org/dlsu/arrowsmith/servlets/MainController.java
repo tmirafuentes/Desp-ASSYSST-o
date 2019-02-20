@@ -62,7 +62,7 @@ public class MainController {
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
-        model.addAttribute("allTerms", offeringService.generateTerms());
+        model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
@@ -83,7 +83,7 @@ public class MainController {
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
         model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
-        model.addAttribute("allTerms", offeringService.generateTerms());
+        model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());

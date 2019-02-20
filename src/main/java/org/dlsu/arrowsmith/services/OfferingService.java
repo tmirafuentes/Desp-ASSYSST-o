@@ -221,8 +221,6 @@ public class OfferingService {
             }
 
         }
-
-        Collections.sort(timeslotList);
         Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
         timeslotList = new ArrayList<String>(uniqueTimeslots);
         Collections.sort(
@@ -231,7 +229,22 @@ public class OfferingService {
         //Collections.sort(timeslotList);
         return timeslotList.iterator();
     }
+    /* Retrieve All Unique Timeslots */
+    public Iterator getUniqueTerms()
+    {
+        ArrayList<CourseOffering> allCourses = (ArrayList<CourseOffering>) courseOfferingRepository.findAll();
+        ArrayList<Integer> termList = new ArrayList<>();
+        int termTemplate;
 
+        for(int i = 0; i < allCourses.size(); i++)
+            termList.add(allCourses.get(i).getTerm());
+
+        Set<Integer> uniqueTerms = new HashSet<Integer>(termList);
+        termList = new ArrayList<Integer>(uniqueTerms);
+        Collections.sort(termList);
+
+        return termList.iterator();
+    }
     /* Retrieve All Unique Statuses
     public Iterator getUniqueStatus()
     {
@@ -354,7 +367,7 @@ public class OfferingService {
         allClassTypes.add("Dissolved");
         return allClassTypes;
     }
-
+    /*
     public ArrayList<String> generateTerms() {
         ArrayList<String> allTerms = new ArrayList<String>();
         allTerms.add("1st");
@@ -362,6 +375,7 @@ public class OfferingService {
         allTerms.add("3rd");
         return allTerms;
     }
+    */
     /* Generate All Room Types */
     public Iterator generateRoomType() {
         ArrayList<String> allRoomTypes = new ArrayList<String>();

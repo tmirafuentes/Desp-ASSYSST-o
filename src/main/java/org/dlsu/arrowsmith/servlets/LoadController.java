@@ -43,7 +43,7 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
     {
         model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
-        model.addAttribute("allTerms", offeringService.generateTerms());
+        model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
 
