@@ -13,7 +13,11 @@
         <tr class = "left_side_rows">
             <td class ="left_side_rows_content">
                 <p class = "left_side_text"> View Offerings </p>
-                <select class = "left_side_select" id="select_view_offerings"> </select>
+                <select class = "left_side_select" id="select_view_offerings">
+                    <c:forEach items="${allTerms}" var="terms">
+                        <option value="${terms}"><c:out value="${terms}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "left_side_rows">
@@ -28,19 +32,33 @@
         <tr class = "left_side_rows">
             <td class ="left_side_rows_content">
                 <p class = "left_side_text"> Class Type </p>
-                <select class = "left_side_select" id="select_left_class_type"> </select>
+                <select class = "left_side_select" id="select_left_class_type">
+                    <c:forEach items="${allClassTypes}" var="classTypes">
+                        <option value="${classTypes}"><c:out value="${classTypes}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "left_side_rows">
             <td class ="left_side_rows_content">
                 <p class = "left_side_text"> Room Type </p>
-                <select class = "left_side_select" id="select_room_type"> </select>
+                <select class = "left_side_select" id="select_room_type">
+                    <option value="All">All</option>
+                    <c:forEach items="${allRoomTypes}" var="roomType">
+                        <option value="${roomType}"><c:out value="${roomType}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "left_side_rows">
             <td class ="left_side_rows_content">
                 <p class = "left_side_text"> Time Block </p>
-                <select class = "left_side_select" id="select_left_timeblock"> </select>
+                <select class = "left_side_select" id="select_left_timeblock">
+                    <option value="All">All</option>
+                    <c:forEach items="${uniqueTimeslots}" var="timeslots">
+                        <option value="${timeslots}"><c:out value="${timeslots}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "left_side_rows">

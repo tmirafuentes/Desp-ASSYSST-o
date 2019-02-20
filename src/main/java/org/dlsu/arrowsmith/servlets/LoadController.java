@@ -5,6 +5,7 @@ import org.dlsu.arrowsmith.classes.Course;
 import org.dlsu.arrowsmith.classes.Department;
 import org.dlsu.arrowsmith.classes.User;
 import org.dlsu.arrowsmith.services.FacultyService;
+import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,6 +26,8 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OfferingService offeringService;
     /*** Extra Stuff ***/
     private MessageSource messages;
 
@@ -39,6 +42,10 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
     public String manageFacultyPage(Model model)
     {
         model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
+        model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
+        model.addAttribute("allTerms", offeringService.generateTerms());
+        model.addAttribute("allClassTypes", offeringService.generateClassType());
+        model.addAttribute("allRoomTypes", offeringService.generateRoomType());
 
         return "cvc/cvcFacultyLoad";
     }
@@ -56,7 +63,6 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("facultyForm", new User());
         model.addAttribute("facultyCollege", currCollege);
         model.addAttribute("facultyDept", currDept);
-
         return "cvc/add-faculty";
     }
 

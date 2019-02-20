@@ -65,30 +65,36 @@
             <table class="modal_header">
                 <tr>
                     <th>Search</th>
-                    <th margin-left="50px">Room Type</th>
-                    <th>Building</th>
+                    <%--<th margin-left="50px">Room Type</th>
+                    <th>Building</th> --%>
                 </tr>
                 <tr>
                     <td>
                         <input class = 'modal_search' id='input_search_room'>
                         <button id='button_search_room'><i class='fas fa-search'></i></button>
                     </td>
+                    <!--
                     <td>
                         <select class = 'modal_select' id='select_room_type'>
                             <option value="All">All</option>
+                            <%--
                             <c:forEach items="${allRoomTypesModal}" var="roomType">
                                 <option value="${roomType}"><c:out value="${roomType}"/></option>
                             </c:forEach>
+                            --%>
                         </select>
                     </td>
                     <td>
                         <select class = 'modal_select' id='select_building'>
                             <option value='All'>All</option>
+                            <%--
                             <c:forEach items='${allBuildings}' var='building'>
                                 <option value='${building.bldgName}'><c:out value='${building.bldgName}' /></option>
                             </c:forEach>
+                            --%>
                         </select>
                     </td>
+                    -->
                 </tr>
             </table>
             <table id="modal_table_room">
@@ -115,6 +121,10 @@
         <div class="divModals" id="modalAssignFaculty">
             <table class="modal_header">
                 <tr>
+                    <!--<th>Degree Program</th>-->
+                    <!--<th>Batch</th>-->
+                    <!--<th>Academic Year</th>-->
+                    <!--<th>Term</th>-->
                     <th>Search</th>
                     <th>Recommendation</th>
                     <th>Sort By</th>
@@ -123,6 +133,21 @@
                     <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
                     <td><select class = 'modal_select' id='select_recommend'></select></td>
                     <td><select class = 'modal_select' id='select_sort'></select></td>
+                    <%--<td><select class = 'modal_select' id='select_degree'>
+                        <option value="All">All</option>
+                        <%--<c:forEach items="${allDegrees}" var="degreeType">
+                            <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
+                        </c:forEach>
+                    </select></td>
+                    <td><select class = 'modal_select' id='select_batch'></select></td>
+                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                    <td><select class = 'modal_select' id='select_term'>
+                        <option value="All">All</option>
+                        <option value="First">1st</option>
+                        <option value="Second">2nd</option>
+                        <option value="Third">3rd</option>
+                    </select></td>--%>
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
                 </tr>
             </table>
             <table id="modal_table_assign_faculty">
@@ -201,6 +226,14 @@
                 </tr>
             <tr>
                 <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                    <th>Search</th>
+                    <%--<th>Recommendation</th>
+                    <th>Sort By</th>--%>
+                </tr>
+                <tr>
+                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+                    <%--<td><select class = 'modal_select' id='select_recommend'></select></td>
+                    <td><select class = 'modal_select' id='select_sort'></select></td>--%>
                 </tr>
             </table>
         </div>
