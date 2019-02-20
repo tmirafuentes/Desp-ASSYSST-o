@@ -9,16 +9,12 @@
 <html>
 
 <body>
-<div id = "right_side">
+<div id = "right_side" class="modify_sidebar">
     <table id = "table_faculty_name">
         <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-        </tr>
-        <tr>
-            <td><p class = "facultyInfoTitles" id = "facultyInfoTitles_lname">Jordan</td>
-            <td><p class = "facultyInfoTitles" id = "facultyInfoTitles_fname">Deja</td>
-        </tr>
+            <th>
+                <p class="facultyInfoTitles" id="facultyInfoTitles_name"></p>
+            </th>
     </table>
     <table id = "table_preferences">
         <tr>
@@ -35,7 +31,14 @@
             <td><div id ="div_preferences"></div></td>
         </tr>
         -->
-        <p class = "facultyInfoTitles" id="label_currLoad">Current Load: </p>
+        <tr>
+            <td>
+                <p class = "facultyInfoTitles" id="label_currLoad">Current Load:</p>
+            </td>
+            <td>
+                <p class = "facultyInfoTitles" id="facultyInfo_currLoad"></p>
+            </td>
+        </tr>
     </table>
     <table id = "table_curr_load">
         <tr>
@@ -53,7 +56,12 @@
     </table>
     <table class = "rightDeloadingLoadingButtons">
         <tr>
-            <td><button class="facultyInfoButtons">Assign Load</button></td> <td><button class="facultyInfoButtons">Deload</button></td>
+            <td>
+                <button class="facultyInfoButtons">Assign Load</button>
+            </td>
+            <td>
+                <button class="facultyInfoButtons" id="modFacDeloadButton">Deload</button>
+            </td>
         </tr>
     </table>
 </div>

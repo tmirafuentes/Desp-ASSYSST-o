@@ -38,7 +38,7 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
     @RequestMapping(value = "/cvc/manage-load", method = RequestMethod.GET)
     public String manageFacultyPage(Model model)
     {
-        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoad());
+        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
 
         return "cvc/cvcFacultyLoad";
     }

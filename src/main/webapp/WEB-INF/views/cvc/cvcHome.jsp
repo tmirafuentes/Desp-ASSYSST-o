@@ -35,7 +35,7 @@
         <%@ include file="../user/header.jsp" %>
 
         <!-- Collaborative Workspace for ASSYSTX -->
-        <div class="collabWorkspace">
+        <div class="collabWorkspace cwOfferings">
             <form:form method="get">
                 <c:choose>
                     <c:when test="${empty allOfferings}">

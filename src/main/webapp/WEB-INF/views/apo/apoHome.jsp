@@ -35,7 +35,7 @@
         <%@ include file="../user/header.jsp" %>
 
         <!-- Collaborative Workspace for ASSYSTX -->
-        <div class="collabWorkspace">
+        <div class="collabWorkspace cwOfferings">
             <form:form method="get">
                 <c:choose>
                     <c:when test="${empty allOfferings}">
@@ -62,6 +62,7 @@
                                         <c:choose>
                                             <c:when test="${empty offering.section}">
                                                 None
+                                                <input type="text" id='off_section' value="None" hidden>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:out value="${offering.section}" />
@@ -74,6 +75,8 @@
                                         <c:choose>
                                             <c:when test="${empty offering.daysSet}">
                                                 None
+                                                <input type="text" value="-" id="off_day1" hidden>
+                                                <input type="text" value="-" id="off_day2" hidden>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
@@ -88,6 +91,8 @@
                                         <c:choose>
                                             <c:when test="${empty offering.daysSet}">
                                                 Unassigned
+                                                <input type="text" value="--:--" id="off_startTime" hidden>
+                                                <input type="text" value="--:--" id="off_EndTime" hidden>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">

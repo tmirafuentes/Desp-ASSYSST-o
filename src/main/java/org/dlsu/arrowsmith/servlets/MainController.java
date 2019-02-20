@@ -53,7 +53,7 @@ public class MainController {
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
     public String APOHomePage(Model model) {
         /* Load all course offerings and stuff */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
@@ -62,6 +62,7 @@ public class MainController {
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
+
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
@@ -72,7 +73,7 @@ public class MainController {
     @RequestMapping(value = {"/cvc", "/cvc/home"}, method = RequestMethod.GET)
     public String CVCHomePage(Model model) {
         /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
@@ -80,8 +81,11 @@ public class MainController {
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
+        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
+
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
+
 
         return "/cvc/cvcHome";
     }

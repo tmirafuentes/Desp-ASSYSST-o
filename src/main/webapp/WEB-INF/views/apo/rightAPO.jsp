@@ -99,7 +99,7 @@
         <tr>
             <td>
                 <spring:bind path="roomCode">
-                    <form:input path="roomCode" id = "text_room" type="text" disabled="true" />
+                    <form:input path="roomCode" id = "text_room" type="text" readonly="readonly" />
                 </spring:bind>
             </td>
             <td>
@@ -113,8 +113,8 @@
         </tr>
         <tr>
             <td>
-                <spring:bind path="facultyName">
-                    <form:input path="facultyName" id = "select_faculty" type="text" disabled="true"/>
+                <spring:bind path="faculty">
+                    <form:input path="faculty" id = "select_faculty" value="Deja, Jordan" type="text" readonly="readonly" />
                 </spring:bind>
             </td>
             <td>

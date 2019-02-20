@@ -72,8 +72,9 @@ public class UserService {
         if(givenName.equals("Unassigned"))
             return null;
 
-        String[] facultyName = givenName.split(" ");
-        return userRepository.findByFirstNameContainsAndLastNameContains(facultyName[0], facultyName[1]);
+        String[] facultyName = givenName.split(", ");
+        System.out.println(facultyName[1] + ", " + facultyName[0]);
+        return userRepository.findByFirstNameContainsAndLastNameContains(facultyName[1], facultyName[0]);
     }
 
     /*** Retrieve all Users ***/

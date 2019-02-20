@@ -8,6 +8,58 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <body>
+        <!-- Modal for Add Course Offering -->
+        <div class="divModals" id="modalAddOffering">
+        <table class="modal_header">
+            <tr>
+                <th>Degree Program</th>
+                <th>Batch</th>
+                <th>Academic Year</th>
+                <th>Term</th>
+                <th>Search</th>
+            </tr>
+            <tr>
+                <td><select class = 'modal_select' id='select_degree'>
+                    <option value="All">All</option>
+                    <c:forEach items="${allDegrees}" var="degreeType">
+                        <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
+                    </c:forEach>
+                </select></td>
+                <td><select class = 'modal_select' id='select_batch'></select></td>
+                <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                <td><select class = 'modal_select' id='select_term'>
+                    <option value="All">All</option>
+                    <option value="First">1st</option>
+                    <option value="Second">2nd</option>
+                    <option value="Third">3rd</option>
+                </select></td>
+                <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
+            </tr>
+        </table>
+        <table id='modal_table_add_courses'>
+            <tr>
+                <th>Course</th>
+                <th>Name</th>
+                <th>Units</th>
+                <th>Add</th>
+            </tr>
+            <c:forEach items="${allCourses}" var="course">
+                <tr>
+                    <td>${course.courseCode}</td>
+                    <td>${course.courseName}</td>
+                    <td>${course.units}</td>
+                    <td><button class = 'add_modal_buttons'>+</button></td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td>INOVATE</td>
+                <td>Technology and Innovation Management</td>
+                <td>3.0</td>
+                <td><button class = 'add_modal_buttons'>+</button></td>
+            </tr>
+        </table>
+    </div>
+
         <!-- Modal for Assign Room -->
         <div class="divModals" id="modalAssignRoom">
             <table class="modal_header">
@@ -59,6 +111,87 @@
             </table>
         </div>
 
+        <!-- Modal for Assigning Faculty -->
+        <div class="divModals" id="modalAssignFaculty">
+            <table class="modal_header">
+                <tr>
+                    <th>Search</th>
+                    <th>Recommendation</th>
+                    <th>Sort By</th>
+                </tr>
+                <tr>
+                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+                    <td><select class = 'modal_select' id='select_recommend'></select></td>
+                    <td><select class = 'modal_select' id='select_sort'></select></td>
+                </tr>
+            </table>
+            <table id="modal_table_assign_faculty">
+                <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Teaching Load</th>
+                    <th>Admin Load</th>
+                    <th>Research Load</th>
+                    <th>Total Load</th>
+                    <th>Assign</th>
+                </tr>
+                <c:forEach items="${allFacultyLoad}" var="facLoad">
+                    <tr>
+                        <td>${facLoad.faculty.lastName}</td>
+                        <td>${facLoad.faculty.firstName}</td>
+                        <td>${facLoad.teachingLoad}</td>
+                        <td>${facLoad.adminLoad}</td>
+                        <td>${facLoad.researchLoad}</td>
+                        <td>${facLoad.totalLoad}</td>
+                        <td>
+                            <button class = 'add_modal_buttons assignFacultyBtns' value="${facLoad.faculty.lastName}, ${facLoad.faculty.firstName}" type="button">Assign</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+
+        <!-- Modal for Deloading Faculty -->
+        <div class="divModals" id="modalDeloadFaculty">
+            <p id="dialog_professor_name"></p>
+            <table id="dialog_load_table">
+                <tr>
+                    <td>
+                        <p class="p_modal">Total Current Load</p>
+                    </td>
+                    <td>
+                        <p id="p_total_load"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="p_modal">Remarks</p>
+                    </td>
+                    <td>
+                        <select id="select_deload">
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="p_modal">Deloaded Units</p>
+                    </td>
+                    <td>
+                        <input type="number" id="input_deload" value="0"> Units
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="modal_buttons" id="deload_confirm">Confirm</button>
+                    </td>
+                    <td>
+                        <button class="modal_buttons" id="deload_confirm">Reset</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <!-- Modal for Concerns -->
         <div class="divModals" id="modalConcerns">
             <table class='concern_entry'>
@@ -70,105 +203,6 @@
                 <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
                 </tr>
             </table>
-        </div>
-
-        <!-- Modal for Add Course Offering -->
-        <div class="divModals" id="modalAddOffering">
-            <table class="modal_header">
-                <tr>
-                    <th>Degree Program</th>
-                    <th>Batch</th>
-                    <th>Academic Year</th>
-                    <th>Term</th>
-                    <th>Search</th>
-                </tr>
-                <tr>
-                    <td><select class = 'modal_select' id='select_degree'>
-                        <option value="All">All</option>
-                        <c:forEach items="${allDegrees}" var="degreeType">
-                            <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
-                        </c:forEach>
-                    </select></td>
-                    <td><select class = 'modal_select' id='select_batch'></select></td>
-                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
-                    <td><select class = 'modal_select' id='select_term'>
-                        <option value="All">All</option>
-                        <option value="First">1st</option>
-                        <option value="Second">2nd</option>
-                        <option value="Third">3rd</option>
-                    </select></td>
-                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
-                </tr>
-            </table>
-            <table id='modal_table_add_courses'>
-                <tr>
-                    <th>Course</th>
-                    <th>Name</th>
-                    <th>Units</th>
-                    <th>Add</th>
-                </tr>
-                <c:forEach items="${allCourses}" var="course">
-                    <tr>
-                        <td>${course.courseCode}</td>
-                        <td>${course.courseName}</td>
-                        <td>${course.units}</td>
-                        <td><button class = 'add_modal_buttons'>+</button></td>
-                    </tr>
-                </c:forEach>
-                <tr>
-                    <td>INOVATE</td>
-                    <td>Technology and Innovation Management</td>
-                    <td>3.0</td>
-                    <td><button class = 'add_modal_buttons'>+</button></td>
-                </tr>
-            </table>
-        </div>
-
-		<!-- Modal for Assigning Faculty -->
-        <div class="divModals" id="modalAssignFaculty">
-			<table class="modal_header">
-                <tr>
-                    <th>Search</th>
-                    <th>Recommendation</th>
-                    <th>Sort By</th>
-                </tr>
-                <tr>
-                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
-					<td><select class = 'modal_select' id='select_recommend'></select></td>
-                    <td><select class = 'modal_select' id='select_sort'></select></td>                    
-                </tr>
-            </table>
-			<table id="modal_table_assign_faculty">
-				<tr>
-					<th>Last Name</th>
-					<th>First Name</th>
-					<th>Teaching Load</th>
-					<th>Admin Load</th>
-					<th>Research Load</th>
-					<th>Total Load</th>
-					<th>Assign</th>
-				</tr>
-				<c:forEach items="${allFacultyLoad}" var="facLoad">
-				<tr>
-					<td>${facLoad.faculty.lastName}</td>
-					<td>${facLoad.faculty.firstName}</td>
-					<td>${facLoad.teachingLoad}</td>
-					<td>${facLoad.adminLoad}</td>
-					<td>${facLoad.researchLoad}</td>
-					<td>${facLoad.totalLoad}</td>
-					<td><button class = 'add_modal_buttons'>Assign</button></td>
-				</tr>
-				</c:forEach>
-				<tr>
-					<td>Deja</td>
-					<td>Jordan</td>
-					<td>9</td>
-					<td>0</td>
-					<td>0</td>
-					<td>9</td>
-					<td><button class = 'add_modal_buttons'>Assign</button></td>
-				</tr>
-			</table>
         </div>
     </body>
 </html>

@@ -13,7 +13,7 @@ public class OfferingModifyDto {
     private char day1;
     private char day2;
     private String roomCode;
-    private String facultyName;
+    private String faculty;
 
     public Long getOfferingId() {
         return offeringId;
@@ -95,11 +95,26 @@ public class OfferingModifyDto {
         this.roomCode = roomCode;
     }
 
-    public String getFacultyName() {
-        return facultyName;
+    public String getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyName(String facultyName) {
-        this.facultyName = facultyName;
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "OfferingModifyDto{" +
+                "offeringId=" + offeringId +
+                ", classStatus='" + classStatus + '\'' +
+                ", classSection='" + classSection + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", day1=" + day1 +
+                ", day2=" + day2 +
+                ", roomCode='" + roomCode + '\'' +
+                ", faculty='" + faculty + '\'' +
+                '}';
     }
 }

@@ -141,23 +141,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
         return "redirect:/apo/add-offering";
     }
 
-    /*** Update Course Offering ***/
-    @RequestMapping(value = {"/apo/view"}, method = RequestMethod.GET)
-    public String viewCourseOffering(Model model, @RequestParam("v") Long offeringId)
-    {
-        /* Get All Offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferings());
-        model.addAttribute("allDays", offeringService.generateLetterDays());
-
-        /* Find Specific Offering */
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(offeringId);
-        if(selectedOffering == null)
-            return "redirect:/error";
-        model.addAttribute("selOffering", selectedOffering);
-
-        return "/apo/apoModify";
-    }
-
     @RequestMapping(value = {"/apo", "/apo/home", "/cvc", "/cvc/home"}, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                      BindingResult bindingResult, HttpServletRequest request, Model model)
@@ -166,6 +149,8 @@ public class OfferingController {   // This Controller is for the Course Schedul
         String urlPattern = (String) request.getServletPath();
         if (bindingResult.hasErrors())
             return "/apo";
+
+        System.out.println("Hello Niggers = " + offerModifyForm.toString());
 
         /* Else, save new course offering to the database */
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
@@ -218,7 +203,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
                     dayInstance.setCourseOffering(currOffering);
                     dayInstance.setRoom(newRoom);
                     isDay1Done = true;
-                    System.out.println("Hello");
                     continue;
                 }
                 // If Day 1 is null or "-" in the form
@@ -247,7 +231,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         }
 
         // Faculty
-        User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFacultyName());
+        User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFaculty());
         currOffering.setFaculty(newFaculty);
 
         // Save it to the database
@@ -288,7 +272,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         return "/apo/allocate-room";
     }
 
-    /* Search Course Offering */
+    /* Search Course Offering
     @RequestMapping(value = "/apo", method = RequestMethod.POST)
     public String searchOffering(Model model, @RequestParam("searchString") String searchString)
     {
@@ -299,7 +283,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
             model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByCourse(searchedCourse, 2017, 2018, 1));
 
         return "/apo";
-    }
+    } */
     /* Search by Class Type */
     @RequestMapping(value = "/apo/class-type", method = RequestMethod.GET)
     public String searchClassType(Model model, @RequestParam("select_left_class_type") String classType)
