@@ -499,11 +499,17 @@
 #modal_form_faculty, #modal_form_room{
 	text-align: center;
 }
-#modal_table_room, #modal_table_add_courses{
+#modal_table_room{
 	width: 100%;
 	text-align: center;
 	border-collapse: collapse;
 }
+#modal_table_add_courses {
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+}
+
 /*Room Assignment*/
 #modal_table_room tr, #modal_table_add_courses tr{
 	background-color: #e2e2e2;
@@ -519,9 +525,7 @@
 	height: 20%;
 	font-size: 20px;
 }
-#modal_table_add_courses th{
-	text-align: center;
-}
+
 .modal_header{
 	width: 100%;
 	margin-bottom: 30px;
@@ -550,7 +554,7 @@
 	background-color:white;
 	top:6.9%;
 	font-size: 14px;
-	left:235;
+	left:243;
 }
 #button_search_course{
 	position: absolute;
@@ -559,7 +563,7 @@
 	background-color:white;
 	top:6.9%;
 	font-size: 14px;
-	left:735;
+	left:185;
 }
 .divModals {
 	overflow: auto;

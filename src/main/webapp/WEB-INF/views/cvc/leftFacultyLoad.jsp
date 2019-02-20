@@ -26,7 +26,12 @@
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> View Offerings </p>
-                <select class = "filterForms" id="select_view_offerings"> </select>
+                <select class = "filterForms" id="select_view_offerings">
+                    <option value="All">All</option>
+                    <c:forEach items="${allTerms}" var="terms">
+                        <option value="${terms}"><c:out value="${terms}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "leftSidebarRows">
@@ -41,19 +46,34 @@
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> Class Type </p>
-                <select class = "filterForms" id="select_left_class_type"> </select>
+                <select class = "filterForms" id="select_left_class_type">
+                    <option value="All">All</option>
+                    <c:forEach items="${allClassTypes}" var="classTypes">
+                        <option value="${classTypes}"><c:out value="${classTypes}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> Room Type </p>
-                <select class = "filterForms" id="select_room_type"> </select>
+                <select class = "filterForms" id="select_room_type">
+                    <option value="All">All</option>
+                    <c:forEach items="${allRoomTypes}" var="roomType">
+                        <option value="${roomType}"><c:out value="${roomType}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> Time Block </p>
-                <select class = "filterForms" id="select_left_timeblock"> </select>
+                <select class = "filterForms" id="select_left_timeblock">
+                    <option value="All">All</option>
+                    <c:forEach items="${uniqueTimeslots}" var="timeslots">
+                        <option value="${timeslots}"><c:out value="${timeslots}" /></option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr class = "leftSidebarRows">

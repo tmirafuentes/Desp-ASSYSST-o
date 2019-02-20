@@ -211,19 +211,24 @@ public class OfferingService {
         ArrayList<String> timeslotList = new ArrayList<>();
         String timeslotTemplate;
 
-       //Collections.sort(allDays, Comparator.comparing(s -> Integer.parseInt(s.getbeginTime())));
 
         for(int i = 0; i < allDays.size(); i++)
         {
-            timeslotTemplate = allDays.get(i).getbeginTime() + " - " + allDays.get(i).getendTime();
-            timeslotList.add(timeslotTemplate);
+            if(!allDays.get(i).getbeginTime().equals("0"))
+            {
+                timeslotTemplate = allDays.get(i).getbeginTime() + " - " + allDays.get(i).getendTime();
+                timeslotList.add(timeslotTemplate);
+            }
+
         }
 
-        Collections.sort(timeslotList); //needs sorting based on time frame
+        Collections.sort(timeslotList);
         Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
         timeslotList = new ArrayList<String>(uniqueTimeslots);
-        Collections.sort(timeslotList);
-
+        Collections.sort(
+                timeslotList,
+                (time1, time2) -> Integer.parseInt( time1.substring(0, time1.indexOf(' '))) - Integer.parseInt(time2.substring(0, time2.indexOf(' '))));
+        //Collections.sort(timeslotList);
         return timeslotList.iterator();
     }
 
@@ -350,6 +355,13 @@ public class OfferingService {
         return allClassTypes;
     }
 
+    public ArrayList<String> generateTerms() {
+        ArrayList<String> allTerms = new ArrayList<String>();
+        allTerms.add("1st");
+        allTerms.add("2nd");
+        allTerms.add("3rd");
+        return allTerms;
+    }
     /* Generate All Room Types */
     public Iterator generateRoomType() {
         ArrayList<String> allRoomTypes = new ArrayList<String>();
@@ -357,7 +369,6 @@ public class OfferingService {
         allRoomTypes.add("Computer Laboratory");
         return allRoomTypes.iterator();
     }
-
 
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */
