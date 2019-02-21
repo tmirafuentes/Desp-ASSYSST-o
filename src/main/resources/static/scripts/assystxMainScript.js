@@ -170,18 +170,30 @@ $(function() {
 
     /* Filtering Timeblock */
     $("#select_left_timeblock").change(function() {
-        //shows all hidden rows
-        $(".genContentCols:nth-child(4)").each(function() {
-            $(this).parent().show();
-        });
-        var filterData = $(this).val();//value from the timeslot filter
-        //compares the timeblock values
-        $(".genContentCols:nth-child(4)").each(function() {
-            var cellText = $.trim($(this).text());//value for the timeslots displayed
-            if (filterData != cellText) {//if it doesn't match hide it
-                $(this).parent().hide();
-            }
-        });
+        //value from the timeslot filter
+        var filterData = $(this).val();
+        if(filterData != "All")
+        {
+            //shows all hidden rows
+            $(".genContentCols:nth-child(4)").each(function() {
+                $(this).parent().show();
+            });
+
+            //compares the timeblock values
+            $(".genContentCols:nth-child(4)").each(function() {
+                var cellText = $.trim($(this).text());//value for the timeslots displayed
+                if (filterData != cellText) {//if it doesn't match hide it
+                    $(this).parent().hide();
+                }
+            });
+        }
+        else{
+            //shows all hidden rows
+            $(".genContentCols:nth-child(4)").each(function() {
+                $(this).parent().show();
+            });
+        }
+
     });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
