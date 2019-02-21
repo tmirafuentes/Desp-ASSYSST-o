@@ -389,4 +389,6 @@ public class OfferingService {
         //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;
         //return termsAYear.iterator();
     //}
+    /* Filter Functions*/
+
 }

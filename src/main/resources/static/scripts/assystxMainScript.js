@@ -166,4 +166,36 @@ $(function() {
         $("#modalAddOffering").dialog("open");
     });
 
+    /* Filtering Script Part */
+
+    /* Filtering Timeblock */
+    $("#select_left_timeblock").change(function() {
+        //shows all hidden rows
+        $(".genContentCols:nth-child(4)").each(function() {
+            $(this).parent().show();
+        });
+        var filterData = $(this).val();//value from the timeslot filter
+        //compares the timeblock values
+        $(".genContentCols:nth-child(4)").each(function() {
+            var cellText = $.trim($(this).text());//value for the timeslots displayed
+            if (filterData != cellText) {//if it doesn't match hide it
+                $(this).parent().hide();
+            }
+        });
+    });
+            // Get and convert the data for sending
+            // Example: This variable contains the selected option-text
+        /*var filterData = $(this).text();
+        console.log(filterData);
+
+        $(".genContentCols:nth-child(4)").each(function() {
+            var cellText = $.trim($(this).text());
+            if (cellText.localeCompare(filterData) != 0) {
+                console.log("criteria" + filterData);
+                console.log("text in cell" + cellText);
+                $(this).parent().hide();
+            }
+        });
+        });
+    });*/
 });
