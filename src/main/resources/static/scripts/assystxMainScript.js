@@ -166,6 +166,13 @@ $(function() {
         $("#modalAddOffering").dialog("open");
     });
 
+    /* Add New Offering to System */
+    $(".add_offer_btns").click(function() {
+        var courseCode = $(this).attr("value");
+        $("#add_offer_field").val(courseCode);
+        $("#modalAddOffering").dialog("close");
+    });
+
     /* Filtering Script Part */
 
     /* Filtering Timeblock */

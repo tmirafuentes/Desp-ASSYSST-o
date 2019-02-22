@@ -127,20 +127,30 @@ public class OfferingController {   // This Controller is for the Course Schedul
         return "apo/add-offering";
     }
 
-    @RequestMapping(value = "/apo/manage-offering/add", method = RequestMethod.POST)
-    public String addNewOfferingSubmit(@ModelAttribute("offeringForm") CourseOffering offeringForm, BindingResult bindingResult, Model model)
+    @RequestMapping(value = "/apo/add-offering", method = RequestMethod.POST)
+    public String addNewOfferingSubmit(@ModelAttribute("addOfferingForm") Course offeringForm,
+                                       BindingResult bindingResult,
+                                       Model model)
     {
         /* Errors */
         if (bindingResult.hasErrors())
-            return "/apo/add-offering";
+            return "/apo/home";
+
+        /* Find Course Object through Course Code */
+        Course currCourse = offeringService.retrieveCourseByCourseCode(offeringForm.getCourseCode());
+
+        /* Initialize new Course Offering */
+        CourseOffering newOffering = new CourseOffering();
+        newOffering.setCourse(currCourse);
 
         /* Else, save new course offering to the database */
-        offeringService.saveCourseOffering(offeringForm);
+        offeringService.saveCourseOffering(newOffering);
 
         /* Message that course is successfully updated */
-        return "redirect:/apo/add-offering";
+        return "redirect:/apo/home";
     }
 
+    /* Modify Course Offering */
     @RequestMapping(value = {"/apo", "/apo/home", "/cvc", "/cvc/home"}, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                      BindingResult bindingResult, HttpServletRequest request, Model model)
