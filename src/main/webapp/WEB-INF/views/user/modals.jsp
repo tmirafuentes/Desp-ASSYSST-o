@@ -174,9 +174,9 @@
                     </tr>
                 </c:forEach>
             </table>
+        <!-- Modal for Deloading Faculty -->
         </div>
 
-        <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
             <p id="dialog_professor_name"></p>
             <table id="dialog_load_table">
@@ -185,8 +185,8 @@
                         <p class="p_modal">Total Current Load</p>
                     </td>
                     <td>
-                        <p id="p_total_load"></p>
                     </td>
+                    <p id="p_total_load"></p>
                 </tr>
                 <tr>
                     <td>
