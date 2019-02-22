@@ -179,18 +179,25 @@ $(function() {
     $("#select_left_timeblock").change(function() {
         //value from the timeslot filter
         var filterData = $(this).val();
+        var rowNumber = 0;
         if(filterData != "All")
         {
             //shows all hidden rows
             $(".genContentCols:nth-child(4)").each(function() {
-                $(this).parent().show();
+                    $(this).parent().show();
             });
 
             //compares the timeblock values
             $(".genContentCols:nth-child(4)").each(function() {
-                var cellText = $.trim($(this).text());//value for the timeslots displayed
-                if (filterData != cellText) {//if it doesn't match hide it
-                    $(this).parent().hide();
+                if(rowNumber != 0) {
+                    var cellText = $.trim($(this).text());//value for the timeslots displayed
+                    if (filterData != cellText) {//if it doesn't match hide it
+                            $(this).parent().hide();
+                            rowNumber++;
+                    }
+                }
+                else{
+                    rowNumber++;
                 }
             });
         }
@@ -202,6 +209,130 @@ $(function() {
         }
 
     });
+    /* Filtering Class Type */
+    $("#select_left_class_type").change(function() {
+        var filterData = $(this).val();
+        var rowNumber = 0;
+        if(filterData != "All") {
+            //shows all hidden rows
+            $(".genContentRows #off_status").each(function () {
+                $(this).parent().parent().show();
+            });
+
+            $(".genContentRows #off_status").each(function () {
+                if(rowNumber != 0) {
+                    var cellText = $.trim($(this).val());//value for the timeslots displayed
+                    if (filterData != cellText) {//if it doesn't match hide it
+                        $(this).parent().hide();
+                        rowNumber++;
+                    }
+                }
+                else{
+                    rowNumber++;
+                }
+            });
+        }
+        else{
+            //shows all hidden rows
+            $(".genContentRows #off_status").each(function() {
+                $(this).parent().show();
+            });
+        }
+    });
+    /* Filtering Class Type */
+    $("#select_room_type").change(function() {
+        var filterData = $(this).val();
+        var rowNumber = 0;
+        if(filterData != "All") {
+            //shows all hidden rows
+            $(".genContentCols #off_roomtype").each(function () {
+                $(this).parent().parent().show();
+            });
+
+            $(".genContentCols #off_roomtype").each(function () {
+                if(rowNumber != 0) {
+                    var cellText = $.trim($(this).val());//value for the timeslots displayed
+                    if (filterData != cellText) {//if it doesn't match hide it
+                        $(this).parent().parent().hide();
+                        rowNumber++;
+                    }
+                }
+                else{
+                    rowNumber++;
+                }
+            });
+        }
+        else{
+            //shows all hidden rows
+            $(".genContentCols #off_roomtype").each(function() {
+                $(this).parent().parent().show();
+            });
+        }
+    });
+    /* Filtering Room Type */
+    $("#select_room_type").change(function() {
+        var filterData = $(this).val();
+        var rowNumber = 0;
+        if(filterData != "All") {
+            //shows all hidden rows
+            $(".genContentCols #off_roomtype").each(function () {
+                $(this).parent().parent().show();
+            });
+
+            $(".genContentCols #off_roomtype").each(function () {
+                if(rowNumber != 0) {
+                    var cellText = $.trim($(this).val());//value for the timeslots displayed
+                    if (filterData != cellText) {//if it doesn't match hide it
+                        $(this).parent().parent().hide();
+                        rowNumber++;
+                    }
+                }
+                else{
+                    rowNumber++;
+                }
+            });
+        }
+        else{
+            //shows all hidden rows
+            $(".genContentCols #off_roomtype").each(function() {
+                $(this).parent().parent().show();
+            });
+        }
+    });
+
+    /* Filtering Term
+    $("#select_view_offerings").change(function() {
+        var filterData = $(this).val();
+        var rowNumber = 0;
+        console.log("filterData" + filterData);
+        if(filterData != "All") {
+            //shows all hidden rows
+            $(".genContentCols #off_term").each(function () {
+                $(this).parent().parent().show();
+            });
+
+            $(".genContentCols #off_term").each(function () {
+                if(rowNumber != 0) {
+                    var cellText = $.trim($(this).val());
+                    console.log("cellText" + cellText);
+                    if (filterData != cellText) {//if it doesn't match hide it
+                        console.log("pumapasok sa hide");
+                        $(this).parent().parent().hide();
+                        rowNumber++;
+                    }
+                }
+                else{
+                    rowNumber++;
+                }
+            });
+        }
+        else{
+            //shows all hidden rows
+            $(".genContentCols #off_term").each(function() {
+                $(this).parent().parent().show();
+            });
+        }
+    });*/
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
         /*var filterData = $(this).text();

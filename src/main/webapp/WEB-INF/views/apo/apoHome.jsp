@@ -120,6 +120,8 @@
                                                         <c:otherwise>
                                                             <c:out value="${rooms.room.roomCode}" />
                                                             <input type="text" value="${rooms.room.roomCode}" id="off_room" hidden>
+                                                            <input type="text" value="${rooms.room.roomType}" id="off_roomtype" hidden>
+                                                            <input type="text" value="${offering.term}" id="off_term" hidden>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:forEach>
