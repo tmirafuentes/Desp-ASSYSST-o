@@ -293,31 +293,30 @@ $(function() {
         }
     });
 
-    /* Filtering Term
+    /* Filtering Term*/
     $("#select_view_offerings").change(function() {
-        var filterData = $(this).val();
+        var filterData = $(this).val();//gets value for the filter
         var rowNumber = 0;
-        console.log("filterData" + filterData);
-        if(filterData != "All") {
-            //shows all hidden rows
-            $(".genContentCols #off_term").each(function () {
-                $(this).parent().parent().show();
-            });
 
-            $(".genContentCols #off_term").each(function () {
-                if(rowNumber != 0) {
-                    var cellText = $.trim($(this).val());
-                    console.log("cellText" + cellText);
-                    if (filterData != cellText) {//if it doesn't match hide it
-                        console.log("pumapasok sa hide");
-                        $(this).parent().parent().hide();
+        $(".genContentCols #off_term").each(function () {
+            $(this).parent().parent().show();
+        });
+
+        if(filterData != "All") {
+                $(".genContentCols #off_term").each(function () {
+                    if (rowNumber != 0) {
+                        var cellText = $(this).val();
+                        if (cellText != filterData) {
+                            console.log(cellText + "vs" + filterData);//weird bug where it leaves some
+                            $(this).parent().parent().hide();
+                        }
                         rowNumber++;
                     }
-                }
-                else{
-                    rowNumber++;
-                }
+                    else{
+                        rowNumber++;
+                    }
             });
+
         }
         else{
             //shows all hidden rows
@@ -325,7 +324,8 @@ $(function() {
                 $(this).parent().parent().show();
             });
         }
-    });*/
+
+    });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
         /*var filterData = $(this).text();
