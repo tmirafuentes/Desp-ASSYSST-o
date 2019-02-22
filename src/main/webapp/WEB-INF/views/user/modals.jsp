@@ -10,55 +10,66 @@
     <body>
         <!-- Modal for Add Course Offering -->
         <div class="divModals" id="modalAddOffering">
-        <table class="modal_header">
-            <tr>
-                <th>Degree Program</th>
-                <th>Batch</th>
-                <th>Academic Year</th>
-                <th>Term</th>
-                <th>Search</th>
-            </tr>
-            <tr>
-                <td><select class = 'modal_select' id='select_degree'>
-                    <option value="All">All</option>
-                    <c:forEach items="${allDegrees}" var="degreeType">
-                        <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
-                    </c:forEach>
-                </select></td>
-                <td><select class = 'modal_select' id='select_batch'></select></td>
-                <td><select class = 'modal_select' id='select_academic_year'></select></td>
-                <td><select class = 'modal_select' id='select_term'>
-                    <option value="All">All</option>
-                    <option value="First">1st</option>
-                    <option value="Second">2nd</option>
-                    <option value="Third">3rd</option>
-                </select></td>
-                <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
-            </tr>
-        </table>
-        <table id='modal_table_add_courses'>
-            <tr>
-                <th>Course</th>
-                <th>Name</th>
-                <th>Units</th>
-                <th>Add</th>
-            </tr>
-            <c:forEach items="${allCourses}" var="course">
+            <table class="modal_header">
                 <tr>
-                    <td>${course.courseCode}</td>
-                    <td>${course.courseName}</td>
-                    <td>${course.units}</td>
-                    <td><button class = 'add_modal_buttons'>+</button></td>
+                    <th>Degree Program</th>
+                    <th>Batch</th>
+                    <th>Academic Year</th>
+                    <th>Term</th>
+                    <th>Search</th>
                 </tr>
-            </c:forEach>
-            <tr>
-                <td>INOVATE</td>
-                <td>Technology and Innovation Management</td>
-                <td>3.0</td>
-                <td><button class = 'add_modal_buttons'>+</button></td>
-            </tr>
-        </table>
-    </div>
+                <tr>
+                    <td>
+                        <select class = 'modal_select' id='select_degree'>
+                            <option value="All">All</option>
+                            <c:forEach items="${allDegrees}" var="degreeType">
+                                <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                    <!--<td><select class = 'modal_select' id='select_batch'></select></td>
+                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                    <td><select class = 'modal_select' id='select_term'>
+                        <option value="All">All</option>
+                        <option value="First">1st</option>
+                        <option value="Second">2nd</option>
+                        <option value="Third">3rd</option>
+                    </select></td>-->
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
+                </tr>
+            </table>
+            <form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">
+                <table id='modal_table_add_courses'>
+                    <tr>
+                        <th>Course</th>
+                        <th>Name</th>
+                        <th>Units</th>
+                        <th>Add</th>
+                    </tr>
+                    <c:forEach items="${allCourses}" var="course">
+                        <tr>
+                            <td class="course_code">
+                                    ${course.courseCode}
+                            </td>
+                            <td class="course_name">
+                                    ${course.courseName}
+                            </td>
+                            <td class="course_units">
+                                    ${course.units}
+                            </td>
+                            <td>
+                                <button type="submit" class = 'add_modal_buttons add_offer_btns' value="${course.courseCode}">
+                                    +
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <spring:bind path="courseCode">
+                    <form:input type="text" path="courseCode" id="add_offer_field" hidden="hidden" />
+                </spring:bind>
+            </form:form>
+        </div>
 
         <!-- Modal for Assign Room -->
         <div class="divModals" id="modalAssignRoom">

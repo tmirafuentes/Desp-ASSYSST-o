@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.servlets;
 
+import org.dlsu.arrowsmith.classes.Course;
 import org.dlsu.arrowsmith.classes.User;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.*;
@@ -64,8 +65,12 @@ public class MainController {
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
         model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
+
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
+
+        /* Load Object for Add Coruse Offering */
+        model.addAttribute("addOfferingForm", new Course());
 
         return "/apo/apoHome";
     }
@@ -85,9 +90,9 @@ public class MainController {
         model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
         model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
+
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
-
 
         return "/cvc/cvcHome";
     }
