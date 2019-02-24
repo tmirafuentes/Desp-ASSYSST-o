@@ -31,29 +31,8 @@
             <td><div id ="div_preferences"></div></td>
         </tr>
         -->
-        <tr>
-            <td>
-                <p class = "facultyInfoTitles" id="label_currLoad">Current Load:</p>
-            </td>
-            <td>
-                <p class = "facultyInfoTitles" id="facultyInfo_currLoad"></p>
-            </td>
-        </tr>
     </table>
-    <table id = "table_curr_load">
-        <tr>
-            <th>Course Code</th>
-            <th>Day</th>
-            <th>Time</th>
-            <th>Room</th>
-        </tr>
-        <tr class = "generated_current_load">
-            <td>INOVATE</td>
-            <td>WF</td>
-            <td>0915 - 1045</td>
-            <td>G201</td>
-        </tr>
-    </table>
+    <p class = "facultyInfoTitles" id="label_currLoad">Current Load: </p>
     <table class = "rightDeloadingLoadingButtons">
         <tr>
             <td>
@@ -64,6 +43,21 @@
             </td>
         </tr>
     </table>
+    <div class="generatedFacultyLoadTable">
+        <div class="generatedLoad">
+            <div class="genLoadRows">
+                <div class="genLoadCols">Course Code</div>
+                <div class="genLoadCols">Day</div>
+                <div class="genLoadCols">Time</div>
+                <div class="genLoadCols">Room</div>
+            </div>
+            <%--<c:forEach items="${allOfferings}" var="offering">
+                <c:set var="CurrentFacultyValue" value="${offering.faculty.userId}" />
+                <c:out value= "${OfferingFacultyValue}" />
+                <c:out value="${CurrentFacultyValue}" />
+            </c:forEach>--%>
+        </div>
+    </div>
 </div>
 </body>
 </html>

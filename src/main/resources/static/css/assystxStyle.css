@@ -381,6 +381,8 @@
 }
 #table_preferences{
 	font-size:13px;
+	top: 18%;
+	left: 25%;
 }
 #load_button_assign_faculty{
 	background-color:#3cb878;
@@ -392,8 +394,8 @@
 #table_faculty_name{
 	position: relative;
 	top: 18%;
-	left: 25%;
-	font-size:12px;
+	left: 30%;
+	font-size:20px;
 	padding: 5px;
 	border-spacing: 10px;
 
@@ -646,22 +648,52 @@
 }
 #label_currLoad{
 	position: relative;
-	top:35%;
+	top:20%;
+	left: 35%;
 	font-weight: bold;
 	font-size: 16px;
-	left: 36%;
 	width: 65%;
-}
-#table_curr_load{
-	position: relative;
-	top:25%;
-	font-size: 14px;
-	width: 100%;
 
 }
+.generatedFacultyLoadTable{
+	position: relative;
+	top:16%;
+	left: 20%;
+	font-size: 14px;
+	width: 100%;
+	border-collapse: collapse;
+	display: table;
+}
+.generatedLoad .genLoadRows:first-child
+{
+	background-color: white;
+	margin-top: 100px;
+	font-size:14px;
+	font-weight: bold;
+}
+
+.generatedLoad .genLoadRows 	/* FKA genList_rows */
+{
+	margin-top: 5px;
+	background-color:#e2e2e2;
+	height: 30px;
+	width: 100%;
+	border-bottom:3px solid white;
+	display: table-row;
+	cursor: pointer;
+	position: relative;
+}
+
+.generatedLoad .genLoadRows .genLoadCols	/* FKA genList_cols */
+{
+	text-align:center;
+	font-size:14px;
+	display: table-cell;
+}
+
 .rightDeloadingLoadingButtons{
 	position: relative;
-	top:5%;
+	top:11%;
 	font-size: 14px;
 	width: 100%;
 }
@@ -681,7 +713,7 @@
 	margin-top: 3px;
 }
 #table_faculty_name th{
-	font-size: 14px;
+	font-size: 16px;
 	text-align: center;
 
 }

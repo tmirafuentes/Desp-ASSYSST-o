@@ -185,9 +185,9 @@
                     </tr>
                 </c:forEach>
             </table>
-        <!-- Modal for Deloading Faculty -->
-        </div>
 
+        </div>
+        <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
             <p id="dialog_professor_name"></p>
             <table id="dialog_load_table">
@@ -222,7 +222,7 @@
                         <button class="modal_buttons" id="deload_confirm">Confirm</button>
                     </td>
                     <td>
-                        <button class="modal_buttons" id="deload_confirm">Reset</button>
+                        <button class="modal_buttons" id="delaod_reset">Reset</button>
                     </td>
                 </tr>
             </table>

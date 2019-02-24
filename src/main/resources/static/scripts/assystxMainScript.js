@@ -100,6 +100,11 @@ $(function() {
             /* Put values into right sidebar */
 
             $(".modify_sidebar").show();
+
+            /* Faculty Name */
+            $("#facultyInfoTitles_name").text($(this).find("#faculty_Lname").val() + ", " + $(this).find("#faculty_Fname").val());
+            /* Department*/
+            $("#facultyInfoTitles_department").text($(this).find("#faculty_department").val());
         }
     });
 
@@ -332,6 +337,10 @@ $(function() {
             });
         }
 
+    });
+    /*Search Course*/
+    $("#form_search_class").submit(function(){
+        alert("Submitted");
     });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
