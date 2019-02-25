@@ -94,6 +94,7 @@ public class MainController {
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
+        model.addAttribute("addOfferingForm", new Course());
         return "/cvc/cvcHome";
     }
 

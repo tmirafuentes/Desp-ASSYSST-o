@@ -59,10 +59,15 @@
 .class_days:last-child, .class_days:first-child{
 	color:#ed1c24;
 }
-#left_button_holder{
-	position:relative;
-	top: 70;
+#left_button_holder {
+    position: relative;
+    top: 10;
 }
+#button_deloading, #button_concerns{
+    position: relative;
+    top:10;
+}
+
 .left_buttons{
 	height:40px;
 	font-size:14px;

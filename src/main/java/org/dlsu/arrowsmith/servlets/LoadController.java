@@ -47,6 +47,8 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+
+        model.addAttribute("addOfferingForm", new Course());
         return "cvc/cvcFacultyLoad";
     }
 

@@ -117,6 +117,9 @@
     padding-top: 15px;
     padding-left: 10px;
 }
+#button_view_course_offerings{
+    text-decoration: none;
+}
 #input_search_course{
     color: black;
 }

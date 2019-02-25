@@ -94,7 +94,10 @@
     </table>
 
     <div class = "sidebarMenu">
-        <button class = "menuLinks" id ="button_view_faculty"> View Course Offerings </button>
+            <!-- Go to Faculty Load Page -->
+        <div id = "left_button_holder">
+        <a href="/cvc/" class = left_buttons id ="button_view_faculty"> View Course Offerings</a>
+        </div>
         <button class = "menuLinks" id="button_deloading"> Add New Course </button>
         <button class = "menuLinks" id ="button_concerns"> Concerns </button>
     </div>
