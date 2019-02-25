@@ -116,9 +116,24 @@
     height: 50px;
     padding-top: 15px;
     padding-left: 10px;
+    margin-bottom: 10px;
 }
 #button_view_course_offerings{
-    text-decoration: none;
+    color:#000;
+    background-color:#e1e1e1;
+    width: 75%;
+    height: 40px;
+    line-height:40px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+#button_add_new_course, #button_concerns, #button_add_new_offering{
+    color:#000;
+    background-color:#e1e1e1;
+    width: 75%;
+    height: 40px;
+    line-height:40px;
+    padding-left: 10px;
 }
 #input_search_course{
     color: black;

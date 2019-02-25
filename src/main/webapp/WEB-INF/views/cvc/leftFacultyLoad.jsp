@@ -95,11 +95,15 @@
 
     <div class = "sidebarMenu">
             <!-- Go to Faculty Load Page -->
-        <div id = "left_button_holder">
-        <a href="/cvc/" class = left_buttons id ="button_view_faculty"> View Course Offerings</a>
-        </div>
-        <button class = "menuLinks" id="button_deloading"> Add New Course </button>
-        <button class = "menuLinks" id ="button_concerns"> Concerns </button>
+        <a href="/cvc/" class = "menuLinks" id="view_course_offerings">
+            <div id = "button_view_course_offerings"> View Course Offerings</div>
+        </a>
+        <a href="#" class = "menuLinks" id = "add_new_course">
+            <div id = "button_add_new_course"> Add New Course</div>
+        </a>
+        <a href="#" class = "menuLinks" id = "concerns">
+            <div id = "button_concerns"> Concerns </div>
+        </a>
     </div>
 
 </div>
