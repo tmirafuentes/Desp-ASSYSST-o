@@ -57,7 +57,7 @@
                                         <input type="text" id='faculty_Lname' value="${facLoad.faculty.lastName}" hidden>
                                         <input type="text" id='faculty_Fname' value="${facLoad.faculty.firstName}" hidden>
                                         <input type="text" id='faculty_department' value="${facLoad.department.deptName}" hidden>
-                                        <c:set var="CurrenFacultyValue" value="${facLoad.faculty.userId}" />
+                                        <input type="text" id='faculty_id' value="${facLoad.faculty.userId}" hidden>
                                     </div>
                                     <!-- Teaching Load -->
                                     <div class="genContentCols" name="teachLoad">

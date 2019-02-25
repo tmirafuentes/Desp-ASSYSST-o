@@ -47,15 +47,41 @@
         <div class="generatedLoad">
             <div class="genLoadRows">
                 <div class="genLoadCols">Course Code</div>
+                <div class="genLoadCols">Section</div>
                 <div class="genLoadCols">Day</div>
                 <div class="genLoadCols">Time</div>
                 <div class="genLoadCols">Room</div>
             </div>
-            <%--<c:forEach items="${allOfferings}" var="offering">
-                <c:set var="CurrentFacultyValue" value="${offering.faculty.userId}" />
-                <c:out value= "${OfferingFacultyValue}" />
-                <c:out value="${CurrentFacultyValue}" />
-            </c:forEach>--%>
+            <c:forEach items="${allOfferings}" var="offering">
+                <div class="genLoadRows">
+                    <div class="genLoadCols" name="courseCode">
+                        <c:out value="${offering.course.courseCode}" />
+                        <input type="text" id='Offeringfaculty_id' value="${offering.faculty.userId}" hidden>
+                    </div>
+                    <div class="genLoadCols" name="section">
+                        <c:out value="${offering.section}" />
+                    </div>
+                    <div class="genLoadCols" name="time">
+                        <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
+                            <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
+                        </c:forEach>
+                    </div>
+                    <div class="genLoadCols" name="days">
+                        <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
+                            <c:out value="${days.classDay}" />
+                        </c:forEach>
+                    </div>
+                    <div class="genLoadCols" name="room">
+                        <c:forEach items="${offering.daysSet}" var="rooms" begin="0" end="0">
+                            <c:out value="${rooms.room.roomCode}" />
+                        </c:forEach>
+                    </div>
+                    <div class = "genLoadCols" name="id" hidden>
+                        <c:out value="${offering.faculty.userId}" />
+                    </div>
+                </div>
+
+            </c:forEach>
         </div>
     </div>
 </div>

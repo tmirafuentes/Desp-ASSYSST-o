@@ -97,14 +97,40 @@ $(function() {
             $(this).css({'background-color' : '#3cb878'});
             $(this).addClass("selectedFaculty");
 
+            $(".modify_sidebar").show();
             /* Put values into right sidebar */
 
-            $(".modify_sidebar").show();
+            var facultyID = $(this).find("#faculty_id").val();
+            var rownumber = 0;
+            //hide classes that aren't assigned to him/her
+            //hide all rows
+            $(".genLoadRows").each(function () {
+                if(rownumber > 0)
+                {
+                    $(this).hide();
+                    rownumber++;
+                }
+                else
+                    rownumber++;
+
+            });
+
+            //show all rows that are assigned to him/her
+            $(".genLoadCols:nth-child(6)").each(function() {
+                var idnumber = $.trim($(this).text());
+                if(facultyID == idnumber)
+                {
+                    $(this).parent().show();
+                    $(this).hide();
+                }
+
+            });
 
             /* Faculty Name */
             $("#facultyInfoTitles_name").text($(this).find("#faculty_Lname").val() + ", " + $(this).find("#faculty_Fname").val());
             /* Department*/
             $("#facultyInfoTitles_department").text($(this).find("#faculty_department").val());
+
         }
     });
 
