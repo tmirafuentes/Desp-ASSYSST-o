@@ -1,9 +1,8 @@
 package org.dlsu.arrowsmith.servlets;
 
-import org.dlsu.arrowsmith.classes.College;
-import org.dlsu.arrowsmith.classes.Course;
-import org.dlsu.arrowsmith.classes.Department;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.*;
+import org.dlsu.arrowsmith.classes.dtos.FacultyLoadModifyDto;
+import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
@@ -16,6 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 @Controller
 public class LoadController { // This Controller is for the Faculty Load Assignment Module
@@ -47,8 +49,11 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
-
+        model.addAttribute("allLoadTypes", facultyService.generateFacultyLoadTypes());
         model.addAttribute("addOfferingForm", new Course());
+        /* Load Dto for Modify Faculty Load Offering */
+
+        //model.addAttribute("facultyLoadForm", new FacultyLoadDto());
         return "cvc/cvcFacultyLoad";
     }
 
@@ -98,5 +103,4 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         return "redirect:/cvc/manage-faculty";
     }
 
-    /*** Deloading Screen ***/
 }

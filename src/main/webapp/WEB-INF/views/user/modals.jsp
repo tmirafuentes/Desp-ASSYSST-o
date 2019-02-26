@@ -189,43 +189,47 @@
         </div>
         <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
-            <p id="dialog_professor_name"></p>
-            <table id="dialog_load_table">
-                <tr>
-                    <td>
-                        <p class="p_modal">Total Current Load</p>
-                    </td>
-                    <td>
-                    </td>
-                    <p id="p_total_load"></p>
-                </tr>
-                <tr>
-                    <td>
-                        <p class="p_modal">Remarks</p>
-                    </td>
-                    <td>
-                        <select id="select_deload">
-
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p class="p_modal">Deloaded Units</p>
-                    </td>
-                    <td>
-                        <input type="number" id="input_deload" value="0"> Units
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="modal_buttons" id="deload_confirm">Confirm</button>
-                    </td>
-                    <td>
-                        <button class="modal_buttons" id="delaod_reset">Reset</button>
-                    </td>
-                </tr>
-            </table>
+            <form:form method="POST" modelAttribute="facultyloadModifyForm">
+                <p id="dialog_professor_name"></p>
+                <table id="dialog_load_table">
+                    <tr>
+                        <td>
+                            <p class="p_modal">Total Current Load</p>
+                        </td>
+                        <td>
+                        </td>
+                        <p id="p_total_load"></p>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="p_modal">Remarks</p>
+                        </td>
+                        <td>
+                            <select id="select_deload">
+                                <c:forEach items="${allLoadTypes}" var="loadType">
+                                    <option value="${loadType}"><c:out value="${loadType}" /></option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="p_modal">Deloaded Units</p>
+                        </td>
+                        <td>
+                            <input type="number" id="input_deload" value="0" min="0"> Units
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="modal_buttons" id="deload_confirm">Confirm</button>
+                        </td>
+                        <td>
+                            <button class="modal_buttons" id="delaod_reset">Reset</button>
+                        </td>
+                    </tr>
+                </table>
+            </form:form>
         </div>
 
         <!-- Modal for Concerns -->

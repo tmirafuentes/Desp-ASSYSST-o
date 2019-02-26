@@ -116,6 +116,13 @@ public class FacultyService {
         return facultyLoad;
     }
 
+    /* Retrieve Faculty Load by ID*/
+    public FacultyLoad retrieveFacultyLoadByID(Long facultyID)
+    {
+        FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByLoadId(facultyID);
+        return facultyLoad;
+    }
+
     /**
      **
      ** SYSTEM FUNCTIONS
@@ -170,5 +177,13 @@ public class FacultyService {
         if (retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty) != null)
             return true;
         return false;
+    }
+    /* Generate All The types of faculty loads */
+    public ArrayList<String> generateFacultyLoadTypes() {
+        ArrayList<String> allFacultyLoadTypes = new ArrayList<String>();
+        allFacultyLoadTypes.add("Administrative");
+        allFacultyLoadTypes.add("Teaching");
+        allFacultyLoadTypes.add("Research");
+        return allFacultyLoadTypes;
     }
 }
