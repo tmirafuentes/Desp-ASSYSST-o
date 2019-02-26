@@ -84,6 +84,7 @@
                                                     <c:out value="${days.classDay}" />
                                                     <input type="text" id='off_day${dCtr.count}' value="${days.classDay}" hidden>
                                                 </c:forEach>
+                                                <input type = "text" id='off_counter' value = "${dCtr}" hidden>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

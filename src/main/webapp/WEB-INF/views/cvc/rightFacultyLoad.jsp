@@ -62,13 +62,13 @@
                         <c:out value="${offering.section}" />
                     </div>
                     <div class="genLoadCols" name="time">
-                        <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
-                            <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
+                        <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
+                            <c:out value="${days.classDay}" />
                         </c:forEach>
                     </div>
                     <div class="genLoadCols" name="days">
-                        <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
-                            <c:out value="${days.classDay}" />
+                        <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
+                            <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
                         </c:forEach>
                     </div>
                     <div class="genLoadCols" name="room">

@@ -368,6 +368,73 @@ $(function() {
     $("#form_search_class").submit(function(){
         alert("Submitted");
     });
+
+    /*Filtering by class day Monday*/
+    $("#class_m").click(function() {
+
+        $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            if(!textInside.includes("M"))
+                $(this).hide();
+        });
+    });
+    /*Filtering by class day Tuesday*/
+    $("#class_t").click(function() {
+
+        $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            if(!textInside.includes("T"))
+                $(this).hide();
+        });
+    });
+    /*Filtering by class day Wednesday*/
+    $("#class_w").click(function() {
+
+        $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            if(!textInside.includes("W"))
+                $(this).hide();
+        });
+    });
+    /*Filtering by class day Thursday*/
+    $("#class_h").click(function() {
+
+        $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            if(!textInside.includes("H"))
+                $(this).hide();
+        });
+    });
+    /*Filtering by class day Friday*/
+    $("#class_f").click(function() {
+
+        $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            if(!textInside.includes("F"))
+                $(this).hide();
+        });
+    });
+    /*Filtering by class day Saturday*/
+    $("#class_f").click(function() {
+
+        $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            if(!textInside.includes("S"))
+                $(this).hide();
+        });
+    });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
         /*var filterData = $(this).text();
