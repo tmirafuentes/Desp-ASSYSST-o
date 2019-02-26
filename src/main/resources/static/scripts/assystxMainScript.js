@@ -371,7 +371,9 @@ $(function() {
 
     /*Filtering by class day Monday*/
     $("#class_m").click(function() {
-
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
@@ -382,7 +384,9 @@ $(function() {
     });
     /*Filtering by class day Tuesday*/
     $("#class_t").click(function() {
-
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
@@ -393,7 +397,9 @@ $(function() {
     });
     /*Filtering by class day Wednesday*/
     $("#class_w").click(function() {
-
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
@@ -404,7 +410,9 @@ $(function() {
     });
     /*Filtering by class day Thursday*/
     $("#class_h").click(function() {
-
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
@@ -415,7 +423,9 @@ $(function() {
     });
     /*Filtering by class day Friday*/
     $("#class_f").click(function() {
-
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
@@ -426,9 +436,11 @@ $(function() {
     });
     /*Filtering by class day Saturday*/
     $("#class_f").click(function() {
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
 
         $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("S"))
