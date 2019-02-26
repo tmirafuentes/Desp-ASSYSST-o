@@ -103,4 +103,33 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         return "redirect:/cvc/manage-faculty";
     }
 
+    @RequestMapping(value = {"cvc/manage-load"}, method = RequestMethod.POST)
+    public String editDeloadModule(@ModelAttribute("facultyloadModifyForm") FacultyLoadModifyDto facultyloadDto,
+                                   BindingResult bindingResult, HttpServletRequest request, Model model)
+    {
+        /* Errors */
+        String urlPattern = (String) request.getServletPath();
+        if (bindingResult.hasErrors())
+            return "cvc/manage-load";
+
+        System.out.println("Hello  = " + facultyloadDto.toString());
+
+        /* Else, save the old facultyload with new stuff inside */
+        FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByID(facultyloadDto.getLoadId()); // Offering Id
+        facultyLoad.setAdminLoad(facultyloadDto.getAdminLoad()); // Faculty Admin Load
+        facultyLoad.setResearchLoad(facultyloadDto.getResearchLoad()); // Faculty Admin Load
+        facultyLoad.setTeachingLoad(facultyloadDto.getTeachingLoad()); // Faculty Admin Load
+
+        // Save it to the database
+        facultyService.saveFacultyLoad(facultyLoad);
+
+        /* Message that course is successfully updated */
+        if (urlPattern.contains("apo"))
+            return "redirect:/apo";
+        else if (urlPattern.contains("cvc"))
+            return "redirect:/cvc";
+
+        return "redirect:/error";
+    }
+
 }
