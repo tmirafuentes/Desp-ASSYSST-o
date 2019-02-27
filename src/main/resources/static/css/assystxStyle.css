@@ -676,7 +676,12 @@
 	font-weight: bold;
 	padding: 3em;
 }
-
+.filter_comments{
+	text-align: center;
+	font-weight: bold;
+	position: relative;
+	left:-9%;
+}
 .generatedLoad .genLoadRows 	/* FKA genList_rows */
 {
 	margin-top: 5px;

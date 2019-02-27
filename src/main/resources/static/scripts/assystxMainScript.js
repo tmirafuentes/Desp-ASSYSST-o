@@ -226,11 +226,14 @@ $(function() {
         //value from the timeslot filter
         var filterData = $(this).val();
         var rowNumber = 0;
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         if(filterData != "All")
         {
             //shows all hidden rows
             $(".genContentCols:nth-child(4)").each(function() {
                     $(this).parent().show();
+                    totalResponses ++;
             });
 
             //compares the timeblock values
@@ -238,6 +241,7 @@ $(function() {
                 if(rowNumber != 0) {
                     var cellText = $.trim($(this).text());//value for the timeslots displayed
                     if (filterData != cellText) {//if it doesn't match hide it
+                            totalResponses--;
                             $(this).parent().hide();
                             rowNumber++;
                     }
@@ -251,18 +255,28 @@ $(function() {
             //shows all hidden rows
             $(".genContentCols:nth-child(4)").each(function() {
                 $(this).parent().show();
+                totalResponses ++;
             });
         }
+        console.log(totalResponses);
+        if(totalResponses == 1) {
+            $(".filter_comments").show();
+
+        }
+
 
     });
     /* Filtering Class Type */
     $("#select_left_class_type").change(function() {
         var filterData = $(this).val();
         var rowNumber = 0;
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         if(filterData != "All") {
             //shows all hidden rows
             $(".genContentRows #off_status").each(function () {
                 $(this).parent().parent().show();
+                totalResponses++;
             });
 
             $(".genContentRows #off_status").each(function () {
@@ -271,6 +285,7 @@ $(function() {
                     if (filterData != cellText) {//if it doesn't match hide it
                         $(this).parent().hide();
                         rowNumber++;
+                        totalResponses--;
                     }
                 }
                 else{
@@ -284,15 +299,23 @@ $(function() {
                 $(this).parent().show();
             });
         }
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
     /* Filtering Class Type */
     $("#select_room_type").change(function() {
         var filterData = $(this).val();
         var rowNumber = 0;
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         if(filterData != "All") {
             //shows all hidden rows
             $(".genContentCols #off_roomtype").each(function () {
                 $(this).parent().parent().show();
+                totalResponses++;
             });
 
             $(".genContentCols #off_roomtype").each(function () {
@@ -301,6 +324,7 @@ $(function() {
                     if (filterData != cellText) {//if it doesn't match hide it
                         $(this).parent().parent().hide();
                         rowNumber++;
+                        totalResponses--;
                     }
                 }
                 else{
@@ -313,16 +337,24 @@ $(function() {
             $(".genContentCols #off_roomtype").each(function() {
                 $(this).parent().parent().show();
             });
+        }
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
         }
     });
     /* Filtering Room Type */
     $("#select_room_type").change(function() {
         var filterData = $(this).val();
         var rowNumber = 0;
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         if(filterData != "All") {
             //shows all hidden rows
             $(".genContentCols #off_roomtype").each(function () {
                 $(this).parent().parent().show();
+                totalResponses++;
             });
 
             $(".genContentCols #off_roomtype").each(function () {
@@ -331,6 +363,7 @@ $(function() {
                     if (filterData != cellText) {//if it doesn't match hide it
                         $(this).parent().parent().hide();
                         rowNumber++;
+                        totalResponses--;
                     }
                 }
                 else{
@@ -343,6 +376,11 @@ $(function() {
             $(".genContentCols #off_roomtype").each(function() {
                 $(this).parent().parent().show();
             });
+        }
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
         }
     });
 
@@ -350,9 +388,12 @@ $(function() {
     $("#select_view_offerings").change(function() {
         var filterData = $(this).val();//gets value for the filter
         var rowNumber = 0;
+        var totalResponses = 0;
+        $(".filter_comments").hide();
 
         $(".genContentCols #off_term").each(function () {
             $(this).parent().parent().show();
+            totalResponses++;
         });
 
         if(filterData != "All") {
@@ -362,6 +403,7 @@ $(function() {
                         if (cellText != filterData) {
                             console.log(cellText + "vs" + filterData);//weird bug where it leaves some
                             $(this).parent().parent().hide();
+                            totalResponses--;
                         }
                         rowNumber++;
                     }
@@ -377,6 +419,11 @@ $(function() {
                 $(this).parent().parent().show();
             });
         }
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
 
     });
     /*Search Course*/
@@ -386,81 +433,152 @@ $(function() {
 
     /*Filtering by class day Monday*/
     $("#class_m").click(function() {
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         $(".genContentRows").each(function () {
             $(this).show();
+            totalResponses++;
         });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("M"))
+            {
+                totalResponses--;
                 $(this).hide();
+            }
+
         });
+        $(".genContentRows:first-child").show();
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
     /*Filtering by class day Tuesday*/
     $("#class_t").click(function() {
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         $(".genContentRows").each(function () {
             $(this).show();
+            totalResponses++;
         });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("T"))
+            {
+                totalResponses--;
                 $(this).hide();
+            }
         });
+        $(".genContentRows:first-child").show();
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
     /*Filtering by class day Wednesday*/
     $("#class_w").click(function() {
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         $(".genContentRows").each(function () {
             $(this).show();
+            totalResponses++;
         });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("W"))
+            {
+                totalResponses--;
                 $(this).hide();
+            }
         });
+        $(".genContentRows:first-child").show();
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
     /*Filtering by class day Thursday*/
     $("#class_h").click(function() {
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         $(".genContentRows").each(function () {
             $(this).show();
+            totalResponses++;
         });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("H"))
+            {
+                totalResponses--;
                 $(this).hide();
+            }
         });
+        $(".genContentRows:first-child").show();
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
     /*Filtering by class day Friday*/
     $("#class_f").click(function() {
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         $(".genContentRows").each(function () {
             $(this).show();
+            totalResponses++;
         });
         $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("F"))
+            {
+                totalResponses--;
                 $(this).hide();
+            }
         });
+        if(totalResponses == 1) {
+            $(".filter_comments").show();
+
+        }
     });
     /*Filtering by class day Saturday*/
     $("#class_f").click(function() {
+        var totalResponses = 0;
+        $(".filter_comments").hide();
         $(".genContentRows").each(function () {
             $(this).show();
+            totalResponses++;
         });
 
         $(".genContentRows").each(function () {
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');
             if(!textInside.includes("S"))
+            {
+                totalResponses--;
                 $(this).hide();
+            }
         });
+        $(".genContentRows:first-child").show();
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
