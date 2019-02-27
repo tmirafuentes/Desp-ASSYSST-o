@@ -40,6 +40,7 @@
             </td>
             <td>
                 <button class="facultyInfoButtons" id="modFacDeloadButton">Deload</button>
+                <input type="text" id="deload_id" hidden>
             </td>
         </tr>
     </table>

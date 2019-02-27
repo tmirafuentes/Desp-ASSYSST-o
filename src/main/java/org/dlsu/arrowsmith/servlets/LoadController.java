@@ -116,9 +116,15 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
 
         /* Else, save the old facultyload with new stuff inside */
         FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByID(facultyloadDto.getLoadId()); // Offering Id
-        facultyLoad.setAdminLoad(facultyloadDto.getAdminLoad()); // Faculty Admin Load
-        facultyLoad.setResearchLoad(facultyloadDto.getResearchLoad()); // Faculty Admin Load
-        facultyLoad.setTeachingLoad(facultyloadDto.getTeachingLoad()); // Faculty Admin Load
+        String deloadType = facultyloadDto.getDeloadType();
+        int unitstoDeload = facultyloadDto.getDeloadUnits();
+
+        if(deloadType.equals("Administrative") && unitstoDeload <= facultyLoad.getAdminLoad())
+            facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() - unitstoDeload); // Faculty Admin Load
+        else if(deloadType.equals("Research") && unitstoDeload <= facultyLoad.getResearchLoad())
+            facultyLoad.setAdminLoad(facultyLoad.getResearchLoad() - unitstoDeload); // Faculty Research Load
+            else if(deloadType.equals("Teaching") && unitstoDeload <= facultyLoad.getTeachingLoad())
+            facultyLoad.setAdminLoad(facultyLoad.getTeachingLoad() - unitstoDeload);// Faculty Teaching Load
 
         // Save it to the database
         facultyService.saveFacultyLoad(facultyLoad);

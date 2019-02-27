@@ -58,6 +58,7 @@
                                         <input type="text" id='faculty_Fname' value="${facLoad.faculty.firstName}" hidden>
                                         <input type="text" id='faculty_department' value="${facLoad.department.deptName}" hidden>
                                         <input type="text" id='faculty_id' value="${facLoad.faculty.userId}" hidden>
+                                        <input type="text" id='db_deload_id' value="${facLoad.loadId}" hidden>
                                     </div>
                                     <!-- Teaching Load -->
                                     <div class="genContentCols" name="teachLoad">
@@ -81,24 +82,6 @@
                     </c:otherwise>
                 </c:choose>
             </form:form>
-            <table id = "generated_list">
-                <tr>
-                    <td>Deja</td>
-                    <td>Jordan</td>
-                    <td>12</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>18</td>
-                </tr>
-                <tr>
-                    <td>Deja</td>
-                    <td>Jordan</td>
-                    <td>12</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>18</td>
-                </tr>
-            </table>
         </div>
 
         <!-- View Faculty Information -->

@@ -190,6 +190,12 @@
         <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
             <form:form method="POST" modelAttribute="facultyloadModifyForm">
+
+                <spring:bind path="loadId">
+                    <form:input path="loadId" type="hidden" id="modal_deload_id"/>
+                </spring:bind>
+                <input type="text" id="modal_deload_id" hidden>
+
                 <p id="dialog_professor_name"></p>
                 <table id="dialog_load_table">
                     <tr>
@@ -205,11 +211,13 @@
                             <p class="p_modal">Remarks</p>
                         </td>
                         <td>
-                            <select id="select_deload">
-                                <c:forEach items="${allLoadTypes}" var="loadType">
-                                    <option value="${loadType}"><c:out value="${loadType}" /></option>
-                                </c:forEach>
-                            </select>
+                            <spring:bind path="deloadType">
+                                <form:select path="deloadType" id = "select_deload">
+                                    <c:forEach items="${allLoadTypes}" var="loadType">
+                                        <option value="${loadType}"><c:out value="${loadType}" /></option>
+                                    </c:forEach>
+                                </form:select>
+                            </spring:bind>
                         </td>
                     </tr>
                     <tr>
@@ -217,7 +225,9 @@
                             <p class="p_modal">Deloaded Units</p>
                         </td>
                         <td>
-                            <input type="number" id="input_deload" value="0" min="0"> Units
+                            <spring:bind path="deloadUnits">
+                                <form:input path="deloadUnits" type="number" id="input_deload" />
+                            </spring:bind>
                         </td>
                     </tr>
                     <tr>

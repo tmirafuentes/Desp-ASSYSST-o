@@ -130,14 +130,15 @@ $(function() {
             $("#facultyInfoTitles_name").text($(this).find("#faculty_Lname").val() + ", " + $(this).find("#faculty_Fname").val());
             /* Department*/
             $("#facultyInfoTitles_department").text($(this).find("#faculty_department").val());
-
+            /* Deload ID*/
+            $("#deload_id").val($(this).find("#db_deload_id").val());
         }
     });
 
     /* New Modals Code */
     $(".divModals").dialog({
         autoOpen: false
-    });
+});
 
     /* Open Assign Room Modal */
     $("#modOffRoomButton").click(function() {
@@ -184,6 +185,8 @@ $(function() {
            modal: true
         });
         $("#modalDeloadFaculty").dialog("open");
+        //Pass the deload id value to the dialog
+        $("#modal_deload_id").val($(this).find("#deload_id").val());
     });
 
     /* Open Add Offering Modal */
