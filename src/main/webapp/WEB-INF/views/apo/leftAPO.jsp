@@ -24,10 +24,10 @@
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> Search Course </p>
-                <form id ="form_search_class"> <!--method="POST" modelAttribute="searchString" action="/apo/search-course"> -->
+                <!--   <form id ="form_search_class"> method="POST" modelAttribute="searchString" action="/apo/search-course"> -->
                     <input type='text' path="searchString" class = "filterForms" id="input_search_course" placeholder = "Search Course...">
                     <button id = "submit_left_side_search" type="submit"><i class="fas fa-search"></i></button>
-                </form>
+                <!-- </form> -->
             </td>
         </tr>
         <tr class = "leftSidebarRows">

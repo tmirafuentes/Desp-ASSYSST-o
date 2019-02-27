@@ -427,8 +427,31 @@ $(function() {
 
     });
     /*Search Course*/
-    $("#form_search_class").submit(function(){
-        alert("Submitted");
+    $("#submit_left_side_search").click(function(){
+        var textSearched = $.trim($("#input_search_course").val())
+        var totalResponses = 0;
+        $(".filter_comments").hide();
+
+        $(".genContentRows").each(function () {
+            $(this).show();
+            totalResponses++;
+        });
+
+        $(".genContentRows").each(function () {
+            var courseTraverse = $.trim($(':first-child', this).text())
+
+            if(textSearched.toUpperCase() !== courseTraverse.toUpperCase())
+            {
+                totalResponses--;
+                $(this).hide();
+            }
+
+        });
+        console.log(totalResponses);
+        if(totalResponses == 0) {
+            $(".filter_comments").show();
+
+        }
     });
 
     /*Filtering by class day Monday*/
