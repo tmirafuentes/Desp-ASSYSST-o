@@ -49,11 +49,11 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
-        model.addAttribute("allLoadTypes", facultyService.generateFacultyLoadTypes());
+        model.addAttribute("alldeloadInstances", facultyService.retrieveFacultyDeloadings());
         model.addAttribute("addOfferingForm", new Course());
         /* Load Dto for Modify Faculty Load Offering */
 
-        //model.addAttribute("facultyLoadForm", new FacultyLoadDto());
+        model.addAttribute("facultyloadModifyForm", new FacultyLoadModifyDto());
         return "cvc/cvcFacultyLoad";
     }
 
@@ -118,20 +118,23 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByID(facultyloadDto.getLoadId()); // Offering Id
         String deloadType = facultyloadDto.getDeloadType();
         int unitstoDeload = facultyloadDto.getDeloadUnits();
-
-        if(deloadType.equals("Administrative") && unitstoDeload <= facultyLoad.getAdminLoad())
+        System.out.println(deloadType + " " + unitstoDeload);
+        System.out.println("Current Faculty Load:  " + facultyLoad.getloadId());
+        if(deloadType.equals("Administrative") && unitstoDeload <= facultyLoad.getAdminLoad()) {
             facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() - unitstoDeload); // Faculty Admin Load
-        else if(deloadType.equals("Research") && unitstoDeload <= facultyLoad.getResearchLoad())
+        }
+        else if(deloadType.equals("Research") && unitstoDeload <= facultyLoad.getResearchLoad()) {
             facultyLoad.setAdminLoad(facultyLoad.getResearchLoad() - unitstoDeload); // Faculty Research Load
-            else if(deloadType.equals("Teaching") && unitstoDeload <= facultyLoad.getTeachingLoad())
+        }
+            else if(deloadType.equals("Teaching") && unitstoDeload <= facultyLoad.getTeachingLoad()) {
             facultyLoad.setAdminLoad(facultyLoad.getTeachingLoad() - unitstoDeload);// Faculty Teaching Load
-
+        }
         // Save it to the database
         facultyService.saveFacultyLoad(facultyLoad);
 
         /* Message that course is successfully updated */
         if (urlPattern.contains("apo"))
-            return "redirect:/apo";
+            return "redirect:/apo/manage-load";
         else if (urlPattern.contains("cvc"))
             return "redirect:/cvc";
 

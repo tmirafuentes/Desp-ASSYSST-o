@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 @Service
@@ -166,6 +168,17 @@ public class FacultyService {
             facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
         }
     }
+    //    Retrieve All Deload Instances
+    public Iterator<DeloadInstance> retrieveFacultyDeloadings() {
+        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAll();
+        Collections.sort(deloadInstances, new Comparator<DeloadInstance>() {
+            public int compare(DeloadInstance s1, DeloadInstance s2) {
+                return s1.getDeloading().getDeloadType().compareTo(s2.getDeloading().getDeloadType());
+            }
+        });
+        return deloadInstances.iterator();
+
+    }
 
     /**
      **
@@ -186,4 +199,6 @@ public class FacultyService {
         allFacultyLoadTypes.add("Research");
         return allFacultyLoadTypes;
     }
+
+
 }

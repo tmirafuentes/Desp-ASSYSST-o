@@ -190,7 +190,6 @@
         <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
             <form:form method="POST" modelAttribute="facultyloadModifyForm">
-
                 <spring:bind path="loadId">
                     <form:input path="loadId" type="hidden" id="modal_deload_id"/>
                 </spring:bind>
@@ -208,13 +207,15 @@
                     </tr>
                     <tr>
                         <td>
-                            <p class="p_modal">Remarks</p>
+                            <p class="p_modal">Deloading Type</p>
                         </td>
                         <td>
                             <spring:bind path="deloadType">
                                 <form:select path="deloadType" id = "select_deload">
-                                    <c:forEach items="${allLoadTypes}" var="loadType">
-                                        <option value="${loadType}"><c:out value="${loadType}" /></option>
+                                    <c:forEach items="${alldeloadInstances}" var="loadType">
+                                        <form:option value="${loadType.deloading.units}">
+                                            <c:out value="${loadType.deloading.deloadCode}" />
+                                        </form:option>
                                     </c:forEach>
                                 </form:select>
                             </spring:bind>

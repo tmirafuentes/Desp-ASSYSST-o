@@ -186,7 +186,10 @@ $(function() {
         });
         $("#modalDeloadFaculty").dialog("open");
         //Pass the deload id value to the dialog
-        $("#modal_deload_id").val($(this).find("#deload_id").val());
+        console.log("hello are you even here");
+        var valu = $(this).parent().find("#deload_id").val();
+        console.log(valu);
+        $("#modal_deload_id").val(valu);
     });
 
     /* Open Add Offering Modal */
@@ -206,7 +209,12 @@ $(function() {
         $("#add_offer_field").val(courseCode);
         $("#modalAddOffering").dialog("close");
     });
+    //On change of deload modal
+    $("#select_deload").change(function() {
+        console.log($(this).val());
+      $("#input_deload").val($(this).val());
 
+    });
     /* Filtering Script Part */
 
     /* Filtering Timeblock */
