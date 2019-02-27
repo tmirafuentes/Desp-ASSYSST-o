@@ -158,7 +158,7 @@
 }
 
 .modify_sidebar {
-	visbility: hidden;
+	display: none;
 }
 
 #modify_class_section, #modify_time, #modify_days{
