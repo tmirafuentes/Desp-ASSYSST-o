@@ -59,6 +59,7 @@
                                         <input type="text" id='faculty_department' value="${facLoad.department.deptName}" hidden>
                                         <input type="text" id='faculty_id' value="${facLoad.faculty.userId}" hidden>
                                         <input type="text" id='db_deload_id' value="${facLoad.loadId}" hidden>
+                                        <input type="text" id='total_load' value="${facLoad.totalLoad}" hidden>
                                     </div>
                                     <!-- Teaching Load -->
                                     <div class="genContentCols" name="teachLoad">

@@ -41,6 +41,7 @@
             <td>
                 <button class="facultyInfoButtons" id="modFacDeloadButton">Deload</button>
                 <input type="text" id="deload_id" hidden>
+                <input type="text" id="right_total_load" hidden>
             </td>
         </tr>
     </table>

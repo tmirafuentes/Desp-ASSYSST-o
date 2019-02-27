@@ -132,6 +132,8 @@ $(function() {
             $("#facultyInfoTitles_department").text($(this).find("#faculty_department").val());
             /* Deload ID*/
             $("#deload_id").val($(this).find("#db_deload_id").val());
+            /* Total Load*/
+            $("#right_total_load").val($(this).find("#total_load").val());
         }
     });
 
@@ -187,9 +189,11 @@ $(function() {
         $("#modalDeloadFaculty").dialog("open");
         //Pass the deload id value to the dialog
         console.log("hello are you even here");
-        var valu = $(this).parent().find("#deload_id").val();
-        console.log(valu);
-        $("#modal_deload_id").val(valu);
+        var deLoadID = $(this).parent().find("#deload_id").val();
+        var totalCurrLoad = $(this).parent().find("#right_total_load").val();
+        console.log(totalCurrLoad);
+        $("#modal_deload_id").val(deLoadID);
+        $("#modal_current_load").text("Total Current Load: " + totalCurrLoad);
     });
 
     /* Open Add Offering Modal */

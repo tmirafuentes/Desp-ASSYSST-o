@@ -199,7 +199,7 @@
                 <table id="dialog_load_table">
                     <tr>
                         <td>
-                            <p class="p_modal">Total Current Load</p>
+                            <p class="p_modal" id="modal_current_load">Total Current Load: </p>
                         </td>
                         <td>
                         </td>
@@ -207,7 +207,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <p class="p_modal">Deloading Type</p>
+                            <p class="p_modal">Deloading Code</p>
                         </td>
                         <td>
                             <spring:bind path="deloadType">
