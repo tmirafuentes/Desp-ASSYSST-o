@@ -382,7 +382,13 @@ public class OfferingController {   // This Controller is for the Course Schedul
         boolean isTaken = false;
         Iterator<Days> originalIterator = originalValues.iterator();
         Iterator<Days> replacementIterator = replacementValues.iterator();
-
+        while(originalIterator.hasNext())
+        {
+            while(replacementIterator.hasNext())
+            {
+               isTaken = checkTwoDays(originalIterator.next(), replacementIterator.next());
+            }
+        }
 
         return isTaken;
 
