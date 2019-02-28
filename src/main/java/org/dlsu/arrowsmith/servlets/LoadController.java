@@ -118,8 +118,6 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         /* Retrieve Faculty Load Information of Faculty */
         FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByID(facultyDeloadDto.getLoadId());
 
-        System.out.println("Hello World = " + facultyDeloadDto.getDeloadType().length());
-
         /* Retrieve Deloading from Database */
         Deloading currDeloading = facultyService.retrieveDeloadingByDeloadCode(facultyDeloadDto.getDeloadType());
 

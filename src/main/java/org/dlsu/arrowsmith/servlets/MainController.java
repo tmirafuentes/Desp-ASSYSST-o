@@ -48,7 +48,7 @@ public class MainController {
         if (logout != null)
             model.addAttribute("message", messages.getMessage("message.logoutSuccess", null, null));
 
-        return "signin";
+        return "user/signin";
     }
 
     /* Default Home Page - Academic Programming Officer Screen */
