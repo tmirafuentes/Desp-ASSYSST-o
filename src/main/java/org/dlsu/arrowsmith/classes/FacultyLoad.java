@@ -118,6 +118,7 @@ public class FacultyLoad {
     }
 
     public double getTotalLoad() {
+        totalLoad = this.adminLoad + this.nonacadLoad + this.researchLoad + this.teachingLoad;
         return totalLoad;
     }
 

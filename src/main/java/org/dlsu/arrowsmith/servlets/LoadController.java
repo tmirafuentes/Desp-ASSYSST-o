@@ -1,7 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.*;
-import org.dlsu.arrowsmith.classes.dtos.FacultyLoadModifyDto;
+import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
@@ -51,9 +51,10 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         model.addAttribute("alldeloadInstances", facultyService.retrieveFacultyDeloadings());
         model.addAttribute("addOfferingForm", new Course());
-        /* Load Dto for Modify Faculty Load Offering */
 
-        model.addAttribute("facultyloadModifyForm", new FacultyLoadModifyDto());
+        /* Load Dto for Modify Faculty Load */
+        model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
+
         return "cvc/cvcFacultyLoad";
     }
 
@@ -103,42 +104,52 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         return "redirect:/cvc/manage-faculty";
     }
 
-    @RequestMapping(value = {"cvc/manage-load"}, method = RequestMethod.POST)
-    public String editDeloadModule(@ModelAttribute("facultyloadModifyForm") FacultyLoadModifyDto facultyloadDto,
+    /*** Deload Faculty ***/
+    @RequestMapping(value = {"cvc/deload-faculty"}, method = RequestMethod.POST)
+    public String editDeloadModule(@ModelAttribute("facultyDeloadForm") FacultyDeloadDto facultyDeloadDto,
                                    BindingResult bindingResult, HttpServletRequest request, Model model)
     {
         /* Errors */
         String urlPattern = (String) request.getServletPath();
         if (bindingResult.hasErrors())
-            return "cvc/manage-load";
+            return "redirect:/cvc/manage-load";
 
-        System.out.println("Hello  = " + facultyloadDto.toString());
+        /* Else, Deload Faculty */
+        /* Retrieve Faculty Load Information of Faculty */
+        FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByID(facultyDeloadDto.getLoadId());
 
-        /* Else, save the old facultyload with new stuff inside */
-        FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByID(facultyloadDto.getLoadId()); // Offering Id
-        String deloadType = facultyloadDto.getDeloadType();
-        int unitstoDeload = facultyloadDto.getDeloadUnits();
-        System.out.println(deloadType + " " + unitstoDeload);
-        System.out.println("Current Faculty Load:  " + facultyLoad.getloadId());
-        if(deloadType.equals("Administrative") && unitstoDeload <= facultyLoad.getAdminLoad()) {
-            facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() - unitstoDeload); // Faculty Admin Load
+        System.out.println("Hello World = " + facultyDeloadDto.getDeloadType().length());
+
+        /* Retrieve Deloading from Database */
+        Deloading currDeloading = facultyService.retrieveDeloadingByDeloadCode(facultyDeloadDto.getDeloadType());
+
+        /* Create a Deload Instance */
+        DeloadInstance newDeloadInstance = new DeloadInstance();
+        newDeloadInstance.setStartAY(facultyLoad.getStartAY());
+        newDeloadInstance.setEndAY(facultyLoad.getEndAY());
+        newDeloadInstance.setTerm(facultyLoad.getTerm());
+        newDeloadInstance.setDeloading(currDeloading);
+        newDeloadInstance.setFaculty(facultyLoad.getFaculty());
+
+        /* Modify Faculty Load */
+        if(currDeloading.getDeloadType().equals("AL"))      // Admin Load
+        {
+            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
+            facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() + currDeloading.getUnits());            // Add Units to Admin Load
+            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
         }
-        else if(deloadType.equals("Research") && unitstoDeload <= facultyLoad.getResearchLoad()) {
-            facultyLoad.setAdminLoad(facultyLoad.getResearchLoad() - unitstoDeload); // Faculty Research Load
+        else if(currDeloading.getDeloadType().equals("RL"))      // Research Load
+        {
+            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
+            facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + currDeloading.getUnits());            // Add Units to Admin Load
+            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
         }
-            else if(deloadType.equals("Teaching") && unitstoDeload <= facultyLoad.getTeachingLoad()) {
-            facultyLoad.setAdminLoad(facultyLoad.getTeachingLoad() - unitstoDeload);// Faculty Teaching Load
-        }
-        // Save it to the database
+
+        /* Save Instance and Faculty Load to Database */
+        facultyService.saveDeloadInstance(newDeloadInstance);
         facultyService.saveFacultyLoad(facultyLoad);
 
-        /* Message that course is successfully updated */
-        if (urlPattern.contains("apo"))
-            return "redirect:/apo/manage-load";
-        else if (urlPattern.contains("cvc"))
-            return "redirect:/cvc";
-
-        return "redirect:/error";
+        return "redirect:/cvc/manage-load";
     }
 
 }

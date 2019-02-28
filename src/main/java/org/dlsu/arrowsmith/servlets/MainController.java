@@ -2,7 +2,7 @@ package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.Course;
 import org.dlsu.arrowsmith.classes.User;
-import org.dlsu.arrowsmith.classes.dtos.FacultyLoadModifyDto;
+import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,7 @@ public class MainController {
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
         /* Load Dto for Modify Faculty Load */
-        model.addAttribute("facultyloadModifyForm", new FacultyLoadModifyDto());
+        model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
 
         /* Load Object for Add Coruse Offering */
         model.addAttribute("addOfferingForm", new Course());
@@ -96,6 +96,9 @@ public class MainController {
 
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
+
+        /* Load Dto for Modify Faculty Load */
+        model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
 
         model.addAttribute("addOfferingForm", new Course());
         return "/cvc/cvcHome";

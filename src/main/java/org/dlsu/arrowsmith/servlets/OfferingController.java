@@ -4,6 +4,7 @@ import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
+import org.dlsu.arrowsmith.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class OfferingController {   // This Controller is for the Course Schedul
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FacultyService facultyService;
 
     /*** Extra Stuff ***/
     private MessageSource messages;
@@ -241,8 +245,49 @@ public class OfferingController {   // This Controller is for the Course Schedul
         }
 
         // Faculty
-        User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFaculty());
-        currOffering.setFaculty(newFaculty);
+        User currFaculty = currOffering.getFaculty();   // Get assigned faculty
+        User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFaculty());    // Get newly assigned faculty
+
+        // If currFaculty is not null and curr and new are not the same
+        if (currFaculty.getUserId() == 1111111 && currFaculty.getUserId() != newFaculty.getUserId())
+        {
+            // Retrieve Faculty Load of current faculty
+            FacultyLoad currFacultyLoad = facultyService.retrieveFacultyLoadByFaculty(currOffering.getStartAY(), currOffering.getEndAY(),
+                    currOffering.getTerm(), currFaculty);
+
+            // Subtract Units to Faculty Load
+            currFacultyLoad.setTeachingLoad(currFacultyLoad.getTeachingLoad() - currOffering.getCourse().getUnits());
+
+            // Save current faculty load to the database
+            facultyService.saveFacultyLoad(currFacultyLoad);
+
+            currOffering.setFaculty(newFaculty);    // Assign faculty to Course Offering
+
+            // Retrieve Faculty Load of faculty
+            FacultyLoad newFacultyLoad = facultyService.retrieveFacultyLoadByFaculty(currOffering.getStartAY(), currOffering.getEndAY(),
+                    currOffering.getTerm(), newFaculty);
+
+            // Add Units to Faculty Load
+            newFacultyLoad.setTeachingLoad(newFacultyLoad.getTeachingLoad() + currOffering.getCourse().getUnits());
+
+            // Save new faculty load to the database
+            facultyService.saveFacultyLoad(newFacultyLoad);
+        }
+        // Newly assigned currFaculty
+        else if (currFaculty.getUserId() == 11111111 && newFaculty != null)
+        {
+            currOffering.setFaculty(newFaculty);    // Assign faculty to Course Offering
+
+            // Retrieve Faculty Load of faculty
+            FacultyLoad newFacultyLoad = facultyService.retrieveFacultyLoadByFaculty(currOffering.getStartAY(), currOffering.getEndAY(),
+                    currOffering.getTerm(), newFaculty);
+
+            // Add Units to Faculty Load
+            newFacultyLoad.setTeachingLoad(newFacultyLoad.getTeachingLoad() + currOffering.getCourse().getUnits());
+
+            // Save new faculty load to the database
+            facultyService.saveFacultyLoad(newFacultyLoad);
+        }
 
         // Save it to the database
         offeringService.saveCourseOffering(currOffering);

@@ -5,10 +5,11 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class FacultyLoadModifyDto {
+public class FacultyDeloadDto {
     private Long loadId;
     private String deloadType;
-    private int deloadUnits;
+    private String deloadCode;
+    private double deloadUnits;
 
     public String getDeloadType() {
         return deloadType;
@@ -18,12 +19,20 @@ public class FacultyLoadModifyDto {
         this.deloadType = deloadType;
     }
 
-    public int getDeloadUnits() {
+    public double getDeloadUnits() {
         return deloadUnits;
     }
 
-    public void setDeloadUnits(int deloadLoad) {
+    public void setDeloadUnits(double deloadLoad) {
         this.deloadUnits = deloadLoad;
+    }
+
+    public String getDeloadCode() {
+        return deloadCode;
+    }
+
+    public void setDeloadCode(String deloadCode) {
+        this.deloadCode = deloadCode;
     }
 
     public Long getLoadId() {

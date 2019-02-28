@@ -180,6 +180,13 @@ $(function() {
 
     /* Open Deload Faculty Modal */
     $("#modFacDeloadButton").click(function() {
+        //Pass the deload id value to the dialog
+        var deLoadID = $(this).parent().find("#deload_id").val();
+        var totalCurrLoad = $(this).parent().find("#right_total_load").val();
+
+        $("#modal_deload_id").val(deLoadID);
+        $("#modal_current_load").text("Total Current Load: " + totalCurrLoad);
+
         $("#modalDeloadFaculty").dialog({
            title: "Deload Faculty",
            width: 400,
@@ -187,13 +194,13 @@ $(function() {
            modal: true
         });
         $("#modalDeloadFaculty").dialog("open");
-        //Pass the deload id value to the dialog
-        console.log("hello are you even here");
-        var deLoadID = $(this).parent().find("#deload_id").val();
-        var totalCurrLoad = $(this).parent().find("#right_total_load").val();
-        console.log(totalCurrLoad);
-        $("#modal_deload_id").val(deLoadID);
-        $("#modal_current_load").text("Total Current Load: " + totalCurrLoad);
+    });
+
+    /* Select Deload Code and display units */
+    $("#select_deload").change(function() {
+        $("#input_deload").val($(this).children("option:selected").val());
+        $("#modal_deload_code").val();
+        $("#modal_deload_code").val($(this).children("option:selected").text());
     });
 
     /* Open Add Offering Modal */
@@ -213,12 +220,7 @@ $(function() {
         $("#add_offer_field").val(courseCode);
         $("#modalAddOffering").dialog("close");
     });
-    //On change of deload modal
-    $("#select_deload").change(function() {
-        console.log($(this).val());
-      $("#input_deload").val($(this).val());
 
-    });
     /* Filtering Script Part */
 
     /* Filtering Timeblock */

@@ -189,9 +189,12 @@
         </div>
         <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
-            <form:form method="POST" modelAttribute="facultyloadModifyForm">
+            <form:form method="POST" modelAttribute="facultyDeloadForm" action="/cvc/deload-faculty">
                 <spring:bind path="loadId">
-                    <form:input path="loadId" type="hidden" id="modal_deload_id"/>
+                    <form:input path="loadId" type="text" hidden="true" id="modal_deload_id"/>
+                </spring:bind>
+                <spring:bind path="deloadType">
+                    <form:input path="deloadType" type="text" hidden="true" id="modal_deload_code" />
                 </spring:bind>
                 <input type="text" id="modal_deload_id" hidden>
 
@@ -210,12 +213,11 @@
                             <p class="p_modal">Deloading Code</p>
                         </td>
                         <td>
-                            <spring:bind path="deloadType">
-                                <form:select path="deloadType" id = "select_deload">
-                                    <c:forEach items="${alldeloadInstances}" var="loadType">
-                                        <form:option value="${loadType.deloading.units}">
-                                            <c:out value="${loadType.deloading.deloadCode}" />
-                                        </form:option>
+                            <spring:bind path="deloadCode">
+                                <form:select path="deloadCode" id = "select_deload">
+                                    <form:option value="">Select Code</form:option>
+                                    <c:forEach items="${alldeloadInstances}" var="deloadCode">
+                                        <form:option value="${deloadCode.deloading.units}"><c:set var="delCode" value="${deloadCode.deloading.deloadCode}" /><c:out value="${delCode}" /></form:option>
                                     </c:forEach>
                                 </form:select>
                             </spring:bind>
@@ -233,7 +235,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <button class="modal_buttons" id="deload_confirm">Confirm</button>
+                            <button class="modal_buttons" id="deload_confirm" type="submit">Confirm</button>
                         </td>
                         <td>
                             <button class="modal_buttons" id="delaod_reset">Reset</button>

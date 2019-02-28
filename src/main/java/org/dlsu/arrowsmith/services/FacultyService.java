@@ -42,6 +42,13 @@ public class FacultyService {
         return allDeloadings.iterator();
     }
 
+    /* Retrieve Specific Deloading by Deload Code */
+    public Deloading retrieveDeloadingByDeloadCode(String deloadCode)
+    {
+        Deloading deloading = deloadingRepository.findDeloadingByDeloadCode(deloadCode);
+        return deloading;
+    }
+
     /**
      **
      ** DELOAD INSTANCE

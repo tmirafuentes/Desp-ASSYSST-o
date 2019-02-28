@@ -69,11 +69,11 @@ public class CourseOffering {
         this.startAY = startAY;
     }
 
-    public int getendAY() {
+    public int getEndAY() {
         return endAY;
     }
 
-    public void setendAY(int endAY) {
+    public void setEndAY(int endAY) {
         this.endAY = endAY;
     }
 
