@@ -151,6 +151,7 @@
                     </c:otherwise>
                 </c:choose>
             </form:form>
+            <div class = "filter_comments">No Results Found</div>
         </div>
 
         <!-- Modify Sidebar for APO -->
