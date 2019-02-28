@@ -110,6 +110,11 @@ public class OfferingService {
         return courseOfferings.iterator();
     }
 
+    /* Retrieve All Course Offerings Per Term */
+    public ArrayList<CourseOffering> retrieveAllOfferingsByTermErrorChecking(int startAY, int endAY, int term) {
+        ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term);
+        return courseOfferings;
+    }
     /* Retrieve All Course Offerings Per Faculty Per Term */
     public Iterator retrieveAllOfferingsByFaculty(User faculty, int startAY, int endAY, int term) {
         ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFacultyAndStartAYAndEndAYAndTerm(faculty, startAY, endAY, term);
@@ -383,6 +388,7 @@ public class OfferingService {
         allRoomTypes.add("Computer Laboratory");
         return allRoomTypes.iterator();
     }
+
 
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */

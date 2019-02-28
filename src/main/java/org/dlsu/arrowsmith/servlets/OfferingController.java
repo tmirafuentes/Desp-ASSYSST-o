@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
 @Controller
@@ -345,5 +347,59 @@ public class OfferingController {   // This Controller is for the Course Schedul
     {
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByStatus(2017, 2018, 1, classType));
         return "/apo/search-type";
+    }
+
+    /**
+     **
+     ** RULE CHECKING FUNCTIONS
+     **
+     */
+    /*
+    public boolean checkRoomChange(int startAY, int endAY, int term, Set<Days> daysSet, Room newRoom, )
+    {
+        boolean isTaken = false;
+        //get arraylist of current offerings
+        ArrayList<CourseOffering> termCourseOfferings = offeringService.retrieveAllOfferingsByTermErrorChecking(startAY, endAY, term);
+        //loop through offerings and check if both the time, the room, and the days are matched
+        for (int i = 0; i < termCourseOfferings.size(); i++)
+        {
+            //days
+
+            //time
+            //room
+        }
+
+
+        return isTaken;
+    }
+    */
+    public boolean checkRoom(Room originalValue, Room replacementValue)
+    {
+        return originalValue.getRoomCode() == replacementValue.getRoomCode();
+    }
+    public boolean checkDaysSet(Set<Days> originalValues, Set<Days> replacementValues)
+    {
+        boolean isTaken = false;
+        Iterator<Days> originalIterator = originalValues.iterator();
+        Iterator<Days> replacementIterator = replacementValues.iterator();
+
+
+        return isTaken;
+
+    }
+    public boolean checkTwoDays(Days originalValue, Days replacementValue)
+    {
+        boolean isTaken = false;
+
+        if(originalValue.getbeginTime() == replacementValue.getbeginTime())
+            isTaken = true;
+        if(originalValue.getendTime() == replacementValue.getendTime())
+            isTaken = true;
+        if(originalValue.getclassDay() == replacementValue.getclassDay())
+            isTaken = true;
+        if(checkRoom(originalValue.getRoom(), replacementValue.getRoom()))
+            isTaken = true;
+
+        return isTaken;
     }
 }
