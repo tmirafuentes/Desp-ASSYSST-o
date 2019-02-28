@@ -681,6 +681,7 @@
 	font-weight: bold;
 	position: relative;
 	left:-9%;
+	display: none;
 }
 .generatedLoad .genLoadRows 	/* FKA genList_rows */
 {

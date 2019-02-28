@@ -223,211 +223,9 @@ $(function() {
 
     /* Filtering Script Part */
 
-    /* Filtering Timeblock */
-    $("#select_left_timeblock").change(function() {
-        //value from the timeslot filter
-        var filterData = $(this).val();
-        var rowNumber = 0;
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        if(filterData != "All")
-        {
-            //shows all hidden rows
-            $(".genContentCols:nth-child(4)").each(function() {
-                    $(this).parent().show();
-                    totalResponses ++;
-            });
-
-            //compares the timeblock values
-            $(".genContentCols:nth-child(4)").each(function() {
-                if(rowNumber != 0) {
-                    var cellText = $.trim($(this).text());//value for the timeslots displayed
-                    if (filterData != cellText) {//if it doesn't match hide it
-                            totalResponses--;
-                            $(this).parent().hide();
-                            rowNumber++;
-                    }
-                }
-                else{
-                    rowNumber++;
-                }
-            });
-        }
-        else{
-            //shows all hidden rows
-            $(".genContentCols:nth-child(4)").each(function() {
-                $(this).parent().show();
-                totalResponses ++;
-            });
-        }
-        console.log(totalResponses);
-        if(totalResponses == 1) {
-            $(".filter_comments").show();
-
-        }
-
-
-    });
-    /* Filtering Class Type */
-    $("#select_left_class_type").change(function() {
-        var filterData = $(this).val();
-        var rowNumber = 0;
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        if(filterData != "All") {
-            //shows all hidden rows
-            $(".genContentRows #off_status").each(function () {
-                $(this).parent().parent().show();
-                totalResponses++;
-            });
-
-            $(".genContentRows #off_status").each(function () {
-                if(rowNumber != 0) {
-                    var cellText = $.trim($(this).val());//value for the timeslots displayed
-                    if (filterData != cellText) {//if it doesn't match hide it
-                        $(this).parent().hide();
-                        rowNumber++;
-                        totalResponses--;
-                    }
-                }
-                else{
-                    rowNumber++;
-                }
-            });
-        }
-        else{
-            //shows all hidden rows
-            $(".genContentRows #off_status").each(function() {
-                $(this).parent().show();
-            });
-        }
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
-    /* Filtering Class Type */
-    $("#select_room_type").change(function() {
-        var filterData = $(this).val();
-        var rowNumber = 0;
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        if(filterData != "All") {
-            //shows all hidden rows
-            $(".genContentCols #off_roomtype").each(function () {
-                $(this).parent().parent().show();
-                totalResponses++;
-            });
-
-            $(".genContentCols #off_roomtype").each(function () {
-                if(rowNumber != 0) {
-                    var cellText = $.trim($(this).val());//value for the timeslots displayed
-                    if (filterData != cellText) {//if it doesn't match hide it
-                        $(this).parent().parent().hide();
-                        rowNumber++;
-                        totalResponses--;
-                    }
-                }
-                else{
-                    rowNumber++;
-                }
-            });
-        }
-        else{
-            //shows all hidden rows
-            $(".genContentCols #off_roomtype").each(function() {
-                $(this).parent().parent().show();
-            });
-        }
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
-    /* Filtering Room Type */
-    $("#select_room_type").change(function() {
-        var filterData = $(this).val();
-        var rowNumber = 0;
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        if(filterData != "All") {
-            //shows all hidden rows
-            $(".genContentCols #off_roomtype").each(function () {
-                $(this).parent().parent().show();
-                totalResponses++;
-            });
-
-            $(".genContentCols #off_roomtype").each(function () {
-                if(rowNumber != 0) {
-                    var cellText = $.trim($(this).val());//value for the timeslots displayed
-                    if (filterData != cellText) {//if it doesn't match hide it
-                        $(this).parent().parent().hide();
-                        rowNumber++;
-                        totalResponses--;
-                    }
-                }
-                else{
-                    rowNumber++;
-                }
-            });
-        }
-        else{
-            //shows all hidden rows
-            $(".genContentCols #off_roomtype").each(function() {
-                $(this).parent().parent().show();
-            });
-        }
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
 
     /* Filtering Term*/
-    $("#select_view_offerings").change(function() {
-        var filterData = $(this).val();//gets value for the filter
-        var rowNumber = 0;
-        var totalResponses = 0;
-        $(".filter_comments").hide();
 
-        $(".genContentCols #off_term").each(function () {
-            $(this).parent().parent().show();
-            totalResponses++;
-        });
-
-        if(filterData != "All") {
-                $(".genContentCols #off_term").each(function () {
-                    if (rowNumber != 0) {
-                        var cellText = $(this).val();
-                        if (cellText != filterData) {
-                            console.log(cellText + "vs" + filterData);//weird bug where it leaves some
-                            $(this).parent().parent().hide();
-                            totalResponses--;
-                        }
-                        rowNumber++;
-                    }
-                    else{
-                        rowNumber++;
-                    }
-            });
-
-        }
-        else{
-            //shows all hidden rows
-            $(".genContentCols #off_term").each(function() {
-                $(this).parent().parent().show();
-            });
-        }
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-
-    });
     /*Search Course*/
     $("#submit_left_side_search").click(function(){
         var textSearched = $.trim($("#input_search_course").val())
@@ -455,6 +253,131 @@ $(function() {
 
         }
     });
+    /* General Function for Filters*/
+    $(".filterForms").change(function() {
+        //alert("hello");
+        checkTimeblock();//check timeblock filter
+        checkRoomType();//check room type filter
+        checkClassType(); //check class type filter
+        checkTerm(); //check class type filter
+
+        if(countallRows() < 0)
+        {
+            console.log("Show");
+            $(".filter_comments").show();
+        }
+
+        else
+        {
+            console.log("Hide");
+            $(".filter_comments").hide();
+        }
+    });
+
+    function checkTimeblock()
+    {
+        var filterData = $("#select_left_timeblock").val();
+        if(filterData != "All")
+        {
+            $(".genContentCols:nth-child(4):visible").each(function() {
+                var cellText = $.trim($(this).val());
+                if (filterData != cellText) {
+                    $(this).parent().hide();
+                }
+            });
+        }
+        else{
+            showallRows();
+            if($("#select_view_offerings").val() != "All")
+                checkTerm();
+            if($("#select_left_class_type").val() != "All")
+                checkClassType();
+            if($("#select_room_type").val() != "All")
+                checkRoomType();
+        }
+    }
+
+    function checkRoomType()
+    {
+        var filterData = $("#select_room_type").val();
+        if(filterData != "All")
+        {
+            $(".genContentRows:visible").each(function() {
+                var cellText = $.trim($("#off_roomtype").val());
+                if (filterData != cellText)
+                    $(this).hide();
+            });
+        }
+        else{
+            showallRows();
+            if($("#select_view_offerings").val() != "All")
+                checkTerm();
+            if($("#select_left_class_type").val() != "All")
+                checkClassType();
+            if(($("#select_left_timeblock").val() != "All"))
+                checkTimeblock();
+        }
+    }
+
+    function checkClassType()
+    {
+        var filterData = $("#select_left_class_type").val();
+        if(filterData != "All")
+        {
+            $(".genContentRows:visible").each(function() {
+                var cellText = $.trim($("#off_status").val());
+                if (filterData != cellText)
+                    $(this).hide();
+            });
+        }
+        else{
+            console.log(countallRows());
+            showallRows();
+            if($("#select_view_offerings").val() != "All")
+                checkTerm();
+            if($("#select_room_type").val() != "All")
+                checkRoomType();
+            if(($("#select_left_timeblock").val() != "All"))
+                checkTimeblock();
+        }
+    }
+    function checkTerm()
+    {
+        var filterData = $("#select_view_offerings").val();//gets value for the filter
+        if(filterData != "All") {
+            $(".genContentRows:visible").each(function () {
+                var cellText = $.trim($("#off_term").val());
+                if (filterData != cellText)
+                    $(this).hide();
+            });
+        }
+        else{
+            showallRows();
+            if($("#select_left_class_type").val() != "All")
+                checkClassType();
+            if($("#select_room_type").val() != "All")
+                checkRoomType();
+            if(($("#select_left_timeblock").val() != "All"))
+                checkTimeblock();
+        }
+
+    }
+    function showallRows()
+    {
+        $(".genContentRows").each(function () {
+            $(this).show();
+        });
+    }
+    function countallRows()
+    {
+        var numberCtr = 0;
+        $(".genContentRows:visible").not(":first").each(function () {
+            numberCtr++;
+        });
+        return numberCtr;
+    }
+
+    /* Class Day Filters*/
 
     /*Filtering by class day Monday*/
     $("#class_m").click(function() {
