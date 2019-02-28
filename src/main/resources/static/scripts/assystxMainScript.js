@@ -229,30 +229,24 @@ $(function() {
     /*Search Course*/
     $("#submit_left_side_search").click(function(){
         var textSearched = $.trim($("#input_search_course").val())
-        var totalResponses = 0;
+
         $(".filter_comments").hide();
 
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
-        });
+        showallRows();
 
-        $(".genContentRows").each(function () {
+        $(".genContentRows:visible").each(function () {
             var courseTraverse = $.trim($(':first-child', this).text())
 
             if(textSearched.toUpperCase() !== courseTraverse.toUpperCase())
-            {
-                totalResponses--;
                 $(this).hide();
-            }
-
         });
-        console.log(totalResponses);
-        if(totalResponses == 0) {
+
+        if(countallRows() == 0) {
             $(".filter_comments").show();
 
         }
     });
+
     /* General Function for Filters*/
     $(".filterForms").change(function() {
         //alert("hello");
