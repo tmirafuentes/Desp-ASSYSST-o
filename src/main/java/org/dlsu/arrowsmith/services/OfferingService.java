@@ -122,6 +122,12 @@ public class OfferingService {
         return courseOfferings.iterator();
     }
 
+    /* Retrieve All Course Offerings Per Department Per Term */
+    public Iterator retrieveAllOfferingsByDepartment(Department department, int startAY, int endAY, int term) {
+        ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByCourseDepartmentAndStartAYAndEndAYAndTerm(department, startAY, endAY, term);
+        return courseOfferings.iterator();
+    }
+
     /* Retrieve all Offerings by Faculty */
     public Iterator retrieveAllOfferingsByFaculty(User faculty) {
         ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFaculty(faculty);

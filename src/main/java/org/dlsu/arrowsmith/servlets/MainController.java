@@ -122,7 +122,7 @@ public class MainController {
         model.addAttribute("loggedUser", userRealName);
 
         /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByDepartment(currUser.getDepartment(), 2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
         model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
@@ -130,7 +130,7 @@ public class MainController {
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
         model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
-        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
+        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1, currUser.getDepartment()));
         model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
 
