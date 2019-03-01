@@ -221,6 +221,17 @@ $(function() {
         $("#modalAddOffering").dialog("close");
     });
 
+    /* Concerns Modal */
+    $("#button_concerns").click(function() {
+        $("#modalConcerns").dialog({
+            title:"Concerns",
+            width:450,
+            height:500,
+            modal:true
+        });
+        $("#modalConcerns").dialog("open");
+    });
+
     /* Filtering Script Part */
 
 
