@@ -170,14 +170,15 @@ public class OfferingController {   // This Controller is for the Course Schedul
 
         /* Else, save new course offering to the database */
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
-        currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section
+        if(ifSectionExists(offerModifyForm.getClassSection(),  2017, 2018, 1))
+            currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section
+        else
+            currOffering.setSection("S12s");
+
         currOffering.setStatus(offerModifyForm.getClassStatus()); // Offering Status
 
         // Find Room Object
         Room newRoom = offeringService.retrieveRoomByRoomCode(offerModifyForm.getRoomCode());
-
-        if(ifRoomExists(offerModifyForm.getRoomCode()))
-            newRoom = offeringService.retrieveRoomByRoomCode(offerModifyForm.getRoomCode());
 
         // Days
         Set<Days> daysSet = currOffering.getDaysSet();
@@ -412,13 +413,13 @@ public class OfferingController {   // This Controller is for the Course Schedul
         return isTaken;
     }
 
-    public boolean ifRoomExists(String currentValue)
+    public boolean ifSectionExists(String currentValue, int startAY, int endAY, int term)
     {
         boolean itExists = false;
-        Iterator<Room> allRooms = offeringService.retrieveAllRooms();
-        while (allRooms.hasNext())
+        Iterator<String> allSections = offeringService.retrieveAllOfferingSections(startAY, endAY, term);
+        while (allSections.hasNext())
         {
-            String roomIterate = allRooms.next().getRoomCode();
+            String roomIterate = allSections.next();
             if(roomIterate.equals(currentValue))
             {
                 itExists = true;

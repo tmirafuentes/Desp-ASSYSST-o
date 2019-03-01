@@ -138,7 +138,17 @@ public class OfferingService {
         ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStartAYAndEndAYAndTerm(status, startAY, endAY, term);
         return allOfferings.iterator();
     }
+    /* Retrieve all Offering Sections by Status */
+    public Iterator retrieveAllOfferingSections(int startAY, int endAY, int term) {
+        ArrayList<CourseOffering> allOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term);
+        Set<String> allSections = new HashSet<String>();
+        for(CourseOffering c: allOfferings)
+            allSections.add(c.getSection());
 
+        ArrayList<String> allSectionsList = new ArrayList<>(allSections);
+
+        return allSectionsList.iterator();
+    }
     /* Retrieve Specific Offering By ID */
     public CourseOffering retrieveCourseOffering(Long offering_id) {
         return courseOfferingRepository.findCourseOfferingByOfferingId(offering_id);
