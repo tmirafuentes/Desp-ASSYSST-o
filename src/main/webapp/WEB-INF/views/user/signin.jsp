@@ -18,7 +18,8 @@
     <p id = "system_title"> ASSYSTX </p>
 </div>
 <div id = "main_content">
-    <form method="POST">
+    <form method="POST" action="/signin">
+        Error = ${error}
     <table id = "table_login">
         <tr>
             <td><p class = "p_table_label"> ID Number</p></td>
@@ -33,6 +34,7 @@
             <td><input type="password"  id="text_password" name="password"></td>
         </tr>
         <tr>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <td><button id="button_submit" type="submit">Submit</button></td>
         </tr>
     </table>

@@ -1,12 +1,16 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.Course;
+import org.dlsu.arrowsmith.classes.Role;
 import org.dlsu.arrowsmith.classes.User;
 import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.security.SecurityServiceImpl;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +32,12 @@ public class MainController {
     private FacultyService facultyService;
 
     @Autowired
+    private SecurityServiceImpl securityService;
+
+    @Autowired
+    private UserDetailsServiceImp userDetailsServiceImp;
+
+    @Autowired
     private MessageSource messages;
 
     /***
@@ -37,7 +47,7 @@ public class MainController {
      */
 
     /* Default Home Page - Login Screen */
-    @RequestMapping(value = {"/", "/login", "/welcome", "/index", "/signin"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index", "/signin"}, method = RequestMethod.GET)
     public String index(Model model, String expired, String error, String logout) {
         if(expired != null)
             model.addAttribute("error", messages.getMessage("message.sessionExpired", null, null));
@@ -50,6 +60,24 @@ public class MainController {
 
         return "user/signin";
     }
+
+    /* Redirect Function/URL to respective Home Screens
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String redirectHomePage(Model model) {
+        // Get Logged in user
+        securityService.findLoggedInUsername();
+        UserDetails userDetails = userDetailsServiceImp.loadUserByUsername();
+
+        System.out.println("Username = " + securityService.findLoggedInUsername());
+
+        for (GrantedAuthority role : userDetails.getAuthorities())
+            if (role.getAuthority().equals("CVC"))
+                return "redirect:/cvc";
+            else
+                return "redirect:/apo";
+
+        return "redirect:/signin";
+    }*/
 
     /* Default Home Page - Academic Programming Officer Screen */
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
