@@ -176,6 +176,9 @@ public class OfferingController {   // This Controller is for the Course Schedul
         // Find Room Object
         Room newRoom = offeringService.retrieveRoomByRoomCode(offerModifyForm.getRoomCode());
 
+        if(ifRoomExists(offerModifyForm.getRoomCode()))
+            newRoom = offeringService.retrieveRoomByRoomCode(offerModifyForm.getRoomCode());
+
         // Days
         Set<Days> daysSet = currOffering.getDaysSet();
         // If there are no current daysSet
@@ -407,5 +410,20 @@ public class OfferingController {   // This Controller is for the Course Schedul
             isTaken = true;
 
         return isTaken;
+    }
+
+    public boolean ifRoomExists(String currentValue)
+    {
+        boolean itExists = false;
+        Iterator<Room> allRooms = offeringService.retrieveAllRooms();
+        while (allRooms.hasNext())
+        {
+            String roomIterate = allRooms.next().getRoomCode();
+            if(roomIterate.equals(currentValue))
+            {
+                itExists = true;
+            }
+        }
+        return itExists;
     }
 }

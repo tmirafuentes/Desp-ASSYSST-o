@@ -232,6 +232,13 @@ $(function() {
         $("#modalConcerns").dialog("open");
     });
 
+    //setting up the cancel button
+    $("#button_cancel_concerns").click(function(){
+        $(".genContentRows:not(:first-child)").each(function () {
+            $(this).css({'background-color' : '#e2e2e2'});
+        });
+        $(".modify_sidebar").hide();
+    });
     /* Filtering Script Part */
 
 
@@ -266,7 +273,7 @@ $(function() {
         checkClassType(); //check class type filter
         checkTerm(); //check class type filter
 
-        if(countallRows() < 0)
+        if(countallRows() <= 0)
         {
             console.log("Show");
             $(".filter_comments").show();

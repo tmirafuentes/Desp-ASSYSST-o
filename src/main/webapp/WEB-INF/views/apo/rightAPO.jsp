@@ -136,7 +136,7 @@
                 <form:input path="offeringId" type="text" id="text_offId" hidden="hidden" />
             </spring:bind>
             <td><button id="button_submit_modifyOffering" type="submit">Submit</button></td>
-            <td><button id="button_cancel_concerns">Cancel</button></td>
+            <td><button id="button_cancel_concerns" type="reset">Cancel</button></td>
         </tr>
     </table>
     </form:form>
