@@ -82,6 +82,12 @@ public class MainController {
     /* Default Home Page - Academic Programming Officer Screen */
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
     public String APOHomePage(Model model) {
+        /* Load logged in user */
+        User currUser = userService.retrieveUser();
+        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
+        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
+        model.addAttribute("loggedUser", userRealName);
+
         /* Load all course offerings and stuff */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
@@ -109,6 +115,12 @@ public class MainController {
     /* Default Home Page - Chairs or Vice Chairs Screen */
     @RequestMapping(value = {"/cvc", "/cvc/home"}, method = RequestMethod.GET)
     public String CVCHomePage(Model model) {
+        /* Load logged in user */
+        User currUser = userService.retrieveUser();
+        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
+        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
+        model.addAttribute("loggedUser", userRealName);
+
         /* Load all course offerings */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
@@ -135,14 +147,17 @@ public class MainController {
     /* Default Home Page - Faculty Screen */
     @RequestMapping(value = {"/faculty", "/faculty/home"}, method = RequestMethod.GET)
     public String FacultyHomePage(Model model) {
-        /* Get current user */
-        User currFaculty = userService.findUserByIDNumber(Long.valueOf(22734526));
+        /* Load logged in user */
+        User currUser = userService.retrieveUser();
+        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
+        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
+        model.addAttribute("loggedUser", userRealName);
 
         /* Load all faculty load */
-        model.addAttribute("facLoadInfo", facultyService.retrieveFacultyLoadByFaculty(2017, 2018, 2, currFaculty).getTotalLoad());
-        model.addAttribute("allTeachingLoads", offeringService.retrieveAllOfferingsByFaculty(currFaculty, 2017, 2018, 2));
+        model.addAttribute("facLoadInfo", facultyService.retrieveFacultyLoadByFaculty(2017, 2018, 2, currUser).getTotalLoad());
+        model.addAttribute("allTeachingLoads", offeringService.retrieveAllOfferingsByFaculty(currUser, 2017, 2018, 2));
 
-        return "facultyHome";
+        return "/faculty/facultyHome";
     }
 
 }

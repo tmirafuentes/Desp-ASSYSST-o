@@ -36,18 +36,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     {
         boolean isCVC = false;
         boolean isAPO = false;
+        boolean isFaculty = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if(grantedAuthority.getAuthority().equals("ROLE_CVC"))
                 isCVC = true;
             if (grantedAuthority.getAuthority().equals("ROLE_APO"))
                 isAPO = true;
+            if (grantedAuthority.getAuthority().equals("ROLE_FACULTY"))
+                isFaculty = true;
         }
 
         if (isCVC)
             return "/cvc";
+        else if (isAPO)
+            return "/apo";
 
-        return "/apo";
+        return "/faculty";
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request)

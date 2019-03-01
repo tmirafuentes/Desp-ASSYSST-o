@@ -12,12 +12,17 @@
 <html>
 <head>
     <title>ASSYSTX</title>
-    <link rel="stylesheet" type="text/css" href="css/assystxStyle.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery/jquery-ui.css">
+    <c:url value="/css/mainStyle.css" var="mainCss" />
+    <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
+    <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+    <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
+    <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+    <link rel="stylesheet" type="text/css" href="${mainCss}">
+    <link rel="stylesheet" type="text/css" href="${jqueryCss}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="scripts/jquery/jquery-3.3.1.min.js"></script>
-    <script src="scripts/jquery/jquery-ui.js"></script>
-    <script src="scripts/assystxFacultyScript.js"></script>
+    <script src="${minJquery}"></script>
+    <script src="${uiJquery}"></script>
+    <script src="${mainScript}"></script>
 </head>
 <body>
 <%@ include file="../cvc/leftChair.jsp" %>

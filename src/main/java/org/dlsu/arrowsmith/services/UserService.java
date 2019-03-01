@@ -85,7 +85,7 @@ public class UserService {
 
     /*** Retrieve all Users by User Type ***/
     public Iterator findAllUsersByUserType(String type) {
-        ArrayList<User> allUsers = (ArrayList<User>) userRepository.findUsersByUserTypeEquals(type);
+        ArrayList<User> allUsers = (ArrayList<User>) userRepository.findAllByUserType(type);
         return allUsers.iterator();
     }
 

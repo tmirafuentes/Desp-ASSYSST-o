@@ -3,6 +3,7 @@ package org.dlsu.arrowsmith.servlets;
 import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.security.SecurityServiceImpl;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
@@ -30,6 +31,10 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
 
     @Autowired
     private OfferingService offeringService;
+
+    @Autowired
+    private SecurityServiceImpl securityService;
+
     /*** Extra Stuff ***/
     private MessageSource messages;
 
@@ -43,6 +48,13 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
     @RequestMapping(value = "/cvc/manage-load", method = RequestMethod.GET)
     public String manageFacultyPage(Model model)
     {
+        /* Load logged in user */
+        User currUser = userService.retrieveUser();
+        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
+        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
+        model.addAttribute("loggedUser", userRealName);
+
+        /* Load Faculty Load Stuff */
         model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1));
         model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
         model.addAttribute("allTerms", offeringService.getUniqueTerms());

@@ -20,13 +20,9 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        System.out.println("Logged in = " + s);
-
         User user = userService.findUserByIDNumber(Long.valueOf(s));
         if (user == null)
             throw new UsernameNotFoundException(s);
-
-        System.out.println("Logged in 2 = " + user.getUsername());
 
         HashSet<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.getRoles())
