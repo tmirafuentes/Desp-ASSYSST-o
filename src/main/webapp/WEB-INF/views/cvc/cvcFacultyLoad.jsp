@@ -89,7 +89,83 @@
         <!-- View Faculty Information -->
         <%@ include file="rightFacultyLoad.jsp" %>
 
-        <!-- Load all Modals for ASSYSTX -->
-        <%@ include file="../user/modals.jsp" %>
+        <!-- Modal for Deloading Faculty -->
+        <div class="divModals" id="modalDeloadFaculty">
+            <form:form method="POST" modelAttribute="facultyDeloadForm" action="/cvc/deload-faculty">
+                <spring:bind path="loadId">
+                    <form:input path="loadId" type="text" hidden="true" id="modal_deload_id"/>
+                </spring:bind>
+                <spring:bind path="deloadType">
+                    <form:input path="deloadType" type="text" hidden="true" id="modal_deload_code" />
+                </spring:bind>
+                <input type="text" id="modal_deload_id" hidden>
+
+                <p id="dialog_professor_name"></p>
+                <table id="dialog_load_table">
+                    <tr>
+                        <td>
+                            <p class="p_modal" id="modal_current_load">Total Current Load: </p>
+                        </td>
+                        <td>
+                        </td>
+                        <p id="p_total_load"></p>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="p_modal">Deloading Code</p>
+                        </td>
+                        <td>
+                            <spring:bind path="deloadCode">
+                                <form:select path="deloadCode" id = "select_deload">
+                                    <form:option value="">Select Code</form:option>
+                                    <c:forEach items="${allDeloading}" var="deloadCode">
+                                        <form:option value="${deloadCode.deloading.units}"><c:set var="delCode" value="${deloadCode.deloading.deloadCode}" /><c:out value="${delCode}" /></form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </spring:bind>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="p_modal">Deloaded Units</p>
+                        </td>
+                        <td>
+                            <spring:bind path="deloadUnits">
+                                <form:input path="deloadUnits" type="number" id="input_deload" />
+                            </spring:bind>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="modal_buttons" id="deload_confirm" type="submit">Confirm</button>
+                        </td>
+                        <td>
+                            <button class="modal_buttons" id="delaod_reset">Reset</button>
+                        </td>
+                    </tr>
+                </table>
+            </form:form>
+        </div>
+
+        <!-- Modal for Concerns -->
+        <div class="divModals" id="modalConcerns">
+            <table class='concern_entry'>
+                <tr>
+                    <td class ='concern_name'>Ryan Dimaunahan</td>
+                    <td class ='concern_time'>1:29 PM</td>
+                </tr>
+                <tr>
+                    <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                    <th>Search</th>
+                    <%--<th>Recommendation</th>
+                    <th>Sort By</th>--%>
+                </tr>
+                <tr>
+                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+                    <%--<td><select class = 'modal_select' id='select_recommend'></select></td>
+                    <td><select class = 'modal_select' id='select_sort'></select></td>--%>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

@@ -61,52 +61,20 @@ public class MainController {
         return "user/signin";
     }
 
-    /* Redirect Function/URL to respective Home Screens
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String redirectHomePage(Model model) {
-        // Get Logged in user
-        securityService.findLoggedInUsername();
-        UserDetails userDetails = userDetailsServiceImp.loadUserByUsername();
-
-        System.out.println("Username = " + securityService.findLoggedInUsername());
-
-        for (GrantedAuthority role : userDetails.getAuthorities())
-            if (role.getAuthority().equals("CVC"))
-                return "redirect:/cvc";
-            else
-                return "redirect:/apo";
-
-        return "redirect:/signin";
-    }*/
-
     /* Default Home Page - Academic Programming Officer Screen */
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)
-    public String APOHomePage(Model model) {
-        /* Load logged in user */
-        User currUser = userService.retrieveUser();
-        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
-        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
-        model.addAttribute("loggedUser", userRealName);
+    public String APOHomePage(Model model)
+    {
+        /* Load all Course Offerings, User, and other Stuff */
+        model = loadAttributes(model);
 
-        /* Load all course offerings and stuff */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
-        model.addAttribute("allDays", offeringService.generateLetterDays());
+        /* Load Rooms for Room Assignment */
         model.addAttribute("allRooms", offeringService.retrieveAllRooms());
-        model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
-        model.addAttribute("allRoomTypes", offeringService.generateRoomType());
-        model.addAttribute("allRoomTypesModal", offeringService.generateRoomType());
-        model.addAttribute("allCourses", offeringService.retrieveAllCourses());
-        model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
-        model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
-        model.addAttribute("allTerms", offeringService.getUniqueTerms());
-        model.addAttribute("allClassTypes", offeringService.generateClassType());
 
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
-        /* Load Dto for Modify Faculty Load */
-        model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
 
-        /* Load Object for Add Coruse Offering */
+        /* Load Object for Add Course Offering */
         model.addAttribute("addOfferingForm", new Course());
 
         return "/apo/apoHome";
@@ -114,50 +82,57 @@ public class MainController {
 
     /* Default Home Page - Chairs or Vice Chairs Screen */
     @RequestMapping(value = {"/cvc", "/cvc/home"}, method = RequestMethod.GET)
-    public String CVCHomePage(Model model) {
-        /* Load logged in user */
-        User currUser = userService.retrieveUser();
-        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
-        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
-        model.addAttribute("loggedUser", userRealName);
+    public String CVCHomePage(Model model)
+    {
+        /* Load all Course Offerings, User, and other Stuff */
+        model = loadAttributes(model);
 
-        /* Load all course offerings */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByDepartment(currUser.getDepartment(), 2016, 2017, 1));
-        model.addAttribute("allDays", offeringService.generateLetterDays());
-        model.addAttribute("allRooms", offeringService.retrieveAllRooms());
-        model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
-        model.addAttribute("allRoomTypes", offeringService.generateRoomType());
-        model.addAttribute("allCourses", offeringService.retrieveAllCourses());
-        model.addAttribute("allDegrees",offeringService.retrieveAllDegreePrograms());
-        model.addAttribute("uniqueTimeslots", offeringService.getUniqueTimeSlots());
-        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1, currUser.getDepartment()));
-        model.addAttribute("allTerms", offeringService.getUniqueTerms());
-        model.addAttribute("allClassTypes", offeringService.generateClassType());
+        /* Load Faculty Load for Faculty Load Assignment */
+        model.addAttribute("allFacultyLoad", facultyService.retrieveAllFacultyLoadByTerm(2016, 2017, 1,
+                                                                                            userService.retrieveUser().getDepartment()));
 
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
-        /* Load Dto for Modify Faculty Load */
-        model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
-
-        model.addAttribute("addOfferingForm", new Course());
         return "/cvc/cvcHome";
     }
 
     /* Default Home Page - Faculty Screen */
     @RequestMapping(value = {"/faculty", "/faculty/home"}, method = RequestMethod.GET)
-    public String FacultyHomePage(Model model) {
+    public String FacultyHomePage(Model model)
+    {
         /* Load logged in user */
         User currUser = userService.retrieveUser();
-        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
         model.addAttribute("loggedUser", userRealName);
 
         /* Load all faculty load */
-        model.addAttribute("facLoadInfo", facultyService.retrieveFacultyLoadByFaculty(2017, 2018, 2, currUser).getTotalLoad());
-        model.addAttribute("allTeachingLoads", offeringService.retrieveAllOfferingsByFaculty(currUser, 2017, 2018, 2));
+        model.addAttribute("facLoadInfo", facultyService.retrieveFacultyLoadByFaculty(2016, 2017, 1, currUser));
+        model.addAttribute("allTeachingLoads", offeringService.retrieveAllOfferingsByFaculty(currUser, 2016, 2017, 1));
 
         return "/faculty/facultyHome";
+    }
+
+    /* Load Collaborative Workspace Information */
+    private Model loadAttributes(Model model) {
+        /* Load logged in user */
+        User currUser = userService.retrieveUser();
+        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
+        model.addAttribute("loggedUser", userRealName);
+
+        /* Load all stuff */
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        model.addAttribute("allDays", offeringService.generateLetterDays());
+        model.addAttribute("allRoomTypes", offeringService.generateRoomType());
+        model.addAttribute("allCourses", offeringService.retrieveAllCourses());
+        model.addAttribute("allDegrees", offeringService.retrieveAllDegreePrograms());
+        model.addAttribute("allTimeslots", offeringService.getUniqueTimeSlots());
+        model.addAttribute("allTerms", offeringService.getUniqueTerms());
+        model.addAttribute("allClassTypes", offeringService.generateClassType());
+        //model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
+        //model.addAttribute("allRoomsTypesModal", offeringService.generateRoomType());
+
+        return model;
     }
 
 }

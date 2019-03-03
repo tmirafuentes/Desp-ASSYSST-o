@@ -40,17 +40,17 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
 
     /***
      *
+     *  ACTIVE
      *  URL MAPPING
      *
      */
 
-    /*** Faculty Load Assignment Modal ***/
+    /*** Faculty Load Information Page ***/
     @RequestMapping(value = "/cvc/manage-load", method = RequestMethod.GET)
     public String manageFacultyPage(Model model)
     {
         /* Load logged in user */
         User currUser = userService.retrieveUser();
-        //securityService.autoLogin(currUser.getUsername(), currUser.getPassword());
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
         model.addAttribute("loggedUser", userRealName);
 
@@ -61,59 +61,12 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("allClassTypes", offeringService.generateClassType());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
-        model.addAttribute("alldeloadInstances", facultyService.retrieveFacultyDeloadings());
-        model.addAttribute("addOfferingForm", new Course());
+        model.addAttribute("allDeloading", facultyService.retrieveAllDeloading());
 
         /* Load Dto for Modify Faculty Load */
         model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
 
         return "cvc/cvcFacultyLoad";
-    }
-
-    /*** Add Faculty ***/
-    @RequestMapping(value = "/cvc/manage-load/add", method = RequestMethod.GET)
-    public String addNewFacultyPage(Model model)
-    {
-        /* Get College and Department of Chair */
-        User currChair = userService.retrieveUser();
-        College currCollege = currChair.getCollege();
-        Department currDept = currChair.getDepartment();
-
-        /* Generate Form */
-        model.addAttribute("facultyForm", new User());
-        model.addAttribute("facultyCollege", currCollege);
-        model.addAttribute("facultyDept", currDept);
-        return "cvc/add-faculty";
-    }
-
-    @RequestMapping(value = "/cvc/manage-load/add", method = RequestMethod.POST)
-    public String addNewFacultySubmit(@ModelAttribute("facultyForm") User facultyForm, BindingResult bindingResult, Model model)
-    {
-        /* Errors */
-        if (bindingResult.hasErrors())
-            return "/cvc/add-course";
-
-        /* Else, save new faculty to the database */
-        userService.createNewUser(facultyForm);
-
-        /* Message that course is successfully updated */
-        return "redirect:/cvc/add-faculty";
-    }
-
-    /*** Delete Faculty ***/
-    @RequestMapping(value = "/cvc/manage-faculty/delete", method = RequestMethod.GET)
-    public String deleteCourseSubmit(@RequestParam("facultyID") String facultyID, Model model)
-    {
-        /* Find Chosen Faculty */
-        User currFaculty = userService.findUserByIDNumber(Long.parseLong(facultyID));
-        if(currFaculty == null)
-            return "redirect:/error";
-
-        /* Delete from database */
-        userService.deleteUser(currFaculty);
-
-        /* Message that course is successfully updated */
-        return "redirect:/cvc/manage-faculty";
     }
 
     /*** Deload Faculty ***/
@@ -162,4 +115,56 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         return "redirect:/cvc/manage-load";
     }
 
+    /***
+     *
+     *  INACTIVE
+     *  URL MAPPING
+     *
+     */
+
+    /*** Add Faculty ***/
+    @RequestMapping(value = "/cvc/manage-load/add", method = RequestMethod.GET)
+    public String addNewFacultyPage(Model model)
+    {
+        /* Get College and Department of Chair */
+        User currChair = userService.retrieveUser();
+        College currCollege = currChair.getCollege();
+        Department currDept = currChair.getDepartment();
+
+        /* Generate Form */
+        model.addAttribute("facultyForm", new User());
+        model.addAttribute("facultyCollege", currCollege);
+        model.addAttribute("facultyDept", currDept);
+        return "cvc/add-faculty";
+    }
+
+    @RequestMapping(value = "/cvc/manage-load/add", method = RequestMethod.POST)
+    public String addNewFacultySubmit(@ModelAttribute("facultyForm") User facultyForm, BindingResult bindingResult, Model model)
+    {
+        /* Errors */
+        if (bindingResult.hasErrors())
+            return "/cvc/add-course";
+
+        /* Else, save new faculty to the database */
+        userService.createNewUser(facultyForm);
+
+        /* Message that course is successfully updated */
+        return "redirect:/cvc/add-faculty";
+    }
+
+    /*** Delete Faculty ***/
+    @RequestMapping(value = "/cvc/manage-faculty/delete", method = RequestMethod.GET)
+    public String deleteCourseSubmit(@RequestParam("facultyID") String facultyID, Model model)
+    {
+        /* Find Chosen Faculty */
+        User currFaculty = userService.findUserByIDNumber(Long.parseLong(facultyID));
+        if(currFaculty == null)
+            return "redirect:/error";
+
+        /* Delete from database */
+        userService.deleteUser(currFaculty);
+
+        /* Message that course is successfully updated */
+        return "redirect:/cvc/manage-faculty";
+    }
 }

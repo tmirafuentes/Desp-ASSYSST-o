@@ -187,6 +187,7 @@
             </table>
 
         </div>
+
         <!-- Modal for Deloading Faculty -->
         <div class="divModals" id="modalDeloadFaculty">
             <form:form method="POST" modelAttribute="facultyDeloadForm" action="/cvc/deload-faculty">
