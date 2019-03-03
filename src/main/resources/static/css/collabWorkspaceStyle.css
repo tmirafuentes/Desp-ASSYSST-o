@@ -29,31 +29,33 @@ html,body
     width:80%;
     border-collapse: collapse;
     display: table;
+    margin-left: 2%;
 }
 
 .generatedContent .genContentRows:first-child
 {
     background-color: white;
-    margin-top: 100px;
-    font-size:14px;
+    margin-top: 6.250em;
+    font-size: 0.875em;
     font-weight: bold;
 }
 
 .generatedContent .genContentRows 	/* FKA genList_rows */
 {
-    margin-top: 5px;
+    margin-top: 0.313em;
     background-color:#e2e2e2;
-    height: 30px;
+    height: 1.875em;
     width: 100%;
-    border-bottom:3px solid white;
+    border-bottom: .188em solid white;
     display: table-row;
     cursor: pointer;
     position: relative;
+    line-height: 2em;
 }
 
 .generatedContent .genContentRows .genContentCols	/* FKA genList_cols */
 {
     text-align:center;
-    font-size:14px;
+    font-size:0.95em;
     display: table-cell;
 }

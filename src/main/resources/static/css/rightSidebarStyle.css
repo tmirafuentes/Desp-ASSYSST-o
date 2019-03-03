@@ -13,11 +13,11 @@
 .rightSidebar select,
 .rightSidebar input
 {
-    height:35px;
+    height:2.5em;
     -webkit-border-radius:3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 1em;
 }
 
 .rightSidebar button
@@ -44,9 +44,9 @@
     position: relative;
     top: 18%;
     left: 35%;
-    font-size:16px;
+    font-size:1em;
     padding: 5px;
-    border-spacing: 10px;
+    border-spacing: 0.625em;
 }
 
 #modifyOfferingRoom             /* FKA modify_room */
@@ -54,9 +54,9 @@
     position: relative;
     top: 15%;
     left: 35%;
-    font-size:16px;
+    font-size:1em;
     padding: 5px;
-    border-spacing: 10px;
+    border-spacing: 0.625em;
 }
 
 #modifyOfferingFaculty,         /* FKA modify_faculty */
@@ -65,9 +65,9 @@
     position: relative;
     top: 13%;
     left: 35%;
-    font-size:16px;
+    font-size:1em;
     padding: 5px;
-    border-spacing: 10px;
+    border-spacing: 0.625em;
 }
 
 #modifyOfferingButtons          /* FKA modify_button_concerns */
@@ -75,33 +75,33 @@
     position: relative;
     top: 10%;
     left: 40%;
-    font-size:16px;
+    font-size:1em;
     padding: 5px;
-    border-spacing: 10px;
+    border-spacing: 0.625em;
 }
 
 #modOffRoomButton               /* FKA button_assign_room */
 {
-    width:80px;
-    height:35px;
+    width: 5em;
+    height:2.3em;
 }
 
 #modOffFacultyButton            /* FKA button_assign_faculty */
 {
-    width:80px;
-    height:30px;
+    width: 5em;
+    height: 2em;
 }
 
 .modOffUsableButton             /* button_usable */
 {
-    font-size: 14px;
+    font-size: 0.875em;
     background-color:#2e3192;
     cursor: pointer;
 }
 
 .modOffBlockedButton            /* button_unusable */
 {
-    font-size: 14px;
+    font-size: 0.875em;
     background-color: #959595;
     pointer-events: none;
 }
@@ -114,19 +114,19 @@
 
 .facultyInfoTitles              /* p_faculty */
 {
-    font-size: 16px;
+    font-size: 1em;
 }
 
 #facultyInfoStatus              /* table_preferences */
 {
-    font-size: 13px;
+    font-size: 0.813em;
 }
 
 .facultyInfoButtons             /* load_button_assign_faculty */
 {
     background-color:#3cb878;
-    height:35px;
-    width:60px;
+    height:2.188em;
+    width:3.75em;
     position: relative;
     left:25%;
     cursor: pointer;

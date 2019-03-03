@@ -23,6 +23,7 @@
     position:relative;
     font-weight:bold;
     top:15;
+    font-family:"Comic Sans MS";
 }
 
 .collabCanvas   /* FKA smaller_header */

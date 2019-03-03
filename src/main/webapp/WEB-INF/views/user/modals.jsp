@@ -165,10 +165,10 @@
                 <tr>
                     <th>Last Name</th>
                     <th>First Name</th>
-                    <th>Teaching Load</th>
-                    <th>Admin Load</th>
-                    <th>Research Load</th>
-                    <th>Total Load</th>
+                    <th>Teaching</th>
+                    <th>Admin</th>
+                    <th>Research</th>
+                    <th>Total</th>
                     <th>Assign</th>
                 </tr>
                 <c:forEach items="${allFacultyLoad}" var="facLoad">

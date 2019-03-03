@@ -1,5 +1,10 @@
 
 
+@font-face {
+	font-family: Gotham;
+	src: url(fonts/Gotham.ttf);
+}
+
 /**
  *	LEFT SIDE
  *	FILTER SIDEBAR
@@ -18,19 +23,19 @@
 	top: 40;
 	left:30;
 	width:80%;
-	font-size: 14px;
+	font-size: 0.88em;
 	border-bottom:1px solid #e1e1e1;
 }
 .left_side_text{
-	height:8px;
+	height:.5em;
 }
 .left_side_select{
 	margin-bottom:-5px;
-	height:25px;
+	height:1.563em;
 	width: 100%;
-	-webkit-border-radius:7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
+	-webkit-border-radius:0.438em;
+	-moz-border-radius: 0.438em;
+	border-radius: 0.438em;
 }
 .left_side_select:first-child{
 	background-color:#3cb878;
@@ -69,8 +74,8 @@
 }
 
 .left_buttons{
-	height:40px;
-	font-size:14px;
+	height:2.5em;
+	font-size:0.88em;
 	font-weight:bold;
 	color:#252525;
 	background-color:#e1e1e1;
@@ -78,7 +83,7 @@
 	width:80%;
 	 box-shadow: none;
 	 border:0;
-	 margin-top:10px;
+	 margin-top:0.625em;
 }
 /* Chair Headers */
 #header{
@@ -92,7 +97,7 @@
 }
 #smaller_header{
 	width: 100%;
-	height:5%;
+	height:3.5%;
 	background-color:white;
 	border-bottom: 1px solid black;
 	z-index: 1;
@@ -103,10 +108,11 @@
 #system_title{
 	text-align:center;
 	color:white;
-	font-size:25px;
+	font-size:230%;
 	position:relative;
 	font-weight:bold;
-	top:15;
+	top:30;
+	font-family: Gotham;
 }
 #user_icon{
 	position:absolute;
@@ -128,7 +134,7 @@
 	position:relative;
 	left:23%;
 	top:8;
-	font-size:12px;
+	font-size:100%;
 	color:#979797;
 }
 /*right side chairs */
@@ -138,7 +144,7 @@
 	top:-5;
 	font-weight:bold;
 	color:black;
-	font-size:16px;
+	font-size:1em;
 }
 
 /* Right Side Chairs*/
@@ -165,26 +171,26 @@
 	position: relative;
 	top: 18%;
 	left: 35;
-	font-size:16px;
+	font-size:1em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 	
 }
 #modify_room{
 	position: relative;
 	top: 15%;
 	left: 35;
-	font-size:16px;
+	font-size:1em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 }
 #modify_faculty, #modify_concerns, #table_currentlytaking{
 	position: relative;
 	top: 13%;
 	left: 35;
-	font-size:16px;
+	font-size:1em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 }
 #table_preferences{
 	position: relative;
@@ -192,60 +198,60 @@
 	left: 30%;
 	text-align: center;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 }
 #modify_button_concerns{
 	position: relative;
 	top: 10%;
 	left: 55;
-	font-size:16px;
+	font-size: 1em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 }
 #right_side select, #right_side input{
-	height:35px;
-	-webkit-border-radius:3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	font-size: 14px;
+	height:2.188em;
+	-webkit-border-radius:0.188em;
+	-moz-border-radius: 0.188em;
+	border-radius: 0.188em;
+	font-size: 0.88em;
 }
 #right_side button, .modal_buttons{
 	box-shadow: none;
 	border:0;
 	font-weight:bold;
 	color:white;
-	-webkit-border-radius:3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	-webkit-border-radius:0.188em;
+	-moz-border-radius: 0.188em;
+	border-radius: 0.188em;
 	cursor: pointer;
 }
 #select_right_class_type, #select_right_start_timeblock, #select_right_end_timeblock{
-	width:80px;
+	width:8em;
 }
 #text_section{
-	width:50px;
+	width:3.5em;
 }
 #text_room{
-	width:70px;
+	width:5.5em;
 }
 #button_assign_room{
-	width:80px;
-	height:35px;
+	width:9em;
+	height:2.3em;
 	background-color:#959595;
-	font-size: 14px;
+	font-size: 0.88em;
 }
 #select_faculty{
-	width: 100px;
+	width: 9em;
 }
 #button_assign_faculty{
-	width:80px;
-	height:30px;
+	width:5em;
+	height:1.875em;
 	display: inline-block;
 }
 
 .button_usable {
-	height:35px;
-	font-size: 14px;
+	height:2.188em;
+	font-size: 0.88em;
 	background-color:#2e3192;
 	cursor: pointer;
 }
@@ -256,20 +262,20 @@
 }
 
 #area_concerns{
-	width:170px;
-	height:100px;
+	width:16em;
+	height:10em;
 	resize: none;
 }
 #button_submit_concerns{
 	background-color:#3cb878;
-	height:35px;
-	width:60px;
+	height:2.188em;
+	width:3.75em;
 }
 #button_cancel_concerns{
 	background-color:#ed1c24;
-	height:35px;
-	width:60px;
-	font-size: 14px;
+	height:2.188em;
+	width: 5em;
+	font-size: 0.88em;
 }
 /* Added for Faculty */
 #faculty_table_area{
@@ -289,9 +295,9 @@
 	position: relative;
 	top:20%;
 	left:45;
-	font-size:12px;
+	font-size:0.75em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 }
 /*Added for Login */
 #table_login{
@@ -316,28 +322,28 @@
 }
 .p_table_label{
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 1.25em;
 	position: relative;
 	left:-110;
 }
 #login_main_content input{
 	border: 1px solid black;
-	height:30px;
+	height:1.875em;
 	width:50%;
 }
 #login_button_submit{
 	background-color:#3cb878;
-	height:25px;
-	width:200px;
+	height:1.563em;
+	width:12.5em;
 	box-shadow: none;
 	border:0;
 	font-weight:bold;
 	color:white;
-	-webkit-border-radius:3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	-webkit-border-radius:0.188em;
+	-moz-border-radius: 0.188em;
+	border-radius: 0.188em;
 	position: relative;
-	font-size: 16px;
+	font-size: 1em;
 	top:10;
 }
 /*For faculty load */
@@ -367,33 +373,33 @@
 }
 
 #div_preferences, #div_load{
-	width:200px;
-	height:100px;
+	width:12.5em;
+	height:6.25em;
 	left:30;
 	position: relative;
 
 }
 #image_faculty{
-	height:100px;
-	width:100px;
+	height:6.25em;
+	width:6.25em;
 	position: relative;
 	top:10;
 	left:20%;
-	margin-bottom:30px;
-	margin-top:20px;
+	margin-bottom:1.875em;
+	margin-top:1.25em;
 }
 .p_faculty{
-	font-size:14px;
+	font-size:0.88em;
 }
 #table_preferences{
-	font-size:13px;
+	font-size:0.813em;
 	top: 18%;
 	left: 25%;
 }
 #load_button_assign_faculty{
 	background-color:#3cb878;
-	height:35px;
-	width:60px;
+	height:2.188em;
+	width:3.75em;
 	position: relative;
 	left:25%;
 }
@@ -401,35 +407,35 @@
 	position: relative;
 	top: 18%;
 	left: 30%;
-	font-size:20px;
+	font-size:1.25em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 
 }
 
 /*Deload Screen*/
 #deload_image_faculty{
-	height:100px;
-	width:100px;
+	height:6.25em;
+	width:6.25em;
 	margin-bottom: 10%;
 	position: relative;
-	left:-100px;
+	left:-6.25em;
 }
 #load_img_names{
 	position: relative;
 	top: 10%;
 	left:30%;
 	text-align: center;
-	font-size:16px;
+	font-size:1em;
 	padding: 5px;
-	border-spacing: 10px;
+	border-spacing: 0.625em;
 }
 #p_faculty_lname, #p_faculty_fname{
-	font-size:16px;
+	font-size:1em;
 	text-align: center;
 }
 #p_faculty_type, #p_faculty_department{
-	font-size: 14px;
+	font-size: 0.88em;
 }
 #fType_department, #load_list{
 	top: 10%;
@@ -440,44 +446,44 @@
 	position: relative;
 	top:10%;
 	left:30%;
-	font-size: 15px;
+	font-size: 0.938em;
 	font-weight: bold;
-	width: 150px;
+	width: 9.375em;
 }
 #deload_button{
 	background-color:#3cb878;
-	height:35px;
-	width:150px;
+	height:2.188em;
+	width:9.375em;
 	position: relative;
 	left:25%;
 	top:150;
-	font-size:14px;
+	font-size:0.88em;
 }
 .p_modal{
-	font-size: 14px;
+	font-size: 0.88em;
 	font-weight: bold;
 }
 #p_total_load{
-	font-size:16px;
+	font-size:1em;
 }
 #input_deload, #select_deload{
-	border-radius: 3px;
+	border-radius: 0.188em;
 }
 #input_deload{
-	height: 20px;
-	width: 50px;
+	height: 1.25em;
+	width: 3.125em;
 }
 #select_deload, #faculty_select_modal, #room_select_modal{
-	height: 20px;
-	width: 125px;
+	height: 1.25em;
+	width: 7.813em;
 }
 #faculty_select_modal, #room_select_modal{
 	margin-top: 10%;
-	height: 30px;
-	width: 250px;
+	height: 1.875em;
+	width: 15.625em;
 }
 #dialog_professor_name{
-	font-size: 25px;
+	font-size: 1.563em;
 	font-weight: bolder;
 	text-align: center;
 }
@@ -486,12 +492,12 @@
 	left:15%;
 }
 .modal_buttons{
-	height:30px;
+	height:1.875em;
 	margin-top:25%;
 }
 .assign_modal_buttons{
 	background-color:#3cb878;
-	font-size: 12px;
+	font-size: 0.75em;
 	color: white;
 	box-shadow: none;
 	border:0;
@@ -510,7 +516,7 @@
 }
 #modal_table_room{
 	width: 100%;
-	text-align: center;
+	text-align: left;
 	border-collapse: collapse;
 }
 #modal_table_add_courses {
@@ -522,7 +528,7 @@
 /*Room Assignment*/
 #modal_table_room tr, #modal_table_add_courses tr{
 	background-color: #e2e2e2;
-	border-bottom:3px solid white;
+	border-bottom:0.188em solid white;
 	height: 10%;
 }
 #modal_table_add_courses tr {
@@ -532,17 +538,17 @@
 #modal_table_room tr:first-child, #modal_table_add_courses tr:first-child{
 	background-color: white;
 	height: 20%;
-	font-size: 20px;
+	font-size: 1.25em;
 }
 
 .modal_header{
 	width: 100%;
-	margin-bottom: 30px;
+	margin-bottom: 1.875em;
 	border-collapse: collapse;
 }
 .modal_header select, .modal_header input{
-	font-size: 16px;
-	height: 25px;
+	font-size: 1em;
+	height: 1.563em;
 }
 .modal_header td:first-child{
 	 width: 40%;
@@ -553,7 +559,7 @@
 	width: 30%;
 }
 .modal_header th{
-	font-size:16px;
+	font-size:1em;
 	text-align: left;
 }
 #button_search_room{
@@ -562,7 +568,7 @@
 	border:0;
 	background-color:white;
 	top:6.9%;
-	font-size: 14px;
+	font-size: 0.88em;
 	left:243;
 }
 #button_search_course{
@@ -571,24 +577,21 @@
 	border:0;
 	background-color:white;
 	top:6.9%;
-	font-size: 14px;
+	font-size: 0.88em;
 	left:185;
 }
 .divModals {
 	overflow: auto;
 }
 .modal_search{
-	height: 20px;
-	width:250px;
+	height: 1.25em;
+	width:15.625em;
 }
 .modal_select{
-	height: 20px;
-}
-#select_room_type{
-	width: 150px;
+	height: 1.25em;
 }
 #select_building{
-	width: 200px;
+	width: 12.5em;
 }
 
 .modal_footer{
@@ -596,7 +599,7 @@
 	bottom: 0;
 	left: 650;
 	text-align: right;
-	height: 20px;
+	height: 1.25em;
 }
 .concern_entry{
 	border-bottom:1px solid black;
@@ -604,60 +607,59 @@
 	height: 20%;
 }
 .concern_message{
-	font-size: 12px;
+	font-size: 0.75em;
 }
 .concern_name{
-	font-size: 16px;
+	font-size: 1em;
 	font-weight: bold;
 }
 .concern_time{
-	font-size: 14px;
+	font-size: 0.88em;
 	font-weight: bold;
 }
 .add_modal_buttons {
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
+	-webkit-border-radius: 0.625em;
+	-moz-border-radius: 0.625em;
+	border-radius: 0.625em;
 	background-color:#3cb878;
-	font-size: 14px;
+	font-size: 0.88em;
 	color: white;
 	box-shadow: none;
 	border:0;
 	font-weight: bold;
 }
 #select_degree{
-	width:150px;
+	width:9.375em;
 }
 #select_batch{
-	width:60px;
+	width:3.75em;
 }
 #select_academic_year{
-	width:100px;
+	width:6.25em;
 }
 #select_term{
-	width:40px;
+	width:2.5em;
 }
 #modal_input_search_course{
-	width: 200px;
+	width: 12.5em;
 }
 #offerModifyForm{
 	position: relative;
-	top:15%;
-	left:-15%;
+	top:10%;
+	left:-18%;
 }
 #button_submit_modifyOffering{
 	background-color: #3cb878;
-	height:35px;
-	height:35px;
-	width:60px;
-	font-size: 14px;
+	height:2.188em;
+	width:5em;
+	font-size: 0.88em;
 }
 #label_currLoad{
 	position: relative;
 	top:25%;
 	left: 35%;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 1em;
 	width: 65%;
 
 }
@@ -671,8 +673,8 @@
 }
 .generatedLoad .genLoadRows:first-child
 {
-	margin-top: 100px;
-	font-size:12px;
+	margin-top: 6.25em;
+	font-size:0.75em;
 	font-weight: bold;
 	padding: 3em;
 }
@@ -686,9 +688,9 @@
 .generatedLoad .genLoadRows 	/* FKA genList_rows */
 {
 	margin-top: 5px;
-	height: 30px;
+	height: 1.875em;
 	width: 100%;
-	border-bottom:3px solid white;
+	border-bottom:0.188em solid white;
 	display: table-row;
 	cursor: pointer;
 	position: relative;
@@ -697,33 +699,33 @@
 .generatedLoad .genLoadRows .genLoadCols	/* FKA genList_cols */
 {
 	text-align:center;
-	font-size:12px;
+	font-size:0.75em;
 	display: table-cell;
 }
 
 .rightDeloadingLoadingButtons{
 	position: relative;
 	top:11%;
-	font-size: 14px;
+	font-size: 0.88em;
 	width: 70%;
 }
 .rightDeloadingLoadingButtons button{
-	width: 110px;
+	width: 6.875em;
 
 }
 
 #table_curr_load tr{
-	padding: 3px;
+	padding: 0.188em;
 }
 #table_curr_load td,  #table_curr_load th{
 	text-align: center;
 }
 
 #table_curr_load .generated_current_load{
-	margin-top: 3px;
+	margin-top: 0.188em;
 }
 #table_faculty_name th{
-	font-size: 16px;
+	font-size: 1em;
 	text-align: center;
 
 }
