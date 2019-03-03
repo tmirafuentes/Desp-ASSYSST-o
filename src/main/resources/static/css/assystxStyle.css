@@ -270,12 +270,14 @@
 	background-color:#3cb878;
 	height:2.188em;
 	width:3.75em;
+	cursor:pointer;
 }
 #button_cancel_concerns{
 	background-color:#ed1c24;
 	height:2.188em;
 	width: 5em;
 	font-size: 0.88em;
+	cursor:pointer;
 }
 /* Added for Faculty */
 #faculty_table_area{
@@ -653,6 +655,7 @@
 	height:2.188em;
 	width:5em;
 	font-size: 0.88em;
+	cursor:pointer;
 }
 #label_currLoad{
 	position: relative;
