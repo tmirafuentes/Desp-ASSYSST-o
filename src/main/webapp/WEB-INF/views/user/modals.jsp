@@ -47,7 +47,7 @@
                          <th>Add</th>
                      </tr>
                      <c:forEach items="${allCourses}" var="course">
-                         <tr>
+                         <tr class = "modal_generated_course_offerings">
                              <td class="course_code">
                                      ${course.courseCode}
                              </td>

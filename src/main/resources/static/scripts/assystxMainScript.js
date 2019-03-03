@@ -212,6 +212,7 @@ $(function() {
             modal:true
         });
         $("#modalAddOffering").dialog("open");
+        showallCourseModalRows();
     });
 
     /* Add New Offering to System */
@@ -263,6 +264,18 @@ $(function() {
             $(".filter_comments").show();
 
         }
+    });
+
+    /*Search Course for modals*/
+    $("#button_search_course").click(function(){
+        var textSearched = $.trim($("#modal_input_search_course").val())
+        $(".modal_generated_course_offerings").each(function () {
+            var courseTraverse = $(':first-child', this).text();
+            courseTraverse = courseTraverse.replace("+", "");
+            courseTraverse = $.trim(courseTraverse);
+            if(textSearched.toUpperCase() !== courseTraverse.toUpperCase())
+                $(this).hide();
+        });
     });
 
     /* General Function for Filters*/
@@ -377,6 +390,12 @@ $(function() {
     function showallRows()
     {
         $(".genContentRows").each(function () {
+            $(this).show();
+        });
+    }
+    function showallCourseModalRows()
+    {
+        $(".modal_generated_course_offerings").each(function () {
             $(this).show();
         });
     }

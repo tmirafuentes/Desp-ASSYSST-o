@@ -111,7 +111,7 @@
 	font-size:230%;
 	position:relative;
 	font-weight:bold;
-	top:30;
+	top:25;
 	font-family: Gotham;
 }
 #user_icon{
@@ -125,7 +125,7 @@
 #online_icons{
 	position: relative;
 	left:60%;
-	top:8;
+	top:7;
 	color:black;
 	text-decoration:none;
 
@@ -141,7 +141,7 @@
 #modify_offering{
 	position: absolute;
 	left:87%;
-	top:-5;
+	top:-7.5;
 	font-weight:bold;
 	color:black;
 	font-size:1em;

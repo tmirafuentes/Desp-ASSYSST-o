@@ -173,7 +173,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         if(ifSectionExists(offerModifyForm.getClassSection(),  2017, 2018, 1))
             currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section
         else
-            currOffering.setSection("S12s");
+            currOffering.setSection("INVALID");
 
         currOffering.setStatus(offerModifyForm.getClassStatus()); // Offering Status
 
