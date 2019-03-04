@@ -1,7 +1,5 @@
-package org.dlsu.arrowsmith.security.Login;
+package org.dlsu.arrowsmith.security;
 
-import org.dlsu.arrowsmith.classes.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +9,6 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,18 +20,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, Authentication authentication) throws IOException, ServletException
+    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException
     {
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
-    }
-
-    protected void clearAuthenticationAttributes(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession(false);
-        if(session == null)
-            return;
-        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
 
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException
@@ -45,32 +34,33 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     protected String determineTargetUrl(Authentication authentication)
     {
-        boolean isAPO = false;
         boolean isCVC = false;
+        boolean isAPO = false;
         boolean isFaculty = false;
-        boolean isAdmin = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
-            if(grantedAuthority.getAuthority().equals("ROLE_APO"))
-                isAPO = true;
-            else if(grantedAuthority.getAuthority().equals("ROLE_CVC"))
+            if(grantedAuthority.getAuthority().equals("ROLE_CVC"))
                 isCVC = true;
-            else if(grantedAuthority.getAuthority().equals("ROLE_FACULTY"))
+            if (grantedAuthority.getAuthority().equals("ROLE_APO"))
+                isAPO = true;
+            if (grantedAuthority.getAuthority().equals("ROLE_FACULTY"))
                 isFaculty = true;
-            else if(grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
-                isAdmin = true;
         }
 
-        if(isAPO)
-            return "/apo/home";
-        else if(isCVC)
-            return "/cvc/home";
-        else if(isFaculty)
-            return "/faculty/home";
-        else if(isAdmin)
-            return "/admin";
+        if (isCVC)
+            return "/cvc";
+        else if (isAPO)
+            return "/apo";
 
-        return "/cvc/home";
+        return "/faculty";
+    }
+
+    protected void clearAuthenticationAttributes(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession(false);
+        if(session == null)
+            return;
+        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy)

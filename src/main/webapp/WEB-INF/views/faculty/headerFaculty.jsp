@@ -14,7 +14,13 @@
 <body>
 <div id = "header">
     <p id = "system_title"> ASSYSTX </p>
-    <a href ="#" id = "user_icon">User</a>
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <a onclick="document.forms['logoutForm'].submit()" id="user_icon">${loggedUser}</a>
+        <form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
+        <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+    </c:if>
 </div>
 <div id = "smaller_header">
         <p id = "last_edited">Updated as of 1 hour ago by</p>

@@ -157,7 +157,145 @@
         <!-- Modify Sidebar for APO -->
         <%@ include file="../apo/rightAPO.jsp" %>
 
-        <!-- Load all Modals for ASSYSTX -->
-        <%@ include file="../user/modals.jsp" %>
+        <!-- Add Course Offering Modal for APO -->
+        <div class="divModals" id="modalAddOffering">
+            <table class="modal_header">
+                <tr>
+                    <th>Degree Program</th>
+                    <th>Batch</th>
+                    <th>Academic Year</th>
+                    <th>Term</th>
+                    <th>Search</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select class = 'modal_select' id='select_degree'>
+                            <option value="All">All</option>
+                            <c:forEach items="${allDegrees}" var="degreeType">
+                                <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                    <!--<td><select class = 'modal_select' id='select_batch'></select></td>
+                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                    <td><select class = 'modal_select' id='select_term'>
+                        <option value="All">All</option>
+                        <option value="First">1st</option>
+                        <option value="Second">2nd</option>
+                        <option value="Third">3rd</option>
+                    </select></td>-->
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
+                </tr>
+            </table>
+            <form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">
+                <table id='modal_table_add_courses'>
+                    <tr>
+                        <th>Course</th>
+                        <th>Name</th>
+                        <th>Units</th>
+                        <th>Add</th>
+                    </tr>
+                    <c:forEach items="${allCourses}" var="course">
+                        <tr>
+                            <td class="course_code">
+                                    ${course.courseCode}
+                            </td>
+                            <td class="course_name">
+                                    ${course.courseName}
+                            </td>
+                            <td class="course_units">
+                                    ${course.units}
+                            </td>
+                            <td>
+                                <button type="submit" class = 'add_modal_buttons add_offer_btns' value="${course.courseCode}">
+                                    +
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <spring:bind path="courseCode">
+                    <form:input type="text" path="courseCode" id="add_offer_field" hidden="hidden" />
+                </spring:bind>
+            </form:form>
+        </div>
+
+        <!-- Modal for Assign Room -->
+        <div class="divModals" id="modalAssignRoom">
+            <table class="modal_header">
+                <tr>
+                    <th>Search</th>
+                    <%--<th margin-left="50px">Room Type</th>
+                    <th>Building</th> --%>
+                </tr>
+                <tr>
+                    <td>
+                        <input class = 'modal_search' id='input_search_room'>
+                        <button id='button_search_room'><i class='fas fa-search'></i></button>
+                    </td>
+                    <!--
+                    <td>
+                        <select class = 'modal_select' id='select_room_type'>
+                            <option value="All">All</option>
+                            <%--
+                            <c:forEach items="${allRoomTypesModal}" var="roomType">
+                                <option value="${roomType}"><c:out value="${roomType}"/></option>
+                            </c:forEach>
+                            --%>
+                        </select>
+                    </td>
+                    <td>
+                        <select class = 'modal_select' id='select_building'>
+                            <option value='All'>All</option>
+                            <%--
+                            <c:forEach items='${allBuildings}' var='building'>
+                                <option value='${building.bldgName}'><c:out value='${building.bldgName}' /></option>
+                            </c:forEach>
+                            --%>
+                        </select>
+                    </td>
+                    -->
+                </tr>
+            </table>
+            <table id="modal_table_room">
+                <tr>
+                    <th>Room</th>
+                    <th>Room Type</th>
+                    <th>Building</th>
+                    <th>Capacity</th>
+                    <th>Assign</th>
+                </tr>
+                <c:forEach items="${allRooms}" var="room">
+                    <tr>
+                        <td>${room.roomCode}</td>
+                        <td>${room.roomType}</td>
+                        <td>${room.building.bldgName}</td>
+                        <td>${room.roomCapacity}</td>
+                        <td><button class = 'assign_modal_buttons assignRoomBtns' value="${room.roomCode}" type="button">Assign</button></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+
+        <!-- Modal for Concerns -->
+        <div class="divModals" id="modalConcerns">
+            <table class='concern_entry'>
+                <tr>
+                    <td class ='concern_name'>Ryan Dimaunahan</td>
+                    <td class ='concern_time'>1:29 PM</td>
+                </tr>
+                <tr>
+                    <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                    <th>Search</th>
+                    <%--<th>Recommendation</th>
+                    <th>Sort By</th>--%>
+                </tr>
+                <tr>
+                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+                    <%--<td><select class = 'modal_select' id='select_recommend'></select></td>
+                    <td><select class = 'modal_select' id='select_sort'></select></td>--%>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

@@ -156,7 +156,7 @@ public class User {
         this.coursePreferences = coursePreferences;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
     public Set<Role> getRoles() {
         return roles;
