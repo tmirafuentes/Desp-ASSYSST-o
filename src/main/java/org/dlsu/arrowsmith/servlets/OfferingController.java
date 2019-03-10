@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -80,14 +81,12 @@ public class OfferingController {   // This Controller is for the Course Schedul
         if (bindingResult.hasErrors())
             return "/apo";
 
-        System.out.println("Hello Niggers = " + offerModifyForm.toString());
-
         /* Else, save new course offering to the database */
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
-        if(ifSectionExists(offerModifyForm.getClassSection(),  2017, 2018, 1))
+       // if(ifSectionExists(offerModifyForm.getClassSection(),  2016, 2017, 1))
             currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section
-        else
-            currOffering.setSection("INVALID");
+       // else
+           // currOffering.setSection("INVALID");
 
         currOffering.setStatus(offerModifyForm.getClassStatus()); // Offering Status
 
@@ -96,11 +95,14 @@ public class OfferingController {   // This Controller is for the Course Schedul
 
         // Days
         Set<Days> daysSet = currOffering.getDaysSet();
-        // If there are no current daysSet
+
+        boolean noConflicts = true;
+
+        // If there are no current daysSet (ohhh rewriting on it)
         if (daysSet == null)
         {
             // If Day 1 is not null or "-" in the form
-            if(!(offerModifyForm.getDay1() == '-'))
+            if(!(offerModifyForm.getDay1() == '-') && noConflicts)
             {
                 Days newDay1 = new Days();
                 newDay1.setclassDay(offerModifyForm.getDay1());
@@ -108,7 +110,14 @@ public class OfferingController {   // This Controller is for the Course Schedul
                 newDay1.setendTime(offerModifyForm.getEndTimeParsed());
                 newDay1.setCourseOffering(currOffering);
                 newDay1.setRoom(newRoom);
-                daysSet.add(newDay1);
+                //TO DO: WHAT ABOUT BLANKS IN THE TIME
+                if(!classScheduleConflictsWith(currOffering.getofferingId(), newDay1.getRoom(), newDay1.getclassDay(), Integer.parseInt(newDay1.getbeginTime()), Integer.parseInt(newDay1.getendTime())
+                        ,2016, 2017,  1))
+                {
+                    daysSet.add(newDay1);
+                    //System.out.println("Conflict not found!");
+                }
+
             }
 
             // If Day 2 is not null or "-" in the form
@@ -120,46 +129,72 @@ public class OfferingController {   // This Controller is for the Course Schedul
                 newDay2.setendTime(offerModifyForm.getEndTimeParsed());
                 newDay2.setCourseOffering(currOffering);
                 newDay2.setRoom(newRoom);
-                daysSet.add(newDay2);
+                if(!classScheduleConflictsWith(currOffering.getofferingId(),newDay2.getRoom(), newDay2.getclassDay(), Integer.parseInt(newDay2.getbeginTime()), Integer.parseInt(newDay2.getendTime())
+                        ,2016, 2017, 1))
+                {
+                    daysSet.add(newDay2);
+                    //System.out.println("Conflict not found!");
+                }
             }
         }
         // If there is a DaysSet
         else {
             boolean isDay1Done = false;
+            boolean conflictFound = false;
             for(Days dayInstance : daysSet)
             {
-                // If Day 1 is not null or not "-" in the form
-                if(!(offerModifyForm.getDay1() == '-') && !isDay1Done)
+                if(!conflictFound)
                 {
-                    dayInstance.setclassDay(offerModifyForm.getDay1());
-                    dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
-                    dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
-                    dayInstance.setCourseOffering(currOffering);
-                    dayInstance.setRoom(newRoom);
-                    isDay1Done = true;
-                    continue;
-                }
-                // If Day 1 is null or "-" in the form
-                else if(offerModifyForm.getDay1() == '-' && !isDay1Done)
-                {
-                    daysSet.remove(dayInstance);
-                    isDay1Done = true;
-                    continue;
-                }
+                    // If Day 1 is not null or not "-" in the form
+                    if(!(offerModifyForm.getDay1() == '-') && !isDay1Done)//days is done is used to
+                    {
+                        if(!classScheduleConflictsWith(currOffering.getofferingId(),newRoom, offerModifyForm.getDay1(), Integer.parseInt(offerModifyForm.getStartTimeParsed()), Integer.parseInt(offerModifyForm.getEndTimeParsed())
+                                ,2016, 2017,  1))
+                        {
+                            dayInstance.setclassDay(offerModifyForm.getDay1());
+                            dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
+                            dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
+                            dayInstance.setCourseOffering(currOffering);
+                            dayInstance.setRoom(newRoom);
+                            isDay1Done = true;
+                            continue;
+                        }
+                        else
+                        {
+                            conflictFound = true;
+                            System.out.println("Conflict Found");
+                        }
+                    }
+                    // If Day 1 is null or "-" in the form
+                    else if(offerModifyForm.getDay1() == '-' && !isDay1Done)
+                    {
+                        daysSet.remove(dayInstance);
+                        isDay1Done = true;
+                        continue;
+                    }
 
-                // If Day 2 is not null or not "-" in the form
-                if(!(offerModifyForm.getDay2() == '-') && isDay1Done)
-                {
-                    dayInstance.setclassDay(offerModifyForm.getDay2());
-                    dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
-                    dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
-                    dayInstance.setCourseOffering(currOffering);
-                    dayInstance.setRoom(newRoom);
-                }
-                // If Day 2 is null or "-" in the form
-                else if(offerModifyForm.getDay2() == '-' && isDay1Done)
-                {
-                    daysSet.remove(dayInstance);
+                    // If Day 2 is not null or not "-" in the form
+                    if(!(offerModifyForm.getDay2() == '-') && isDay1Done)
+                    {
+                        if(!classScheduleConflictsWith(currOffering.getofferingId(),newRoom, offerModifyForm.getDay2(), Integer.parseInt(offerModifyForm.getStartTimeParsed()), Integer.parseInt(offerModifyForm.getEndTimeParsed())
+                                ,2016, 2017, 1)) {
+                            dayInstance.setclassDay(offerModifyForm.getDay2());
+                            dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
+                            dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
+                            dayInstance.setCourseOffering(currOffering);
+                            dayInstance.setRoom(newRoom);
+                        }
+                        else
+                        {
+                            conflictFound = true;
+                            System.out.println("Conflict Found");
+                        }
+                    }
+                    // If Day 2 is null or "-" in the form
+                    else if(offerModifyForm.getDay2() == '-' && isDay1Done)
+                    {
+                        daysSet.remove(dayInstance);
+                    }
                 }
             }
         }
@@ -432,11 +467,73 @@ public class OfferingController {   // This Controller is for the Course Schedul
         while (allSections.hasNext())
         {
             String roomIterate = allSections.next();
+            System.out.println(roomIterate);
             if(roomIterate.equals(currentValue))
             {
                 itExists = true;
             }
         }
         return itExists;
+    }
+
+    public boolean conflictsWith(int firstStart, int firstEnd, int secondStart, int secondEnd) {
+        if (firstEnd <= secondStart) {//no conflict
+            //System.out.println("No conflict1");
+            //System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
+            return false;
+        }
+
+        if (secondEnd <= firstStart) {//no conflict
+            //System.out.println("No conflict2");
+            //System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
+            return false;
+        }
+
+        System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
+        //System.out.println("Conflicts");
+        return true;
+    }
+    /* Returns false if there are no conflicts with classes using room, class days and timeslots */
+    public boolean classScheduleConflictsWith(Long courseID, Room courseRoom, char assignedDay, int startTime, int endTime, int startAY, int endAY, int term)
+    {
+        boolean isConflict = false;
+        Iterator<CourseOffering> allCourses = offeringService.retrieveAllOfferingsByTerm(startAY, endAY, term);
+        ArrayList<CourseOffering> evaluatedCourses = new ArrayList<>();//List that will contain courses that run in the same room
+        CourseOffering currentCourse;
+        //STEP 1: check all who use this room
+        while(allCourses.hasNext())//As long as there are courses in the Iterator
+        {
+
+            currentCourse = allCourses.next();//Get the next element
+            if(currentCourse.getofferingId() != courseID)
+            {
+                for (Days s : currentCourse.getDaysSet()) {//for each day that the course is in
+                    if(s.getRoom().getRoomCode().equals(courseRoom.getRoomCode()))//find courses that use the same room
+                    {
+                        evaluatedCourses.add(currentCourse);
+                        System.out.println("Added: " + currentCourse.getCourse().getCourseCode() + " " + currentCourse.getSection());
+                    }
+                }
+            }
+
+        }
+        //STEP 2: Find conflicting days and timeslots per course that uses the same room
+        if(evaluatedCourses.size() > 0)//checking if may laman talaga yung list
+        {
+            for(CourseOffering co: evaluatedCourses)//for each course in the list of courses
+            {
+                for (Days currentList : co.getDaysSet())//for each day the courseofferings in the list has
+                {
+                    if(currentList.getclassDay() == assignedDay)//if they have the same class day
+                    {
+                        System.out.println(currentList.getclassDay() + " vs " + assignedDay);
+                        isConflict = !conflictsWith(startTime, endTime
+                                ,Integer.parseInt(currentList.getbeginTime()),
+                                    Integer.parseInt(currentList.getendTime()));//check if they have conflict with timeslots
+                    }
+                }
+            }
+        }
+        return isConflict;
     }
 }

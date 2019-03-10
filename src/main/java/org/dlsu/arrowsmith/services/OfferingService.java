@@ -318,6 +318,14 @@ public class OfferingService {
         return roomRepository.findRoomByRoomCode(roomCode);
     }
 
+    /* Retrieve all course offerings that are held in a specific room */
+    /*
+    public ArrayList<CourseOffering> retrieveCourseOfferingbyRoom(String roomCode, int startAY, int endAY, int term) {
+        List<CourseOffering> courseOfferingsByRoom = new ArrayList<>();
+        Iterator courseIterator = retrieveAllOfferingsByTerm(startAY, endAY, term);
+
+
+    }*/
     /**
      **
      ** BUILDING
