@@ -5,6 +5,8 @@ import org.dlsu.arrowsmith.classes.Role;
 import org.dlsu.arrowsmith.classes.User;
 import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.repositories.RevisionHistoryRepository;
+import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 import org.dlsu.arrowsmith.security.SecurityServiceImpl;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,8 +115,24 @@ public class MainController {
         return "/faculty/facultyHome";
     }
 
+    /* Default Revision History Page */
+    @RequestMapping(value = "/revision-history", method = RequestMethod.GET)
+    public String RevisionHistoryPage(Model model)
+    {
+        /* Load logged in user */
+        User currUser = userService.retrieveUser();
+        String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
+        model.addAttribute("loggedUser", userRealName);
+
+        /* Load revision history from database */
+        model.addAttribute("revHistory", userService.retrieveAllRevHistory());
+
+        return "user/revision-history";
+    }
+
     /* Load Collaborative Workspace Information */
-    private Model loadAttributes(Model model) {
+    private Model loadAttributes(Model model)
+    {
         /* Load logged in user */
         User currUser = userService.retrieveUser();
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();

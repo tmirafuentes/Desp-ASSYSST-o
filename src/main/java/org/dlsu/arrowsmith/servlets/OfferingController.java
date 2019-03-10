@@ -80,8 +80,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
         if (bindingResult.hasErrors())
             return "/apo";
 
-        System.out.println("Hello Niggers = " + offerModifyForm.toString());
-
         /* Else, save new course offering to the database */
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
         if(ifSectionExists(offerModifyForm.getClassSection(),  2017, 2018, 1))

@@ -19,7 +19,7 @@
         </c:if>
     </div>
     <div id = "smaller_header">
-        <a href ="ASSYSTXRevision.jsp" id = "last_edited">Last edited 1 hour ago</a>
+        <a href ="/revision-history" id = "last_edited">Last edited 1 hour ago</a>
         <a href ="#" id = "online_icons">Online Users</a>
         <p id = "modify_offering"> Modify Offering</p>
     </div>
