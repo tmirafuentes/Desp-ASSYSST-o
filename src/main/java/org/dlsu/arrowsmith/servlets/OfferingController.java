@@ -7,6 +7,7 @@ import org.dlsu.arrowsmith.services.UserService;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,9 +71,9 @@ public class OfferingController {   // This Controller is for the Course Schedul
         /* Message that course is successfully updated */
         return "redirect:/apo/home";
     }
-
+    ///apo", "/apo/home", "/cvc", "/cvc/home
     /* Modify Course Offering */
-    @RequestMapping(value = {"/apo", "/apo/home", "/cvc", "/cvc/home"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                      BindingResult bindingResult, HttpServletRequest request, Model model)
     {
@@ -248,12 +249,16 @@ public class OfferingController {   // This Controller is for the Course Schedul
         offeringService.saveCourseOffering(currOffering);
 
         /* Message that course is successfully updated */
+        /*
         if (urlPattern.contains("apo"))
             return "redirect:/apo";
         else if (urlPattern.contains("cvc"))
             return "redirect:/cvc";
 
         return "redirect:/error";
+        */
+        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        return "";
     }
 
     /***

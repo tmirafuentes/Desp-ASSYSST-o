@@ -129,6 +129,8 @@ public class FacultyService {
     public FacultyLoad retrieveFacultyLoadByID(Long facultyID)
     {
         FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByLoadId(facultyID);
+
+
         return facultyLoad;
     }
 

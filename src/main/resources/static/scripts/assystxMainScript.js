@@ -559,6 +559,28 @@ $(function() {
 
         }
     });
+    $("#button_submit_modifyOffering").click(function() {
+        showCourses();
+        });
+
+    /* Respawn list of courses*/
+    function showCourses(){
+        var str = $("#offerModifyForm").serialize();
+
+        $.ajax({
+            type:"post",
+            data:str,
+            url:"localhost/path/modifyOffering",
+            async: false,
+            dataType: "json",
+            success: function(response){
+                $.each(response.list, function(index, value){
+                    // do whatever you want with your data
+                    alert("This shit works");
+                });
+            }
+        });
+    }
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
         /*var filterData = $(this).text();

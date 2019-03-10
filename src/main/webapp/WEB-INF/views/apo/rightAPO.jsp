@@ -12,7 +12,7 @@
 <html>
 <body>
 <div class = "rightSidebar">
-    <form:form method="POST" modelAttribute="offerModifyForm">
+    <form:form method="POST" modelAttribute="offerModifyForm" action="/modifyOffering">
     <table id = "modifyOfferingTypeSection" class="modify_sidebar">
         <tr>
             <th>Class Type</th>

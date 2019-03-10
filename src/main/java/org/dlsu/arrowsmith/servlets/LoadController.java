@@ -86,35 +86,56 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         /* Retrieve Deloading from Database */
         Deloading currDeloading = facultyService.retrieveDeloadingByDeloadCode(facultyDeloadDto.getDeloadType());
 
-        /* Create a Deload Instance */
-        DeloadInstance newDeloadInstance = new DeloadInstance();
-        newDeloadInstance.setStartAY(facultyLoad.getStartAY());
-        newDeloadInstance.setEndAY(facultyLoad.getEndAY());
-        newDeloadInstance.setTerm(facultyLoad.getTerm());
-        newDeloadInstance.setDeloading(currDeloading);
-        newDeloadInstance.setFaculty(facultyLoad.getFaculty());
-
-        /* Modify Faculty Load */
-        if(currDeloading.getDeloadType().equals("AL"))      // Admin Load
+        if(checkFacultyLoadDeload(facultyLoad.getFaculty(), facultyLoad.getStartAY(), facultyLoad.getEndAY(), facultyLoad.getTerm()))
         {
-            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
-            facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() + currDeloading.getUnits());            // Add Units to Admin Load
-            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
-        }
-        else if(currDeloading.getDeloadType().equals("RL"))      // Research Load
-        {
-            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
-            facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + currDeloading.getUnits());            // Add Units to Admin Load
-            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
+            /* Create a Deload Instance */
+            DeloadInstance newDeloadInstance = new DeloadInstance();
+            newDeloadInstance.setStartAY(facultyLoad.getStartAY());
+            newDeloadInstance.setEndAY(facultyLoad.getEndAY());
+            newDeloadInstance.setTerm(facultyLoad.getTerm());
+            newDeloadInstance.setDeloading(currDeloading);
+            newDeloadInstance.setFaculty(facultyLoad.getFaculty());
+
+            /* Modify Faculty Load */
+            if(currDeloading.getDeloadType().equals("AL"))      // Admin Load
+            {
+                facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
+                facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() + currDeloading.getUnits());            // Add Units to Admin Load
+                facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
+            }
+            else if(currDeloading.getDeloadType().equals("RL"))      // Research Load
+            {
+                facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
+                facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + currDeloading.getUnits());            // Add Units to Admin Load
+                facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
+            }
+
+            /* Save Instance and Faculty Load to Database */
+            facultyService.saveDeloadInstance(newDeloadInstance);
+            facultyService.saveFacultyLoad(facultyLoad);
         }
 
-        /* Save Instance and Faculty Load to Database */
-        facultyService.saveDeloadInstance(newDeloadInstance);
-        facultyService.saveFacultyLoad(facultyLoad);
 
         return "redirect:/cvc/manage-load";
     }
 
+    public boolean checkFacultyLoadDeload(User faculty, int startAY, int endAY, int term)
+    {
+        FacultyLoad facultyload = facultyService.retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
+        if(facultyload.getTotalLoad() <= 0)
+            return false;
+        return true;
+    }
+
+    public boolean checkFacultyLoading(User faculty, int startAY, int endAY, int term, String loadType)
+    {
+        FacultyLoad facultyload = facultyService.retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
+        if(facultyload.getTotalLoad() >= 12)
+            return false;
+        if(loadType.equals("AL") && facultyload.getAdminLoad() >= 6)
+            return false;
+        return true;
+    }
     /***
      *
      *  INACTIVE
