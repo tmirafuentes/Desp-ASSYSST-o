@@ -36,7 +36,7 @@ html,body
 {
     background-color: white;
     margin-top: 6.250em;
-    font-size: 0.875em;
+    font-size: 1.15em;
     font-weight: bold;
 }
 
@@ -44,9 +44,9 @@ html,body
 {
     margin-top: 0.313em;
     background-color:#e2e2e2;
-    height: 1.875em;
+    height: 2em;
     width: 100%;
-    border-bottom: .188em solid white;
+    border-bottom: 0.188em solid white;
     display: table-row;
     cursor: pointer;
     position: relative;
@@ -56,6 +56,6 @@ html,body
 .generatedContent .genContentRows .genContentCols	/* FKA genList_cols */
 {
     text-align:center;
-    font-size:0.95em;
+    font-size: 1em;
     display: table-cell;
 }
