@@ -48,7 +48,54 @@ public class FacultyService {
         Deloading deloading = deloadingRepository.findDeloadingByDeloadCode(deloadCode);
         return deloading;
     }
+//    Retrieve all course offerings of a faculty given a term and school year, and checks if there is a conflict with time slots
+    public boolean checkFacultyloadingCourseOfferingsConflicts(User Faculty, int startAY, int endAY, int term, CourseOffering givenOffering)
+    {
+        boolean isConflict = false;
+        ArrayList<CourseOffering> courses = courseOfferingRepository.findAllByFacultyAndStartAYAndEndAYAndTerm(Faculty, startAY, endAY, term);
 
+        if(courses.size() > 0)//checking if may laman talaga yung list
+        {
+            for(CourseOffering co: courses)//for each course in the list of courses
+            {
+                if(!isConflict)
+                {
+                    for (Days currentList : co.getDaysSet())//for each day the courseofferings in the list has
+                    {
+                        for(Days givenList: givenOffering.getDaysSet())
+                        {
+                            if(currentList.getclassDay() == givenList.getclassDay() && !isConflict)//if they have the same class day
+                            {
+                                isConflict = !conflictsWith(Integer.parseInt(givenList.getbeginTime()),
+                                        Integer.parseInt(givenList.getendTime())
+                                        ,Integer.parseInt(currentList.getbeginTime()),
+                                        Integer.parseInt(currentList.getendTime()));
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        return isConflict;
+    }
+    public boolean conflictsWith(int firstStart, int firstEnd, int secondStart, int secondEnd) {
+        if (firstEnd <= secondStart) {//no conflict
+            //System.out.println("No conflict1");
+            //System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
+            return false;
+        }
+
+        if (secondEnd <= firstStart) {//no conflict
+            //System.out.println("No conflict2");
+            //System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
+            return false;
+        }
+
+        System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
+        //System.out.println("Conflicts");
+        return true;
+    }
     /**
      **
      ** DELOAD INSTANCE
@@ -189,6 +236,25 @@ public class FacultyService {
 
     }
 
+//      check if faculty loading is applicable
+
+    public boolean checkFacultyLoadDeload(User faculty, int startAY, int endAY, int term)
+    {
+        FacultyLoad facultyload = retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
+        if(facultyload.getTotalLoad() <= 0)
+            return false;
+        return true;
+    }
+
+    public boolean checkFacultyLoading(User faculty, int startAY, int endAY, int term, String loadType)
+    {
+        FacultyLoad facultyload = retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
+        if(facultyload.getTotalLoad() >= 12)
+            return false;
+        if(loadType.equals("AL") && facultyload.getAdminLoad() >= 6)
+            return false;
+        return true;
+    }
     /**
      **
      ** OTHER FUNCTIONS
@@ -200,6 +266,8 @@ public class FacultyService {
             return true;
         return false;
     }
+
+
     /* Generate All The types of faculty loads */
     public ArrayList<String> generateFacultyLoadTypes() {
         ArrayList<String> allFacultyLoadTypes = new ArrayList<String>();

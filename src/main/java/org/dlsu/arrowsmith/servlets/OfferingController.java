@@ -7,14 +7,13 @@ import org.dlsu.arrowsmith.services.UserService;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,16 +71,18 @@ public class OfferingController {   // This Controller is for the Course Schedul
         return "redirect:/apo/home";
     }
     ///apo", "/apo/home", "/cvc", "/cvc/home
+    //value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     /* Modify Course Offering */
-    @RequestMapping(value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-    public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
-                                     BindingResult bindingResult, HttpServletRequest request, Model model)
-    {
-        /* Errors */
-        String urlPattern = (String) request.getServletPath();
-        if (bindingResult.hasErrors())
-            return "/apo";
 
+    @RequestMapping(value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
+                                                   Model model, BindingResult bindingResult)
+    {
+        /* Errors
+        //String urlPattern = (String) request.getServletPath();
+        if (bindingResult.hasErrors())
+            return "Sorry, an error has occured. Course Offering has not been modified.";
+           */
         /* Else, save new course offering to the database */
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
        // if(ifSectionExists(offerModifyForm.getClassSection(),  2016, 2017, 1))
@@ -205,7 +206,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFaculty());    // Get newly assigned faculty
 
         // If currFaculty is not null and curr and new are not the same
-        if (currFaculty.getUserId() == 1111111 && currFaculty.getUserId() != newFaculty.getUserId())
+        if (currFaculty.getUserId() == 1111111 && currFaculty.getUserId() != newFaculty.getUserId() && !facultyService.checkFacultyloadingCourseOfferingsConflicts(newFaculty, 016, 2017, 1, currOffering))
         {
             // Retrieve Faculty Load of current faculty
             FacultyLoad currFacultyLoad = facultyService.retrieveFacultyLoadByFaculty(currOffering.getStartAY(), currOffering.getEndAY(),
@@ -230,7 +231,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
             facultyService.saveFacultyLoad(newFacultyLoad);
         }
         // Newly assigned currFaculty
-        else if (currFaculty.getUserId() == 11111111 && newFaculty != null)
+        else if (currFaculty.getUserId() == 11111111 && newFaculty != null && !facultyService.checkFacultyloadingCourseOfferingsConflicts(newFaculty, 016, 2017, 1, currOffering))
         {
             currOffering.setFaculty(newFaculty);    // Assign faculty to Course Offering
 
@@ -258,6 +259,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         return "redirect:/error";
         */
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        //System.out.println("umaabot sa last");
         return "";
     }
 

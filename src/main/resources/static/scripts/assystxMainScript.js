@@ -566,18 +566,29 @@ $(function() {
     /* Respawn list of courses*/
     function showCourses(){
         var str = $("#offerModifyForm").serialize();
-
+        alert("offer modify working");
         $.ajax({
             type:"post",
             data:str,
-            url:"localhost/path/modifyOffering",
+            url:"localhost/apo/modifyOffering",
             async: false,
             dataType: "json",
-            success: function(response){
+            success:
+            /* function(data){
                 $.each(response.list, function(index, value){
                     // do whatever you want with your data
-                    alert("This shit works");
-                });
+                    ;
+                });*/
+                function(data){
+                    $.each(data.list, function(index, value){
+                        // do whatever you want with your data
+                        console.log("oh no");
+                        console.log(data[index]);
+                        console.log(data[index]);
+                    });
+            },
+            error:function(data){
+                alert("Error: Course Modification failed");
             }
         });
     }

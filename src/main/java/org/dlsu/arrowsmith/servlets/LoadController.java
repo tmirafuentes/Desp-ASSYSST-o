@@ -86,7 +86,7 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         /* Retrieve Deloading from Database */
         Deloading currDeloading = facultyService.retrieveDeloadingByDeloadCode(facultyDeloadDto.getDeloadType());
 
-        if(checkFacultyLoadDeload(facultyLoad.getFaculty(), facultyLoad.getStartAY(), facultyLoad.getEndAY(), facultyLoad.getTerm()))
+        if(facultyService.checkFacultyLoadDeload(facultyLoad.getFaculty(), facultyLoad.getStartAY(), facultyLoad.getEndAY(), facultyLoad.getTerm()))
         {
             /* Create a Deload Instance */
             DeloadInstance newDeloadInstance = new DeloadInstance();
@@ -119,23 +119,6 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         return "redirect:/cvc/manage-load";
     }
 
-    public boolean checkFacultyLoadDeload(User faculty, int startAY, int endAY, int term)
-    {
-        FacultyLoad facultyload = facultyService.retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-        if(facultyload.getTotalLoad() <= 0)
-            return false;
-        return true;
-    }
-
-    public boolean checkFacultyLoading(User faculty, int startAY, int endAY, int term, String loadType)
-    {
-        FacultyLoad facultyload = facultyService.retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-        if(facultyload.getTotalLoad() >= 12)
-            return false;
-        if(loadType.equals("AL") && facultyload.getAdminLoad() >= 6)
-            return false;
-        return true;
-    }
     /***
      *
      *  INACTIVE
