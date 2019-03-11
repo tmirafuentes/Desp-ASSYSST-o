@@ -10,14 +10,13 @@
     border-left:1px solid black;
 }
 
-.rightSidebar select,
-.rightSidebar input
+.rightSidebar select
 {
-    height:2.5em;
     -webkit-border-radius:3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     font-size: 1em;
+    height:2.5em;
 }
 
 .rightSidebar button
@@ -38,7 +37,6 @@
  */
 
 #modifyOfferingTypeSection,     /* FKA modify_class_section */
-#modifyOfferingTime,            /* FKA modify_time */
 #modifyOfferingDays             /* FKA modify_days */
 {
     position: relative;
@@ -47,6 +45,17 @@
     font-size:1em;
     padding: 5px;
     border-spacing: 0.625em;
+}
+
+#modifyOfferingTime            /* FKA modify_time */
+{
+    position: relative;
+    top: 18%;
+    left: 35%;
+    font-size:1em;
+    padding: 5px;
+    border-spacing: 0.625em;
+    height:1em;
 }
 
 #modifyOfferingRoom             /* FKA modify_room */
