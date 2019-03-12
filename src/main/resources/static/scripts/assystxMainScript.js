@@ -17,14 +17,16 @@ $(function() {
 
     function orderDays(days)
     {
-        var schoolDays = ['M', 'T', 'W', 'H', 'F', 'S'];
+        var schoolDays = ['M', 'T', 'W', 'H', 'F', 'S', '-'];
         var newDays = "";
         for (var x = 0; x < days.length; x++)
         {
             if(x < days.length-1)
             {
                 if(schoolDays.indexOf(days.charAt(x+1)) <= schoolDays.indexOf(days.charAt(x)))
+                {
                     newDays = days.charAt(x) + days.charAt(x+1);
+                }
             }
 
         }
@@ -616,12 +618,15 @@ $(function() {
                     ;
                 });*/
                 function(data){
+                    /*
                     $.each(data.list, function(index, value){
                         // do whatever you want with your data
                         console.log("oh no");
                         console.log(data[index]);
                         console.log(data[index]);
                     });
+                    */
+                    alert(data)
             },
             error:function(data){
                 alert("Error: Course Modification failed");
