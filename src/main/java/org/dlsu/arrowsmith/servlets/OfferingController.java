@@ -75,7 +75,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
     //value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     /* Modify Course Offering */
 
-    @RequestMapping(value = {"/apo/modifyOffering", "/cvc", "/cvc/home"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(value = {"/apo/modifyOffering", "/cvc", "/cvc/home"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                                    Model model, BindingResult bindingResult)
     {
