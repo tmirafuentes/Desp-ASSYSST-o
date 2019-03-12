@@ -75,7 +75,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
     //value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     /* Modify Course Offering */
 
-    @RequestMapping(value = {"/apo/modifyOffering", "/cvc", "/cvc/home"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    //@RequestMapping(value = {"/apo/modifyOffering", "/cvc", "/cvc/home"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                                    Model model, BindingResult bindingResult)
     {
@@ -114,7 +114,8 @@ public class OfferingController {   // This Controller is for the Course Schedul
                 newDay1.setCourseOffering(currOffering);
                 newDay1.setRoom(newRoom);
                 //TO DO: WHAT ABOUT BLANKS IN THE TIME
-                if(!classScheduleConflictsWith(currOffering.getofferingId(), newDay1.getRoom(), newDay1.getclassDay(), Integer.parseInt(newDay1.getbeginTime()), Integer.parseInt(newDay1.getendTime())
+                if(!classScheduleConflictsWith(currOffering.getofferingId(), newDay1.getRoom(), newDay1.getclassDay(),
+                                                Integer.parseInt(newDay1.getbeginTime()), Integer.parseInt(newDay1.getendTime())
                         ,2016, 2017,  1))
                 {
                     daysSet.add(newDay1);
@@ -207,7 +208,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         User newFaculty = userService.findUserByFirstNameLastName(offerModifyForm.getFaculty());    // Get newly assigned faculty
 
         // If currFaculty is not null and curr and new are not the same
-        if (currFaculty.getUserId() == 1111111 && currFaculty.getUserId() != newFaculty.getUserId() && !facultyService.checkFacultyloadingCourseOfferingsConflicts(newFaculty, 016, 2017, 1, currOffering))
+        if (currFaculty.getUserId() == 1111111 && currFaculty.getUserId() != newFaculty.getUserId() && !facultyService.checkFacultyloadingCourseOfferingsConflicts(newFaculty, 2016, 2017, 1, currOffering))
         {
             // Retrieve Faculty Load of current faculty
             FacultyLoad currFacultyLoad = facultyService.retrieveFacultyLoadByFaculty(currOffering.getStartAY(), currOffering.getEndAY(),

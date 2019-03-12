@@ -12,7 +12,7 @@
 <html>
 <body>
 <div class = "rightSidebar">
-    <form:form method="POST" modelAttribute="offerModifyForm" action="apo/modifyOffering">
+    <form id="modify_offering_form">
     <table id = "modifyOfferingTypeSection" class="modify_sidebar">
         <tr>
             <th>Class Type</th>
@@ -20,21 +20,17 @@
         </tr>
         <tr>
             <td>
-                <!-- Offering Type -->
-                <spring:bind path="classStatus">
-                    <form:select path="classStatus" id = "select_right_class_type">
-                        <form:option value="Regular">Regular</form:option>
-                        <form:option value="Elective">Elective</form:option>
-                        <form:option value="Special">Special</form:option>
-                        <form:option value="Dissolved">Dissolved</form:option>
-                    </form:select>
-                </spring:bind>
+                <!-- Offering Type/Status -->
+                <select name="classStatus" id="select_right_class_type">
+                    <option value="Regular">Regular</option>
+                    <option value="Elective">Elective</option>
+                    <option value="Special">Special</option>
+                    <option value="Dissolved">Dissolved</option>
+                </select>
             </td>
             <td>
                 <!-- Offering Section -->
-                <spring:bind path="classSection">
-                    <form:input path="classSection" id = "text_section" type="text" />
-                </spring:bind>
+                <input name="classSection" id = "text_section" type="text" />
             </td>
         </tr>
     </table>
@@ -46,15 +42,11 @@
         <tr>
             <td>
                 <!-- Start Time -->
-                <spring:bind path="startTime">
-                    <form:input path="startTime" type="time" id="select_right_start_timeblock" />
-                </spring:bind>
+                <input name="startTime" type="time" id="select_right_start_timeblock" />
             </td>
             <td>
                 <!-- End Time -->
-                <spring:bind path="endTime">
-                    <form:input path="endTime" type="time" id="select_right_end_timeblock" />
-                </spring:bind>
+                <input name="endTime" type="time" id="select_right_end_timeblock" />
             </td>
         </tr>
     </table>
@@ -66,29 +58,25 @@
         <tr>
             <td>
                 <!-- Day 1 -->
-                <spring:bind path="day1">
-                    <form:select path="day1" id = "select_day1">
-                        <form:option value="-" selected="selected">-</form:option>
-                        <c:forEach items="${allDays}" var="letDay1">
-                            <form:option value="${letDay1}">
-                                <c:out value="${letDay1}" />
-                            </form:option>
-                        </c:forEach>
-                    </form:select>
-                </spring:bind>
+                <select name="day1" id = "select_day1">
+                    <option value="-" selected="selected">-</option>
+                    <c:forEach items="${allDays}" var="letDay1">
+                        <option value="${letDay1}">
+                            <c:out value="${letDay1}" />
+                        </option>
+                    </c:forEach>
+                </select>
             </td>
             <td>
                 <!-- Day 2 -->
-                <spring:bind path="day2">
-                    <form:select path="day2" id = "select_day2">
-                        <form:option value="-" selected="selected">-</form:option>
-                        <c:forEach items="${allDays}" var="letDay2">
-                            <form:option value="${letDay2}">
-                                <c:out value="${letDay2}" />
-                            </form:option>
-                        </c:forEach>
-                    </form:select>
-                </spring:bind>
+                <select name="day2" id = "select_day2">
+                    <option value="-" selected="selected">-</option>
+                    <c:forEach items="${allDays}" var="letDay2">
+                        <option value="${letDay2}">
+                            <c:out value="${letDay2}" />
+                        </option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
     </table>
@@ -98,9 +86,8 @@
         </tr>
         <tr>
             <td>
-                <spring:bind path="roomCode">
-                    <form:input path="roomCode" id = "text_room" type="text" readonly="readonly" />
-                </spring:bind>
+                <!-- Room Code -->
+                <input name="roomCode" id = "text_room" type="text" readonly="readonly" />
             </td>
             <td>
                 <button id="modOffRoomButton" class="modOffUsableButton" type="button">Change Room</button>
@@ -113,9 +100,7 @@
         </tr>
         <tr>
             <td>
-                <spring:bind path="faculty">
-                    <form:input path="faculty" id = "select_faculty" value="Deja, Jordan" type="text" readonly="readonly" />
-                </spring:bind>
+                <input name="faculty" id = "select_faculty" type="text" readonly="readonly" />
             </td>
             <td>
                 <button id="modOffFacultyButton" class="modOffBlockedButton" type="button" disabled>Assign</button>
@@ -132,14 +117,13 @@
     </table>
     <table id = "modifyOfferingButtons" class="modify_sidebar">
         <tr>
-            <spring:bind path="offeringId">
-                <form:input path="offeringId" type="text" id="text_offId" hidden="hidden" />
-            </spring:bind>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input name="offeringId" type="hidden" id="text_offId" />
             <td><button id="button_submit_modifyOffering" type="submit">Submit</button></td>
             <td><button id="button_cancel_concerns" type="reset">Cancel</button></td>
         </tr>
     </table>
-    </form:form>
+    </form>
 </div>
 </body>
 </html>

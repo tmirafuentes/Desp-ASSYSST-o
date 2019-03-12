@@ -37,8 +37,6 @@ $(function() {
 
     /* Selecting an offering */
     $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function(){
-        console.log("Hello Here");
-
         //unhide all options
         $("#select_day1  option").each(function() {
             $(this).show()
@@ -597,9 +595,9 @@ $(function() {
 
         }
     });
-    $("#button_submit_modifyOffering").click(function() {
-        showCourses();
-        });
+    //$("#button_submit_modifyOffering").click(function() {
+    //    showCourses();
+    //    });
 
     /* Respawn list of courses*/
     function showCourses(){
