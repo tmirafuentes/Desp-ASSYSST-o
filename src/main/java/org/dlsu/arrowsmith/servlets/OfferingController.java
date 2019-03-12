@@ -68,13 +68,14 @@ public class OfferingController {   // This Controller is for the Course Schedul
         offeringService.saveCourseOffering(newOffering);
 
         /* Message that course is successfully updated */
+        model.addAttribute("allOfferings", offeringService.generateSortedCourseOfferings(2016, 2017, 1));
         return "redirect:/apo/home";
     }
     ///apo", "/apo/home", "/cvc", "/cvc/home
     //value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     /* Modify Course Offering */
 
-    @RequestMapping(value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(value = {"/apo/modifyOffering", "/cvc", "/cvc/home"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                                    Model model, BindingResult bindingResult)
     {

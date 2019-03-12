@@ -5,6 +5,36 @@ $(function() {
     }).appendTo('body');
     $(".modify_sidebar").hide();
 
+    //Sorting the days
+
+    $(".genContentRows").each(function () {
+            //var iterator = $.trim($(this).find("#off_counter").val());
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');
+            $(':nth-child(3)', this).text(orderDays(textInside))
+
+    });
+
+    function orderDays(days)
+    {
+        var schoolDays = ['M', 'T', 'W', 'H', 'F', 'S'];
+        var newDays = "";
+        for (var x = 0; x < days.length; x++)
+        {
+            if(x < days.length-1)
+            {
+                if(schoolDays.indexOf(days.charAt(x+1)) < schoolDays.indexOf(days.charAt(x)))
+                    newDays = days.charAt(x) + days.charAt(x+1);
+            }
+
+        }
+        if(newDays == "")
+            return days;
+        else
+            return newDays;
+
+    }
+
     /* Selecting an offering */
     $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function(){
         console.log("Hello Here");
@@ -591,7 +621,28 @@ $(function() {
                 alert("Error: Course Modification failed");
             }
         });
+
     }
+    $("#select_day1").change(function() {
+        console.log("change in value detected")
+        var currDay1 = $(this).val();
+        console.log(currDay1)
+        $("#select_day2  option").each(function() {
+            console.log($(this).text)
+            if($(this).val() == currDay1)
+                $(this).remove()
+        });
+    });
+    $("#select_day2").change(function() {
+        console.log("change in value detected")
+        var currDay2 = $(this).val();
+        console.log(currDay1)
+        $("#select_day1  option").each(function() {
+            console.log($(this).text)
+            if($(this).val() == currDay2)
+                $(this).remove()
+        });
+    });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
         /*var filterData = $(this).text();

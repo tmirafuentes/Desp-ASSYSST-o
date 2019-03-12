@@ -121,7 +121,7 @@ public class MainController {
         model.addAttribute("loggedUser", userRealName);
 
         /* Load all stuff */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+        model.addAttribute("allOfferings", offeringService.generateSortedCourseOfferings(2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());
