@@ -39,6 +39,14 @@ $(function() {
     $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function(){
         console.log("Hello Here");
 
+        //unhide all options
+        $("#select_day1  option").each(function() {
+            $(this).show()
+        });
+
+        $("#select_day2  option").each(function() {
+                $(this).show()
+        });
         /* Check if selected already */
         if ($(this).css("background-color") === "rgb(60, 184, 120)")
         {
@@ -630,7 +638,7 @@ $(function() {
         $("#select_day2  option").each(function() {
             console.log($(this).text)
             if($(this).val() == currDay1)
-                $(this).remove()
+                $(this).hide()
         });
     });
     $("#select_day2").change(function() {
@@ -640,7 +648,7 @@ $(function() {
         $("#select_day1  option").each(function() {
             console.log($(this).text)
             if($(this).val() == currDay2)
-                $(this).remove()
+                $(this).hide()
         });
     });
             // Get and convert the data for sending
