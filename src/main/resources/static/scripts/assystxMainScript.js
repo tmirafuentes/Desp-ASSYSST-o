@@ -6,7 +6,7 @@ $(function() {
     $(".modify_sidebar").hide();
 
     //Sorting the days
-
+    /*
     $(".genContentRows").each(function () {
             //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
@@ -23,7 +23,7 @@ $(function() {
         {
             if(x < days.length-1)
             {
-                if(schoolDays.indexOf(days.charAt(x+1)) < schoolDays.indexOf(days.charAt(x)))
+                if(schoolDays.indexOf(days.charAt(x+1)) <= schoolDays.indexOf(days.charAt(x)))
                     newDays = days.charAt(x) + days.charAt(x+1);
             }
 
@@ -33,7 +33,7 @@ $(function() {
         else
             return newDays;
 
-    }
+    }*/
 
     /* Selecting an offering */
     $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function(){
