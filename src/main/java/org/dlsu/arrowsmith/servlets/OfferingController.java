@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.*;
+import org.dlsu.arrowsmith.classes.dtos.ConcernDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;

@@ -1,6 +1,9 @@
 package org.dlsu.arrowsmith.servlets;
 
+import org.dlsu.arrowsmith.classes.Concern;
 import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.dtos.ConcernDto;
+import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,5 +49,23 @@ public class UserController {
         /* Save changes */
         userService.updateUser(userForm);
         return "redirect:/account";
+    }
+    /*** Add Concerns ***/
+    @RequestMapping(value = "/apo/send-concern", method = RequestMethod.POST)
+    public String addNewConcern(@ModelAttribute("concernForm") ConcernDto addConcernForm){
+        Concern currConcern = new Concern();
+        currConcern.setMessage(addConcernForm.getMessage());
+        currConcern.setSender(userService.findUserByIDNumber(addConcernForm.getUserId()));
+        userService.saveConcern(currConcern);
+        return "";
+    }
+
+    /*** Display Concerns Modal ***/
+    @RequestMapping(value = "/concerns", method = RequestMethod.GET)
+    public String getConcerns(@ModelAttribute("userID") Long userID, Model model)
+    {
+        model.addAttribute("allConcerns", userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(userID)));
+
+        return "";
     }
 }

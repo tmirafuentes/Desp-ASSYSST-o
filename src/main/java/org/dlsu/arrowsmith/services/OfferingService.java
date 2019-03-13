@@ -232,7 +232,7 @@ public class OfferingService {
         ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAll();
         ArrayList<String> timeslotList = new ArrayList<>();
         String timeslotTemplate;
-
+        System.out.println("dwad");
 
         for(int i = 0; i < allDays.size(); i++)
         {
@@ -250,9 +250,11 @@ public class OfferingService {
                 timeslotList,
                 (time1, time2) -> Integer.parseInt( time1.substring(0, time1.indexOf(' '))) - Integer.parseInt(time2.substring(0, time2.indexOf(' '))));
         //Collections.sort(timeslotList);
+        for(String i: timeslotList)
+            System.out.println(i);
         return timeslotList.iterator();
     }
-    /* Retrieve All Unique Timeslots */
+    /* Retrieve All Unique Terms */
     public Iterator getUniqueTerms()
     {
         ArrayList<CourseOffering> allCourses = (ArrayList<CourseOffering>) courseOfferingRepository.findAll();
@@ -265,7 +267,6 @@ public class OfferingService {
         Set<Integer> uniqueTerms = new HashSet<Integer>(termList);
         termList = new ArrayList<Integer>(uniqueTerms);
         Collections.sort(termList);
-
         return termList.iterator();
     }
     /* Retrieve All Unique Statuses
