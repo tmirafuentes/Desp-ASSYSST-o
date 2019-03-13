@@ -26,6 +26,7 @@
         <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
         <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
         <c:url value="/scripts/assystxAJAXScript.js" var="ajaxScript" />
+        <c:url value="/scripts/assystxFilterScript.js" var="filterScript" />
         <link rel="stylesheet" type="text/css" href="${mainCss}">
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -33,6 +34,7 @@
         <script src="${uiJquery}"></script>
         <script src="${mainScript}"></script>
         <script src="${ajaxScript}"></script>
+        <script src="${filterScript}"></script>
     </head>
     <body>
         <!-- Filter Sidebar for APO -->
@@ -88,7 +90,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
-                                                    <c:out value="${days.classDay}" />
+                                                    <p style="display:inline" id='p_day${dCtr.count}'><c:out value="${days.classDay}" /></p>
                                                     <input type="text" id='off_day${dCtr.count}' value="${days.classDay}" hidden>
                                                 </c:forEach>
                                                 <input type = "text" id='off_counter' value = "${dCtr}" hidden>

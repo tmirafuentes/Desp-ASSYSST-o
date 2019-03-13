@@ -19,6 +19,7 @@
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
         <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+        <c:url value="/scripts/assystxFilterScript.js" var="filterScript" />
 
         <link rel="stylesheet" type="text/css" href="${mainCss}">
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">

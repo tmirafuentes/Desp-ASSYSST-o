@@ -13,7 +13,7 @@
 <body>
 <div class = "rightSidebar">
     <form id="modify_offering_form">
-    <table id = "modifyOfferingTypeSection" class="modify_sidebar">
+     <table id = "modifyOfferingSidebar" class="modify_sidebar" >
         <tr>
             <th>Class Type</th>
             <th>Section</th>
@@ -33,8 +33,6 @@
                 <input name="classSection" id = "text_section" type="text" />
             </td>
         </tr>
-    </table>
-    <table id = "modifyOfferingTime" class="modify_sidebar">
         <tr>
             <th>Start Time</th>
             <th>End Time</th>
@@ -49,8 +47,6 @@
                 <input name="endTime" type="time" id="select_right_end_timeblock" />
             </td>
         </tr>
-    </table>
-    <table id = "modifyOfferingDays" class="modify_sidebar">
         <tr>
             <th>Day 1</th>
             <th>Day 2</th>
@@ -79,8 +75,6 @@
                 </select>
             </td>
         </tr>
-    </table>
-    <table id = "modifyOfferingRoom" class="modify_sidebar">
         <tr>
             <th>Room</th>
         </tr>
@@ -93,8 +87,6 @@
                 <button id="modOffRoomButton" class="modOffUsableButton" type="button">Change Room</button>
             </td>
         </tr>
-    </table>
-    <table id = "modifyOfferingFaculty" class="modify_sidebar">
         <tr>
             <th>Faculty</th>
         </tr>
@@ -106,21 +98,17 @@
                 <button id="modOffFacultyButton" class="modOffBlockedButton" type="button" disabled>Assign</button>
             </td>
         </tr>
-    </table>
-    <table id = "modifyOfferingConcerns" class="modify_sidebar">
-        <tr>
+        <!--<tr>
             <th>Concerns</th>
         </tr>
         <tr>
             <td><textarea id="area_concerns"></textarea></td>
-        </tr>
-    </table>
-    <table id = "modifyOfferingButtons" class="modify_sidebar">
+        </tr>-->
         <tr>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input name="offeringId" type="hidden" id="text_offId" />
-            <td><button id="button_submit_modifyOffering" type="submit">Submit</button></td>
-            <td><button id="button_cancel_concerns" type="reset">Cancel</button></td>
+            <td class="alignButton"><button id="button_submit_modifyOffering" type="submit">Submit</button></td>
+            <td class="alignButton"><button id="button_cancel_concerns" type="reset">Cancel</button></td>
         </tr>
     </table>
     </form>
