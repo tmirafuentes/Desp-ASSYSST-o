@@ -1,8 +1,8 @@
 package org.dlsu.arrowsmith.services;
 
-import org.dlsu.arrowsmith.classes.Concern;
-import org.dlsu.arrowsmith.classes.Role;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.Concern;
+import org.dlsu.arrowsmith.classes.main.Role;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.dlsu.arrowsmith.repositories.ConcernRepository;
 import org.dlsu.arrowsmith.repositories.RoleRepository;
 import org.dlsu.arrowsmith.repositories.UserRepository;

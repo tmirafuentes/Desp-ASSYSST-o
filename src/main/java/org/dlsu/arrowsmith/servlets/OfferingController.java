@@ -1,23 +1,17 @@
 package org.dlsu.arrowsmith.servlets;
 
-import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.HandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -76,7 +70,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
     /* Modify Course Offering */
 
     //@RequestMapping(value = {"/apo/modifyOffering", "/cvc", "/cvc/home"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
+    /*public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                                    Model model, BindingResult bindingResult)
     {
         /* Errors
@@ -84,7 +78,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         if (bindingResult.hasErrors())
             return "Sorry, an error has occured. Course Offering has not been modified.";
            */
-        /* Else, save new course offering to the database */
+        /* Else, save new course offering to the database
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
        // if(ifSectionExists(offerModifyForm.getClassSection(),  2016, 2017, 1))
             currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section
@@ -156,8 +150,8 @@ public class OfferingController {   // This Controller is for the Course Schedul
                                 ,2016, 2017,  1))
                         {
                             dayInstance.setclassDay(offerModifyForm.getDay1());
-                            dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
-                            dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
+                            //dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
+                            //dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
                             dayInstance.setCourseOffering(currOffering);
                             dayInstance.setRoom(newRoom);
                             isDay1Done = true;
@@ -183,8 +177,8 @@ public class OfferingController {   // This Controller is for the Course Schedul
                         if(!classScheduleConflictsWith(currOffering.getofferingId(),newRoom, offerModifyForm.getDay2(), Integer.parseInt(offerModifyForm.getStartTimeParsed()), Integer.parseInt(offerModifyForm.getEndTimeParsed())
                                 ,2016, 2017, 1)) {
                             dayInstance.setclassDay(offerModifyForm.getDay2());
-                            dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
-                            dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
+                            //dayInstance.setbeginTime(offerModifyForm.getStartTimeParsed());
+                            //dayInstance.setendTime(offerModifyForm.getEndTimeParsed());
                             dayInstance.setCourseOffering(currOffering);
                             dayInstance.setRoom(newRoom);
                         }
@@ -251,7 +245,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
         // Save it to the database
         offeringService.saveCourseOffering(currOffering);
 
-        /* Message that course is successfully updated */
+        /* Message that course is successfully updated
         /*
         if (urlPattern.contains("apo"))
             return "redirect:/apo";
@@ -259,11 +253,11 @@ public class OfferingController {   // This Controller is for the Course Schedul
             return "redirect:/cvc";
 
         return "redirect:/error";
-        */
+
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         //System.out.println("umaabot sa last");
         return "";
-    }
+    }*/
 
     /***
      *

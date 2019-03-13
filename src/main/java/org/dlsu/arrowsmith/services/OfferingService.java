@@ -1,12 +1,10 @@
 package org.dlsu.arrowsmith.services;
 
-import org.dlsu.arrowsmith.classes.*;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.HTMLDocument;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Service

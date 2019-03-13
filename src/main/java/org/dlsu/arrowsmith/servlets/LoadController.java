@@ -1,8 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
-import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
-import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.security.SecurityServiceImpl;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Set;
 
 @Controller
 public class LoadController { // This Controller is for the Faculty Load Assignment Module

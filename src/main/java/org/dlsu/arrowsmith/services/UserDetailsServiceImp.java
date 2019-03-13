@@ -1,7 +1,7 @@
 package org.dlsu.arrowsmith.services;
 
-import org.dlsu.arrowsmith.classes.Role;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.Role;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {

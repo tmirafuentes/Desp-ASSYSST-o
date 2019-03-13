@@ -1,16 +1,10 @@
 package org.dlsu.arrowsmith.services;
 
-import org.dlsu.arrowsmith.classes.Role;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 @Component
 public class DataService implements ApplicationRunner {

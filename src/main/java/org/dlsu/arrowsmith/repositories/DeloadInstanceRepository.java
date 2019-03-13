@@ -1,8 +1,8 @@
 package org.dlsu.arrowsmith.repositories;
 
-import org.dlsu.arrowsmith.classes.DeloadInstance;
-import org.dlsu.arrowsmith.classes.Deloading;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.DeloadInstance;
+import org.dlsu.arrowsmith.classes.main.Deloading;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;

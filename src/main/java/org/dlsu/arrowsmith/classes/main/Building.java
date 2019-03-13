@@ -1,11 +1,7 @@
-package org.dlsu.arrowsmith.classes;
-
-import org.hibernate.envers.Audited;
+package org.dlsu.arrowsmith.classes.main;
 
 import javax.persistence.*;
 import java.util.Set;
-
-import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
 public class Building {

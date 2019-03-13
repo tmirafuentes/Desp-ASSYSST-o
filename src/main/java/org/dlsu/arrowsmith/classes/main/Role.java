@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.classes;
+package org.dlsu.arrowsmith.classes.main;
 
 import javax.persistence.*;
 import java.util.Set;

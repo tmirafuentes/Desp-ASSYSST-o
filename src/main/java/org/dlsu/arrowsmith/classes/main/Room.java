@@ -1,5 +1,7 @@
-package org.dlsu.arrowsmith.classes;
+package org.dlsu.arrowsmith.classes.main;
 
+import org.dlsu.arrowsmith.classes.main.Building;
+import org.dlsu.arrowsmith.classes.main.Days;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

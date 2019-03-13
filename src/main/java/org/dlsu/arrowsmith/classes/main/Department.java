@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.classes;
+package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.envers.Audited;
 
@@ -73,7 +73,7 @@ public class Department {
         this.constraints = constraints;
     }
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Deloading> getDeloadings() {
         return deloadings;
     }
@@ -82,7 +82,7 @@ public class Department {
         this.deloadings = deloadings;
     }
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<FacultyLoad> getFacultyLoads() {
         return facultyLoads;
     }
@@ -91,7 +91,7 @@ public class Department {
         this.facultyLoads = facultyLoads;
     }
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<User> getFacultySet() {
         return facultySet;
     }

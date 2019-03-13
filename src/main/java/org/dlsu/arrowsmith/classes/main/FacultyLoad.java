@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.classes;
+package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.envers.Audited;
