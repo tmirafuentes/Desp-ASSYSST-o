@@ -8,38 +8,40 @@ $(function() {
     //Sorting the days
 
     $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
             var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            $(':nth-child(3) .p_days', this).text(orderDays(textInside))
+            textInside = textInside.replace(/\s+/g, '');//remove all spaces in the string
+            var textDays  = orderDays(textInside);
+            console.log(textDays)
+            $('#p_day1', this).text(textDays);
+            $('#p_day2', this).hide();
 
     });
 
+    /* Function to reconstruct the string */
     function orderDays(days)
     {
         var schoolDays = ['M', 'T', 'W', 'H', 'F', 'S', '-'];
+        days = find_unique_characters(days);
         var newDays = "";
+
         for (var x = 0; x < days.length; x++)
-        {
             if(x < days.length-1)
-            {
-                if(schoolDays.indexOf(days.charAt(x+1)) <= schoolDays.indexOf(days.charAt(x)))
-                {
-                    console.log("Pumapasok");
-                    newDays = days.charAt(x) + days.charAt(x+1);
-                }
-                else{
-                    console.log("Hindi pumapasok")
-                    console.log(schoolDays.indexOf(days.charAt(x+1)) + " <= " + schoolDays.indexOf(days.charAt(x)))
-                }
-            }
-
-        }
+                if(schoolDays.indexOf(days.charAt(x)) > schoolDays.indexOf(days.charAt(x+1)))
+                    newDays = days.charAt(x + 1) + " " + days.charAt(x);
         if(newDays == "")
-            return days;
+            return days.replace(/\s+/g, '');
         else
-            return newDays;
+            return newDays.replace(/\s+/g, '');
 
+    }
+
+    function find_unique_characters(str) {
+        var unique = '';
+        for (var i = 0; i < str.length; i++) {
+            if(unique.indexOf(str.charAt(i))==-1)
+                unique += str[i];
+        }
+        return unique;
     }
 
     /* Selecting an offering */

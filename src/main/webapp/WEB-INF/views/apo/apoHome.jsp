@@ -88,7 +88,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
-                                                    <p style="display:inline"><c:out value="${days.classDay}" /></p>
+                                                    <p style="display:inline" id='p_day${dCtr.count}'><c:out value="${days.classDay}" /></p>
                                                     <input type="text" id='off_day${dCtr.count}' value="${days.classDay}" hidden>
                                                 </c:forEach>
                                                 <input type = "text" id='off_counter' value = "${dCtr}" hidden>
