@@ -35,9 +35,9 @@
  *	MODIFY OFFERING
  *  SIDEBAR
  */
-
-#modifyOfferingTypeSection,     /* FKA modify_class_section */
-#modifyOfferingDays             /* FKA modify_days */
+/*
+#modifyOfferingTypeSection,     /* FKA modify_class_section
+#modifyOfferingDays             /* FKA modify_days
 {
     position: relative;
     top: 18%;
@@ -47,7 +47,7 @@
     border-spacing: 0.625em;
 }
 
-#modifyOfferingTime            /* FKA modify_time */
+#modifyOfferingTime            /* FKA modify_time
 {
     position: relative;
     top: 18%;
@@ -58,7 +58,7 @@
     height:1em;
 }
 
-#modifyOfferingRoom             /* FKA modify_room */
+#modifyOfferingRoom             /* FKA modify_room
 {
     position: relative;
     top: 15%;
@@ -68,8 +68,8 @@
     border-spacing: 0.625em;
 }
 
-#modifyOfferingFaculty,         /* FKA modify_faculty */
-#modifyOfferingConcerns         /* FKA modify_concerns */
+#modifyOfferingFaculty,         /* FKA modify_faculty
+#modifyOfferingConcerns         /* FKA modify_concerns
 {
     position: relative;
     top: 13%;
@@ -77,7 +77,7 @@
     font-size:1em;
     padding: 5px;
     border-spacing: 0.625em;
-}
+}*/
 
 #modifyOfferingButtons          /* FKA modify_button_concerns */
 {
@@ -89,16 +89,12 @@
     border-spacing: 0.625em;
 }
 
-#modOffRoomButton               /* FKA button_assign_room */
-{
-    width: 5em;
-    height:2.3em;
-}
-
+#modOffRoomButton,              /* FKA button_assign_room */
 #modOffFacultyButton            /* FKA button_assign_faculty */
 {
     width: 5em;
-    height: 2em;
+    height: 2.7em;
+    margin-left: 1em;
 }
 
 .modOffUsableButton             /* button_usable */
@@ -139,4 +135,24 @@
     position: relative;
     left:25%;
     cursor: pointer;
+}
+
+.modify_sidebar /* #modifyOfferingSidebar*/
+{
+    position: relative;
+    margin-top: 40%;
+    margin-left: 10%;
+    font-size:1em;
+    padding: 0.5em;
+    border-spacing: 0.625em 0.3em;
+    text-align:left;
+}
+
+.modify_sidebar th{
+    padding-top: 1.5em;
+}
+
+.alignButton{
+    text-align:center;
+    padding-top:2em;
 }
