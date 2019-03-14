@@ -1,4 +1,5 @@
-$(function() {
+$(function()
+{
     /* Add Div for Dialog/Modal */
     jQuery('<div/>', {
         id: 'div_dialog',
@@ -11,7 +12,7 @@ $(function() {
             var textInside = $.trim($(':nth-child(3)', this).text())
             textInside = textInside.replace(/\s+/g, '');//remove all spaces in the string
             var textDays  = orderDays(textInside);
-            console.log(textDays)
+            //console.log(textDays)
             $('#p_day1', this).text(textDays);
             $('#p_day2', this).hide();
 
@@ -45,7 +46,7 @@ $(function() {
     }
 
     /* Selecting an offering */
-    $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function(){
+    $(".cwOfferings .generatedContent .genContentRowss:not(:first-child)").click(function(){
         //unhide all options
         $("#select_day1  option").each(function() {
             $(this).show()

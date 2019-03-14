@@ -1,15 +1,20 @@
+/**
+ *
+ * THIS SCRIPT IS FOR
+ * THE COURSE OFFERING MODULE.
+ * SPECIFICALLY, IT HANDLES
+ * AJAX REQUESTS FOR THE MODULE.
+ *
+ */
+
 $(function()
 {
-    /**
-     *
-     * GET FORMS
-     *
-     */
+    showOfferings();
 
     /* Load All Offerings GET Form AJAX */
     setInterval(function(){
         showOfferings();
-    }, 5000);
+    }, 15000);
 
     /**
      *
@@ -76,6 +81,10 @@ $(function()
             {
                 if(result.status == "Done")
                 {
+                    /* Keep Track of Selected Offering */
+                    var selOffering = $(".selectedOffering").find(".cols-offid").val();
+                    console.log("Selected Offering = " + selOffering + " type = " + typeof selOffering);
+
                     /* Remove All The Previous Offerings */
                     $(".cwofferings .generatedContent .genContentRows:not(:first-child)").remove();
 
@@ -83,27 +92,30 @@ $(function()
                     $.each(result.data, function(i, offering)
                     {
                         /* Create Divs */
-                        var courseCode = "<div class='genContentCols'>" + offering.courseCode + "</div>";
-                        var section = "<div class='genContentCols'>" + offering.classSection + "</div>";
-                        var days = (offering.day1 != '-') ? "<div class='genContentCols'>" + offering.day1 + " " + offering.day2 + "</div>"
-                                                          : "<div class='genContentCols'>None</div>";
-                        var time = (offering.startTime != ':') ? "<div class='genContentCols'>" + offering.startTime + "-" + offering.endTime + "</div>"
-                                                               : "<div class='genContentCols'>Unassigned</div>";
-                        var room = "<div class='genContentCols'>" + offering.roomCode + "</div>";
-                        var faculty = "<div class='genContentCols'>" + offering.faculty + "</div>";
+                        var courseCode = "<div class='genContentCols cols-course-code'>" + offering.courseCode + "</div>";
+                        var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
+                                                          : "<div class='genContentCols cols-days'>None</div>";
+                        var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                                                               : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
+                        var room = "<div class='genContentCols cols-room-code'>" + offering.roomCode + "</div>";
+                        var faculty = "<div class='genContentCols cols-faculty'>" + offering.faculty + "</div>";
+                        var offerid = "<input class='cols-offid' type='hidden' value='" + offering.offeringId + "'/>";
 
                         var offeringRow = "<div class='genContentRows'>" +
-                            "" + courseCode + section + days + time + room + faculty +
+                            "" + courseCode + section + days + time + room + faculty + offerid +
                             "</div>";
 
                         /* Add to UI */
-                        //$(offeringRow).append(courseCode, section, days, time, room, faculty);
-                        console.log(offeringRow);
                         $(".cwofferings .generatedContent").append(offeringRow);
 
-                        console.log("It's done mah n-word");
+                        /* Optional: if selected offering, add class */
+                        console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
+                        if(offering.offeringId == parseInt(selOffering)) {
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").addClass("selectedOffering");
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").css({'background-color' : '#3cb878'});
+                        }
                     });
-                    alert("It's done mah n-word");
                 }
             },
             error : function(e)

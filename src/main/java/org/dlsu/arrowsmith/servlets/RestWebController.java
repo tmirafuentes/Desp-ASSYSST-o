@@ -208,6 +208,25 @@ public class RestWebController {
         return response;
     }
 
+    /* Retrieve Specific Course Offering through POST */
+    @PostMapping(value = "/find-offering")
+    public Response findCourseOffering(@RequestBody Long offeringId)
+    {
+        /* Retrieve specific course offering from database */
+        //CourseOffering selectedOffering = offeringService.retrieveCourseOffering(Long.parseLong(offeringId));
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(offeringId);
+
+        /* Transfer to DTO for easier processing for front-end */
+        OfferingModifyDto offeringDto = transferToDTO(selectedOffering);
+
+        /* Create new Response object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(offeringDto);
+
+        return response;
+    }
+
     /***
      *
      *  FUNCTIONS
