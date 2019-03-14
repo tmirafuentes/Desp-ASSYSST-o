@@ -16,11 +16,11 @@ $("#button_search_course").click(function(){
 /* General Function for Filters*/
 $(".filterForms").change(function() {
     //alert("hello");
-    checkTimeblock();//check timeblock filter
-    checkRoomType();//check room type filter
-    checkClassType(); //check class type filter
+    //checkTimeblock();//check timeblock filter
+    //checkRoomType();//check room type filter
+    //checkClassType(); //check class type filter
     checkTerm(); //check class type filter
-
+    /*
     if(countallRows() <= 0)
     {
         console.log("Show");
@@ -32,6 +32,7 @@ $(".filterForms").change(function() {
         console.log("Hide");
         $(".filter_comments").hide();
     }
+    */
 });
 
 function checkTimeblock()
@@ -101,18 +102,86 @@ function checkClassType()
             checkTimeblock();
     }
 }
+    /* Retrieve All Course Offerings GET Ajax */
+    function retrieveFilteredOfferings()
+    {
+        /* Perform AJAX */
+        $.ajax({
+            type : "GET",
+            url : window.location + "/get-filtered-offerings",
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    console.log("Entering this shit");
+                    /* Remove All The Previous Offerings */
+                    $(".cwofferings .generatedContent .genContentRows:not(:first-child)").remove();
+
+                    /* For Each Offering */
+                    $.each(result.data, function(i, offering)
+                    {
+                        /* Create Divs */
+                        var courseCode = "<div class='genContentCols'>" + offering.courseCode + "</div>";
+                        var section = "<div class='genContentCols'>" + offering.classSection + "</div>";
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols'>" + offering.day1 + " " + offering.day2 + "</div>"
+                            : "<div class='genContentCols'>None</div>";
+                        var time = (offering.startTime != ':') ? "<div class='genContentCols'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                            : "<div class='genContentCols'>Unassigned</div>";
+                        var room = "<div class='genContentCols'>" + offering.roomCode + "</div>";
+                        var faculty = "<div class='genContentCols'>" + offering.faculty + "</div>";
+
+                        var offeringRow = "<div class='genContentRows'>" +
+                            "" + courseCode + section + days + time + room + faculty +
+                            "</div>";
+
+                        /* Add to UI */
+                        //$(offeringRow).append(courseCode, section, days, time, room, faculty);
+                        $(".cwofferings .generatedContent").append(offeringRow);
+                    });
+                    alert("Pumapasok");
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 function checkTerm()
 {
     var filterData = $("#select_view_offerings").val();//gets value for the filter
     if(filterData != "All") {
-        $(".genContentRows:visible").each(function () {
-            var cellText = $.trim($("#off_term").val());
-            if (filterData != cellText)
-                $(this).hide();
+        /* Prepare Form Data */
+        var filterData = $("#select_view_offerings").val();
+        console.log("it's going in");
+        /* Perform AJAX */
+        $.ajax({
+            type: 'POST',
+            contentType : 'application/json',
+            url : window.location + "/term-filter",
+            data : JSON.stringify(filterData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    $(".filter_comments").hide();
+                    retrieveFilteredOfferings();
+                }
+                else{
+                    $(".filter_comments").show();
+                }
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
         });
     }
     else{
-        showallRows();
+        //showallRows();
+        showOfferings();
         if($("#select_left_class_type").val() != "All")
             checkClassType();
         if($("#select_room_type").val() != "All")
@@ -122,6 +191,50 @@ function checkTerm()
     }
 
 }
+    function showOfferings()
+    {
+        /* Perform AJAX */
+        $.ajax({
+            type : "GET",
+            url : window.location + "/show-offerings",
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    /* Remove All The Previous Offerings */
+                    $(".cwofferings .generatedContent .genContentRows:not(:first-child)").remove();
+
+                    /* For Each Offering */
+                    $.each(result.data, function(i, offering)
+                    {
+                        /* Create Divs */
+                        var courseCode = "<div class='genContentCols'>" + offering.courseCode + "</div>";
+                        var section = "<div class='genContentCols'>" + offering.classSection + "</div>";
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols'>" + offering.day1 + " " + offering.day2 + "</div>"
+                            : "<div class='genContentCols'>None</div>";
+                        var time = (offering.startTime != ':') ? "<div class='genContentCols'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                            : "<div class='genContentCols'>Unassigned</div>";
+                        var room = "<div class='genContentCols'>" + offering.roomCode + "</div>";
+                        var faculty = "<div class='genContentCols'>" + offering.faculty + "</div>";
+
+                        var offeringRow = "<div class='genContentRows'>" +
+                            "" + courseCode + section + days + time + room + faculty +
+                            "</div>";
+
+                        /* Add to UI */
+                        //$(offeringRow).append(courseCode, section, days, time, room, faculty);
+                        $(".cwofferings .generatedContent").append(offeringRow);
+                    });
+                    //alert("It's done mah n-word");
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 function showallRows()
 {
     $(".genContentRows").each(function () {
