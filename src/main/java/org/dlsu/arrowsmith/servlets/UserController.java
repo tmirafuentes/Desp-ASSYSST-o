@@ -1,8 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.main.User;
-import org.dlsu.arrowsmith.classes.Concern;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.Concern;
 import org.dlsu.arrowsmith.classes.dtos.ConcernDto;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;

@@ -1,6 +1,6 @@
 package org.dlsu.arrowsmith.classes.dtos;
 
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.User;
 
 public class ConcernDto {
     public Long getConcernId() {
