@@ -12,6 +12,7 @@ $(function()
     showOfferings();
 
     /* Load All Offerings GET Form AJAX */
+
     setInterval(function(){
         showOfferings();
     }, 15000);

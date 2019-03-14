@@ -16,9 +16,9 @@ $("#button_search_course").click(function(){
 /* General Function for Filters*/
 $(".filterForms").change(function() {
     //alert("hello");
-    //checkTimeblock();//check timeblock filter
-    //checkRoomType();//check room type filter
-    //checkClassType(); //check class type filter
+    checkTimeblock();//check timeblock filter
+    checkRoomType();//check room type filter
+    checkClassType(); //check class type filter
     checkTerm(); //check class type filter
     /*
     if(countallRows() <= 0)
@@ -40,10 +40,29 @@ function checkTimeblock()
     var filterData = $("#select_left_timeblock").val();
     if(filterData != "All")
     {
-        $(".genContentCols:nth-child(4):visible").each(function() {
-            var cellText = $.trim($(this).val());
-            if (filterData != cellText) {
-                $(this).parent().hide();
+        console.log("it's going in");
+        /* Perform AJAX */
+        $.ajax({
+            type: 'POST',
+            contentType : 'application/json',
+            url : window.location + "/time-filter",
+            data : JSON.stringify(filterData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    $(".filter_comments").hide();
+                    retrieveFilteredOfferings();
+                    console.log("it's going in2");
+                }
+                else{
+                    $(".filter_comments").show();
+                }
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
             }
         });
     }
@@ -63,10 +82,30 @@ function checkRoomType()
     var filterData = $("#select_room_type").val();
     if(filterData != "All")
     {
-        $(".genContentRows:visible").each(function() {
-            var cellText = $.trim($("#off_roomtype").val());
-            if (filterData != cellText)
-                $(this).hide();
+        console.log("it's going in");
+        /* Perform AJAX */
+        $.ajax({
+            type: 'POST',
+            contentType : 'application/json',
+            url : window.location + "/type-filter",
+            data : JSON.stringify(filterData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    $(".filter_comments").hide();
+                    retrieveFilteredOfferings();
+                    console.log("it's going in2");
+                }
+                else{
+                    $(".filter_comments").show();
+                }
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
         });
     }
     else{
@@ -85,10 +124,30 @@ function checkClassType()
     var filterData = $("#select_left_class_type").val();
     if(filterData != "All")
     {
-        $(".genContentRows:visible").each(function() {
-            var cellText = $.trim($("#off_status").val());
-            if (filterData != cellText)
-                $(this).hide();
+        console.log("it's going in");
+        /* Perform AJAX */
+        $.ajax({
+            type: 'POST',
+            contentType : 'application/json',
+            url : window.location + "/type-filter",
+            data : JSON.stringify(filterData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    $(".filter_comments").hide();
+                    retrieveFilteredOfferings();
+                    console.log("it's going in2");
+                }
+                else{
+                    $(".filter_comments").show();
+                }
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
         });
     }
     else{
@@ -105,6 +164,7 @@ function checkClassType()
     /* Retrieve All Course Offerings GET Ajax */
     function retrieveFilteredOfferings()
     {
+        //console.log("Happening");
         /* Perform AJAX */
         $.ajax({
             type : "GET",
@@ -138,7 +198,7 @@ function checkClassType()
                         //$(offeringRow).append(courseCode, section, days, time, room, faculty);
                         $(".cwofferings .generatedContent").append(offeringRow);
                     });
-                    alert("Pumapasok");
+                    //console.log("Pumapasok");
                 }
             },
             error : function(e)
@@ -167,6 +227,7 @@ function checkTerm()
                 if(result.status == "Done") {
                     $(".filter_comments").hide();
                     retrieveFilteredOfferings();
+                    console.log("it's going in2");
                 }
                 else{
                     $(".filter_comments").show();
@@ -413,18 +474,45 @@ $("#class_s").click(function() {
         $(".filter_comments").hide();
 
         showallRows();
-
+        /*
         $(".genContentRows:visible").each(function () {
             var courseTraverse = $.trim($(':first-child', this).text())
             console.log(courseTraverse)
             if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
                 $(this).hide();
         });
-
+         */
+        console.log("it's going in");
+        /* Perform AJAX */
+        $.ajax({
+            type: 'POST',
+            contentType : 'application/json',
+            url : window.location + "/search",
+            data : JSON.stringify(filterData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    $(".filter_comments").hide();
+                    retrieveFilteredOfferings();
+                    console.log("it's going in2");
+                }
+                else{
+                    $(".filter_comments").show();
+                }
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+        /*
         if(countallRows() == 0) {
             $(".filter_comments").show();
 
         }
+        */
     });
 
     function checkSearch(searchedString, currentString){
