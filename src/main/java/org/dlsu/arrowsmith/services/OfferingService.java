@@ -258,9 +258,9 @@ public class OfferingService {
         ArrayList<CourseOffering> allCourses = (ArrayList<CourseOffering>) courseOfferingRepository.findAll();
         ArrayList<Integer> termList = new ArrayList<>();
         int termTemplate;
-
         for(int i = 0; i < allCourses.size(); i++)
-            termList.add(allCourses.get(i).getTerm());
+            if(allCourses.get(i).getTerm() > 0)
+                termList.add(allCourses.get(i).getTerm());
 
         Set<Integer> uniqueTerms = new HashSet<Integer>(termList);
         termList = new ArrayList<Integer>(uniqueTerms);
