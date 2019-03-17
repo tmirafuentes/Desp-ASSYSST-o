@@ -1,12 +1,20 @@
+@font-face {
+    font-family: Gotham Book;
+    src: url(fonts/GothamBook.ttf);
+}
 .date_specified{
     width:100%;
     text-align: center;
     font-weight: bold;
-    background-color:white;
+    background-color:#e2e2e2;
+    height:2em;
+    line-height: 2em;
+    font-size:1.3em;
+    font-family: Gotham Book;
 }
 .revision_holder{
     width:100%;
-    height:10%;
+    height:5em;
     border-top:1px solid black;
     border-bottom:1px solid black;
 }
@@ -15,10 +23,13 @@
     height:20%;
     float:right;
     padding-left:10px;
+    cursor:pointer;
 }
 .revision_entry td{
-    font-size:10px;
+    font-size: 1em;
     font-weight: bold;
+    font-family: Gotham Book;
+    line-height: 1.3em;
 }
 .revision_picture{
     height:30px;
@@ -27,7 +38,6 @@
     margin-left:20px;
     float:left;
     position: fixed;
-
 }
 
 .revision_person, .revision_position, .revision_time{
@@ -39,4 +49,7 @@
 
 .revision_time{
     top:2;
+}
+#revisionWrapper{
+    margin-top:8em;
 }

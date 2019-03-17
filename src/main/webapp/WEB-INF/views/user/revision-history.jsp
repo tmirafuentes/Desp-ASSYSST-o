@@ -38,60 +38,61 @@
 
         <!-- Revision History Menu for ASSYSTX -->
         <div class="rightSidebar">
-            <br><br><br><br><br><br>
-            <div class = "date_specified">
-                <p class = "p_date">Today</p>
-            </div>
-            <c:choose>
-                <c:when test="${empty revHistory}">
-                    No revisions yet.
-                </c:when>
-                <c:otherwise>
-                    <c:forEach items="${revHistory}" var="revisions">
-                        <div class ="revision_holder">
-                        <table class="revision_entry">
-                            <tr>
-                                <td class = "revision_person">${revisions.fullName}</td>
-                            </tr>
-                            <tr>
-                                <td class = "revision_position">ST Chair</td>
-                            </tr>
-                            <tr>
-                                <td class = "revision_time">${revisions.dateModified}</td>
-                            </tr>
-                        </table>
-                        </div>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-            <div class = "date_specified">
-                <p class = "p_date">December 10, 2018</p>
-            </div>
-            <div class ="revision_holder">
-                <table class="revision_entry">
-                    <tr>
-                        <td class = "revision_person">Ryan Dimaunahan</td>
-                    </tr>
-                    <tr>
-                        <td class = "revision_position">ST Chair</td>
-                    </tr>
-                    <tr>
-                        <td class = "revision_time">4:19 PM</td>
-                    </tr>
-                </table>
-            </div>
-            <div class ="revision_holder">
-                <table class="revision_entry">
-                    <tr>
-                        <td class = "revision_person">Ryan Dimaunahan</td>
-                    </tr>
-                    <tr>
-                        <td class = "revision_position">ST Chair</td>
-                    </tr>
-                    <tr>
-                        <td class = "revision_time">4:19 PM</td>
-                    </tr>
-                </table>
+            <div id = "revisionWrapper">
+                <div class = "date_specified">
+                    <p class = "p_date">Today</p>
+                </div>
+                <c:choose>
+                    <c:when test="${empty revHistory}">
+                        No revisions yet.
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${revHistory}" var="revisions">
+                            <div class ="revision_holder">
+                            <table class="revision_entry">
+                                <tr>
+                                    <td class = "revision_person">${revisions.fullName}</td>
+                                </tr>
+                                <tr>
+                                    <td class = "revision_position">ST Chair</td>
+                                </tr>
+                                <tr>
+                                    <td class = "revision_time">${revisions.dateModified}</td>
+                                </tr>
+                            </table>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                <div class = "date_specified">
+                    <p class = "p_date">December 10, 2018</p>
+                </div>
+                <div class ="revision_holder">
+                    <table class="revision_entry">
+                        <tr>
+                            <td class = "revision_person">Ryan Dimaunahan</td>
+                        </tr>
+                        <tr>
+                            <td class = "revision_position">ST Chair</td>
+                        </tr>
+                        <tr>
+                            <td class = "revision_time">4:19 PM</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class ="revision_holder">
+                    <table class="revision_entry">
+                        <tr>
+                            <td class = "revision_person">Ryan Dimaunahan</td>
+                        </tr>
+                        <tr>
+                            <td class = "revision_position">ST Chair</td>
+                        </tr>
+                        <tr>
+                            <td class = "revision_time">4:19 PM</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </body>
