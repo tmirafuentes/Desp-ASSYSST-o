@@ -1,7 +1,9 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.dro.Response;
+import org.dlsu.arrowsmith.classes.dtos.ModifyRoomDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.classes.dtos.RoomDto;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -26,8 +29,10 @@ public class RestWebController {
 
     @Autowired
     private FacultyService facultyService;
+
     private ArrayList<OfferingModifyDto> filteredOfferings = new ArrayList<OfferingModifyDto>();
     private ArrayList<CourseOffering> offerings = new ArrayList<>();
+    private ArrayList<Room> applicableRooms = new ArrayList<>();
     private int filterCount = 0;
     /***
      *
@@ -457,7 +462,7 @@ public class RestWebController {
 
         /* Transfer to DTO for easier processing for front-end */
         OfferingModifyDto offeringDto = transferToDTO(selectedOffering);
-
+        System.out.println(offeringDto.getStartTime() + offeringDto.getEndTime());
         /* Create new Response object */
         Response response = new Response();
         response.setStatus("Done");
@@ -473,6 +478,7 @@ public class RestWebController {
      */
     public OfferingModifyDto transferToDTO(CourseOffering offering)
     {
+        //System.out.println("TRANSFER DTO");
         OfferingModifyDto modifyDto = new OfferingModifyDto();
 
         /* Offering ID */
@@ -518,10 +524,25 @@ public class RestWebController {
                 modifyDto.setRoomCode("Unassigned");
 
             /* Timeslot */
-            if (day.getbeginTime() != null && day.getendTime() != null)
-            {
-                modifyDto.setStartTime(day.getbeginTime());
-                modifyDto.setEndTime(day.getendTime());
+            if (day.getbeginTime() != null && day.getendTime() != null) {
+                if (day.getbeginTime().length() == 3) {
+                    modifyDto.setStartTime(day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
+                    System.out.println(day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
+                } else if (day.getbeginTime().length() == 4) {
+                    modifyDto.setStartTime(day.getbeginTime().substring(0, 2) + ":" + day.getbeginTime().substring(2, 4));
+                    System.out.println(day.getbeginTime().substring(0, 2) + ":" + day.getbeginTime().substring(2, 4));
+                }
+                if (day.getendTime().length() == 3) {
+                    modifyDto.setEndTime(day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
+                    System.out.println(day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
+                } else if (day.getendTime().length() == 4){
+                    modifyDto.setEndTime(day.getendTime().substring(0, 2) + ":" + day.getendTime().substring(2, 4));
+                    System.out.println(day.getendTime().substring(0, 2) + ":" + day.getendTime().substring(2, 4));
+                }
+                else {
+                    modifyDto.setStartTime(day.getbeginTime());
+                    modifyDto.setEndTime(day.getendTime());
+                }
             }
             else
             {
@@ -540,4 +561,38 @@ public class RestWebController {
 
         return modifyDto;
     }
+    /* Find all rooms that are available at this time and day */
+    @PostMapping(value = "/check-rooms")
+    public Response showRoomsApplicable(@RequestBody ModifyRoomDto timeInfo)
+    {
+        //Get all characters
+        char day1 = timeInfo.getDay1();
+        char day2 = timeInfo.getDay2();
+        String startTime = timeInfo.getStartTime();
+        String endTime = timeInfo.getEndTime();
+
+        ArrayList<Room> roomList = offeringService.roomRuleChecking(day1, day2, startTime, endTime);
+        ArrayList<RoomDto> transferableroomList = new ArrayList<>();
+
+        System.out.println(roomList.size());
+        for(Room r: roomList)
+        {
+            RoomDto roomDto = new RoomDto();
+            roomDto.setRoomCode(r.getRoomCode());
+            roomDto.setRoomType(r.getRoomType());
+            roomDto.setCapacity(r.getRoomCapacity());
+            roomDto.setBuilding(r.getBuilding().getBldgName());
+            transferableroomList.add(roomDto);
+        }
+        /* Create Response Object */
+        Response response = new Response();
+        if(roomList.size() <= 0)
+            response.setStatus("Error");
+        else
+            response.setStatus("Done");
+
+        response.setData(transferableroomList);
+        return response;
+    }
+
 }

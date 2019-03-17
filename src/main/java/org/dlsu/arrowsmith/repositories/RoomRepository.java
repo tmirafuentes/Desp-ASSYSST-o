@@ -9,4 +9,5 @@ import java.util.ArrayList;
 public interface RoomRepository extends CrudRepository<Room, Long> {
     ArrayList<Room> findAllByBuilding(Building building);
     Room findRoomByRoomCode(String roomCode);
+
 }

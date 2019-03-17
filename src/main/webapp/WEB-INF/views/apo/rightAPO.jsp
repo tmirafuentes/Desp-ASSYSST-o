@@ -41,10 +41,12 @@
             <td>
                 <!-- Start Time -->
                 <input name="startTime" type="time" id="select_right_start_timeblock" />
+                <input id = "startTimeHolder" hidden>
             </td>
             <td>
                 <!-- End Time -->
                 <input name="endTime" type="time" id="select_right_end_timeblock" />
+                <input id = "endTimeHolder" hidden>
             </td>
         </tr>
         <tr>

@@ -125,5 +125,68 @@ $(function()
                 console.log("ERROR: ", e);
             }
         });
+
+        //On Click Room Modification Button: For Room Checking
+        $("#modOffRoomButton").click(function() {
+            var formData = {
+                day1 : $("#select_day1").val(),
+                day2 : $("#select_day2").val(),
+                startTime : $("#startTimeHolder").val(),
+                endTime : $("#endTimeHolder").val()
+            };
+
+            /* Perform AJAX */
+            $.ajax({
+                type: 'POST',
+                contentType : 'application/json',
+                url : window.location + "/check-rooms",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function(result)
+                {
+                    if(result.status == "Done") {
+                        /* Remove All The Previous Rooms */
+                        $("#modal_table_room tr:not(:first-child)").remove();
+                        console.log("Umaabot dito");
+                        /* For Each Offering */
+                        $.each(result.data, function(i, room)
+                        {
+                            console.log(room.roomCode);
+                            /* Create Divs
+                            var courseCode = "<div class='genContentCols cols-course-code'>" + offering.courseCode + "</div>";
+                            var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
+                            var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
+                                : "<div class='genContentCols cols-days'>None</div>";
+                            var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                                : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
+                            var room = "<div class='genContentCols cols-room-code'>" + offering.roomCode + "</div>";
+                            var faculty = "<div class='genContentCols cols-faculty'>" + offering.faculty + "</div>";
+                            var offerid = "<input class='cols-offid' type='hidden' value='" + offering.offeringId + "'/>";
+
+                            var offeringRow = "<div class='genContentRows'>" +
+                                "" + courseCode + section + days + time + room + faculty + offerid +
+                                "</div>";
+                        */
+                            var buttonVal = room.roomCode;
+                            var roomCode = "<tr><td>" + room.roomCode + "</td>";
+                            var roomType = "<td>" + room.roomType + "</td>";
+                            var roomBuilding = "<td>" + room.building + "</td>";
+                            var roomCapacity = "<td>" + room.capacity + "</td>";
+                            var buttonRoom = "<td><button class='assign_modal_buttons assignRoomBtns' type='button' value=" + buttonVal + ">Assign</button></td></tr>"
+
+                            var roomRow = roomCode + roomRow + roomBuilding + roomCapacity + roomType + buttonRoom;
+                            /* Add to UI */
+                            $("#modal_table_room").append(roomRow);
+
+                        });
+                    }
+                },
+                error : function(e)
+                {
+                    alert("Error!");
+                    console.log("ERROR: ", e);
+                }
+            });
+        });
     }
 });
