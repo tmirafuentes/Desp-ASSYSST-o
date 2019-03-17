@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.dro.Response;
+import org.dlsu.arrowsmith.classes.dtos.FacultyLoadDto;
 import org.dlsu.arrowsmith.classes.dtos.ModifyRoomDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.classes.dtos.RoomDto;
@@ -462,7 +463,8 @@ public class RestWebController {
 
         /* Transfer to DTO for easier processing for front-end */
         OfferingModifyDto offeringDto = transferToDTO(selectedOffering);
-        System.out.println(offeringDto.getStartTime() + offeringDto.getEndTime());
+        System.out.println("Modification is Happening");
+        //System.out.println(offeringDto.getStartTime() + offeringDto.getEndTime());
         /* Create new Response object */
         Response response = new Response();
         response.setStatus("Done");
@@ -592,6 +594,42 @@ public class RestWebController {
             response.setStatus("Done");
 
         response.setData(transferableroomList);
+        return response;
+    }
+
+    /* Find all faculty that are available at this timeslot AND are applicable for teaching*/
+    @PostMapping(value = "/check-faculty")
+    public Response showFacultyApplicable(@RequestBody ModifyRoomDto timeInfo)
+    {
+        //Get all data to be used for evaluation
+        char day1 = timeInfo.getDay1();
+        char day2 = timeInfo.getDay2();
+        String startTime = timeInfo.getStartTime();
+        String endTime = timeInfo.getEndTime();
+
+        ArrayList<FacultyLoad> facultyList = facultyService.facultyRuleChecking(day1, day2, startTime, endTime);
+        ArrayList<FacultyLoadDto> transferableFacultyList = new ArrayList<>();
+
+        for(FacultyLoad fl: facultyList)
+        {
+            FacultyLoadDto currLoad = new FacultyLoadDto();
+            currLoad.setAdminLoad(fl.getAdminLoad());
+            currLoad.setResearchLoad(fl.getResearchLoad());
+            currLoad.setTeachingLoad(fl.getTeachingLoad());
+            currLoad.setTotalLoad(fl.getTotalLoad());
+            currLoad.setFirstName(fl.getFaculty().getFirstName());
+            currLoad.setLastName(fl.getFaculty().getLastName());
+            transferableFacultyList.add(currLoad);
+        }
+
+        /* Create Response Object*/
+        Response response = new Response();
+        if(facultyList.size() <= 0)
+            response.setStatus("Error");
+        else
+            response.setStatus("Done");
+
+        response.setData(transferableFacultyList);
         return response;
     }
 

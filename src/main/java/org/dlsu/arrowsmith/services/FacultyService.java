@@ -96,6 +96,81 @@ public class FacultyService {
         //System.out.println("Conflicts");
         return true;
     }
+
+    /* Find faculty that are available at these time slots*/
+    public ArrayList<FacultyLoad> facultyRuleChecking(char day1, char day2, String startTime, String endTime)
+    {
+        Iterator<FacultyLoad> allLoads = this.retrieveAllFacultyLoadByTerm(2016, 2017, 1);
+        ArrayList<CourseOffering> allCourses = courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1);
+        ArrayList<CourseOffering> evaluatedCourses = new ArrayList<>();
+        ArrayList<FacultyLoad> evaluatedLoads = new ArrayList<>();
+        //get all faculty loads for this term
+        FacultyLoad currentLoad;
+        /* Checks course offerings that are free at this time slot*/
+        while(allLoads.hasNext())//As long as there are faculty loads
+        {
+            currentLoad = allLoads.next();//Get the next element
+            if(!(currentLoad.getTotalLoad() >= 12) && !(currentLoad.getTotalLoad() + 3 > 12))//remove those that are above 12 units
+                evaluatedLoads.add(currentLoad);
+        }
+
+        if(evaluatedLoads.size() > 0) {
+            //Get arraylist of all courses that faculty is teaching this term
+            for (FacultyLoad fc : evaluatedLoads)
+                for (CourseOffering cs : allCourses)
+                {
+                    if(cs.getFaculty() != null)
+                    {
+                        if (cs.getFaculty().getUserId() == fc.getFaculty().getUserId())
+                            evaluatedCourses.add(cs);
+                    }
+                }
+
+
+            System.out.println(evaluatedCourses.size());
+            allCourses.clear();
+
+            for (CourseOffering cs : evaluatedCourses) {
+                for (Days s : cs.getDaysSet()) {//for each day that the course is in
+                    if (s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
+                    {
+                        //Just remove faculty loads that are conflicting with this sched
+                        if (conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
+                                Integer.parseInt(s.getbeginTime()), Integer.parseInt(s.getendTime())))
+                        {
+                            if(cs.getFaculty() != null) {
+                                int iter = findFacultyLoad(evaluatedLoads, cs.getFaculty().getUserId());//find faculty load
+                                if(iter != -1)
+                                    evaluatedLoads.remove(iter);//remove associated faculty load
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println(evaluatedLoads.size());
+            for(FacultyLoad fl: evaluatedLoads)
+                System.out.println(fl.getFaculty().getUserId());
+        }
+        //process time slots
+        return evaluatedLoads;
+
+    }
+
+    public int findFacultyLoad(ArrayList<FacultyLoad> list, Long userID)
+    {
+        int iter = 0;
+        int finalIter = -1;
+        boolean isFound = false;
+        for(FacultyLoad fl: list)
+        {
+            if(fl.getFaculty().getUserId() == userID)
+                finalIter = iter;
+
+            iter++;
+        }
+
+        return finalIter;
+    }
     /**
      **
      ** DELOAD INSTANCE
