@@ -1,10 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
 import org.dlsu.arrowsmith.classes.dro.Response;
-import org.dlsu.arrowsmith.classes.dtos.FacultyLoadDto;
-import org.dlsu.arrowsmith.classes.dtos.ModifyRoomDto;
-import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
-import org.dlsu.arrowsmith.classes.dtos.RoomDto;
+import org.dlsu.arrowsmith.classes.dtos.*;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
@@ -17,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Filter;
 
 @RestController
 @RequestMapping({"/apo", "/cvc"})
@@ -31,254 +29,67 @@ public class RestWebController {
     @Autowired
     private FacultyService facultyService;
 
-    private ArrayList<OfferingModifyDto> filteredOfferings = new ArrayList<OfferingModifyDto>();
-    private ArrayList<CourseOffering> offerings = new ArrayList<>();
-    private ArrayList<Room> applicableRooms = new ArrayList<>();
-    private int filterCount = 0;
     /***
      *
      *  ACTIVE
      *  URL MAPPING
      *
      */
-    /* Filter the current pool of offerings to the term value specified*/
-    @PostMapping(value = "/term-filter")
-    public Response showOfferingTerms(@RequestBody Integer searchTerm, Model model)
-    {
+    //General function for filtering
+    @PostMapping(value = "/left-filter")
+    public Response filterCourseOfferings(@RequestBody FilterDto filterValues, Model model) {
+        ArrayList<ArrayList<CourseOffering>> filterHolder = new ArrayList<ArrayList<CourseOffering>>();
+        //THIS IS WHERE INTERSECTION WILL HAPPEN BITCHES
+        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<>();
+        ArrayList<CourseOffering> termFilter = new ArrayList<>();
+        ArrayList<CourseOffering> classTypeFilter = new ArrayList<>();
+        ArrayList<CourseOffering> roomTypeFilter = new ArrayList<>();
+        ArrayList<CourseOffering> timeBlockFilter = new ArrayList<>();
 
-        Iterator allOfferings;
-        if(offerings.size() == 0 && filterCount == 0)
-            allOfferings = offeringService.generateSortedCourseOfferings(2016, 2017, 1);//gets all generated course offerings
-        else
-            allOfferings = offerings.iterator();
+        //Get all results
+        if(filterValues.getTerm().equals("All"))
+            termFilter =  offeringService.retrieveCourseOfferingsTerm(Integer.parseInt(filterValues.getTerm()));
+        if(filterValues.getClassType().equals("All"))
+            classTypeFilter =  offeringService.retrieveCourseOfferingsClassType(filterValues.getClassType());
+        if(filterValues.getRoomType().equals("All"))
+            roomTypeFilter =  offeringService.retrieveCourseOfferingsRoomType(filterValues.getRoomType());
+        if(filterValues.getTimeBlock().equals("All"))
+            timeBlockFilter =  offeringService.retrieveCourseOfferingsTimeslot(filterValues.getTimeBlock());
+        ArrayList<CourseOffering> holder = offeringService.generateSortedArrayListCourseOfferings(2016, 2017, 1);
+        //Intersection time
+        //Get all arraylists that are greater than 0
+        if(termFilter.size() > 0)
+            filterHolder.add(termFilter);
+        if(classTypeFilter.size() > 0)
+            filterHolder.add(classTypeFilter);
+        if(roomTypeFilter.size() > 0)
+            filterHolder.add(roomTypeFilter);
+        if(timeBlockFilter.size() > 0)
+            filterHolder.add(timeBlockFilter);
 
-        offerings.clear();
-        filteredOfferings.clear();
-        filterCount++;
-        /* Convert to DTO */
-        while(allOfferings.hasNext())
+        //Intersect all of them
+        for(int i = 0; i < filterHolder.size(); i++)
+           holder =  offeringService.generateIntersectionLists(holder, filterHolder.get(i));
+
+        for(CourseOffering cs: holder)
         {
-            CourseOffering offering = (CourseOffering) allOfferings.next();
             OfferingModifyDto currDTO;
-            if(searchTerm == offering.getTerm()) {
-                /* Transfer to DTO */
-                currDTO = transferToDTO(offering);
-                this.offerings.add(offering);//update list of currently processed offerings
-                this.filteredOfferings.add(currDTO);//update list of currently processed offerings for transfering
-            }
-
+            currDTO = transferToDTO(cs);
+            listOfferDtos.add(currDTO);
         }
 
         /* Create Response Object */
         Response response = new Response();
-        if(offerings.size() == 0)
+        if(listOfferDtos.size() == 0)
             response.setStatus("Error");
         else
             response.setStatus("Done");
 
-        //response.setData(filteredOfferings);
-        //response.setData(listOfferDtos);
-        //model.addAttribute("allOfferings", listOfferDtos.iterator());
-
+        response.setData(listOfferDtos);
         return response;
     }
-    /* Filter the current pool of offerings to the room value specified*/
-    @PostMapping(value = "/room-filter")
-    public Response showOfferingRoom(@RequestBody String searchTerm, Model model)
-    {
-        boolean isAdded = false;
-        Iterator allOfferings;
-        if(offerings.size() == 0 && filterCount == 0)
-            allOfferings = offeringService.generateSortedCourseOfferings(2016, 2017, 1);//gets all generated course offerings
-        else
-            allOfferings = offerings.iterator();
 
-        offerings.clear();
-        filteredOfferings.clear();
-        filterCount++;
-        /* Convert to DTO */
-        while(allOfferings.hasNext())
-        {
-            CourseOffering offering = (CourseOffering) allOfferings.next();
-            OfferingModifyDto currDTO;
-            for(Days s: offering.getDaysSet())
-            {
-                if(searchTerm.equals(s.getRoom().getRoomCode()) && !isAdded) {
-                    isAdded = true;
-                    /* Transfer to DTO */
-                    currDTO = transferToDTO(offering);
-                    this.offerings.add(offering);//update list of currently processed offerings
-                    this.filteredOfferings.add(currDTO);//update list of currently processed offerings for transfering
-                }
-            }
-            isAdded = false;
 
-        }
-
-        /* Create Response Object */
-        Response response = new Response();
-        if(offerings.size() == 0)
-            response.setStatus("Error");
-        else
-            response.setStatus("Done");
-
-        //response.setData(filteredOfferings);
-        //response.setData(listOfferDtos);
-        //model.addAttribute("allOfferings", listOfferDtos.iterator());
-
-        return response;
-    }
-    /* Filter the current pool of offerings to the term value specified*/
-    @PostMapping(value = "/time-filter")
-    public Response showOfferingTimeSlot(@RequestBody String searchTerm, Model model)
-    {
-        boolean isAdded = false;
-        Iterator allOfferings;
-        if(offerings.size() == 0 && filterCount == 0)
-            allOfferings = offeringService.generateSortedCourseOfferings(2016, 2017, 1);//gets all generated course offerings
-        else
-            allOfferings = offerings.iterator();
-
-        offerings.clear();
-        filteredOfferings.clear();
-        filterCount++;
-        /* Convert to DTO */
-        while(allOfferings.hasNext())
-        {
-            CourseOffering offering = (CourseOffering) allOfferings.next();
-            OfferingModifyDto currDTO;
-            for(Days s: offering.getDaysSet())
-            {
-                if(searchTerm.equals(s.getbeginTime() + " - " + s.getendTime()) && !isAdded) {
-                    isAdded = true;
-                    /* Transfer to DTO */
-                    currDTO = transferToDTO(offering);
-                    this.offerings.add(offering);//update list of currently processed offerings
-                    this.filteredOfferings.add(currDTO);//update list of currently processed offerings for transfering
-                }
-            }
-            isAdded = false;
-
-        }
-
-        /* Create Response Object */
-        Response response = new Response();
-        if(offerings.size() == 0)
-            response.setStatus("Error");
-        else
-            response.setStatus("Done");
-
-        //response.setData(filteredOfferings);
-        //response.setData(listOfferDtos);
-        //model.addAttribute("allOfferings", listOfferDtos.iterator());
-
-        return response;
-    }
-    /* Filter the current pool of offerings to the room type value specified*/
-    @PostMapping(value = "/type-filter")
-    public Response showOfferingClassType(@RequestBody String searchTerm, Model model)
-    {
-        boolean isAdded = false;
-        Iterator allOfferings;
-        if(offerings.size() == 0 && filterCount == 0)
-            allOfferings = offeringService.generateSortedCourseOfferings(2016, 2017, 1);//gets all generated course offerings
-        else
-            allOfferings = offerings.iterator();
-
-        offerings.clear();
-        filteredOfferings.clear();
-        filterCount++;
-        /* Convert to DTO */
-        while(allOfferings.hasNext())
-        {
-            CourseOffering offering = (CourseOffering) allOfferings.next();
-            OfferingModifyDto currDTO;
-            for(Days s: offering.getDaysSet())
-            {
-                if(searchTerm.equals(s.getRoom().getRoomType()) && !isAdded) {
-                    isAdded = true;
-                    /* Transfer to DTO */
-                    currDTO = transferToDTO(offering);
-                    this.offerings.add(offering);//update list of currently processed offerings
-                    this.filteredOfferings.add(currDTO);//update list of currently processed offerings for transfering
-                }
-            }
-            isAdded = false;
-
-        }
-
-        /* Create Response Object */
-        Response response = new Response();
-        if(offerings.size() == 0)
-            response.setStatus("Error");
-        else
-            response.setStatus("Done");
-
-        //response.setData(filteredOfferings);
-        //response.setData(listOfferDtos);
-        //model.addAttribute("allOfferings", listOfferDtos.iterator());
-
-        return response;
-    }
-    /* Filter the current pool of offerings to the term value specified*/
-    @PostMapping(value = "/search-courses")
-    public Response showOfferingSearch(@RequestBody String searchTerm, Model model)
-    {
-        Iterator allOfferings;
-        if(offerings.size() == 0 && filterCount == 0)
-            allOfferings = offeringService.generateSortedCourseOfferings(2016, 2017, 1);//gets all generated course offerings
-        else
-            allOfferings = offerings.iterator();
-
-        offerings.clear();
-        filteredOfferings.clear();
-        filterCount++;
-        /* Convert to DTO */
-        while(allOfferings.hasNext())
-        {
-            CourseOffering offering = (CourseOffering) allOfferings.next();
-            OfferingModifyDto currDTO;
-                if(searchTerm.toUpperCase().equals(offering.getCourse().getCourseCode().toUpperCase()) || searchTerm.toUpperCase().contains(offering.getCourse().getCourseCode().toUpperCase())) {
-                    /* Transfer to DTO */
-                    currDTO = transferToDTO(offering);
-                    this.offerings.add(offering);//update list of currently processed offerings
-                    this.filteredOfferings.add(currDTO);//update list of currently processed offerings for transfering
-                }
-
-        }
-
-        /* Create Response Object */
-        Response response = new Response();
-        if(offerings.size() == 0)
-            response.setStatus("Error");
-        else
-            response.setStatus("Done");
-
-        //response.setData(filteredOfferings);
-        //response.setData(listOfferDtos);
-        //model.addAttribute("allOfferings", listOfferDtos.iterator());
-
-        return response;
-    }
-    /* Retrieve All Filtered Course Offerings through GET */
-    @GetMapping(value = "/get-filtered-offerings")
-    public Response showAllFilteredOfferings(Model model)
-    {
-        System.out.println("Whatever it takes");
-        /* Create Response Object */
-        Response response = new Response();
-        System.out.println(filteredOfferings.size());
-        if(filteredOfferings.size() != 0)
-        {
-            response.setData(filteredOfferings);
-            response.setStatus("Done");
-        }
-        else
-        {
-            response.setStatus("Error");
-        }
-        return response;
-    }
     /* Retrieve All Course Offerings through GET */
     @GetMapping(value = "/show-offerings")
     public Response showAllOfferings(Model model)

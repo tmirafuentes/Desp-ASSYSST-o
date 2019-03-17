@@ -14,26 +14,31 @@ $("#button_search_course").click(function(){
 });
 
 /* General Function for Filters*/
-$(".filterForms").change(function() {
-    //alert("hello");
-    checkTimeblock();//check timeblock filter
-    checkRoomType();//check room type filter
-    checkClassType(); //check class type filter
-    checkTerm(); //check class type filter
-    /*
-    if(countallRows() <= 0)
+    function displayFilter()
     {
-        console.log("Show");
-        $(".filter_comments").show();
-    }
+        $(".filterForms").change(function() {
+            //get all values of filterforms
+            //checked via not all
+            //alert("hello");
+            //checkTimeblock();//check timeblock filter
+            //checkRoomType();//check room type filter
+            //checkClassType(); //check class type filter
+            //checkTerm(); //check class type filter
+            /*
+            if(countallRows() <= 0)
+            {
+                console.log("Show");
+                $(".filter_comments").show();
+            }
 
-    else
-    {
-        console.log("Hide");
-        $(".filter_comments").hide();
+            else
+            {
+                console.log("Hide");
+                $(".filter_comments").hide();
+            }
+            */
+        });
     }
-    */
-});
 
 function checkTimeblock()
 {
