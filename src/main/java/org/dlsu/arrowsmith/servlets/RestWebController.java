@@ -578,5 +578,66 @@ public class RestWebController {
         response.setData(transferableFacultyList);
         return response;
     }
+    /* Retrieve All Concerns through GET */
+    @GetMapping(value = "/get-concerns")
+    public Response retrieveConcerns(@RequestBody String userID, Model model)
+    {
+        Long converUserID = Long.parseLong(userID);
+        /* Create new list for concerns */
+        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(converUserID));
 
+        /* Convert to DTO */
+        ArrayList<ConcernDto> listConcernDtos = new ArrayList<>();
+        while(allConcerns.hasNext())
+        {
+            Concern concern = (Concern) allConcerns.next();
+
+            /* Transfer to DTO */
+            ConcernDto conDTO = transferToConcernDTO(concern);
+
+            listConcernDtos.add(conDTO);
+        }
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(listConcernDtos);
+
+        return response;
+    }
+    /* Send and Save a Concern using POST */
+    @PostMapping(value = "/post-concerns")
+    public Response retrieveConcerns(@RequestBody ConcernDto concernSend, Model model)
+    {
+
+        //convert concernDTO
+        Concern concern = this.transferToConcern(concernSend);
+        //save concern
+        this.userService.saveConcern(concern);
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+    public ConcernDto transferToConcernDTO(Concern concern)
+    {
+        ConcernDto concernDto = new ConcernDto();
+
+        concernDto.setConcernId(concern.getconcernId());
+        concernDto.setMessage(concern.getMessage());
+        concernDto.setUserId(concern.getReceiver().getUserId());
+        concernDto.setSendUserId(concern.getSender().getUserId());
+        concernDto.setSenderFirstName(concern.getSender().getFirstName());
+        concernDto.setSenderLastName(concern.getSender().getLastName());
+
+        return concernDto;
+    }
+    public Concern transferToConcern(ConcernDto concernDto)
+    {
+        Concern concern = new Concern();
+        concern.setSender(userService.findUserByIDNumber(concernDto.getUserId()));
+        concern.setReceiver(userService.findUserByIDNumber(concernDto.getSendUserId()));
+        concern.setMessage(concernDto.getMessage());
+        return concern;
+    }
 }
