@@ -1,11 +1,25 @@
 $(function() {
-
+    var day_clicked = false;
     setInterval(function(){
         console.log("Updating the System")
-        if(checkFilters())
-            retrieveFilteredOfferings();
-        else
-            showOfferings();
+        if(day_clicked)
+        {
+            retrieveDayFilter();
+        }
+        else{
+            if(checkFilters())
+            {
+                retrieveFilteredOfferings();
+            }
+            else
+            {
+                showOfferings();
+            }
+        }
+
+
+        //if(monday_clicked == true)
+
     }, 15000);
 
     function checkFilters(){
@@ -27,8 +41,193 @@ $("#button_search_course").click(function(){
     });
 });
 
+/* Day Filters*/
+    $("#class_m").click(function(){
+        console.log("Monday is clicked")
+        day_clicked = true;
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            data : JSON.stringify('M'),
+            dataType : 'json',
+            url : window.location + "/filter-days",
+            success : function(result)
+            {
+                console.log("Successfully Filtered");
+                retrieveDayFilter();
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    $("#class_t").click(function(){
+        console.log("Tuesday is clicked")
+        day_clicked = true;
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            data : JSON.stringify('T'),
+            dataType : 'json',
+            url : window.location + "/filter-days",
+            success : function(result)
+            {
+                console.log("Successfully Filtered");
+                retrieveDayFilter();
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    $("#class_w").click(function(){
+        console.log("Wednesday is clicked")
+        day_clicked = true;
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            data : JSON.stringify('W'),
+            dataType : 'json',
+            url : window.location + "/filter-days",
+            success : function(result)
+            {
+                console.log("Successfully Filtered");
+                retrieveDayFilter();
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    $("#class_h").click(function(){
+        console.log("Thursday is clicked")
+        day_clicked = true;
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            data : JSON.stringify('H'),
+            dataType : 'json',
+            url : window.location + "/filter-days",
+            success : function(result)
+            {
+                console.log("Successfully Filtered");
+                retrieveDayFilter();
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    $("#class_f").click(function(){
+        console.log("Friday is clicked")
+        day_clicked = true;
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            data : JSON.stringify('F'),
+            dataType : 'json',
+            url : window.location + "/filter-days",
+            success : function(result)
+            {
+                console.log("Successfully Filtered");
+                retrieveDayFilter();
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    $("#class_f").click(function(){
+        console.log("Friday is clicked")
+        day_clicked = true;
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            data : JSON.stringify('F'),
+            dataType : 'json',
+            url : window.location + "/filter-days",
+            success : function(result)
+            {
+                console.log("Successfully Filtered");
+                retrieveDayFilter();
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    function retrieveDayFilter(){
+        /* Remove All The Previous Offerings */
+        $.ajax({
+            type : "GET",
+            url : window.location + "/get-filtered-day",
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    /* Keep Track of Selected Offering */
+                    var selOffering = $(".selectedOffering").find(".cols-offid").val();
+                    console.log("Selected Offering = " + selOffering + " type = " + typeof selOffering);
+
+                    $(".cwofferings .generatedContent .genContentRows:not(:first-child)").remove();
+
+                    $.each(result.data, function(i, offering)
+                    {
+                        /* Create Divs */
+                        var courseCode = "<div class='genContentCols cols-course-code'>" + offering.courseCode + "</div>";
+                        var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
+                            : "<div class='genContentCols cols-days'>None</div>";
+                        var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                            : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
+                        var room = "<div class='genContentCols cols-room-code'>" + offering.roomCode + "</div>";
+                        var faculty = "<div class='genContentCols cols-faculty'>" + offering.faculty + "</div>";
+                        var offerid = "<input class='cols-offid' type='hidden' value='" + offering.offeringId + "'/>";
+
+                        var offeringRow = "<div class='genContentRows'>" +
+                            "" + courseCode + section + days + time + room + faculty + offerid +
+                            "</div>";
+
+                        /* Add to UI */
+                        $(".cwofferings .generatedContent").append(offeringRow);
+
+                        /* Optional: if selected offering, add class */
+                        console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
+                        if(offering.offeringId == parseInt(selOffering)) {
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").addClass("selectedOffering");
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").css({'background-color' : '#3cb878'});
+                        }
+                    });
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 /* General Function for Filters*/
         $(".filterForms").change(function() {
+            day_clicked = false;
             console.log("Change Detected")
             var formData = {
                 term : $("#select_view_offerings").val(),

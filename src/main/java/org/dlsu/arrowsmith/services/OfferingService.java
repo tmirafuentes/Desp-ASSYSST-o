@@ -28,6 +28,16 @@ public class OfferingService {
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
 
+    public ArrayList<CourseOffering> getDayFilteredCourses() {
+        return dayFilteredCourses;
+    }
+
+    public void setDayFilteredCourses(ArrayList<CourseOffering> dayFilteredCourses) {
+        this.dayFilteredCourses = dayFilteredCourses;
+    }
+
+    private ArrayList<CourseOffering> dayFilteredCourses = new ArrayList<>();
+
     public ArrayList<CourseOffering> getFilteredCourses() {
         return filteredCourses;
     }
@@ -574,7 +584,19 @@ public class OfferingService {
         }
         return newList;
     }
-
+    public ArrayList<CourseOffering> getAllCoursesOnDay(char day)
+    {
+        Iterator<CourseOffering> allCourses = courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1).iterator();
+        ArrayList<CourseOffering> mondayCourses = new ArrayList<>();
+        while(allCourses.hasNext()){
+            CourseOffering cs = allCourses.next();
+            for(Days s: cs.getDaysSet())
+                if(s.getclassDay() == day)
+                    mondayCourses.add(cs);
+        }
+        this.setDayFilteredCourses(mondayCourses);
+        return mondayCourses;
+    }
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */
         //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;

@@ -35,6 +35,29 @@ public class RestWebController {
      *  URL MAPPING
      *
      */
+    @PostMapping(value = "/filter-days")
+    public Response filterCoursesOnDay(@RequestBody String day, Model model) {
+        char charDay = day.charAt(1);
+        ArrayList<CourseOffering> dayCourses =  offeringService.getAllCoursesOnDay(charDay);
+        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<>();
+
+        for(CourseOffering cs: dayCourses)
+        {
+            OfferingModifyDto currDTO;
+            currDTO = transferToDTO(cs);
+            listOfferDtos.add(currDTO);
+        }
+        /* Create Response Object */
+        Response response = new Response();
+        if(listOfferDtos.size() == 0)
+            response.setStatus("Error");
+        else
+            response.setStatus("Done");
+
+        response.setData(listOfferDtos);
+        return response;
+    }
+
     //General function for filtering
     @PostMapping(value = "/left-filter")
     public Response filterCourseOfferings(@RequestBody FilterDto filterValues, Model model) {
@@ -45,32 +68,37 @@ public class RestWebController {
         ArrayList<CourseOffering> classTypeFilter = new ArrayList<>();
         ArrayList<CourseOffering> roomTypeFilter = new ArrayList<>();
         ArrayList<CourseOffering> timeBlockFilter = new ArrayList<>();
+        ArrayList<CourseOffering> holder = new ArrayList<>();
+        if(filterValues.getTerm().equals("All") && filterValues.getClassType().equals("All") && filterValues.getRoomType().equals("All") &&
+                filterValues.getTimeBlock().equals("All"))
+            holder = offeringService.generateSortedArrayListCourseOfferings(2016, 2017, 1);
+        else{
+            //Get all results
+            if(!filterValues.getTerm().equals("All"))
+                termFilter =  offeringService.retrieveCourseOfferingsTerm(Integer.parseInt(filterValues.getTerm()));
+            if(!filterValues.getClassType().equals("All"))
+                classTypeFilter =  offeringService.retrieveCourseOfferingsClassType(filterValues.getClassType());
+            if(!filterValues.getRoomType().equals("All"))
+                roomTypeFilter =  offeringService.retrieveCourseOfferingsRoomType(filterValues.getRoomType());
+            if(!filterValues.getTimeBlock().equals("All"))
+                timeBlockFilter =  offeringService.retrieveCourseOfferingsTimeslot(filterValues.getTimeBlock());
+            holder = offeringService.generateSortedArrayListCourseOfferings(2016, 2017, 1);
+            //Intersection time
+            //Get all arraylists that are greater than 0
+            if(!filterValues.getTerm().equals("All"))
+                filterHolder.add(termFilter);
+            if(!filterValues.getClassType().equals("All"))
+                filterHolder.add(classTypeFilter);
+            if(!filterValues.getRoomType().equals("All"))
+                filterHolder.add(roomTypeFilter);
+            if(!filterValues.getTimeBlock().equals("All"))
+                filterHolder.add(timeBlockFilter);
 
-        System.out.println(filterValues.getRoomType());
-        //Get all results
-        if(!filterValues.getTerm().equals("All"))
-            termFilter =  offeringService.retrieveCourseOfferingsTerm(Integer.parseInt(filterValues.getTerm()));
-        if(!filterValues.getClassType().equals("All"))
-            classTypeFilter =  offeringService.retrieveCourseOfferingsClassType(filterValues.getClassType());
-        if(!filterValues.getRoomType().equals("All"))
-            roomTypeFilter =  offeringService.retrieveCourseOfferingsRoomType(filterValues.getRoomType());
-        if(!filterValues.getTimeBlock().equals("All"))
-            timeBlockFilter =  offeringService.retrieveCourseOfferingsTimeslot(filterValues.getTimeBlock());
-        ArrayList<CourseOffering> holder = offeringService.generateSortedArrayListCourseOfferings(2016, 2017, 1);
-        //Intersection time
-        //Get all arraylists that are greater than 0
-        if(!filterValues.getTerm().equals("All"))
-            filterHolder.add(termFilter);
-        if(!filterValues.getClassType().equals("All"))
-            filterHolder.add(classTypeFilter);
-        if(!filterValues.getRoomType().equals("All"))
-            filterHolder.add(roomTypeFilter);
-        if(!filterValues.getTimeBlock().equals("All"))
-            filterHolder.add(timeBlockFilter);
+            //Intersect all of them
+            for(int i = 0; i < filterHolder.size(); i++)
+                holder =  offeringService.generateIntersectionLists(holder, filterHolder.get(i));
+        }
 
-        //Intersect all of them
-        for(int i = 0; i < filterHolder.size(); i++)
-           holder =  offeringService.generateIntersectionLists(holder, filterHolder.get(i));
         offeringService.setFilteredCourses(holder);
         for(CourseOffering cs: holder)
         {
@@ -125,6 +153,34 @@ public class RestWebController {
     {
         /* Create new list for course offerings */
         Iterator allOfferings = offeringService.getFilteredCourses().iterator();
+
+        /* Convert to DTO */
+        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<OfferingModifyDto>();
+        while(allOfferings.hasNext())
+        {
+            CourseOffering offering = (CourseOffering) allOfferings.next();
+
+            /* Transfer to DTO */
+            OfferingModifyDto currDTO = transferToDTO(offering);
+
+            listOfferDtos.add(currDTO);
+        }
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(listOfferDtos);
+        model.addAttribute("allOfferings", listOfferDtos.iterator());
+
+        return response;
+    }
+
+    /* Retrieve All Filtered Course Offerings through GET */
+    @GetMapping(value = "/get-filtered-day")
+    public Response retrieveDayFilteredOfferings(Model model)
+    {
+        /* Create new list for course offerings */
+        Iterator allOfferings = offeringService.getDayFilteredCourses().iterator();
 
         /* Convert to DTO */
         ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<OfferingModifyDto>();
