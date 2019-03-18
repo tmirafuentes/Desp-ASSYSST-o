@@ -46,31 +46,32 @@ public class RestWebController {
         ArrayList<CourseOffering> roomTypeFilter = new ArrayList<>();
         ArrayList<CourseOffering> timeBlockFilter = new ArrayList<>();
 
+        System.out.println(filterValues.getRoomType());
         //Get all results
-        if(filterValues.getTerm().equals("All"))
+        if(!filterValues.getTerm().equals("All"))
             termFilter =  offeringService.retrieveCourseOfferingsTerm(Integer.parseInt(filterValues.getTerm()));
-        if(filterValues.getClassType().equals("All"))
+        if(!filterValues.getClassType().equals("All"))
             classTypeFilter =  offeringService.retrieveCourseOfferingsClassType(filterValues.getClassType());
-        if(filterValues.getRoomType().equals("All"))
+        if(!filterValues.getRoomType().equals("All"))
             roomTypeFilter =  offeringService.retrieveCourseOfferingsRoomType(filterValues.getRoomType());
-        if(filterValues.getTimeBlock().equals("All"))
+        if(!filterValues.getTimeBlock().equals("All"))
             timeBlockFilter =  offeringService.retrieveCourseOfferingsTimeslot(filterValues.getTimeBlock());
         ArrayList<CourseOffering> holder = offeringService.generateSortedArrayListCourseOfferings(2016, 2017, 1);
         //Intersection time
         //Get all arraylists that are greater than 0
-        if(termFilter.size() > 0)
+        if(!filterValues.getTerm().equals("All"))
             filterHolder.add(termFilter);
-        if(classTypeFilter.size() > 0)
+        if(!filterValues.getClassType().equals("All"))
             filterHolder.add(classTypeFilter);
-        if(roomTypeFilter.size() > 0)
+        if(!filterValues.getRoomType().equals("All"))
             filterHolder.add(roomTypeFilter);
-        if(timeBlockFilter.size() > 0)
+        if(!filterValues.getTimeBlock().equals("All"))
             filterHolder.add(timeBlockFilter);
 
         //Intersect all of them
         for(int i = 0; i < filterHolder.size(); i++)
            holder =  offeringService.generateIntersectionLists(holder, filterHolder.get(i));
-
+        offeringService.setFilteredCourses(holder);
         for(CourseOffering cs: holder)
         {
             OfferingModifyDto currDTO;
@@ -96,6 +97,34 @@ public class RestWebController {
     {
         /* Create new list for course offerings */
         Iterator allOfferings = offeringService.generateSortedCourseOfferings(2016, 2017, 1);
+
+        /* Convert to DTO */
+        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<OfferingModifyDto>();
+        while(allOfferings.hasNext())
+        {
+            CourseOffering offering = (CourseOffering) allOfferings.next();
+
+            /* Transfer to DTO */
+            OfferingModifyDto currDTO = transferToDTO(offering);
+
+            listOfferDtos.add(currDTO);
+        }
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(listOfferDtos);
+        model.addAttribute("allOfferings", listOfferDtos.iterator());
+
+        return response;
+    }
+
+    /* Retrieve All Filtered Course Offerings through GET */
+    @GetMapping(value = "/get-filtered-offerings")
+    public Response retrieveFilteredOfferings(Model model)
+    {
+        /* Create new list for course offerings */
+        Iterator allOfferings = offeringService.getFilteredCourses().iterator();
 
         /* Convert to DTO */
         ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<OfferingModifyDto>();

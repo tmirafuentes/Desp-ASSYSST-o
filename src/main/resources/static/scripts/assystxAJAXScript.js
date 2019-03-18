@@ -11,12 +11,12 @@ $(function()
 {
     showOfferings();
 
-    /* Load All Offerings GET Form AJAX */
+    /* Load All Offerings GET Form AJAX
 
     setInterval(function(){
         console.log("Updating the System")
         showOfferings();
-    }, 15000);
+    }, 15000);*/
 
     /**
      *

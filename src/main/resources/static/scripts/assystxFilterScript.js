@@ -1,5 +1,19 @@
 $(function() {
 
+    setInterval(function(){
+        console.log("Updating the System")
+        if(checkFilters())
+            retrieveFilteredOfferings();
+        else
+            showOfferings();
+    }, 15000);
+
+    function checkFilters(){
+        if($("#select_view_offerings").val() != "All" ||  $("#select_left_class_type").val() != "All" || $("#select_room_type").val() != "All" || $("#select_left_timeblock").val() != "All")
+            return true;
+        return false;
+    }
+//FIND A WAY TO CALL THE DISPLAY FILTER FUNCTION BETWEEN THE SHOWOFFERING
 /*Search Course for modals*/
 $("#button_search_course").click(function(){
     var textSearched = $.trim($("#modal_input_search_course").val())
@@ -14,158 +28,37 @@ $("#button_search_course").click(function(){
 });
 
 /* General Function for Filters*/
-    function displayFilter()
-    {
         $(".filterForms").change(function() {
+            console.log("Change Detected")
+            var formData = {
+                term : $("#select_view_offerings").val(),
+                classType : $("#select_left_class_type").val(),
+                roomType : $("#select_room_type").val(),
+                timeBlock : $("#select_left_timeblock").val(),
+            };
+
+            /* Perform AJAX */
+            $.ajax({
+                type: 'POST',
+                contentType : 'application/json',
+                url : window.location + "/left-filter",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function(result)
+                {
+                  console.log("Successfully Filtered");
+                  retrieveFilteredOfferings();
+                },
+                error : function(e)
+                {
+                    alert("Error!");
+                    console.log("ERROR: ", e);
+                }
+            });
             //get all values of filterforms
             //checked via not all
-            //alert("hello");
-            //checkTimeblock();//check timeblock filter
-            //checkRoomType();//check room type filter
-            //checkClassType(); //check class type filter
-            //checkTerm(); //check class type filter
-            /*
-            if(countallRows() <= 0)
-            {
-                console.log("Show");
-                $(".filter_comments").show();
-            }
-
-            else
-            {
-                console.log("Hide");
-                $(".filter_comments").hide();
-            }
-            */
         });
-    }
 
-function checkTimeblock()
-{
-    var filterData = $("#select_left_timeblock").val();
-    if(filterData != "All")
-    {
-        console.log("it's going in");
-        /* Perform AJAX */
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/time-filter",
-            data : JSON.stringify(filterData),
-            dataType : 'json',
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $(".filter_comments").hide();
-                    retrieveFilteredOfferings();
-                    console.log("it's going in2");
-                }
-                else{
-                    $(".filter_comments").show();
-                }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-    else{
-        showallRows();
-        if($("#select_view_offerings").val() != "All")
-            checkTerm();
-        if($("#select_left_class_type").val() != "All")
-            checkClassType();
-        if($("#select_room_type").val() != "All")
-            checkRoomType();
-    }
-}
-
-function checkRoomType()
-{
-    var filterData = $("#select_room_type").val();
-    if(filterData != "All")
-    {
-        console.log("it's going in");
-        /* Perform AJAX */
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/type-filter",
-            data : JSON.stringify(filterData),
-            dataType : 'json',
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $(".filter_comments").hide();
-                    retrieveFilteredOfferings();
-                    console.log("it's going in2");
-                }
-                else{
-                    $(".filter_comments").show();
-                }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-    else{
-        showallRows();
-        if($("#select_view_offerings").val() != "All")
-            checkTerm();
-        if($("#select_left_class_type").val() != "All")
-            checkClassType();
-        if(($("#select_left_timeblock").val() != "All"))
-            checkTimeblock();
-    }
-}
-
-function checkClassType()
-{
-    var filterData = $("#select_left_class_type").val();
-    if(filterData != "All")
-    {
-        console.log("it's going in");
-        /* Perform AJAX */
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/type-filter",
-            data : JSON.stringify(filterData),
-            dataType : 'json',
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $(".filter_comments").hide();
-                    retrieveFilteredOfferings();
-                    console.log("it's going in2");
-                }
-                else{
-                    $(".filter_comments").show();
-                }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-    else{
-        console.log(countallRows());
-        showallRows();
-        if($("#select_view_offerings").val() != "All")
-            checkTerm();
-        if($("#select_room_type").val() != "All")
-            checkRoomType();
-        if(($("#select_left_timeblock").val() != "All"))
-            checkTimeblock();
-    }
-}
     /* Retrieve All Course Offerings GET Ajax */
     function retrieveFilteredOfferings()
     {
@@ -178,32 +71,39 @@ function checkClassType()
             {
                 if(result.status == "Done")
                 {
-                    console.log("Entering this shit");
-                    /* Remove All The Previous Offerings */
+                    /* Keep Track of Selected Offering */
+                    var selOffering = $(".selectedOffering").find(".cols-offid").val();
+                    console.log("Selected Offering = " + selOffering + " type = " + typeof selOffering);
+
                     $(".cwofferings .generatedContent .genContentRows:not(:first-child)").remove();
 
-                    /* For Each Offering */
                     $.each(result.data, function(i, offering)
                     {
                         /* Create Divs */
-                        var courseCode = "<div class='genContentCols'>" + offering.courseCode + "</div>";
-                        var section = "<div class='genContentCols'>" + offering.classSection + "</div>";
-                        var days = (offering.day1 != '-') ? "<div class='genContentCols'>" + offering.day1 + " " + offering.day2 + "</div>"
-                            : "<div class='genContentCols'>None</div>";
-                        var time = (offering.startTime != ':') ? "<div class='genContentCols'>" + offering.startTime + "-" + offering.endTime + "</div>"
-                            : "<div class='genContentCols'>Unassigned</div>";
-                        var room = "<div class='genContentCols'>" + offering.roomCode + "</div>";
-                        var faculty = "<div class='genContentCols'>" + offering.faculty + "</div>";
+                        var courseCode = "<div class='genContentCols cols-course-code'>" + offering.courseCode + "</div>";
+                        var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
+                            : "<div class='genContentCols cols-days'>None</div>";
+                        var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                            : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
+                        var room = "<div class='genContentCols cols-room-code'>" + offering.roomCode + "</div>";
+                        var faculty = "<div class='genContentCols cols-faculty'>" + offering.faculty + "</div>";
+                        var offerid = "<input class='cols-offid' type='hidden' value='" + offering.offeringId + "'/>";
 
                         var offeringRow = "<div class='genContentRows'>" +
-                            "" + courseCode + section + days + time + room + faculty +
+                            "" + courseCode + section + days + time + room + faculty + offerid +
                             "</div>";
 
                         /* Add to UI */
-                        //$(offeringRow).append(courseCode, section, days, time, room, faculty);
                         $(".cwofferings .generatedContent").append(offeringRow);
+
+                        /* Optional: if selected offering, add class */
+                        console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
+                        if(offering.offeringId == parseInt(selOffering)) {
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").addClass("selectedOffering");
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").css({'background-color' : '#3cb878'});
+                        }
                     });
-                    //console.log("Pumapasok");
                 }
             },
             error : function(e)
@@ -213,50 +113,6 @@ function checkClassType()
             }
         });
     }
-function checkTerm()
-{
-    var filterData = $("#select_view_offerings").val();//gets value for the filter
-    if(filterData != "All") {
-        /* Prepare Form Data */
-        var filterData = $("#select_view_offerings").val();
-        console.log("it's going in");
-        /* Perform AJAX */
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/term-filter",
-            data : JSON.stringify(filterData),
-            dataType : 'json',
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $(".filter_comments").hide();
-                    retrieveFilteredOfferings();
-                    console.log("it's going in2");
-                }
-                else{
-                    $(".filter_comments").show();
-                }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-    else{
-        //showallRows();
-        showOfferings();
-        if($("#select_left_class_type").val() != "All")
-            checkClassType();
-        if($("#select_room_type").val() != "All")
-            checkRoomType();
-        if(($("#select_left_timeblock").val() != "All"))
-            checkTimeblock();
-    }
-
-}
     function showOfferings()
     {
         /* Perform AJAX */

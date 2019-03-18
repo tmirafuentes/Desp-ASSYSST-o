@@ -27,6 +27,16 @@ public class OfferingService {
     private RoomRepository roomRepository;
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
+
+    public ArrayList<CourseOffering> getFilteredCourses() {
+        return filteredCourses;
+    }
+
+    public void setFilteredCourses(ArrayList<CourseOffering> filteredCourses) {
+        this.filteredCourses = filteredCourses;
+    }
+
+    private ArrayList<CourseOffering> filteredCourses = new ArrayList<>();
     /**
      **
      ** COLLEGE
@@ -228,10 +238,10 @@ public class OfferingService {
     /* Retrieve All Unique Timeslots */
     public Iterator getUniqueTimeSlots()
     {
-        ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAll();
+        ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAllByCourseOfferingStartAYAndCourseOfferingEndAYAndCourseOfferingTerm(2016,2017,1);
         ArrayList<String> timeslotList = new ArrayList<>();
         String timeslotTemplate;
-        System.out.println("dwad");
+        System.out.println("Get Unique TimeSlots");
 
         for(int i = 0; i < allDays.size(); i++)
         {
@@ -508,42 +518,49 @@ public class OfferingService {
 
         //Get Intersection (filtering) with the current displayed
         //return generateIntersectionLists(filteredCourseOfferings, allCourseOfferings);
+
+
         return filteredCourseOfferings;
     }
     public ArrayList<CourseOffering> retrieveCourseOfferingsRoomType(String type)
     {
         //Get the filtered list
         //ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStartAYAndEndAYAndTerm(type, 2016, 2017, 1);
-
-        ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1);
-
-        for(CourseOffering cs: allCourseOfferings)
-        {
-            for(Days s: cs.getDaysSet())
+        //The processed list is also being used in the other function (esp because you're using a list in another list) -> better to use iterator
+        Iterator<CourseOffering> allCourseOfferings =  courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1).iterator();
+        ArrayList<CourseOffering> filteredCourseOfferings = new ArrayList<>();
+        while(allCourseOfferings.hasNext())
             {
-                if(!(type.equals(s.getRoom().getRoomType())))
-                    allCourseOfferings.remove(cs);//remove all those room type that are not equal
+                CourseOffering cs = allCourseOfferings.next();
+                for(Days s: cs.getDaysSet())
+                {
+                    if(type.equals(s.getRoom().getRoomType()))
+                        filteredCourseOfferings.add(cs);//remove all those room type that are not equal
+                }
             }
-        }
-        return allCourseOfferings;
+
+        return filteredCourseOfferings;
     }
     public ArrayList<CourseOffering> retrieveCourseOfferingsTimeslot(String timeslot)
     {
         //Get the filtered list
         //ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStartAYAndEndAYAndTerm(type, 2016, 2017, 1);
 
-        ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1);
+        Iterator<CourseOffering> allCourseOfferings =  courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1).iterator();
+        ArrayList<CourseOffering> filteredCourseOfferings = new ArrayList<>();
 
-        for(CourseOffering cs: allCourseOfferings)
+        while(allCourseOfferings.hasNext())
         {
+            CourseOffering cs = allCourseOfferings.next();
             for(Days s: cs.getDaysSet())
             {
-                String formedTimeslot = s.getbeginTime() + "-" + s.getendTime();
-                if(!(timeslot.equals(formedTimeslot)))
-                    allCourseOfferings.remove(cs);//remove all those timeslots that are not equal
+                String formedTimeslot = s.getbeginTime() + " - " + s.getendTime();
+                if(timeslot.equals(formedTimeslot))
+                    filteredCourseOfferings.add(cs);//remove all those timeslots that are not equal
             }
         }
-        return allCourseOfferings;
+
+        return filteredCourseOfferings;
     }
 
     public ArrayList generateIntersectionLists(ArrayList<CourseOffering> firstList, ArrayList<CourseOffering> secondList)
