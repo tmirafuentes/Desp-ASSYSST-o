@@ -35,6 +35,28 @@ public class RestWebController {
      *  URL MAPPING
      *
      */
+    @PostMapping(value = "/search-course")
+    public Response filterCoursesbyCourseCode(@RequestBody String courseCode, Model model) {
+        ArrayList<CourseOffering> searchCourses =  offeringService.retrieveCourseOfferingSearch(courseCode);
+        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<>();
+
+        for(CourseOffering cs: searchCourses)
+        {
+            OfferingModifyDto currDTO;
+            currDTO = transferToDTO(cs);
+            listOfferDtos.add(currDTO);
+        }
+
+        Response response = new Response();
+        if(listOfferDtos.size() == 0)
+            response.setStatus("Error");
+        else
+            response.setStatus("Done");
+
+        response.setData(listOfferDtos);
+        return response;
+    }
+
     @PostMapping(value = "/filter-days")
     public Response filterCoursesOnDay(@RequestBody String day, Model model) {
         char charDay = day.charAt(1);
@@ -181,6 +203,34 @@ public class RestWebController {
     {
         /* Create new list for course offerings */
         Iterator allOfferings = offeringService.getDayFilteredCourses().iterator();
+
+        /* Convert to DTO */
+        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<OfferingModifyDto>();
+        while(allOfferings.hasNext())
+        {
+            CourseOffering offering = (CourseOffering) allOfferings.next();
+
+            /* Transfer to DTO */
+            OfferingModifyDto currDTO = transferToDTO(offering);
+
+            listOfferDtos.add(currDTO);
+        }
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(listOfferDtos);
+        model.addAttribute("allOfferings", listOfferDtos.iterator());
+
+        return response;
+    }
+
+    /* Retrieve All Filtered Course Offerings through GET */
+    @GetMapping(value = "/get-filtered-search")
+    public Response retrieveSearchOfferings(Model model)
+    {
+        /* Create new list for course offerings */
+        Iterator allOfferings = offeringService.getSearchCourses().iterator();
 
         /* Convert to DTO */
         ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<OfferingModifyDto>();

@@ -16,4 +16,5 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     ArrayList<CourseOffering> findAllByCourseDepartmentAndStartAYAndEndAYAndTerm(Department department, int startAY, int end_AY, int term);
     CourseOffering findCourseOfferingByOfferingId(Long offering_id);
     ArrayList<CourseOffering> findAllByStartAYAndEndAYAndTerm(int startAY, int end_AY, int term);
+    ArrayList<CourseOffering> findAllByCourseCourseCode(String courseCode);
 }

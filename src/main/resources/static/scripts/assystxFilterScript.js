@@ -1,21 +1,27 @@
 $(function() {
     var day_clicked = false;
+    var search_selected = false;
+
     setInterval(function(){
         console.log("Updating the System")
-        if(day_clicked)
+        if(!search_selected)
         {
-            retrieveDayFilter();
-        }
-        else{
-            if(checkFilters())
+            if(day_clicked)
             {
-                retrieveFilteredOfferings();
+                retrieveDayFilter();
             }
-            else
-            {
-                showOfferings();
+            else{
+                if(checkFilters())
+                {
+                    retrieveFilteredOfferings();
+                }
+                else
+                {
+                    showOfferings();
+                }
             }
         }
+
 
 
         //if(monday_clicked == true)
@@ -38,6 +44,25 @@ $("#button_search_course").click(function(){
         if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
             $(this).hide();
         alert("huh")
+    /*
+    textSearched.toUpperCase()
+    $.ajax({
+        type : "POST",
+        contentType : 'application/json',
+        data : JSON.stringify(textSearched),
+        dataType : 'json',
+        url : window.location + "/search-course",
+        success : function(result)
+        {
+            console.log("Successfully Filtered");
+            //retrieveDayFilter();
+        },
+        error : function(e)
+        {
+            alert("Error!");
+            console.log("ERROR: ", e);
+        }
+    });*/
     });
 });
 
@@ -45,6 +70,7 @@ $("#button_search_course").click(function(){
     $("#class_m").click(function(){
         console.log("Monday is clicked")
         day_clicked = true;
+        search_selected = false;
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -67,6 +93,7 @@ $("#button_search_course").click(function(){
     $("#class_t").click(function(){
         console.log("Tuesday is clicked")
         day_clicked = true;
+        search_selected = false;
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -89,6 +116,7 @@ $("#button_search_course").click(function(){
     $("#class_w").click(function(){
         console.log("Wednesday is clicked")
         day_clicked = true;
+        search_selected = false;
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -111,6 +139,7 @@ $("#button_search_course").click(function(){
     $("#class_h").click(function(){
         console.log("Thursday is clicked")
         day_clicked = true;
+        search_selected = false;
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -133,6 +162,7 @@ $("#button_search_course").click(function(){
     $("#class_f").click(function(){
         console.log("Friday is clicked")
         day_clicked = true;
+        search_selected = false;
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -155,6 +185,7 @@ $("#button_search_course").click(function(){
     $("#class_f").click(function(){
         console.log("Friday is clicked")
         day_clicked = true;
+        search_selected = false;
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -228,6 +259,7 @@ $("#button_search_course").click(function(){
 /* General Function for Filters*/
         $(".filterForms").change(function() {
             day_clicked = false;
+            search_selected = false;
             console.log("Change Detected")
             var formData = {
                 term : $("#select_view_offerings").val(),
@@ -527,23 +559,58 @@ $("#class_s").click(function() {
         $(".filter_comments").show();
 
     }
-    });
+    });/**/
     $("#submit_left_side_search").click(function(){
+        search_selected = true;
         var textSearched = $.trim($("#input_search_course").val())
-        console.log(textSearched)
         $(".filter_comments").hide();
-
-        showallRows();
-        /*
         $(".genContentRows:visible").each(function () {
-            var courseTraverse = $.trim($(':first-child', this).text())
-            console.log(courseTraverse)
+            var courseTraverse = $(':first-child', this).text();
+            courseTraverse = $.trim(courseTraverse);
             if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
                 $(this).hide();
         });
-         */
-        console.log("it's going in");
-        /* Perform AJAX */
+    });
+    $("#submit_left_side_search").click(function(){
+        search_selected = true;
+        var textSearched = $.trim($("#input_search_course").val())
+        $(".filter_comments").hide();
+        if(textSearched.toUpperCase() != "")
+        {
+            $(".genContentRows:visible").each(function () {
+                var courseTraverse = $(':first-child', this).text();
+                courseTraverse = $.trim(courseTraverse);
+                if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
+                    $(this).hide();
+            });
+        }
+        else
+        {
+            showOfferings();
+            search_selected = false;
+        }
+    });
+    $('#input_search_course').on('input',function(e){
+        search_selected = true;
+        var textSearched = $.trim($("#input_search_course").val())
+        $(".filter_comments").hide();
+        if(textSearched.toUpperCase() != "")
+        {
+            $(".genContentRows:visible").each(function () {
+                var courseTraverse = $(':first-child', this).text();
+                courseTraverse = $.trim(courseTraverse);
+                if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
+                    $(this).hide();
+            });
+        }
+        else
+        {
+            showOfferings();
+            search_selected = false;
+        }
+    });
+        //console.log("it's going in");
+        /* Perform AJAX
         $.ajax({
             type: 'POST',
             contentType : 'application/json',
@@ -565,15 +632,15 @@ $("#class_s").click(function() {
             {
                 alert("Error!");
                 console.log("ERROR: ", e);
-            }
-        });
+            }*/
+
         /*
         if(countallRows() == 0) {
             $(".filter_comments").show();
 
-        }
-        */
-    });
+        }*/
+
+
 
     function checkSearch(searchedString, currentString){
         if(searchedString == currentString)

@@ -28,6 +28,15 @@ public class OfferingService {
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
 
+    public ArrayList<CourseOffering> getSearchCourses() {
+        return searchCourses;
+    }
+
+    public void setSearchCourses(ArrayList<CourseOffering> searchCourses) {
+        this.searchCourses = searchCourses;
+    }
+
+    private ArrayList<CourseOffering> searchCourses = new ArrayList<>();
     public ArrayList<CourseOffering> getDayFilteredCourses() {
         return dayFilteredCourses;
     }
@@ -98,6 +107,7 @@ public class OfferingService {
     /* Retrieve Specific Course By Course Code */
     public Course retrieveCourseByCourseCode(String course_code) {
         Course resultCourse = courseRepository.findCourseByCourseCode(course_code);
+
         return resultCourse;
     }
 
@@ -508,6 +518,12 @@ public class OfferingService {
         return allCourseOfferings;
     }
     /* Filter Functions */
+    public ArrayList<CourseOffering> retrieveCourseOfferingSearch(String courseCode)
+    {
+        ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByCourseCourseCode(courseCode);
+        this.setSearchCourses(filteredCourseOfferings);
+        return filteredCourseOfferings;
+    }
     public ArrayList<CourseOffering> retrieveCourseOfferingsTerm(int term)
     {
         //Get the filtered list
