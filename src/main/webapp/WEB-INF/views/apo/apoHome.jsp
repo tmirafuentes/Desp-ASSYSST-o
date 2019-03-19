@@ -192,14 +192,6 @@
                 </tr>
                 <tr>
                     <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
-                    <th>Search</th>
-                    <%--<th>Recommendation</th>
-                    <th>Sort By</th>--%>
-                </tr>
-                <tr>
-                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
-                    <%--<td><select class = 'modal_select' id='select_recommend'></select></td>
-                    <td><select class = 'modal_select' id='select_sort'></select></td>--%>
                 </tr>
             </table>
         </div>

@@ -38,14 +38,8 @@ public class RestWebController {
     @PostMapping(value = "/search-course")
     public Response filterCoursesbyCourseCode(@RequestBody String courseCode, Model model) {
         ArrayList<CourseOffering> searchCourses =  offeringService.retrieveCourseOfferingSearch(courseCode);
-        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<>();
 
-        for(CourseOffering cs: searchCourses)
-        {
-            OfferingModifyDto currDTO;
-            currDTO = transferToDTO(cs);
-            listOfferDtos.add(currDTO);
-        }
+        ArrayList<OfferingModifyDto> listOfferDtos = convertToDTO(searchCourses.iterator());
 
         Response response = new Response();
         if(listOfferDtos.size() == 0)
@@ -61,14 +55,9 @@ public class RestWebController {
     public Response filterCoursesOnDay(@RequestBody String day, Model model) {
         char charDay = day.charAt(1);
         ArrayList<CourseOffering> dayCourses =  offeringService.getAllCoursesOnDay(charDay);
-        ArrayList<OfferingModifyDto> listOfferDtos = new ArrayList<>();
 
-        for(CourseOffering cs: dayCourses)
-        {
-            OfferingModifyDto currDTO;
-            currDTO = transferToDTO(cs);
-            listOfferDtos.add(currDTO);
-        }
+        ArrayList<OfferingModifyDto> listOfferDtos = convertToDTO(dayCourses.iterator());
+
         /* Create Response Object */
         Response response = new Response();
         if(listOfferDtos.size() == 0)
@@ -329,7 +318,7 @@ public class RestWebController {
 
                 // If Day 2 is not null or "-" in the form
                 if(!(offering.getDay2() == '-') && isDay1Done)
-                {
+                    {
                     dayInstance.setclassDay(offering.getDay2());
                     dayInstance.setbeginTime(offering.getStartTime());
                     dayInstance.setendTime(offering.getEndTime());
@@ -424,6 +413,25 @@ public class RestWebController {
      *  FUNCTIONS
      *
      */
+    public ArrayList<OfferingModifyDto> convertToDTO(Iterator allOfferings)
+    {
+        /* Initialize arraylist */
+        ArrayList<OfferingModifyDto> offerings = new ArrayList<>();
+
+        while(allOfferings.hasNext())
+        {
+            CourseOffering offering = (CourseOffering) allOfferings.next();
+
+            /* Transfer to DTO */
+            OfferingModifyDto currDTO = transferToDTO(offering);
+
+            offerings.add(currDTO);
+        }
+
+        return offerings;
+    }
+
+
     public OfferingModifyDto transferToDTO(CourseOffering offering)
     {
         //System.out.println("TRANSFER DTO");
@@ -436,23 +444,21 @@ public class RestWebController {
         modifyDto.setCourseCode(offering.getCourse().getCourseCode());
 
         /* Section */
-        if (offering.getSection() != null)
+        if (!offering.getSection().equals("") )
             modifyDto.setClassSection(offering.getSection());
         else
             modifyDto.setClassSection("None");
 
         /* Offering Status/Type */
-        if (offering.getStatus() != null)
+        if (!offering.getStatus().equals(""))
             modifyDto.setClassStatus(offering.getStatus());
         else
             modifyDto.setClassStatus("Regular");
 
         /* Offering Faculty */
-        if (offering.getFaculty() != null && offering.getFaculty().getUserId() != 11111111)
+        if (offering.getFaculty() != null)
             modifyDto.setFaculty(offering.getFaculty().getLastName() + ", " + offering.getFaculty().getFirstName());
-        else if (offering.getFaculty() != null && offering.getFaculty().getUserId() == 11111111)
-            modifyDto.setFaculty("Unassigned");
-        else if (offering.getFaculty() == null)
+        else
             modifyDto.setFaculty("Unassigned");
 
         /* Days */
@@ -472,38 +478,40 @@ public class RestWebController {
                 modifyDto.setRoomCode("Unassigned");
 
             /* Timeslot */
-            if (day.getbeginTime() != null && day.getendTime() != null) {
+            if (!day.getbeginTime().equals("") && !day.getendTime().equals("")) {
                 if (day.getbeginTime().length() == 3) {
-                    modifyDto.setStartTime(day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
-                    System.out.println(day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
-                } else if (day.getbeginTime().length() == 4) {
+                    modifyDto.setStartTime("0" + day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
+                    //System.out.println(day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
+                }
+                else if (day.getbeginTime().length() == 4) {
                     modifyDto.setStartTime(day.getbeginTime().substring(0, 2) + ":" + day.getbeginTime().substring(2, 4));
-                    System.out.println(day.getbeginTime().substring(0, 2) + ":" + day.getbeginTime().substring(2, 4));
+                    //System.out.println(day.getbeginTime().substring(0, 2) + ":" + day.getbeginTime().substring(2, 4));
                 }
                 if (day.getendTime().length() == 3) {
-                    modifyDto.setEndTime(day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
-                    System.out.println(day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
-                } else if (day.getendTime().length() == 4){
+                    modifyDto.setEndTime("0" + day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
+                    //System.out.println(day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
+                }
+                else if (day.getendTime().length() == 4){
                     modifyDto.setEndTime(day.getendTime().substring(0, 2) + ":" + day.getendTime().substring(2, 4));
-                    System.out.println(day.getendTime().substring(0, 2) + ":" + day.getendTime().substring(2, 4));
+                    //System.out.println(day.getendTime().substring(0, 2) + ":" + day.getendTime().substring(2, 4));
                 }
-                else {
-                    modifyDto.setStartTime(day.getbeginTime());
-                    modifyDto.setEndTime(day.getendTime());
-                }
+                //else {
+                //    modifyDto.setStartTime(day.getbeginTime());
+                //    modifyDto.setEndTime(day.getendTime());
+                //}
             }
             else
             {
-                modifyDto.setStartTime(":");
-                modifyDto.setEndTime(":");
+                modifyDto.setStartTime("00:00");
+                modifyDto.setEndTime("00:00");
             }
             day1Done = true;
         }
         if (modifyDto.getDay1() == '\0') {
             modifyDto.setDay1('-');
             modifyDto.setRoomCode("Unassigned");
-            modifyDto.setStartTime(":");
-            modifyDto.setEndTime(":");
+            modifyDto.setStartTime("00:00");
+            modifyDto.setEndTime("00:00");
             modifyDto.setDay2('-');
         }
 
@@ -605,6 +613,7 @@ public class RestWebController {
 
         return response;
     }
+
     /* Send and Save a Concern using POST */
     @PostMapping(value = "/post-concerns")
     public Response retrieveConcerns(@RequestBody ConcernDto concernSend, Model model)

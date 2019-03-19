@@ -45,11 +45,12 @@ public class OfferingModifyDto {
     }
 
     public String getStartTime() {
-        return startTime.replace(":", "");
+        return startTime;
     }
 
     //public String getStartTimeParsed() {
-        //return startTime.replace(":", "");
+    //    startTimeParsed = startTime.replace(":", "");
+    //    return startTimeParsed;
     //}
 
     public void setStartTime(String startTime) {
@@ -57,12 +58,13 @@ public class OfferingModifyDto {
     }
 
     public String getEndTime() {
-        return endTime.replace(":", "");
+        return endTime;
     }
 
     //public String getEndTimeParsed() {
-    //    return endTime.replace(":", "");
-   // }
+    //    endTimeParsed = endTime.replace(":", "");
+    //    return endTimeParsed;
+   //}
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;

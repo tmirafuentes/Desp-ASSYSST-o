@@ -9,7 +9,7 @@
 
 $(function()
 {
-    showOfferings();
+    //showOfferings();
 
     /* Load All Offerings GET Form AJAX
 
@@ -85,7 +85,7 @@ $(function()
                 {
                     /* Keep Track of Selected Offering */
                     var selOffering = $(".selectedOffering").find(".cols-offid").val();
-                    console.log("Selected Offering = " + selOffering + " type = " + typeof selOffering);
+                    //console.log("Selected Offering = " + selOffering + " type = " + typeof selOffering);
 
                     /* Remove All The Previous Offerings */
                     $(".cwofferings .generatedContent .genContentRows:not(:first-child)").remove();
@@ -112,7 +112,7 @@ $(function()
                         $(".cwofferings .generatedContent").append(offeringRow);
 
                         /* Optional: if selected offering, add class */
-                        console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
+                        //console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
                         if(offering.offeringId == parseInt(selOffering)) {
                             $(".cwOfferings .generatedContent .genContentRows:last-child").addClass("selectedOffering");
                             $(".cwOfferings .generatedContent .genContentRows:last-child").css({'background-color' : '#3cb878'});
@@ -127,52 +127,53 @@ $(function()
             }
         });
     }
-        //On Click Room Modification Button: For Room Checking
-        $("#modOffRoomButton").click(function() {
-            var formData = {
-                day1 : $("#select_day1").val(),
-                day2 : $("#select_day2").val(),
-                startTime : $("#startTimeHolder").val(),
-                endTime : $("#endTimeHolder").val()
-            };
 
-            /* Perform AJAX */
-            $.ajax({
-                type: 'POST',
-                contentType : 'application/json',
-                url : window.location + "/check-rooms",
-                data : JSON.stringify(formData),
-                dataType : 'json',
-                success : function(result)
-                {
-                    if(result.status == "Done") {
-                        /* Remove All The Previous Rooms */
-                        $("#modal_table_room tr:not(:first-child)").remove();
-                        console.log("Umaabot dito");
-                        /* For Each Offering */
-                        $.each(result.data, function(i, room)
-                        {
-                            var buttonVal = room.roomCode;
-                            var roomCode = "<tr><td>" + room.roomCode + "</td>";
-                            var roomType = "<td>" + room.roomType + "</td>";
-                            var roomBuilding = "<td>" + room.building + "</td>";
-                            var roomCapacity = "<td>" + room.capacity + "</td>";
-                            var buttonRoom = "<td><button class='assign_modal_buttons assignRoomBtns' type='button' value=" + buttonVal + ">Assign</button></td></tr>"
+    //On Click Room Modification Button: For Room Checking
+    $("#modOffRoomButton").click(function() {
+        var formData = {
+            day1 : $("#select_day1").val(),
+            day2 : $("#select_day2").val(),
+            startTime : $("#startTimeHolder").val(),
+            endTime : $("#endTimeHolder").val()
+        };
 
-                            var roomRow = roomCode + roomRow + roomBuilding + roomCapacity + roomType + buttonRoom;
-                            /* Add to UI */
-                            $("#modal_table_room").append(roomRow);
+        /* Perform AJAX */
+        $.ajax({
+            type: 'POST',
+            contentType : 'application/json',
+            url : window.location + "/check-rooms",
+            data : JSON.stringify(formData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    /* Remove All The Previous Rooms */
+                    $("#modal_table_room tr:not(:first-child)").remove();
+                    console.log("Umaabot dito");
+                    /* For Each Offering */
+                    $.each(result.data, function(i, room)
+                    {
+                        var buttonVal = room.roomCode;
+                        var roomCode = "<tr><td>" + room.roomCode + "</td>";
+                        var roomType = "<td>" + room.roomType + "</td>";
+                        var roomBuilding = "<td>" + room.building + "</td>";
+                        var roomCapacity = "<td>" + room.capacity + "</td>";
+                        var buttonRoom = "<td><button class='assign_modal_buttons assignRoomBtns' type='button' value=" + buttonVal + ">Assign</button></td></tr>"
 
-                        });
-                    }
-                },
-                error : function(e)
-                {
-                    alert("Error!");
-                    console.log("ERROR: ", e);
+                        var roomRow = roomCode + roomRow + roomBuilding + roomCapacity + roomType + buttonRoom;
+                        /* Add to UI */
+                        $("#modal_table_room").append(roomRow);
+
+                    });
                 }
-            });
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
         });
+    });
 
     //On Click Faculty Loading Button: For Rule Checking
     $("#modOffFacultyButton").click(function() {
