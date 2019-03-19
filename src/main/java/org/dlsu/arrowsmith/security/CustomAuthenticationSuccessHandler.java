@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,9 @@ import java.util.Collection;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    @Autowired
+    private SecurityServiceImpl securityService;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -24,6 +28,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     {
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
+
+        //UserDetails user = (UserDetails) authentication.getPrincipal();
+
+        //System.out.println("Username = " + user.getUsername() +
+        //        " Password = " + user.getPassword());
+
+        /* Autologin */
+        //securityService.autoLogin(user.getUsername(), user.getPassword());
     }
 
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException

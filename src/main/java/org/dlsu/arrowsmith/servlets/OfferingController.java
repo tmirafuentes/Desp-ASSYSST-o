@@ -75,12 +75,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
     /*public String editCourseOffering(@ModelAttribute("offerModifyForm") OfferingModifyDto offerModifyForm,
                                                    Model model, BindingResult bindingResult)
     {
-        /* Errors
-        //String urlPattern = (String) request.getServletPath();
-        if (bindingResult.hasErrors())
-            return "Sorry, an error has occured. Course Offering has not been modified.";
-           */
-        /* Else, save new course offering to the database
         CourseOffering currOffering = offeringService.retrieveCourseOffering(offerModifyForm.getOfferingId()); // Offering Id
        // if(ifSectionExists(offerModifyForm.getClassSection(),  2016, 2017, 1))
             currOffering.setSection(offerModifyForm.getClassSection()); // Offering Section

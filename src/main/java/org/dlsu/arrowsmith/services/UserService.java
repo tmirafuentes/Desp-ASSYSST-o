@@ -4,8 +4,10 @@ import org.dlsu.arrowsmith.classes.main.Concern;
 import org.dlsu.arrowsmith.classes.main.Role;
 import org.dlsu.arrowsmith.classes.main.User;
 import org.dlsu.arrowsmith.repositories.ConcernRepository;
+import org.dlsu.arrowsmith.repositories.RevisionHistoryRepository;
 import org.dlsu.arrowsmith.repositories.RoleRepository;
 import org.dlsu.arrowsmith.repositories.UserRepository;
+import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 import org.dlsu.arrowsmith.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,8 @@ public class UserService {
     private ConcernRepository concernRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private RevisionHistoryRepository revisionHistoryRepository;
 
     /* Services */
     @Autowired
@@ -73,7 +77,6 @@ public class UserService {
             return null;
 
         String[] facultyName = givenName.split(", ");
-        System.out.println(facultyName[1] + ", " + facultyName[0]);
         return userRepository.findByFirstNameContainsAndLastNameContains(facultyName[1], facultyName[0]);
     }
 
@@ -141,6 +144,21 @@ public class UserService {
     {
         return roleRepository.findByRoleName(name);
     }
+
+    /**
+     **
+     ** REVISION HISTORY
+     ** CRUD FUNCTIONS
+     **
+     */
+
+    /* Retrieve All Revision History */
+    public Iterator retrieveAllRevHistory()
+    {
+        ArrayList<AuditedRevisionEntity> revisionEntities = (ArrayList<AuditedRevisionEntity>)revisionHistoryRepository.findAll();
+        return revisionEntities.iterator();
+    }
+
 
     /***
      *
