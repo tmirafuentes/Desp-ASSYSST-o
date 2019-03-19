@@ -24,14 +24,14 @@
         <tr>
             <td><p class = "p_table_label"> ID Number</p></td>
         </tr>
-        <tr>
-            <td><input type="text" id="text_ID" name="username"></td>
+        <tr><!-- 22742131-->
+            <td><input type="text" id="text_ID" name="username" value="22131451"></td>
         </tr>
         <tr>
             <td><p class = "p_table_label">Password</p></td>
         </tr>
         <tr>
-            <td><input type="password"  id="text_password" name="password"></td>
+            <td><input type="password"  id="text_password" name="password" value="iLoveCCS"></td>
         </tr>
         <tr>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/images/**",
                             "/",
                             "/signin").permitAll()
-                .antMatchers("/apo/**").hasRole("APO")
+                .antMatchers("/apo/**", "/apo/modify-offering").hasRole("APO")
                 .antMatchers("/cvc/**").hasRole("CVC")
                 .anyRequest().authenticated()
                 .and()
@@ -61,7 +61,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+            .csrf().disable();
+
     }
 
     @Bean

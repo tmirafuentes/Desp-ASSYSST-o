@@ -1,6 +1,6 @@
 package org.dlsu.arrowsmith.services;
 
-import org.dlsu.arrowsmith.classes.*;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,35 @@ public class OfferingService {
     private RoomRepository roomRepository;
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
+
+    public ArrayList<CourseOffering> getSearchCourses() {
+        return searchCourses;
+    }
+
+    public void setSearchCourses(ArrayList<CourseOffering> searchCourses) {
+        this.searchCourses = searchCourses;
+    }
+
+    private ArrayList<CourseOffering> searchCourses = new ArrayList<>();
+    public ArrayList<CourseOffering> getDayFilteredCourses() {
+        return dayFilteredCourses;
+    }
+
+    public void setDayFilteredCourses(ArrayList<CourseOffering> dayFilteredCourses) {
+        this.dayFilteredCourses = dayFilteredCourses;
+    }
+
+    private ArrayList<CourseOffering> dayFilteredCourses = new ArrayList<>();
+
+    public ArrayList<CourseOffering> getFilteredCourses() {
+        return filteredCourses;
+    }
+
+    public void setFilteredCourses(ArrayList<CourseOffering> filteredCourses) {
+        this.filteredCourses = filteredCourses;
+    }
+
+    private ArrayList<CourseOffering> filteredCourses = new ArrayList<>();
     /**
      **
      ** COLLEGE
@@ -78,6 +107,7 @@ public class OfferingService {
     /* Retrieve Specific Course By Course Code */
     public Course retrieveCourseByCourseCode(String course_code) {
         Course resultCourse = courseRepository.findCourseByCourseCode(course_code);
+
         return resultCourse;
     }
 
@@ -228,10 +258,10 @@ public class OfferingService {
     /* Retrieve All Unique Timeslots */
     public Iterator getUniqueTimeSlots()
     {
-        ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAll();
+        ArrayList<Days> allDays = (ArrayList<Days>) daysRepository.findAllByCourseOfferingStartAYAndCourseOfferingEndAYAndCourseOfferingTerm(2016,2017,1);
         ArrayList<String> timeslotList = new ArrayList<>();
         String timeslotTemplate;
-
+        System.out.println("Get Unique TimeSlots");
 
         for(int i = 0; i < allDays.size(); i++)
         {
@@ -249,22 +279,23 @@ public class OfferingService {
                 timeslotList,
                 (time1, time2) -> Integer.parseInt( time1.substring(0, time1.indexOf(' '))) - Integer.parseInt(time2.substring(0, time2.indexOf(' '))));
         //Collections.sort(timeslotList);
+        for(String i: timeslotList)
+            System.out.println(i);
         return timeslotList.iterator();
     }
-    /* Retrieve All Unique Timeslots */
+    /* Retrieve All Unique Terms */
     public Iterator getUniqueTerms()
     {
         ArrayList<CourseOffering> allCourses = (ArrayList<CourseOffering>) courseOfferingRepository.findAll();
         ArrayList<Integer> termList = new ArrayList<>();
         int termTemplate;
-
         for(int i = 0; i < allCourses.size(); i++)
-            termList.add(allCourses.get(i).getTerm());
+            if(allCourses.get(i).getTerm() > 0)
+                termList.add(allCourses.get(i).getTerm());
 
         Set<Integer> uniqueTerms = new HashSet<Integer>(termList);
         termList = new ArrayList<Integer>(uniqueTerms);
         Collections.sort(termList);
-
         return termList.iterator();
     }
     /* Retrieve All Unique Statuses
@@ -318,6 +349,70 @@ public class OfferingService {
         return roomRepository.findRoomByRoomCode(roomCode);
     }
 
+    /* Retrieve all course offerings that are held in a specific room */
+    /*
+    public ArrayList<CourseOffering> retrieveCourseOfferingbyRoom(String roomCode, int startAY, int endAY, int term) {
+        List<CourseOffering> courseOfferingsByRoom = new ArrayList<>();
+        Iterator courseIterator = retrieveAllOfferingsByTerm(startAY, endAY, term);
+
+
+    }*/
+
+    /* Room Rule Checking */
+    public ArrayList<Room> roomRuleChecking(char day1, char day2, String startTime, String endTime)
+    {
+        Iterator<CourseOffering> allCourses = this.retrieveAllOfferingsByTerm(2016, 2017, 1);
+        ArrayList<CourseOffering> evaluatedCourses = new ArrayList<>();//List of courses that are "Safe"
+        HashSet<String> listofCourseRooms = new HashSet<>();
+        ArrayList<Room> finalRoomList = new ArrayList<>();
+
+        CourseOffering currentCourse;
+        /* Checks course offerings that are free at this time slot*/
+        while(allCourses.hasNext())//As long as there are courses in the Iterator: Fill up courses that do not have room conflicts with this timeslot
+        {
+            currentCourse = allCourses.next();//Get the next element
+            for (Days s : currentCourse.getDaysSet()) {//for each day that the course is in
+                if(s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
+                {
+                    if(!conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
+                            Integer.parseInt(s.getbeginTime()), Integer.parseInt(s.getendTime())))
+                        evaluatedCourses.add(currentCourse);
+                    else
+                        continue;
+                }
+                else
+                    evaluatedCourses.add(currentCourse);
+            }
+        }
+        /* For each course offering that do not conflict with the sched, get the room code (also deletes duplicates) */
+        for(CourseOffering s: evaluatedCourses)
+            for (Days x : s.getDaysSet())
+                listofCourseRooms.add(x.getRoom().getRoomCode());
+
+        /* Search for list of rooms and add it in the final Room List */
+        for(String room: listofCourseRooms)
+        {
+            if(!room.equals("No Room"))
+                finalRoomList.add(retrieveRoomByRoomCode(room));
+        }
+
+        for(Room rum: finalRoomList)
+            System.out.println("Room: "+ rum.getRoomCode());
+
+        return finalRoomList;
+    }
+    /* To be used in conjunction with the Room Checking function */
+    public boolean conflictsWith(int firstStart, int firstEnd, int secondStart, int secondEnd) {
+        if (firstEnd <= secondStart) {//no conflict
+            return false;
+        }
+
+        if (secondEnd <= firstStart) {//no conflict
+            return false;
+        }
+
+        return true;
+    }
     /**
      **
      ** BUILDING
@@ -405,8 +500,119 @@ public class OfferingService {
         allRoomTypes.add("Computer Laboratory");
         return allRoomTypes.iterator();
     }
+    /* Sorting the course modification*/
+    public Iterator generateSortedCourseOfferings(int startAY, int endAY, int term)
+    {
+        ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term);
+        Collections.sort(allCourseOfferings, (p1, p2) -> p1.getCourse().getCourseCode().compareTo(p2.getCourse().getCourseCode()));//sorted by course code
+
+        //sort the days
+        return allCourseOfferings.iterator();
+    }
+    public ArrayList<CourseOffering> generateSortedArrayListCourseOfferings(int startAY, int endAY, int term)
+    {
+        ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term);
+        Collections.sort(allCourseOfferings, (p1, p2) -> p1.getCourse().getCourseCode().compareTo(p2.getCourse().getCourseCode()));//sorted by course code
+
+        //sort the days
+        return allCourseOfferings;
+    }
+    /* Filter Functions */
+    public ArrayList<CourseOffering> retrieveCourseOfferingSearch(String courseCode)
+    {
+        ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByCourseCourseCode(courseCode);
+        this.setSearchCourses(filteredCourseOfferings);
+        return filteredCourseOfferings;
+    }
+    public ArrayList<CourseOffering> retrieveCourseOfferingsTerm(int term)
+    {
+        //Get the filtered list
+        ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, term);
+
+        //ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1);
+
+        //Get Intersection (filtering) with the current displayed
+        //return generateIntersectionLists(filteredCourseOfferings, allCourseOfferings);
+        return filteredCourseOfferings;
+    }
+    public ArrayList<CourseOffering> retrieveCourseOfferingsClassType(String type)
+    {
+        //Get the filtered list
+        ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStartAYAndEndAYAndTerm(type, 2016, 2017, 1);
+
+        //ArrayList<CourseOffering> allCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1);
+
+        //Get Intersection (filtering) with the current displayed
+        //return generateIntersectionLists(filteredCourseOfferings, allCourseOfferings);
 
 
+        return filteredCourseOfferings;
+    }
+    public ArrayList<CourseOffering> retrieveCourseOfferingsRoomType(String type)
+    {
+        //Get the filtered list
+        //ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStartAYAndEndAYAndTerm(type, 2016, 2017, 1);
+        //The processed list is also being used in the other function (esp because you're using a list in another list) -> better to use iterator
+        Iterator<CourseOffering> allCourseOfferings =  courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1).iterator();
+        ArrayList<CourseOffering> filteredCourseOfferings = new ArrayList<>();
+        while(allCourseOfferings.hasNext())
+            {
+                CourseOffering cs = allCourseOfferings.next();
+                for(Days s: cs.getDaysSet())
+                {
+                    if(type.equals(s.getRoom().getRoomType()))
+                        filteredCourseOfferings.add(cs);//remove all those room type that are not equal
+                }
+            }
+
+        return filteredCourseOfferings;
+    }
+    public ArrayList<CourseOffering> retrieveCourseOfferingsTimeslot(String timeslot)
+    {
+        //Get the filtered list
+        //ArrayList<CourseOffering> filteredCourseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByStatusAndStartAYAndEndAYAndTerm(type, 2016, 2017, 1);
+
+        Iterator<CourseOffering> allCourseOfferings =  courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1).iterator();
+        ArrayList<CourseOffering> filteredCourseOfferings = new ArrayList<>();
+
+        while(allCourseOfferings.hasNext())
+        {
+            CourseOffering cs = allCourseOfferings.next();
+            for(Days s: cs.getDaysSet())
+            {
+                String formedTimeslot = s.getbeginTime() + " - " + s.getendTime();
+                if(timeslot.equals(formedTimeslot))
+                    filteredCourseOfferings.add(cs);//remove all those timeslots that are not equal
+            }
+        }
+
+        return filteredCourseOfferings;
+    }
+
+    public ArrayList generateIntersectionLists(ArrayList<CourseOffering> firstList, ArrayList<CourseOffering> secondList)
+    {
+        ArrayList<CourseOffering> newList = new ArrayList<>();
+
+        for(CourseOffering first: firstList)
+        {
+            if(secondList.contains(first))
+                newList.add(first);
+        }
+        return newList;
+    }
+    public ArrayList<CourseOffering> getAllCoursesOnDay(char day)
+    {
+        Iterator<CourseOffering> allCourses = courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(2016, 2017, 1).iterator();
+        ArrayList<CourseOffering> mondayCourses = new ArrayList<>();
+        while(allCourses.hasNext()){
+            CourseOffering cs = allCourses.next();
+            for(Days s: cs.getDaysSet())
+                if(s.getclassDay() == day)
+                    mondayCourses.add(cs);
+        }
+        this.setDayFilteredCourses(mondayCourses);
+        return mondayCourses;
+    }
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */
         //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;

@@ -1,10 +1,8 @@
-package org.dlsu.arrowsmith.classes;
+package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-
-import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
 @Audited

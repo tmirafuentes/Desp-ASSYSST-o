@@ -1,8 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
-import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
-import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.security.SecurityServiceImpl;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Set;
 
 @Controller
 public class LoadController { // This Controller is for the Faculty Load Assignment Module
@@ -86,31 +84,35 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         /* Retrieve Deloading from Database */
         Deloading currDeloading = facultyService.retrieveDeloadingByDeloadCode(facultyDeloadDto.getDeloadType());
 
-        /* Create a Deload Instance */
-        DeloadInstance newDeloadInstance = new DeloadInstance();
-        newDeloadInstance.setStartAY(facultyLoad.getStartAY());
-        newDeloadInstance.setEndAY(facultyLoad.getEndAY());
-        newDeloadInstance.setTerm(facultyLoad.getTerm());
-        newDeloadInstance.setDeloading(currDeloading);
-        newDeloadInstance.setFaculty(facultyLoad.getFaculty());
-
-        /* Modify Faculty Load */
-        if(currDeloading.getDeloadType().equals("AL"))      // Admin Load
+        if(facultyService.checkFacultyLoadDeload(facultyLoad.getFaculty(), facultyLoad.getStartAY(), facultyLoad.getEndAY(), facultyLoad.getTerm()))
         {
-            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
-            facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() + currDeloading.getUnits());            // Add Units to Admin Load
-            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
-        }
-        else if(currDeloading.getDeloadType().equals("RL"))      // Research Load
-        {
-            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
-            facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + currDeloading.getUnits());            // Add Units to Admin Load
-            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
+            /* Create a Deload Instance */
+            DeloadInstance newDeloadInstance = new DeloadInstance();
+            newDeloadInstance.setStartAY(facultyLoad.getStartAY());
+            newDeloadInstance.setEndAY(facultyLoad.getEndAY());
+            newDeloadInstance.setTerm(facultyLoad.getTerm());
+            newDeloadInstance.setDeloading(currDeloading);
+            newDeloadInstance.setFaculty(facultyLoad.getFaculty());
+
+            /* Modify Faculty Load */
+            if(currDeloading.getDeloadType().equals("AL"))      // Admin Load
+            {
+                facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
+                facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() + currDeloading.getUnits());            // Add Units to Admin Load
+                facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
+            }
+            else if(currDeloading.getDeloadType().equals("RL"))      // Research Load
+            {
+                facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + currDeloading.getUnits());  // Add Units to Faculty Load
+                facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + currDeloading.getUnits());            // Add Units to Admin Load
+                facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() - currDeloading.getUnits());      // Minus Units to Teach Load
+            }
+
+            /* Save Instance and Faculty Load to Database */
+            facultyService.saveDeloadInstance(newDeloadInstance);
+            facultyService.saveFacultyLoad(facultyLoad);
         }
 
-        /* Save Instance and Faculty Load to Database */
-        facultyService.saveDeloadInstance(newDeloadInstance);
-        facultyService.saveFacultyLoad(facultyLoad);
 
         return "redirect:/cvc/manage-load";
     }

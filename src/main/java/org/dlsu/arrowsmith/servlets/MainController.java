@@ -1,9 +1,7 @@
 package org.dlsu.arrowsmith.servlets;
 
-import org.dlsu.arrowsmith.classes.Course;
-import org.dlsu.arrowsmith.classes.Role;
-import org.dlsu.arrowsmith.classes.User;
-import org.dlsu.arrowsmith.classes.dtos.FacultyDeloadDto;
+import org.dlsu.arrowsmith.classes.main.Course;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.repositories.RevisionHistoryRepository;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
@@ -11,15 +9,10 @@ import org.dlsu.arrowsmith.security.SecurityServiceImpl;
 import org.dlsu.arrowsmith.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 @Controller
 public class MainController {
@@ -139,7 +132,8 @@ public class MainController {
         model.addAttribute("loggedUser", userRealName);
 
         /* Load all stuff */
-        model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
+
+        model.addAttribute("allOfferings", offeringService.generateSortedCourseOfferings(2016, 2017, 1));
         model.addAttribute("allDays", offeringService.generateLetterDays());
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allCourses", offeringService.retrieveAllCourses());

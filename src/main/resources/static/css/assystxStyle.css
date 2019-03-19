@@ -165,6 +165,7 @@
 
 .modify_sidebar {
 	display: none;
+	margin-left:-20%;
 }
 
 #modify_class_section, #modify_time, #modify_days{
@@ -225,14 +226,28 @@
 	border-radius: 0.188em;
 	cursor: pointer;
 }
-#select_right_class_type, #select_right_start_timeblock, #select_right_end_timeblock{
+#select_right_class_type{
 	width:8em;
+}
+#select_right_start_timeblock, #select_right_end_timeblock{
+	width: 8em;
+	font-size:1.2em;
 }
 #text_section{
 	width:3.5em;
+	height:2.5em;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 1em;
 }
 #text_room{
 	width:5.5em;
+	height:2.5em;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 1em;
 }
 #button_assign_room{
 	width:9em;
@@ -242,6 +257,11 @@
 }
 #select_faculty{
 	width: 9em;
+	height:2.5em;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 1em;
 }
 #button_assign_faculty{
 	width:5em;
@@ -262,7 +282,7 @@
 }
 
 #area_concerns{
-	width:16em;
+	width:18em;
 	height:10em;
 	resize: none;
 }
@@ -370,7 +390,7 @@
 	box-shadow: none;
 	border:0;
 	background-color:white;
-	top:37%;
+	top:43%;
 	right:5;
 }
 
@@ -531,7 +551,7 @@
 #modal_table_room tr, #modal_table_add_courses tr{
 	background-color: #e2e2e2;
 	border-bottom:0.188em solid white;
-	height: 10%;
+	height: 15%;
 }
 #modal_table_add_courses tr {
 	height: 15%;
@@ -648,7 +668,7 @@
 #offerModifyForm{
 	position: relative;
 	top:10%;
-	left:-18%;
+	//left:-20%;
 }
 #button_submit_modifyOffering{
 	background-color: #3cb878;

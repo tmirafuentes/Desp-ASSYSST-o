@@ -9,11 +9,16 @@ public class OfferingModifyDto {
     private String classStatus;
     private String classSection;
     private String startTime;
+    //private String startTimeParsed;
     private String endTime;
+    //private String endTimeParsed;
     private char day1;
     private char day2;
     private String roomCode;
     private String faculty;
+    private String courseCode;
+
+    public OfferingModifyDto() {}
 
     public Long getOfferingId() {
         return offeringId;
@@ -43,10 +48,10 @@ public class OfferingModifyDto {
         return startTime;
     }
 
-    public String getStartTimeParsed() {
-        //System.out.println(startTime);
-        return startTime.replace(":", "");
-    }
+    //public String getStartTimeParsed() {
+    //    startTimeParsed = startTime.replace(":", "");
+    //    return startTimeParsed;
+    //}
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
@@ -56,9 +61,10 @@ public class OfferingModifyDto {
         return endTime;
     }
 
-    public String getEndTimeParsed() {
-        return endTime.replace(":", "");
-    }
+    //public String getEndTimeParsed() {
+    //    endTimeParsed = endTime.replace(":", "");
+    //    return endTimeParsed;
+   //}
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
@@ -101,6 +107,14 @@ public class OfferingModifyDto {
 
     public void setFaculty(String faculty) {
         this.faculty = faculty;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     @java.lang.Override

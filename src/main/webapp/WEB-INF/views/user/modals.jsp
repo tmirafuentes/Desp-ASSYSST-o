@@ -137,14 +137,14 @@
                     <!--<th>Academic Year</th>-->
                     <!--<th>Term</th>-->
                     <th>Search</th>
-                    <th>Recommendation</th>
-                    <th>Sort By</th>
+                    <!--<th>Recommendation</th>
+                    <th>Sort By</th>-->
                 </tr>
                 <tr>
-                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+                    <%--<td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
                     <td><select class = 'modal_select' id='select_recommend'></select></td>
                     <td><select class = 'modal_select' id='select_sort'></select></td>
-                    <%--<td><select class = 'modal_select' id='select_degree'>
+                    <td><select class = 'modal_select' id='select_degree'>
                         <option value="All">All</option>
                         <%--<c:forEach items="${allDegrees}" var="degreeType">
                             <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>

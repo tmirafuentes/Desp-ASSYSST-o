@@ -1,7 +1,7 @@
 package org.dlsu.arrowsmith.repositories;
 
-import org.dlsu.arrowsmith.classes.Concern;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.Concern;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.classes;
+package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.envers.Audited;
 
@@ -94,7 +94,7 @@ public class Course {
         this.department = department;
     }
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<CourseOffering> getCourseOfferings() {
         return courseOfferings;
     }
@@ -103,7 +103,7 @@ public class Course {
         this.courseOfferings = courseOfferings;
     }
 
-    @ManyToMany(mappedBy = "coursePreferences")
+    @ManyToMany(mappedBy = "coursePreferences", fetch = FetchType.LAZY)
     public Set<User> getFacultyPreferences() {
         return facultyPreferences;
     }

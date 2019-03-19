@@ -1,7 +1,6 @@
 package org.dlsu.arrowsmith.repositories;
 
-import org.dlsu.arrowsmith.classes.College;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.College;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CollegeRepository extends CrudRepository<College, Long> {

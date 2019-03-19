@@ -1,9 +1,8 @@
 package org.dlsu.arrowsmith.repositories;
 
-import org.dlsu.arrowsmith.classes.College;
-import org.dlsu.arrowsmith.classes.Course;
-import org.dlsu.arrowsmith.classes.Department;
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.College;
+import org.dlsu.arrowsmith.classes.main.Course;
+import org.dlsu.arrowsmith.classes.main.Department;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;

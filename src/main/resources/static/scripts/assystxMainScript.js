@@ -1,14 +1,60 @@
-$(function() {
+$(function()
+{
     /* Add Div for Dialog/Modal */
     jQuery('<div/>', {
         id: 'div_dialog',
     }).appendTo('body');
     $(".modify_sidebar").hide();
 
-    /* Selecting an offering */
-    $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function(){
-        console.log("Hello Here");
+    //Sorting the days
 
+    $(".genContentRows").each(function () {
+            var textInside = $.trim($(':nth-child(3)', this).text())
+            textInside = textInside.replace(/\s+/g, '');//remove all spaces in the string
+            var textDays  = orderDays(textInside);
+            //console.log(textDays)
+            $('#p_day1', this).text(textDays);
+            $('#p_day2', this).hide();
+
+    });
+
+    /* Function to reconstruct the string */
+    function orderDays(days)
+    {
+        var schoolDays = ['M', 'T', 'W', 'H', 'F', 'S', '-'];
+        days = find_unique_characters(days);
+        var newDays = "";
+
+        for (var x = 0; x < days.length; x++)
+            if(x < days.length-1)
+                if(schoolDays.indexOf(days.charAt(x)) > schoolDays.indexOf(days.charAt(x+1)))
+                    newDays = days.charAt(x + 1) + " " + days.charAt(x);
+        if(newDays == "")
+            return days.replace(/\s+/g, '');
+        else
+            return newDays.replace(/\s+/g, '');
+
+    }
+
+    function find_unique_characters(str) {
+        var unique = '';
+        for (var i = 0; i < str.length; i++) {
+            if(unique.indexOf(str.charAt(i))==-1)
+                unique += str[i];
+        }
+        return unique;
+    }
+
+    /* Selecting an offering */
+    $(".cwOfferings .generatedContent .genContentRowss:not(:first-child)").click(function(){
+        //unhide all options
+        $("#select_day1  option").each(function() {
+            $(this).show()
+        });
+
+        $("#select_day2  option").each(function() {
+                $(this).show()
+        });
         /* Check if selected already */
         if ($(this).css("background-color") === "rgb(60, 184, 120)")
         {
@@ -246,318 +292,65 @@ $(function() {
     /* Filtering Term*/
 
     /*Search Course*/
-    $("#submit_left_side_search").click(function(){
-        var textSearched = $.trim($("#input_search_course").val())
 
-        $(".filter_comments").hide();
 
-        showallRows();
 
-        $(".genContentRows:visible").each(function () {
-            var courseTraverse = $.trim($(':first-child', this).text())
+    //$("#button_submit_modifyOffering").click(function() {
+    //    showCourses();
+    //    });
 
-            if(textSearched.toUpperCase() !== courseTraverse.toUpperCase())
-                $(this).hide();
-        });
-
-        if(countallRows() == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
-
-    /*Search Course for modals*/
-    $("#button_search_course").click(function(){
-        var textSearched = $.trim($("#modal_input_search_course").val())
-        $(".modal_generated_course_offerings").each(function () {
-            var courseTraverse = $(':first-child', this).text();
-            courseTraverse = courseTraverse.replace("+", "");
-            courseTraverse = $.trim(courseTraverse);
-            if(textSearched.toUpperCase() !== courseTraverse.toUpperCase())
-                $(this).hide();
-        });
-    });
-
-    /* General Function for Filters*/
-    $(".filterForms").change(function() {
-        //alert("hello");
-        checkTimeblock();//check timeblock filter
-        checkRoomType();//check room type filter
-        checkClassType(); //check class type filter
-        checkTerm(); //check class type filter
-
-        if(countallRows() <= 0)
-        {
-            console.log("Show");
-            $(".filter_comments").show();
-        }
-
-        else
-        {
-            console.log("Hide");
-            $(".filter_comments").hide();
-        }
-    });
-
-    function checkTimeblock()
-    {
-        var filterData = $("#select_left_timeblock").val();
-        if(filterData != "All")
-        {
-            $(".genContentCols:nth-child(4):visible").each(function() {
-                var cellText = $.trim($(this).val());
-                if (filterData != cellText) {
-                    $(this).parent().hide();
-                }
-            });
-        }
-        else{
-            showallRows();
-            if($("#select_view_offerings").val() != "All")
-                checkTerm();
-            if($("#select_left_class_type").val() != "All")
-                checkClassType();
-            if($("#select_room_type").val() != "All")
-                checkRoomType();
-        }
-    }
-
-    function checkRoomType()
-    {
-        var filterData = $("#select_room_type").val();
-        if(filterData != "All")
-        {
-            $(".genContentRows:visible").each(function() {
-                var cellText = $.trim($("#off_roomtype").val());
-                if (filterData != cellText)
-                    $(this).hide();
-            });
-        }
-        else{
-            showallRows();
-            if($("#select_view_offerings").val() != "All")
-                checkTerm();
-            if($("#select_left_class_type").val() != "All")
-                checkClassType();
-            if(($("#select_left_timeblock").val() != "All"))
-                checkTimeblock();
-        }
-    }
-
-    function checkClassType()
-    {
-        var filterData = $("#select_left_class_type").val();
-        if(filterData != "All")
-        {
-            $(".genContentRows:visible").each(function() {
-                var cellText = $.trim($("#off_status").val());
-                if (filterData != cellText)
-                    $(this).hide();
-            });
-        }
-        else{
-            console.log(countallRows());
-            showallRows();
-            if($("#select_view_offerings").val() != "All")
-                checkTerm();
-            if($("#select_room_type").val() != "All")
-                checkRoomType();
-            if(($("#select_left_timeblock").val() != "All"))
-                checkTimeblock();
-        }
-    }
-    function checkTerm()
-    {
-        var filterData = $("#select_view_offerings").val();//gets value for the filter
-        if(filterData != "All") {
-            $(".genContentRows:visible").each(function () {
-                var cellText = $.trim($("#off_term").val());
-                if (filterData != cellText)
-                    $(this).hide();
-            });
-        }
-        else{
-            showallRows();
-            if($("#select_left_class_type").val() != "All")
-                checkClassType();
-            if($("#select_room_type").val() != "All")
-                checkRoomType();
-            if(($("#select_left_timeblock").val() != "All"))
-                checkTimeblock();
-        }
-
-    }
-    function showallRows()
-    {
-        $(".genContentRows").each(function () {
-            $(this).show();
-        });
-    }
-    function showallCourseModalRows()
-    {
-        $(".modal_generated_course_offerings").each(function () {
-            $(this).show();
-        });
-    }
-    function countallRows()
-    {
-        var numberCtr = 0;
-        $(".genContentRows:visible").not(":first").each(function () {
-            numberCtr++;
-        });
-        return numberCtr;
-    }
-
-    /* Class Day Filters*/
-
-    /*Filtering by class day Monday*/
-    $("#class_m").click(function() {
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
-        });
-        $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
-            var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            if(!textInside.includes("M"))
-            {
-                totalResponses--;
-                $(this).hide();
-            }
-
-        });
-        $(".genContentRows:first-child").show();
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
-    /*Filtering by class day Tuesday*/
-    $("#class_t").click(function() {
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
-        });
-        $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
-            var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            if(!textInside.includes("T"))
-            {
-                totalResponses--;
-                $(this).hide();
+    /* Respawn list of courses*/
+    function showCourses(){
+        var str = $("#offerModifyForm").serialize();
+        alert("offer modify working");
+        $.ajax({
+            type:"post",
+            data:str,
+            url:"localhost/apo/modifyOffering",
+            async: false,
+            dataType: "json",
+            success:
+            /* function(data){
+                $.each(response.list, function(index, value){
+                    // do whatever you want with your data
+                    ;
+                });*/
+                function(data){
+                    /*
+                    $.each(data.list, function(index, value){
+                        // do whatever you want with your data
+                        console.log("oh no");
+                        console.log(data[index]);
+                        console.log(data[index]);
+                    });
+                    */
+                    alert(data)
+            },
+            error:function(data){
+                alert("Error: Course Modification failed");
             }
         });
-        $(".genContentRows:first-child").show();
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
 
-        }
+    }
+    $("#select_day1").change(function() {
+        console.log("change in value detected")
+        var currDay1 = $(this).val();
+        console.log(currDay1)
+        $("#select_day2  option").each(function() {
+            console.log($(this).text)
+            if($(this).val() == currDay1)
+                $(this).hide()
+        });
     });
-    /*Filtering by class day Wednesday*/
-    $("#class_w").click(function() {
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
+    $("#select_day2").change(function() {
+        console.log("change in value detected")
+        var currDay2 = $(this).val();
+        console.log(currDay1)
+        $("#select_day1  option").each(function() {
+            console.log($(this).text)
+            if($(this).val() == currDay2)
+                $(this).hide()
         });
-        $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
-            var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            if(!textInside.includes("W"))
-            {
-                totalResponses--;
-                $(this).hide();
-            }
-        });
-        $(".genContentRows:first-child").show();
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
-    /*Filtering by class day Thursday*/
-    $("#class_h").click(function() {
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
-        });
-        $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
-            var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            if(!textInside.includes("H"))
-            {
-                totalResponses--;
-                $(this).hide();
-            }
-        });
-        $(".genContentRows:first-child").show();
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
-    });
-    /*Filtering by class day Friday*/
-    $("#class_f").click(function() {
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
-        });
-        $(".genContentRows").each(function () {
-            //var iterator = $.trim($(this).find("#off_counter").val());
-            var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            if(!textInside.includes("F"))
-            {
-                totalResponses--;
-                $(this).hide();
-            }
-        });
-        if(totalResponses == 1) {
-            $(".filter_comments").show();
-
-        }
-    });
-    /*Filtering by class day Saturday*/
-    $("#class_f").click(function() {
-        var totalResponses = 0;
-        $(".filter_comments").hide();
-        $(".genContentRows").each(function () {
-            $(this).show();
-            totalResponses++;
-        });
-
-        $(".genContentRows").each(function () {
-            var textInside = $.trim($(':nth-child(3)', this).text())
-            textInside = textInside.replace(/\s+/g, '');
-            if(!textInside.includes("S"))
-            {
-                totalResponses--;
-                $(this).hide();
-            }
-        });
-        $(".genContentRows:first-child").show();
-        console.log(totalResponses);
-        if(totalResponses == 0) {
-            $(".filter_comments").show();
-
-        }
     });
             // Get and convert the data for sending
             // Example: This variable contains the selected option-text
