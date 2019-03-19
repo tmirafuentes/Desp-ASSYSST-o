@@ -1,6 +1,6 @@
 package org.dlsu.arrowsmith.revisionHistory;
 
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;

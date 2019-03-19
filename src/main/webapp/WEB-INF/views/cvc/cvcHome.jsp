@@ -224,7 +224,17 @@
         </div>
 
         <!-- Modal for Concerns -->
-        <div class="divModals" id="modalConcerns">
+                <!-- Modal for Concerns -->
+                <div class="divModals" id="modalConcerns">
+                    <div id"concerns_tabs">
+                    <div id="concerns_threads">
+                        <p>Threads</p>
+                    </div>
+                    <div id="concerns_compose">
+                        <p>Compose</p>
+                    </div>
+                </div>
+                <div id="concerns_body">
                     <table class='concern_entry'>
                         <tr>
                             <td class ='concern_name'>Ryan Dimaunahan</td>
@@ -232,16 +242,9 @@
                         </tr>
                         <tr>
                             <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
-                            <th>Search</th>
-                            <%--<th>Recommendation</th>
-                            <th>Sort By</th>--%>
-                        </tr>
-                        <tr>
-                            <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
-                            <%--<td><select class = 'modal_select' id='select_recommend'></select></td>
-                            <td><select class = 'modal_select' id='select_sort'></select></td>--%>
                         </tr>
                     </table>
                 </div>
+        </div>
     </body>
 </html>

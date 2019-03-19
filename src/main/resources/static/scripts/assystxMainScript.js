@@ -272,7 +272,7 @@ $(function()
     $("#button_concerns").click(function() {
         $("#modalConcerns").dialog({
             title:"Concerns",
-            width:450,
+            width:800,
             height:500,
             modal:true
         });
