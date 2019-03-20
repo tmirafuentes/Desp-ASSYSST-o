@@ -201,16 +201,19 @@ $(function()
         $("#modalAssignRoom").dialog("open");
     });
 
-    /* Assign New Room and Close Modal */
-    $(".assignRoomBtns").click(function() {
-        alert("hoy")
-        console.log("wazzup")
+    /* Assign New Room and Close Modal
+    $(".assignRoomBtns").submit(function() {
+       var roomCode = $(this).parent().parent().find(".available-room-code").text();
+       console.log("Selected room code = " + roomCode);
+       $("#text_room").val(roomCode);
+       $("#modalAssignRoom").dialog("close");
+    }); */
+
+    function roomSelect() {
         var roomCode = $(this).attr("value");
-        console.log(roomCode)
         $("#text_room").val(roomCode);
-        console.log($("#text_room").val())
         $("#modalAssignRoom").dialog("close");
-    });
+    }//$(".assign_modal_buttons assignRoomBtns").click();
 
     /* Open Assign Faculty Modal */
     $("#modOffFacultyButton").click(function() {

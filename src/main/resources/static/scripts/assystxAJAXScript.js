@@ -134,7 +134,7 @@ $(function()
             startTime : $("#startTimeHolder").val().replace(':', ''),
             endTime : $("#endTimeHolder").val().replace(':', '')
         };
-        console.log($("#startTimeHolder").val().replace(':', '') + " " + $("#endTimeHolder").val().replace(':', ''))
+        //console.log($("#startTimeHolder").val().replace(':', '') + " " + $("#endTimeHolder").val().replace(':', ''))
         /* Perform AJAX */
         $.ajax({
             type: 'POST',
@@ -147,16 +147,16 @@ $(function()
                 if(result.status == "Done") {
                     /* Remove All The Previous Rooms */
                     $("#modal_table_room tr:not(:first-child)").remove();
-                    console.log("Umaabot dito");
+                    //onsole.log("Umaabot dito");
                     /* For Each Offering */
                     $.each(result.data, function(i, room)
                     {
                         var buttonVal = room.roomCode;
-                        var roomCode = "<tr><td>" + room.roomCode + "</td>";
-                        var roomType = "<td>" + room.roomType + "</td>";
-                        var roomBuilding = "<td>" + room.building + "</td>";
-                        var roomCapacity = "<td>" + room.capacity + "</td>";
-                        var buttonRoom = "<td><button class='assign_modal_buttons assignRoomBtns' type='button' value=" + buttonVal + ">Assign</button></td></tr>"
+                        var roomCode = "<tr class='available-room'><td class='available-room-code'>" + room.roomCode + "</td>";
+                        var roomType = "<td class='available-room-type'>" + room.roomType + "</td>";
+                        var roomBuilding = "<td class='available-room-bldg'>" + room.building + "</td>";
+                        var roomCapacity = "<td class='available-room-capacity'>" + room.capacity + "</td>";
+                        var buttonRoom = "<td><button class='assign_modal_buttons assignRoomBtns' value='" + room.roomCode + "' type='button' onclick='roomSelect'>Assign</button></td></tr>"
 
                         var roomRow = roomCode + roomRow + roomBuilding + roomCapacity + roomType + buttonRoom;
                         /* Add to UI */
