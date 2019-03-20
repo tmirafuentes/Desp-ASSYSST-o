@@ -31,10 +31,23 @@
         <!-- Filter Sidebar for APO -->
         <%@ include file="../apo/leftAPO.jsp" %>
 
-        <!-- General Header for ASSYSTX -->
-        <%@ include file="header.jsp" %>
+        <!-- Revision History Header for ASSYSTX -->
+        <%@ include file="revision-history-header.jsp" %>
 
         <!-- Revision History Workspace for ASSYSTX -->
+        <div class="collabWorkspace cwOfferings">
+            <div class="generatedContent">
+                <div class="genContentRows">
+                    <div class="genContentCols">Course</div>
+                    <div class="genContentCols">Section</div>
+                    <div class="genContentCols">Day</div>
+                    <div class="genContentCols">Time</div>
+                    <div class="genContentCols">Room</div>
+                    <div class="genContentCols">Faculty</div>
+                </div>
+            </div>
+            <div class = "filter_comments">No Results Found</div>
+        </div>
 
         <!-- Revision History Menu for ASSYSTX -->
         <div class="rightSidebar">

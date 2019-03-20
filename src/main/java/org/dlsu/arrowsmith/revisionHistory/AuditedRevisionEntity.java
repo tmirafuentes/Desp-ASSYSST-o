@@ -1,12 +1,14 @@
 package org.dlsu.arrowsmith.revisionHistory;
 
-import org.dlsu.arrowsmith.classes.User;
+import org.dlsu.arrowsmith.classes.main.User;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "revision_history")
@@ -21,9 +23,16 @@ public class AuditedRevisionEntity {
     @RevisionTimestamp
     private Date dateModified;
 
+    // Name of User
     private String fullName;
 
+    @OneToMany(mappedBy = "revision", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<ModifiedEntityTypeEntity> modifiedEntityTypes = new HashSet<ModifiedEntityTypeEntity>();
+
+    /* Constructor */
     public AuditedRevisionEntity() { }
+
+    /* Getters and Setters */
 
     public Long getId() {
         return id;
@@ -48,5 +57,18 @@ public class AuditedRevisionEntity {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public Set<ModifiedEntityTypeEntity> getModifiedEntityTypes() {
+        return modifiedEntityTypes;
+    }
+
+    public void setModifiedEntityTypes(Set<ModifiedEntityTypeEntity> modifiedEntityTypes) {
+        this.modifiedEntityTypes = modifiedEntityTypes;
+    }
+
+    public void addModifiedEntityType(String entityClassName)
+    {
+        modifiedEntityTypes.add(new ModifiedEntityTypeEntity(this, entityClassName));
     }
 }

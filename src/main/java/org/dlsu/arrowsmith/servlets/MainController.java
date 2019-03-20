@@ -109,13 +109,20 @@ public class MainController {
     }
 
     /* Default Revision History Page */
-    @RequestMapping(value = "/revision-history", method = RequestMethod.GET)
+    @RequestMapping(value = "revision-history", method = RequestMethod.GET)
     public String RevisionHistoryPage(Model model)
     {
         /* Load logged in user */
         User currUser = userService.retrieveUser();
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
         model.addAttribute("loggedUser", userRealName);
+
+        /* Get logged in user type */
+        String userType = currUser.getUserType();
+        if(userType.equals("Academic Programming Officer"))
+            model.addAttribute("userType", "apo");
+        else if(userType.equals("Chair"))
+            model.addAttribute("userType", "cvc");
 
         /* Load revision history from database */
         model.addAttribute("revHistory", userService.retrieveAllRevHistory());
