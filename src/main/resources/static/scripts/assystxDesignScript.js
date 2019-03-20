@@ -17,6 +17,7 @@ $(function()
     $(".cwOfferings .generatedContent").on("click", ".genContentRows:not(:first-child)", function()
     //$(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function()
     {
+        console.log("It's Going In");
         /* Check if the offering is selected already; if so, unselect it */
         if ($(this).css("background-color") === "rgb(60, 184, 120)")
         {
@@ -36,6 +37,7 @@ $(function()
             $(this).css({'background-color' : '#3cb878'});
             $(this).addClass("selectedOffering");
 
+            console.log($(this).find(".cols-offid").val());
             /* Perform AJAX */
             $.ajax({
                 type : "POST",
