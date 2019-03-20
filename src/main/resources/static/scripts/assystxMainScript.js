@@ -203,8 +203,12 @@ $(function()
 
     /* Assign New Room and Close Modal */
     $(".assignRoomBtns").click(function() {
+        alert("hoy")
+        console.log("wazzup")
         var roomCode = $(this).attr("value");
+        console.log(roomCode)
         $("#text_room").val(roomCode);
+        console.log($("#text_room").val())
         $("#modalAssignRoom").dialog("close");
     });
 
