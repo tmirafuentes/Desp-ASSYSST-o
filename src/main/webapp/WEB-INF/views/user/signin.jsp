@@ -19,7 +19,6 @@
 </div>
 <div id = "main_content">
     <form method="POST" action="/signin">
-        Error = ${error}
     <table id = "table_login">
         <tr>
             <td><p class = "p_table_label"> ID Number</p></td>
@@ -38,6 +37,9 @@
             <td><button id="button_submit" type="submit">Submit</button></td>
         </tr>
     </table>
+        <div id="login_error_message">
+            Error = ${error}
+        </div>
     </form>
 </div>
 <div id = "smaller_header">
