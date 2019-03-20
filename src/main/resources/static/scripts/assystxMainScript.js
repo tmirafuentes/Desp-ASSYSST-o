@@ -47,6 +47,7 @@ $(function()
 
     /* Selecting an offering */
     $(".cwOfferings .generatedContent .genContentRowss:not(:first-child)").click(function(){
+
         //unhide all options
         $("#select_day1  option").each(function() {
             $(this).show()
@@ -115,6 +116,7 @@ $(function()
 
             /* Offering */
             $("#text_offId").val($(this).find("#off_id").val());
+
 
             /* Show Sidebar */
             $(".modify_sidebar").show();
@@ -272,7 +274,7 @@ $(function()
     $("#button_concerns").click(function() {
         $("#modalConcerns").dialog({
             title:"Concerns",
-            width:450,
+            width:800,
             height:500,
             modal:true
         });

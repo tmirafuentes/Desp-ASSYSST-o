@@ -185,15 +185,25 @@
 
         <!-- Modal for Concerns -->
         <div class="divModals" id="modalConcerns">
-            <table class='concern_entry'>
-                <tr>
-                    <td class ='concern_name'>Ryan Dimaunahan</td>
-                    <td class ='concern_time'>1:29 PM</td>
-                </tr>
-                <tr>
-                    <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
-                </tr>
-            </table>
+            <div id="concerns_tabs">
+                <div class="concerns_buttons">
+                    Threads
+                </div>
+                <div class="concerns_buttons">
+                    Compose
+                </div>
+            </div>
+            <div id="concerns_body">
+                <table class='concern_entry'>
+                    <tr>
+                        <td class ='concern_name'>Ryan Dimaunahan</td>
+                        <td class ='concern_time'>1:29 PM</td>
+                    </tr>
+                    <tr>
+                        <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </body>
 </html>
