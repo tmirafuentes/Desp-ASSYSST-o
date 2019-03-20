@@ -3,6 +3,12 @@
  *	FILTER SIDEBAR
  */
 
+@font-face {
+    font-family: GothamBook;
+    src: url(fonts/GothamBook.ttf);
+}
+
+
 .leftSidebar       /* FKA #left_side */
 {
     background-color: #252525;
@@ -11,6 +17,7 @@
     position:absolute;
     z-index: 3;
     overflow: auto;
+    font-family: GothamBook;
 }
 
 .contentFilters     /* FKA left_side_content */
@@ -110,6 +117,7 @@
     height:2.6em;
     font-size:1.15em;
     font-weight:bold;
+    font-family: GothamBook;
     color:#252525;
     background-color:#e1e1e1;
     text-align:left;
