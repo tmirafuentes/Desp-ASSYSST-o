@@ -71,17 +71,17 @@ $(function()
      * FUNCTIONS
      *
      */
-    
+
 
     //On Click Room Modification Button: For Room Checking
     $("#modOffRoomButton").click(function() {
         var formData = {
             day1 : $("#select_day1").val(),
             day2 : $("#select_day2").val(),
-            startTime : $("#startTimeHolder").val(),
-            endTime : $("#endTimeHolder").val()
+            startTime : $("#startTimeHolder").val().replace(':', ''),
+            endTime : $("#endTimeHolder").val().replace(':', '')
         };
-
+        console.log($("#startTimeHolder").val().replace(':', '') + " " + $("#endTimeHolder").val().replace(':', ''))
         /* Perform AJAX */
         $.ajax({
             type: 'POST',
@@ -125,8 +125,8 @@ $(function()
         var formData = {
             day1 : $("#select_day1").val(),
             day2 : $("#select_day2").val(),
-            startTime : $("#startTimeHolder").val(),
-            endTime : $("#endTimeHolder").val()
+            startTime : $("#startTimeHolder").val().replace(':', ''),
+            endTime : $("#endTimeHolder").val().replace(':', '')
         };
 
         /* Perform AJAX */
