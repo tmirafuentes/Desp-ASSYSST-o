@@ -203,6 +203,18 @@
                         <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
                     </tr>
                 </table>
+                <table id="concern_compose">
+                    <tr>
+                        <td class="compose_addressbar">To:</td>
+                        <td class="compose_addressbar"><input type="text" id="concern_receiver"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="concern_button_submit"><button id="compose_submit" type="submit">Submit</button></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>
