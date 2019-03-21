@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: admin
@@ -19,8 +20,8 @@
         </c:if>
     </div>
     <div id = "smaller_header">
-        <a href ="${contextPath}/revision-history" id = "last_edited">Last edited 1 hour ago</a>
+        <a href ="/${userType}" id = "last_edited">Return to home page</a>
         <a href ="#" id = "online_icons">Online Users</a>
-        <p id = "modify_offering"> Modify Offering</p>
+        <p id = "modify_offering"> Revision History</p>
     </div>
 </html>
