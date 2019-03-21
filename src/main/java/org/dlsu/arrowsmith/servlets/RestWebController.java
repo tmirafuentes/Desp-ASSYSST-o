@@ -336,7 +336,7 @@ public class RestWebController {
         /* Faculty */
         User currFaculty = currOffering.getFaculty();
         User newFaculty = userService.findUserByFirstNameLastName(offering.getFaculty());
-
+        
         if (currFaculty.getUserId() == 11111111 && currFaculty.getUserId() != newFaculty.getUserId())
         {
             // Retrieve Faculty Load of current faculty
