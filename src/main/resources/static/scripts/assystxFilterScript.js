@@ -375,7 +375,7 @@ $("#button_search_course").click(function(){
                         var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
                         var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
                             : "<div class='genContentCols cols-days'>None</div>";
-                        var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
+                        var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + " - " + offering.endTime + "</div>"
                             : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
                         var room = "<div class='genContentCols cols-room-code'>" + offering.roomCode + "</div>";
                         var faculty = "<div class='genContentCols cols-faculty'>" + offering.faculty + "</div>";

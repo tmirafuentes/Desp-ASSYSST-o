@@ -238,6 +238,11 @@ public class OfferingService {
             daysRepository.delete(day);
     }
 
+    /* Delete Specific Day */
+    public void deleteSpecificDay(Days dayInstance) {
+        daysRepository.delete(dayInstance);
+    }
+
     /**
      **
      ** DEPARTMENT
@@ -268,6 +273,7 @@ public class OfferingService {
             if(!allDays.get(i).getbeginTime().equals("0"))
             {
                 timeslotTemplate = allDays.get(i).getbeginTime() + " - " + allDays.get(i).getendTime();
+                System.out.println("Hello = " + timeslotTemplate);
                 timeslotList.add(timeslotTemplate);
             }
 

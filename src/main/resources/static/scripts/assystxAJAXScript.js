@@ -9,15 +9,6 @@
 
 $(function()
 {
-    //showOfferings();
-
-    /* Load All Offerings GET Form AJAX
-
-    setInterval(function(){
-        console.log("Updating the System")
-        showOfferings();
-    }, 15000);*/
-
     /**
      *
      * POST FORMS
@@ -49,13 +40,17 @@ $(function()
             url : window.location + "/modify-offering",
             data : JSON.stringify(formData),
             dataType : 'json',
+            beforeSend: function()
+            {
+                $("#modify_offering_message").text("Course offering to be updated.");
+            },
             success : function(result)
             {
                 if(result.status == "Done") {
-                    $("#area_concerns").text("Course Offering modified successfully!");
+                    $("#modify_offering_message").text("Course offering modified successfully!");
 
                     /* Refresh Course Offerings */
-                    showOfferings();
+                    //showOfferings();
                 }
             },
             error : function(e)
@@ -71,7 +66,6 @@ $(function()
      * FUNCTIONS
      *
      */
-    
 
     //On Click Room Modification Button: For Room Checking
     $("#modOffRoomButton").click(function() {
@@ -89,6 +83,10 @@ $(function()
             url : window.location + "/check-rooms",
             data : JSON.stringify(formData),
             dataType : 'json',
+            beforeSend : function()
+            {
+                $("#modify_offering_message").text("Course offering is being modified...");
+            },
             success : function(result)
             {
                 if(result.status == "Done") {

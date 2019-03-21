@@ -66,7 +66,7 @@
         <!-- Add Course Offering Modal for APO -->
         <div class="divModals" id="modalAddOffering">
             <table class="modal_header">
-                <tr>
+                <!--<tr>
                     <th>Degree Program</th>
                     <th>Batch</th>
                     <th>Academic Year</th>
@@ -82,16 +82,16 @@
                             </c:forEach>
                         </select>
                     </td>
-                    <!--<td><select class = 'modal_select' id='select_batch'></select></td>
+                    <td><select class = 'modal_select' id='select_batch'></select></td>
                     <td><select class = 'modal_select' id='select_academic_year'></select></td>
                     <td><select class = 'modal_select' id='select_term'>
                         <option value="All">All</option>
                         <option value="First">1st</option>
                         <option value="Second">2nd</option>
                         <option value="Third">3rd</option>
-                    </select></td>-->
+                    </select></td>
                     <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
-                </tr>
+                </tr>-->
             </table>
             <form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">
                 <table id='modal_table_add_courses'>

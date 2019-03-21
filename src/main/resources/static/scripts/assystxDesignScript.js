@@ -32,6 +32,7 @@ $(function()
         {
             /* Modify course offering row appearance */
             $(".modify_sidebar").find("input:text").val("");
+            $("#modify_offering_message").text("");
             $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").removeClass("selectedOffering");
             $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").css({'background-color' : '#e2e2e2'});
             $(this).css({'background-color' : '#3cb878'});
@@ -52,15 +53,13 @@ $(function()
                         /* Put the values into the right sidebar */
                         $("#select_right_class_type").val(result.data.classStatus); /* Class Type */
                         $("#text_section").val(result.data.classSection); /* Class Section */
-                       // console.log(result.data.startTime + result.data.endTime);
+
                         $("#select_right_start_timeblock").val(result.data.startTime); /* Start Time */
                         $("#select_right_end_timeblock").val(result.data.endTime); /* End Time */
-                        console.log("The start timeblock" + result.data.startTime);
-                        console.log("The end timeblock" + result.data.endTime);
+
                         $("#startTimeHolder").val(result.data.startTime); /* Start Time */
                         $("#endTimeHolder").val(result.data.endTime); /* End Time */
-                        console.log("The start timeblock" + $("#startTimeHolder").val());
-                        console.log("The end timeblock" + $("#endTimeHolder").val());
+
                         $("#select_day1").val(result.data.day1); /* Class Day 1 */
                         $("#select_day2").val(result.data.day2); /* Class Day 2 */
                         $("#text_room").val(result.data.roomCode); /* Room Code */
