@@ -281,12 +281,12 @@ public class OfferingService {
         Set<String> uniqueTimeslots = new HashSet<String>(timeslotList);
         timeslotList = new ArrayList<String>(uniqueTimeslots);
         timeslotList.removeIf( time -> time.replaceAll("\\s+","").equals("-"));
+        for(String i: timeslotList)
+            System.out.println(i);
         Collections.sort(
                 timeslotList,
                 (time1, time2) -> Integer.parseInt( time1.substring(0, time1.indexOf(' '))) - Integer.parseInt(time2.substring(0, time2.indexOf(' '))));
         //Collections.sort(timeslotList);
-        for(String i: timeslotList)
-            System.out.println(i);
         return timeslotList.iterator();
     }
     /* Retrieve All Unique Terms */

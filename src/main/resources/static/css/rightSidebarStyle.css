@@ -156,3 +156,7 @@
     text-align:center;
     padding-top:2em;
 }
+
+.read_only{
+    background-color:#e2e2e2;
+}
