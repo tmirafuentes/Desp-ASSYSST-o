@@ -83,7 +83,7 @@
         <tr>
             <td>
                 <!-- Room Code -->
-                <input name="roomCode" id = "text_room" type="text" readonly="readonly" />
+                <input name="roomCode" id = "text_room" type="text" readonly="readonly" class="read_only"/>
             </td>
             <td>
                 <button id="modOffRoomButton" class="modOffUsableButton" type="button">Change Room</button>
@@ -94,7 +94,7 @@
         </tr>
         <tr>
             <td>
-                <input name="faculty" id = "select_faculty" type="text" readonly="readonly" />
+                <input name="faculty" id = "select_faculty" type="text" readonly="readonly" class="read_only" />
             </td>
             <td>
                 <button id="modOffFacultyButton" class="modOffBlockedButton" type="button" disabled>Assign</button>

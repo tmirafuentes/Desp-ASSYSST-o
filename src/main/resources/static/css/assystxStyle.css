@@ -764,9 +764,9 @@
 }
 .concern_entry{
     border-bottom:1px solid black;
-    //border-top:1px solid black;
     height: 20%;
     width:100%;
+    //display:none;
 }
 .concern_message{
     font-size: 0.875em;
@@ -779,4 +779,42 @@
     font-size: 0.88em;
     font-weight: bold;
     text-align: right;
+}
+
+#concern_compose{
+    width:105%;
+    height:100%;
+    display:none;
+}
+
+#concern_receiver{
+    width:100%;
+}
+
+#concern_content{
+    resize:initial;
+    width:100%;
+    height:100%;
+}
+
+.compose_addressbar{
+    height:10%;
+}
+
+#concern_button_submit{
+    height:10%;
+    text-align:right;
+}
+
+#compose_submit{
+    background-color:#3cb878;
+    height:2.188em;
+    cursor: pointer;
+    box-shadow: none;
+    border:0;
+    font-weight:bold;
+    color:white;
+    -webkit-border-radius:3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }

@@ -135,8 +135,8 @@ public class FacultyService {
                     if (s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
                     {
                         //Just remove faculty loads that are conflicting with this sched
-                        if (conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
-                                Integer.parseInt(s.getbeginTime()), Integer.parseInt(s.getendTime())))
+                        if (conflictsWith(Integer.parseInt(startTime.replace(":", "")), Integer.parseInt(endTime.replace(":", "")),
+                                Integer.parseInt(s.getbeginTime().replace(":", "")), Integer.parseInt(s.getendTime().replace(":", ""))))
                         {
                             if(cs.getFaculty() != null) {
                                 int iter = findFacultyLoad(evaluatedLoads, cs.getFaculty().getUserId());//find faculty load
