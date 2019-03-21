@@ -72,6 +72,7 @@ public class MainController {
         /* Load Object for Add Course Offering */
         model.addAttribute("addOfferingForm", new Course());
 
+        model.addAttribute("userID", userService.retrieveUserID());
         return "/apo/apoHome";
     }
 

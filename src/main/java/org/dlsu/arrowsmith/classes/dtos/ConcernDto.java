@@ -10,6 +10,7 @@ public class ConcernDto {
     private String senderLastName;
     private String senderFirstName;
 
+
     public String getSenderLastName() {
         return senderLastName;
     }

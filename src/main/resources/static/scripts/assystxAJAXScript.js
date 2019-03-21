@@ -218,7 +218,7 @@ $(function()
                         var facultyRow = lastName + firstName + teachingLoad + adminLoad + researchLoad + totalLoad + buttonFaculty;
                         /* Add to UI */
                         $("#modal_table_assign_faculty").append(facultyRow);
-                    });
+                });
 
                     function facultySelect() {
                         var facultyCode = $(this).attr("value");
@@ -241,4 +241,80 @@ $(function()
             }
         });
     });
+    /* CONCERNS Part*/
+    $("#button_concerns").click(function() {
+        showConcernsAJAX();
+    });
+
+    $("#button-concern-compose").click(function() {
+        $("#concerns_list").hide();
+        $("#concern_compose").show();
+
+    });
+    $("#button-concern-threads").click(function() {
+    $("#concerns_list").show();
+    $("#concern_compose").hide();
+
+    });
+    $("#compose_submit").click(function() {
+        alert(findUser());
+    });
+    function showConcernsAJAX()
+    {
+        var tobeSearched = $("#input_userID").val();
+        console.log(tobeSearched)
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            url : window.location + "/get-concerns",
+            contentType : 'application/json',
+            data : JSON.stringify(tobeSearched),
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    $.each(result.data, function(i, concern_response) {
+                        var senderName = concern_response.senderFirstName + " " + concern_response.senderLastName;
+                        var header = "<table class='concern_entry'>"
+                        var name = "<tr><td class ='concern_name'>" + senderName + "</td></tr>"
+                        var concerm_proper = "<tr> <td colspan='2' class ='concern_message'>" + concern_response.message + "</td></tr></table>"
+                        var newConcern = header + name + concerm_proper;
+
+                        $("#concerns_list").append(newConcern);
+                    });
+
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+    function sendConcern()
+    {
+        var tobeSearched = $("#concern_receiver").val();
+        $.ajax({
+            type : "POST",
+            url : window.location + "/find-user",
+            contentType : 'application/json',
+            data : JSON.stringify(tobeSearched),
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    $.each(result.data, function(i, concern_ID) {
+                        console.log("HERE" + concern_ID)
+                        return concern_ID;
+                    });
+
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
 });

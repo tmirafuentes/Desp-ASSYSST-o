@@ -336,7 +336,7 @@ public class RestWebController {
         /* Faculty */
         User currFaculty = currOffering.getFaculty();
         User newFaculty = userService.findUserByFirstNameLastName(offering.getFaculty());
-        
+
         if (currFaculty.getUserId() == 11111111 && currFaculty.getUserId() != newFaculty.getUserId())
         {
             // Retrieve Faculty Load of current faculty
@@ -587,12 +587,12 @@ public class RestWebController {
         return response;
     }
     /* Retrieve All Concerns through GET */
-    @GetMapping(value = "/get-concerns")
-    public Response retrieveConcerns(@RequestBody String userID, Model model)
+    @PostMapping(value = "/get-concerns")
+    public Response retrieveConcerns(@RequestBody Long userID, Model model)
     {
-        Long converUserID = Long.parseLong(userID);
+       // Long converUserID = Long.parseLong(userID);
         /* Create new list for concerns */
-        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(converUserID));
+        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(userID));
 
         /* Convert to DTO */
         ArrayList<ConcernDto> listConcernDtos = new ArrayList<>();
@@ -611,6 +611,20 @@ public class RestWebController {
         response.setStatus("Done");
         response.setData(listConcernDtos);
 
+        return response;
+    }
+    /* Retrieve All Concerns through GET */
+    @PostMapping(value = "/find-user")
+    public Response findUserSend(@RequestBody String userName, Model model)
+    {
+        Long userID = userService.findUserByFirstNameLastName(userName.replaceAll("^\"|\"$", "")).getUserId();
+        System.out.println(userID);//22742131
+        ArrayList<Long> userIDList = new ArrayList<>();
+        userIDList.add(userID);
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(userIDList);
         return response;
     }
 

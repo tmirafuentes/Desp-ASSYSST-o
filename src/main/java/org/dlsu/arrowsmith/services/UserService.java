@@ -170,4 +170,8 @@ public class UserService {
         Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
         return userRepository.findUserByUserId(idNumber);
     }
+    public Long retrieveUserID() {
+        Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
+        return idNumber;
+    }
 }
