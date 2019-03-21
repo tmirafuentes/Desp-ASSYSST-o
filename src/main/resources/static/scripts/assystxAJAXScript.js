@@ -202,7 +202,7 @@ $(function()
 
     });
     $("#compose_submit").click(function() {
-        alert(findUser());
+        sendConcern();
     });
     function showConcernsAJAX()
     {
@@ -219,6 +219,7 @@ $(function()
                 if(result.status == "Done")
                 {
                     $.each(result.data, function(i, concern_response) {
+
                         var senderName = concern_response.senderFirstName + " " + concern_response.senderLastName;
                         var header = "<table class='concern_entry'>"
                         var name = "<tr><td class ='concern_name'>" + senderName + "</td></tr>"
@@ -239,19 +240,21 @@ $(function()
     }
     function sendConcern()
     {
-        var tobeSearched = $("#concern_receiver").val();
+        var formData = {
+            userId : $("#input_userID").val(),
+            senderName : $("#concern_receiver").val(),
+            message : $("#concern_content").val()
+        };
         $.ajax({
             type : "POST",
-            url : window.location + "/find-user",
+            url : window.location + "/post-concern",
             contentType : 'application/json',
-            data : JSON.stringify(tobeSearched),
+            data : JSON.stringify(formData),
+            dataType : 'json',
             success : function(result)
             {
                 if(result.status == "Done") {
-                    $.each(result.data, function(i, concern_ID) {
-                        console.log("HERE" + concern_ID)
-                        return concern_ID;
-                    });
+                    console.log("Successfully Sent Concern")
 
                 }
             },

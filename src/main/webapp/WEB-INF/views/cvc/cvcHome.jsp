@@ -39,7 +39,7 @@
 
         <!-- General Header for ASSYSTX -->
         <%@ include file="../user/header.jsp" %>
-
+        <input type="text" id="input_userID" value="${userID}" hidden>
         <!-- Collaborative Workspace for ASSYSTX -->
         <div class="collabWorkspace cwOfferings">
             <form:form method="get">
@@ -226,25 +226,39 @@
         <!-- Modal for Concerns -->
                 <!-- Modal for Concerns -->
                 <div class="divModals" id="modalConcerns">
-                    <div id"concerns_tabs">
-                    <div id="concerns_threads">
-                        <p>Threads</p>
+                    <div id="concerns_tabs">
+                        <div class="concerns_buttons" id="button-concern-threads">
+                            Threads
+                        </div>
+                        <div class="concerns_buttons" id="button-concern-compose">
+                            Compose
+                        </div>
                     </div>
-                    <div id="concerns_compose">
-                        <p>Compose</p>
+                    <div id="concerns_body">
+                        <div id = "concerns_list">
+                            <table class='concern_entry'>
+                                <tr>
+                                    <td class ='concern_name'>Ryan Dimaunahan</td>
+                                    <td class ='concern_time'>1:29 PM</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table id="concern_compose">
+                            <tr>
+                                <td class="compose_addressbar">To:</td>
+                                <td class="compose_addressbar"><input type="text" id="concern_receiver" value="Cabredo, Rafael"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="concern_button_submit"><button id="compose_submit" type="submit">Submit</button></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div id="concerns_body">
-                    <table class='concern_entry'>
-                        <tr>
-                            <td class ='concern_name'>Ryan Dimaunahan</td>
-                            <td class ='concern_time'>1:29 PM</td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
-                        </tr>
-                    </table>
-                </div>
-        </div>
     </body>
 </html>

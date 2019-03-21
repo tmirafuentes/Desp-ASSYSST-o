@@ -599,7 +599,7 @@ public class RestWebController {
         while(allConcerns.hasNext())
         {
             Concern concern = (Concern) allConcerns.next();
-
+            System.out.println(concern.getMessage());
             /* Transfer to DTO */
             ConcernDto conDTO = transferToConcernDTO(concern);
 
@@ -613,26 +613,18 @@ public class RestWebController {
 
         return response;
     }
-    /* Retrieve All Concerns through GET */
-    @PostMapping(value = "/find-user")
-    public Response findUserSend(@RequestBody String userName, Model model)
+
+    public Long findUserSend(String userName)
     {
         Long userID = userService.findUserByFirstNameLastName(userName.replaceAll("^\"|\"$", "")).getUserId();
-        System.out.println(userID);//22742131
-        ArrayList<Long> userIDList = new ArrayList<>();
-        userIDList.add(userID);
-        /* Create Response Object */
-        Response response = new Response();
-        response.setStatus("Done");
-        response.setData(userIDList);
-        return response;
+        System.out.println("find " + userID);
+        return userID;
     }
 
     /* Send and Save a Concern using POST */
-    @PostMapping(value = "/post-concerns")
+    @PostMapping(value = "/post-concern")
     public Response retrieveConcerns(@RequestBody ConcernDto concernSend, Model model)
     {
-
         //convert concernDTO
         Concern concern = this.transferToConcern(concernSend);
         //save concern
@@ -645,22 +637,21 @@ public class RestWebController {
     public ConcernDto transferToConcernDTO(Concern concern)
     {
         ConcernDto concernDto = new ConcernDto();
-
-        concernDto.setConcernId(concern.getconcernId());
         concernDto.setMessage(concern.getMessage());
-        concernDto.setUserId(concern.getReceiver().getUserId());
-        concernDto.setSendUserId(concern.getSender().getUserId());
-        concernDto.setSenderFirstName(concern.getSender().getFirstName());
-        concernDto.setSenderLastName(concern.getSender().getLastName());
-
+        concernDto.setUserId(concern.getSender().getUserId());
+        concernDto.setSenderName(concern.getSender().getLastName() + ", " + concern.getSender().getFirstName());
         return concernDto;
     }
     public Concern transferToConcern(ConcernDto concernDto)
     {
         Concern concern = new Concern();
+        System.out.println(concernDto.getSenderName() + concernDto.getUserId() + concernDto.getMessage());
         concern.setSender(userService.findUserByIDNumber(concernDto.getUserId()));
-        concern.setReceiver(userService.findUserByIDNumber(concernDto.getSendUserId()));
+        System.out.println(concernDto.getSenderName());
+        concern.setReceiver(userService.findUserByIDNumber(findUserSend((concernDto.getSenderName()))));
         concern.setMessage(concernDto.getMessage());
+
+        System.out.println(concern.getSender().getUserId() + " " + concern.getReceiver().getUserId());
         return concern;
     }
 }

@@ -3,37 +3,16 @@ package org.dlsu.arrowsmith.classes.dtos;
 import org.dlsu.arrowsmith.classes.main.User;
 
 public class ConcernDto {
-    private Long concernId;
     private Long userId;
     private String message;
-    private Long sendUserId;
-    private String senderLastName;
-    private String senderFirstName;
+    private String senderName;
 
-
-    public String getSenderLastName() {
-        return senderLastName;
+    public String getSenderName() {
+        return senderName;
     }
 
-    public void setSenderLastName(String senderLastName) {
-        this.senderLastName = senderLastName;
-    }
-
-    public String getSenderFirstName() {
-        return senderFirstName;
-    }
-
-    public void setSenderFirstName(String senderFirstName) {
-        this.senderFirstName = senderFirstName;
-    }
-
-
-    public Long getConcernId() {
-        return concernId;
-    }
-
-    public void setConcernId(Long concernId) {
-        this.concernId = concernId;
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
 
@@ -55,19 +34,10 @@ public class ConcernDto {
         this.userId = userId;
     }
 
-    public Long getSendUserId() {
-        return sendUserId;
-    }
-    public void setSendUserId(Long sendUserId) {
-        this.sendUserId = sendUserId;
-    }
-
-
 
     @java.lang.Override
     public java.lang.String toString() {
         return "FacultyLoadModifyDto{" +
-                "Concern ID =" + concernId +
                 ", Concern Message =" + message +
                 '}';
     }
