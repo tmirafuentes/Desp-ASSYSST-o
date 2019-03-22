@@ -591,6 +591,7 @@ public class RestWebController {
     public Response retrieveConcerns(@RequestBody Long userID, Model model)
     {
        // Long converUserID = Long.parseLong(userID);
+        System.out.println("User Identifitcation: " + userID);
         /* Create new list for concerns */
         Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(userID));
 
@@ -599,7 +600,6 @@ public class RestWebController {
         while(allConcerns.hasNext())
         {
             Concern concern = (Concern) allConcerns.next();
-            System.out.println(concern.getMessage());
             /* Transfer to DTO */
             ConcernDto conDTO = transferToConcernDTO(concern);
 
@@ -623,11 +623,13 @@ public class RestWebController {
 
     /* Send and Save a Concern using POST */
     @PostMapping(value = "/post-concern")
-    public Response retrieveConcerns(@RequestBody ConcernDto concernSend, Model model)
+    public Response retrieveConcerns(@RequestBody ConcernDto concernSend)
     {
         //convert concernDTO
+        System.out.println("Debug supreme");
         Concern concern = this.transferToConcern(concernSend);
         //save concern
+        System.out.println("Debug supreme2");
         this.userService.saveConcern(concern);
         /* Create Response Object */
         Response response = new Response();
@@ -640,6 +642,7 @@ public class RestWebController {
         concernDto.setMessage(concern.getMessage());
         concernDto.setUserId(concern.getSender().getUserId());
         concernDto.setSenderName(concern.getSender().getLastName() + ", " + concern.getSender().getFirstName());
+        System.out.println(concernDto.getSenderName());
         return concernDto;
     }
     public Concern transferToConcern(ConcernDto concernDto)

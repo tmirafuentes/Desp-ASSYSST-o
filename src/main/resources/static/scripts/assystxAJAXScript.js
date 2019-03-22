@@ -204,6 +204,7 @@ $(function()
     $("#compose_submit").click(function() {
         sendConcern();
     });
+
     function showConcernsAJAX()
     {
         var tobeSearched = $("#input_userID").val();
@@ -213,16 +214,15 @@ $(function()
             type : "POST",
             url : window.location + "/get-concerns",
             contentType : 'application/json',
-            data : JSON.stringify(tobeSearched),
+            data :tobeSearched,
             success : function(result)
             {
                 if(result.status == "Done")
                 {
                     $.each(result.data, function(i, concern_response) {
 
-                        var senderName = concern_response.senderFirstName + " " + concern_response.senderLastName;
                         var header = "<table class='concern_entry'>"
-                        var name = "<tr><td class ='concern_name'>" + senderName + "</td></tr>"
+                        var name = "<tr><td class ='concern_name'>" + concern_response.senderName + "</td></tr>"
                         var concerm_proper = "<tr> <td colspan='2' class ='concern_message'>" + concern_response.message + "</td></tr></table>"
                         var newConcern = header + name + concerm_proper;
 
@@ -240,11 +240,14 @@ $(function()
     }
     function sendConcern()
     {
+        console.log("Location: " + window.location);
+
         var formData = {
             userId : $("#input_userID").val(),
             senderName : $("#concern_receiver").val(),
             message : $("#concern_content").val()
         };
+        console.log(formData.userId)
         $.ajax({
             type : "POST",
             url : window.location + "/post-concern",

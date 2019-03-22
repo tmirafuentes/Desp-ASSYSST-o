@@ -59,7 +59,7 @@ public class Concern {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable=false, updatable=false)
+    @JoinColumn(name = "sender")
     public User getSender() {
         return sender;
     }
@@ -69,7 +69,7 @@ public class Concern {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable=false, updatable=false)
+    @JoinColumn(name = "receiver")//, insertable=false, updatable=false)
     public User getReceiver() {
         return receiver;
     }
