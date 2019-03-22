@@ -42,8 +42,8 @@
         </div>
     </form>
 </div>
-<div id = "smaller_header">
-</div>
+<!--<div id = "smaller_header">
+</div>-->
 </body>
 
 </html>
