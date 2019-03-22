@@ -199,6 +199,7 @@ $(function()
     $("#button-concern-threads").click(function() {
     $("#concerns_list").show();
     $("#concern_compose").hide();
+        sendConcern();
 
     });
     $("#compose_submit").click(function() {
