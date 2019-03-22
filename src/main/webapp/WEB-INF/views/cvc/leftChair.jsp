@@ -88,12 +88,8 @@
 
 
         <!-- Go To Deloading Page -->
-        <a href="#" class = "menuLinks" id = "add_new_course">
             <div id = "button_add_new_course"> Add New Course</div>
-        </a>
-        <a href="#" class = "menuLinks" id = "concerns">
             <div id = "button_concerns"> Concerns </div>
-        </a>
     </div>
 </div>
 </body>

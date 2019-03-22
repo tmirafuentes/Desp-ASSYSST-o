@@ -24,7 +24,7 @@
             <td><p class = "p_table_label"> ID Number</p></td>
         </tr>
         <tr><!-- APO: 22131451     CVC: 22742131 -->
-            <td><input type="text" id="text_ID" name="username" value="22742131 "></td>
+            <td><input type="text" id="text_ID" name="username" value="22131451 "></td>
         </tr>
         <tr>
             <td><p class = "p_table_label">Password</p></td>
