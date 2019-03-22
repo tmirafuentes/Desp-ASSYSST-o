@@ -41,29 +41,38 @@ $(function()
             faculty : $("#select_faculty").val(),
             offeringId : $("#text_offId").val()
         };
+        console.log(formData.classStatus + formData.classSection + formData.startTime + formData.endTime + formData.day1 +
+            formData.day2 + formData.roomCode + formData.faculty + formData.offeringId)
+        if(formData.classStatus != "" && formData.classSection != "" && formData.startTime != "" && formData.endTime != "" && formData.day1 != ""
+        && formData.day2 != "" && formData.roomCode != "" && formData.faculty != "" && formData.offeringId != "")
+        {
+            /* Perform AJAX */
+            $.ajax({
+                type: 'POST',
+                contentType : 'application/json',
+                url : window.location + "/modify-offering",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function(result)
+                {
+                    if(result.status == "Done") {
+                        alert("Course Modification Saved!");
 
-        /* Perform AJAX */
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/modify-offering",
-            data : JSON.stringify(formData),
-            dataType : 'json',
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $("#area_concerns").text("Course Offering modified successfully!");
-
-                    /* Refresh Course Offerings */
-                    showOfferingsAJAX();
+                        /* Refresh Course Offerings */
+                        showOfferingsAJAX();
+                    }
+                },
+                error : function(e)
+                {
+                    console.log("ERROR: ", e);
+                    alert("Error!");
                 }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }
-        });
+            });
+        }
+        else{
+            alert("There are blank Values specified in the form. Please fill them up first before proceeding.")
+        }
+
     });
 
     /**
@@ -76,8 +85,8 @@ $(function()
         var formData = {
             day1 : $("#select_day1").val(),
             day2 : $("#select_day2").val(),
-            startTime : $("#startTimeHolder").val().replace(':', ''),
-            endTime : $("#endTimeHolder").val().replace(':', '')
+            startTime : $("#startTimeHolder").val().replace(/:/g,''),
+            endTime : $("#endTimeHolder").val().replace(/:/g,'')
         };
         //console.log($("#startTimeHolder").val().replace(':', '') + " " + $("#endTimeHolder").val().replace(':', ''))
         /* Perform AJAX */

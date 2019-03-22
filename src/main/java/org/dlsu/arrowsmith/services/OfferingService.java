@@ -361,45 +361,57 @@ public class OfferingService {
     /* Room Rule Checking */
     public ArrayList<Room> roomRuleChecking(char day1, char day2, String startTime, String endTime)
     {
-        Iterator<CourseOffering> allCourses = this.retrieveAllOfferingsByTerm(2016, 2017, 1);
-        ArrayList<CourseOffering> evaluatedCourses = new ArrayList<>();//List of courses that are "Safe"
-        HashSet<String> listofCourseRooms = new HashSet<>();
-        ArrayList<Room> finalRoomList = new ArrayList<>();
-
-        CourseOffering currentCourse;
-        /* Checks course offerings that are free at this time slot*/
-        while(allCourses.hasNext())//As long as there are courses in the Iterator: Fill up courses that do not have room conflicts with this timeslot
+        if(!startTime.equals("") && !endTime.equals(""))
         {
-            currentCourse = allCourses.next();//Get the next element
-            for (Days s : currentCourse.getDaysSet()) {//for each day that the course is in
-                if(s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
-                {
-                    if(!conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
-                            Integer.parseInt(s.getbeginTime()), Integer.parseInt(s.getendTime())))
-                        evaluatedCourses.add(currentCourse);
+            Iterator<CourseOffering> allCourses = this.retrieveAllOfferingsByTerm(2016, 2017, 1);
+            ArrayList<CourseOffering> evaluatedCourses = new ArrayList<>();//List of courses that are "Safe"
+            HashSet<String> listofCourseRooms = new HashSet<>();
+            ArrayList<Room> finalRoomList = new ArrayList<>();
+
+            CourseOffering currentCourse;
+            /* Checks course offerings that are free at this time slot*/
+            while(allCourses.hasNext())//As long as there are courses in the Iterator: Fill up courses that do not have room conflicts with this timeslot
+            {
+                currentCourse = allCourses.next();//Get the next element
+                for (Days s : currentCourse.getDaysSet()) {//for each day that the course is in
+                    if(s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
+                    { System.out.println("First Start time and End time: " + Integer.parseInt(startTime) + " " + Integer.parseInt(endTime));
+                      System.out.println("Second Start time and End time: " + s.getbeginTime().replace(":", "") + " " + s.getendTime().replace(":", ""));
+                        if(!s.getbeginTime().equals(":") && !s.getendTime().equals(":") && !s.getbeginTime().equals("") && !s.getendTime().equals(""))
+                        {
+                            if(!conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
+                                    Integer.parseInt(s.getbeginTime().replace(":", "")), Integer.parseInt(s.getendTime().replace(":", ""))))
+                                evaluatedCourses.add(currentCourse);
+                            else
+                                continue;
+                        }
+                    }
                     else
-                        continue;
+                        evaluatedCourses.add(currentCourse);
                 }
-                else
-                    evaluatedCourses.add(currentCourse);
             }
+            /* For each course offering that do not conflict with the sched, get the room code (also deletes duplicates) */
+            for(CourseOffering s: evaluatedCourses)
+                for (Days x : s.getDaysSet())
+                    listofCourseRooms.add(x.getRoom().getRoomCode());
+
+            /* Search for list of rooms and add it in the final Room List */
+            for(String room: listofCourseRooms)
+            {
+                if(!room.equals("No Room"))
+                    finalRoomList.add(retrieveRoomByRoomCode(room));
+            }
+
+            for(Room rum: finalRoomList)
+                System.out.println("Room: "+ rum.getRoomCode());
+
+            return finalRoomList;
         }
-        /* For each course offering that do not conflict with the sched, get the room code (also deletes duplicates) */
-        for(CourseOffering s: evaluatedCourses)
-            for (Days x : s.getDaysSet())
-                listofCourseRooms.add(x.getRoom().getRoomCode());
-
-        /* Search for list of rooms and add it in the final Room List */
-        for(String room: listofCourseRooms)
-        {
-            if(!room.equals("No Room"))
-                finalRoomList.add(retrieveRoomByRoomCode(room));
+        else{
+           ArrayList<Room> rooms = (ArrayList) roomRepository.findAll();
+           return rooms;
         }
 
-        for(Room rum: finalRoomList)
-            System.out.println("Room: "+ rum.getRoomCode());
-
-        return finalRoomList;
     }
     /* To be used in conjunction with the Room Checking function */
     public boolean conflictsWith(int firstStart, int firstEnd, int secondStart, int secondEnd) {
