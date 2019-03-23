@@ -35,8 +35,8 @@
                 <p class = "filterTitles"> Class Type </p>
                 <select class = "filterForms" id="select_left_class_type">
                     <option value="All" selected>All</option>
-                    <c:forEach items="${allRoomTypes}" var="roomType">
-                        <option value="${roomType}"><c:out value="${roomType}" /></option>
+                    <c:forEach items="${allClassTypes}" var="classType">
+                        <option value="${classType}"><c:out value="${classType}" /></option>
                     </c:forEach>
                 </select>
             </td>
@@ -57,7 +57,7 @@
                 <p class = "filterTitles"> Time Block </p>
                 <select class = "filterForms" id="select_left_timeblock">
                     <option value="All" selected>All</option>
-                    <c:forEach items="${uniqueTimeslots}" var="timeslots">
+                    <c:forEach items="${allTimeslots}" var="timeslots">
                         <option value="${timeslots}"><c:out value="${timeslots}" /></option>
                     </c:forEach>
                 </select>
@@ -88,12 +88,8 @@
 
 
         <!-- Go To Deloading Page -->
-        <a href="#" class = "menuLinks" id = "add_new_course">
             <div id = "button_add_new_course"> Add New Course</div>
-        </a>
-        <a href="#" class = "menuLinks" id = "concerns">
             <div id = "button_concerns"> Concerns </div>
-        </a>
     </div>
 </div>
 </body>

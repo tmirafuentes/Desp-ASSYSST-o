@@ -72,6 +72,8 @@ public class MainController {
         /* Load Object for Add Course Offering */
         model.addAttribute("addOfferingForm", new Course());
 
+        model.addAttribute("userID", userService.retrieveUserID());
+        model.addAttribute("allUsers", userService.findAllUsers());
         return "/apo/apoHome";
     }
 
@@ -88,7 +90,8 @@ public class MainController {
 
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
-
+        model.addAttribute("userID", userService.retrieveUserID());
+        model.addAttribute("allUsers", userService.findAllUsers());
         return "/cvc/cvcHome";
     }
 

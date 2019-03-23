@@ -83,7 +83,13 @@ public class UserService {
     /*** Retrieve all Users ***/
     public Iterator findAllUsers() {
         ArrayList<User> allUsers = (ArrayList<User>) userRepository.findAll();
-        return allUsers.iterator();
+        ArrayList<String> allUsersParsed = new ArrayList<>();
+        for(User s: allUsers)
+        {
+            String newUser = s.getLastName() + ", " + s.getFirstName();
+            allUsersParsed.add(newUser);
+        }
+        return allUsersParsed.iterator();
     }
 
     /*** Retrieve all Users by User Type ***/
@@ -169,5 +175,9 @@ public class UserService {
     public User retrieveUser() {
         Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
         return userRepository.findUserByUserId(idNumber);
+    }
+    public Long retrieveUserID() {
+        Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
+        return idNumber;
     }
 }

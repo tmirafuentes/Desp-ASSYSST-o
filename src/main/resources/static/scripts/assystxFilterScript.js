@@ -580,7 +580,7 @@ $("#class_s").click(function() {
         search_selected = true;
         var textSearched = $.trim($("#input_search_course").val())
         $(".filter_comments").hide();
-        $(".genContentRows:visible").each(function () {
+        $(".genContentRows:not(:first-child)").each(function () {
             var courseTraverse = $(':first-child', this).text();
             courseTraverse = $.trim(courseTraverse);
             if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
@@ -593,7 +593,7 @@ $("#class_s").click(function() {
         $(".filter_comments").hide();
         if(textSearched.toUpperCase() != "")
         {
-            $(".genContentRows:visible").each(function () {
+            $(".genContentRows:not(:first-child)").each(function () {
                 var courseTraverse = $(':first-child', this).text();
                 courseTraverse = $.trim(courseTraverse);
                 if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
@@ -612,7 +612,7 @@ $("#class_s").click(function() {
         $(".filter_comments").hide();
         if(textSearched.toUpperCase() != "")
         {
-            $(".genContentRows:visible").each(function () {
+            $(".genContentRows:not(:first-child)").each(function () {
                 var courseTraverse = $(':first-child', this).text();
                 courseTraverse = $.trim(courseTraverse);
                 if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))

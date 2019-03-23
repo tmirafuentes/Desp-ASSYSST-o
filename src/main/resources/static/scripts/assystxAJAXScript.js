@@ -24,40 +24,39 @@ $(function()
         var formData = {
             classStatus : $("#select_right_class_type").val(),
             classSection : $("#text_section").val(),
-            startTime : $("#startTimeHolder").val(),
-            endTime : $("#endTimeHolder").val(),
+            startTime : $("#select_right_start_timeblock").val(),
+            endTime : $("#select_right_end_timeblock").val(),
             day1 : $("#select_day1").val(),
             day2 : $("#select_day2").val(),
             roomCode : $("#text_room").val(),
             faculty : $("#select_faculty").val(),
             offeringId : $("#text_offId").val()
         };
+        if(formData.classStatus != "" && formData.classSection != "" && formData.startTime != "" && formData.endTime != "" && formData.day1 != ""
+        && formData.day2 != "" && formData.roomCode != "" && formData.faculty != "" && formData.offeringId != "")
+        {
+          /* Perform AJAX */
+          $.ajax({
+              type: 'POST',
+              contentType : 'application/json',
+              url : window.location + "/modify-offering",
+              data : JSON.stringify(formData),
+              dataType : 'json',
+              beforeSend: function()
+              {
+                  $("#modify_offering_message").text("Course offering to be updated.");
+              },
+              success : function(result)
+              {
+                  if(result.status == "Done") {
+                      $("#modify_offering_message").text("Course offering modified successfully!");
+                  }
+              });
+        }
+        else{
+            alert("There are blank Values specified in the form. Please fill them up first before proceeding.")
+        }
 
-        /* Perform AJAX */
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/modify-offering",
-            data : JSON.stringify(formData),
-            dataType : 'json',
-            beforeSend: function()
-            {
-                $("#modify_offering_message").text("Course offering to be updated.");
-            },
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $("#modify_offering_message").text("Course offering modified successfully!");
-
-                    /* Refresh Course Offerings */
-                }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }
-        });
     });
 
     /**
@@ -70,8 +69,8 @@ $(function()
         var formData = {
             day1 : $("#select_day1").val(),
             day2 : $("#select_day2").val(),
-            startTime : $("#startTimeHolder").val().replace(':', ''),
-            endTime : $("#endTimeHolder").val().replace(':', '')
+            startTime : $("#startTimeHolder").val().replace(/:/g,''),
+            endTime : $("#endTimeHolder").val().replace(/:/g,'')
         };
         //console.log($("#startTimeHolder").val().replace(':', '') + " " + $("#endTimeHolder").val().replace(':', ''))
         /* Perform AJAX */
@@ -161,7 +160,7 @@ $(function()
                         var facultyRow = lastName + firstName + teachingLoad + adminLoad + researchLoad + totalLoad + buttonFaculty;
                         /* Add to UI */
                         $("#modal_table_assign_faculty").append(facultyRow);
-                    });
+                });
 
                     function facultySelect() {
                         var facultyCode = $(this).attr("value");
@@ -184,4 +183,88 @@ $(function()
             }
         });
     });
+    /* CONCERNS Part*/
+    $("#button_concerns").click(function() {
+        showConcernsAJAX();
+    });
+
+    $("#button-concern-compose").click(function() {
+        $("#concerns_list").hide();
+        $("#concern_compose").show();
+
+    });
+    $("#button-concern-threads").click(function() {
+    $("#concerns_list").show();
+    $("#concern_compose").hide();
+        sendConcern();
+
+    });
+    $("#compose_submit").click(function() {
+        sendConcern();
+    });
+
+    function showConcernsAJAX()
+    {
+        var tobeSearched = $("#input_userID").val();
+        console.log(tobeSearched)
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            url : window.location + "/get-concerns",
+            contentType : 'application/json',
+            data :tobeSearched,
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    $.each(result.data, function(i, concern_response) {
+
+                        var header = "<table class='concern_entry'>"
+                        var name = "<tr><td class ='concern_name'>" + concern_response.senderName + "</td></tr>"
+                        var concerm_proper = "<tr> <td colspan='2' class ='concern_message'>" + concern_response.message + "</td></tr></table>"
+                        var newConcern = header + name + concerm_proper;
+
+                        $("#concerns_list").append(newConcern);
+                    });
+
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+    function sendConcern()
+    {
+        console.log("Location: " + window.location);
+
+        var formData = {
+            userId : $("#input_userID").val(),
+            senderName : $("#concern_receiver").val(),
+            message : $("#concern_content").val()
+        };
+        console.log(formData.userId)
+        $.ajax({
+            type : "POST",
+            url : window.location + "/post-concern",
+            contentType : 'application/json',
+            data : JSON.stringify(formData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    alert("Successfully Sent Concern")
+
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+                alert("ERROR: Concern not sent!")
+            }
+        });
+    }
+
 });

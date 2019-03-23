@@ -39,7 +39,7 @@
 
         <!-- General Header for ASSYSTX -->
         <%@ include file="../user/header.jsp" %>
-
+        <input type="text" id="input_userID" value="${userID}" hidden>
         <!-- Collaborative Workspace for ASSYSTX -->
         <div class="collabWorkspace cwOfferings">
             <form:form method="get">
@@ -171,28 +171,28 @@
                     <!--<th>Batch</th>-->
                     <!--<th>Academic Year</th>-->
                     <!--<th>Term</th>-->
-                    <th>Search</th>
-                    <th>Recommendation</th>
-                    <th>Sort By</th>
-                </tr>
-                <tr>
-                    <td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
-                    <td><select class = 'modal_select' id='select_recommend'></select></td>
-                    <td><select class = 'modal_select' id='select_sort'></select></td>
-                    <%--<td><select class = 'modal_select' id='select_degree'>
-                        <option value="All">All</option>
-                        <%--<c:forEach items="${allDegrees}" var="degreeType">
-                            <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
-                        </c:forEach>
-                    </select></td>
-                    <td><select class = 'modal_select' id='select_batch'></select></td>
-                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
-                    <td><select class = 'modal_select' id='select_term'>
-                        <option value="All">All</option>
-                        <option value="First">1st</option>
-                        <option value="Second">2nd</option>
-                        <option value="Third">3rd</option>
-                    </select></td>--%>
+                    <%-- <th>Search</th>
+                     <th>Recommendation</th>
+                     <th>Sort By</th>--%>
+                 </tr>
+                 <tr>
+                     <%--<td><input class = 'modal_search' id='modal_input_search_faculty'><button id='button_search_faculty'><i class='fas fa-search'></i></button></td>
+                     <td><select class = 'modal_select' id='select_recommend'></select></td>
+                     <td><select class = 'modal_select' id='select_sort'></select></td>
+                     <td><select class = 'modal_select' id='select_degree'>
+                         <option value="All">All</option>
+                         <%--<c:forEach items="${allDegrees}" var="degreeType">
+                             <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
+                         </c:forEach>
+                     </select></td>
+                     <td><select class = 'modal_select' id='select_batch'></select></td>
+                     <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                     <td><select class = 'modal_select' id='select_term'>
+                         <option value="All">All</option>
+                         <option value="First">1st</option>
+                         <option value="Second">2nd</option>
+                         <option value="Third">3rd</option>
+                     </select></td>--%>
                     <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
                 </tr>
             </table>
@@ -226,25 +226,45 @@
         <!-- Modal for Concerns -->
                 <!-- Modal for Concerns -->
                 <div class="divModals" id="modalConcerns">
-                    <div id"concerns_tabs">
-                    <div id="concerns_threads">
-                        <p>Threads</p>
+                    <div id="concerns_tabs">
+                        <div class="concerns_buttons" id="button-concern-threads">
+                            Threads
+                        </div>
+                        <div class="concerns_buttons" id="button-concern-compose">
+                            Compose
+                        </div>
                     </div>
-                    <div id="concerns_compose">
-                        <p>Compose</p>
+                    <div id="concerns_body">
+                        <div id = "concerns_list">
+                            <table class='concern_entry'>
+                                <tr>
+                                    <td class ='concern_name'>Ryan Dimaunahan</td>
+                                    <td class ='concern_time'>1:29 PM</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table id="concern_compose">
+                            <tr>
+                                <td class="compose_addressbar">To:</td>
+                                <td class="compose_addressbar"><select  id="concern_receiver">
+                                <c:forEach items="${allUsers}" var="user">
+                                    <option value="${user}">
+                                        <c:out value="${user}" />
+                                    </option>
+                                </c:forEach>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="concern_button_submit"><button id="compose_submit" type="submit">Submit</button></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div id="concerns_body">
-                    <table class='concern_entry'>
-                        <tr>
-                            <td class ='concern_name'>Ryan Dimaunahan</td>
-                            <td class ='concern_time'>1:29 PM</td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
-                        </tr>
-                    </table>
-                </div>
-        </div>
     </body>
 </html>

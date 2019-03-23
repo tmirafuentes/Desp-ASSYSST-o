@@ -108,7 +108,7 @@
 #system_title{
 	text-align:center;
 	color:white;
-	font-size:230%;
+	font-size:250%;
 	position:relative;
 	font-weight:bold;
 	top:25;
@@ -321,7 +321,7 @@
 	padding: 5px;
 	border-spacing: 0.625em;
 }
-/*Added for Login */
+/*Added for Login
 #table_login{
 	width: 50%;
 	height:25%;
@@ -346,7 +346,7 @@
 	font-weight: bold;
 	font-size: 1.25em;
 	position: relative;
-	left:-110;
+	//left:-110;
 }
 #login_main_content input{
 	border: 1px solid black;
@@ -367,7 +367,7 @@
 	position: relative;
 	font-size: 1em;
 	top:10;
-}
+}*/
 /*For faculty load */
 #load_submit_faculty_search{
 	position: absolute;

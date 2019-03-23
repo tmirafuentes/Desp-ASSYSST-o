@@ -44,7 +44,7 @@
 
         <!-- General Header for ASSYSTX -->
         <%@ include file="../user/header.jsp" %>
-
+        <input type="text" id="input_userID" value="${userID}" hidden>
         <!-- Collaborative Workspace for ASSYSTX -->
         <div class="collabWorkspace cwOfferings">
             <div class="generatedContent">
@@ -186,27 +186,35 @@
         <!-- Modal for Concerns -->
         <div class="divModals" id="modalConcerns">
             <div id="concerns_tabs">
-                <div class="concerns_buttons">
+                <div class="concerns_buttons" id="button-concern-threads">
                     Threads
                 </div>
-                <div class="concerns_buttons">
+                <div class="concerns_buttons" id="button-concern-compose">
                     Compose
                 </div>
             </div>
             <div id="concerns_body">
-                <table class='concern_entry'>
-                    <tr>
-                        <td class ='concern_name'>Ryan Dimaunahan</td>
-                        <td class ='concern_time'>1:29 PM</td>
-                    </tr>
-                    <tr>
-                        <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
-                    </tr>
-                </table>
+                <div id = "concerns_list">
+                    <table class='concern_entry'>
+                        <tr>
+                            <td class ='concern_name'>Ryan Dimaunahan</td>
+                            <td class ='concern_time'>1:29 PM</td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                        </tr>
+                    </table>
+                </div>
                 <table id="concern_compose">
                     <tr>
                         <td class="compose_addressbar">To:</td>
-                        <td class="compose_addressbar"><input type="text" id="concern_receiver"></td>
+                        <td class="compose_addressbar"><select  id="concern_receiver">
+                            <c:forEach items="${allUsers}" var="user">
+                                <option value="${user}">
+                                    <c:out value="${user}" />
+                                </option>
+                            </c:forEach>
+                        </select></td>
                     </tr>
                     <tr>
                         <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>

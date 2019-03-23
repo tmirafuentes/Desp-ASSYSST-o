@@ -254,6 +254,7 @@ public class RestWebController {
         /* Update Days Object */
         Set<Days> daysSet = currOffering.getDaysSet();
 
+
         boolean noConflicts = true;
         if (daysSet == null)        /* No current class days and room for the offering */
         {
@@ -316,6 +317,7 @@ public class RestWebController {
 
         /* Faculty */
         User currFaculty = currOffering.getFaculty();
+        System.out.println(offering.getFaculty());
         User newFaculty = userService.findUserByFirstNameLastName(offering.getFaculty());
 
         /* If there is a current faculty and is being replaced by a new faculty */
@@ -341,6 +343,11 @@ public class RestWebController {
             modifyFacultyLoad(newFaculty, currOffering, currOffering.getCourse().getUnits());
         }
 
+        Set<Days> memories = currOffering.getDaysSet();
+        for (Days dayInstance : memories)
+        {
+            System.out.println("Memories: " + dayInstance.getclassDay() + " " + dayInstance.getbeginTime() + " " + dayInstance.getendTime());
+        }
         /* Save Course Offering to Database */
         offeringService.saveCourseOffering(currOffering);
 
@@ -442,19 +449,19 @@ public class RestWebController {
     }
 
     /* Retrieve All Concerns through GET */
-    @GetMapping(value = "/get-concerns")
-    public Response retrieveConcerns(@RequestBody String userID, Model model)
+    @PostMapping(value = "/get-concerns")
+    public Response retrieveConcerns(@RequestBody Long userID, Model model)
     {
-        Long converUserID = Long.parseLong(userID);
+       // Long converUserID = Long.parseLong(userID);
+        System.out.println("User Identifitcation: " + userID);
         /* Create new list for concerns */
-        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(converUserID));
+        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(userID));
 
         /* Convert to DTO */
         ArrayList<ConcernDto> listConcernDtos = new ArrayList<>();
         while(allConcerns.hasNext())
         {
             Concern concern = (Concern) allConcerns.next();
-
             /* Transfer to DTO */
             ConcernDto conDTO = transferToConcernDTO(concern);
 
@@ -469,14 +476,22 @@ public class RestWebController {
         return response;
     }
 
-    /* Send and Save a Concern using POST */
-    @PostMapping(value = "/post-concerns")
-    public Response retrieveConcerns(@RequestBody ConcernDto concernSend, Model model)
+    public Long findUserSend(String userName)
     {
+        Long userID = userService.findUserByFirstNameLastName(userName.replaceAll("^\"|\"$", "")).getUserId();
+        System.out.println("find " + userID);
+        return userID;
+    }
 
+    /* Send and Save a Concern using POST */
+    @PostMapping(value = "/post-concern")
+    public Response retrieveConcerns(@RequestBody ConcernDto concernSend)
+    {
         //convert concernDTO
+        System.out.println("Debug supreme");
         Concern concern = this.transferToConcern(concernSend);
         //save concern
+        System.out.println("Debug supreme2");
         this.userService.saveConcern(concern);
         /* Create Response Object */
         Response response = new Response();
@@ -623,14 +638,10 @@ public class RestWebController {
     public ConcernDto transferToConcernDTO(Concern concern)
     {
         ConcernDto concernDto = new ConcernDto();
-
-        concernDto.setConcernId(concern.getconcernId());
         concernDto.setMessage(concern.getMessage());
-        concernDto.setUserId(concern.getReceiver().getUserId());
-        concernDto.setSendUserId(concern.getSender().getUserId());
-        concernDto.setSenderFirstName(concern.getSender().getFirstName());
-        concernDto.setSenderLastName(concern.getSender().getLastName());
-
+        concernDto.setUserId(concern.getSender().getUserId());
+        concernDto.setSenderName(concern.getSender().getLastName() + ", " + concern.getSender().getFirstName());
+        System.out.println(concernDto.getSenderName());
         return concernDto;
     }
 
@@ -638,9 +649,13 @@ public class RestWebController {
     public Concern transferToConcern(ConcernDto concernDto)
     {
         Concern concern = new Concern();
+        System.out.println(concernDto.getSenderName() + concernDto.getUserId() + concernDto.getMessage());
         concern.setSender(userService.findUserByIDNumber(concernDto.getUserId()));
-        concern.setReceiver(userService.findUserByIDNumber(concernDto.getSendUserId()));
+        System.out.println(concernDto.getSenderName());
+        concern.setReceiver(userService.findUserByIDNumber(findUserSend((concernDto.getSenderName()))));
         concern.setMessage(concernDto.getMessage());
+
+        System.out.println(concern.getSender().getUserId() + " " + concern.getReceiver().getUserId());
         return concern;
     }
 }
