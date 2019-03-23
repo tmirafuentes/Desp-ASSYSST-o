@@ -1,8 +1,12 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import org.apache.tomcat.jni.Local;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
@@ -15,7 +19,22 @@ public class Concern {
     private User sender;
     private User receiver;
 
+    public LocalDateTime getDateTimeCommitted() {
+        return dateTimeCommitted;
+    }
+
+    public void setDateTimeCommitted(LocalDateTime dateTimeCommitted) {
+        this.dateTimeCommitted = dateTimeCommitted;
+    }
+
+    @Basic
+    private java.time.LocalDateTime dateTimeCommitted;
+
+
+
+
     public Concern() {
+        this.dateTimeCommitted = LocalDateTime.now();
     }
 
     public Concern(Long concernId, String message, boolean acknowledged) {
@@ -31,6 +50,7 @@ public class Concern {
         this.sender = sender;
         this.receiver = receiver;
     }
+    //public
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,7 +89,7 @@ public class Concern {
     }
 
     @ManyToOne
-    @JoinColumn(name = "receiver")//, insertable=false, updatable=false)
+    @JoinColumn(name = "receiver")//, insert    able=false, updatable=false)
     public User getReceiver() {
         return receiver;
     }

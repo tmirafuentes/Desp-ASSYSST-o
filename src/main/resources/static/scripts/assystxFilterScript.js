@@ -29,11 +29,35 @@ $(function() {
         //if(monday_clicked == true)
 
     }, 15000);
+    /* Function to reconstruct the string */
+    function orderDays(days)
+    {
+        var schoolDays = ['M', 'T', 'W', 'H', 'F', 'S', '-'];
+        days = find_unique_characters(days);
+        var newDays = "";
 
+        for (var x = 0; x < days.length; x++)
+            if(x < days.length-1)
+                if(schoolDays.indexOf(days.charAt(x)) > schoolDays.indexOf(days.charAt(x+1)))
+                    newDays = days.charAt(x + 1) + " " + days.charAt(x);
+        if(newDays == "")
+            return days.replace(/\s+/g, '');
+        else
+            return newDays.replace(/\s+/g, '');
+
+    }
     function checkFilters(){
         if($("#select_view_offerings").val() != "All" ||  $("#select_left_class_type").val() != "All" || $("#select_room_type").val() != "All" || $("#select_left_timeblock").val() != "All")
             return true;
         return false;
+    }
+    function find_unique_characters(str) {
+        var unique = '';
+        for (var i = 0; i < str.length; i++) {
+            if(unique.indexOf(str.charAt(i))==-1)
+                unique += str[i];
+        }
+        return unique;
     }
 //FIND A WAY TO CALL THE DISPLAY FILTER FUNCTION BETWEEN THE SHOWOFFERING
 /*Search Course for modals*/
@@ -319,7 +343,8 @@ $("#button_search_course").click(function(){
                         /* Create Divs */
                         var courseCode = "<div class='genContentCols cols-course-code'>" + offering.courseCode + "</div>";
                         var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
-                        var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
+                        var newDays = orderDays(offering.day1 + offering.day2);
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols .cols-days'>" + newDays + "</div>"
                             : "<div class='genContentCols cols-days'>None</div>";
                         var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
                             : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
@@ -373,7 +398,8 @@ $("#button_search_course").click(function(){
                         /* Create Divs */
                         var courseCode = "<div class='genContentCols cols-course-code'>" + offering.courseCode + "</div>";
                         var section = "<div class='genContentCols cols-section'>" + offering.classSection + "</div>";
-                        var days = (offering.day1 != '-') ? "<div class='genContentCols cols-days'>" + offering.day1 + " " + offering.day2 + "</div>"
+                        var newDays = orderDays(offering.day1 + offering.day2);
+                        var days = (offering.day1 != '-') ? "<div class='genContentCols .cols-days'>" + newDays + "</div>"
                             : "<div class='genContentCols cols-days'>None</div>";
                         var time = (offering.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + offering.startTime + "-" + offering.endTime + "</div>"
                             : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
@@ -625,36 +651,7 @@ $("#class_s").click(function() {
             search_selected = false;
         }
     });
-        //console.log("it's going in");
-        /* Perform AJAX
-        $.ajax({
-            type: 'POST',
-            contentType : 'application/json',
-            url : window.location + "/search",
-            data : JSON.stringify(filterData),
-            dataType : 'json',
-            success : function(result)
-            {
-                if(result.status == "Done") {
-                    $(".filter_comments").hide();
-                    retrieveFilteredOfferings();
-                    console.log("it's going in2");
-                }
-                else{
-                    $(".filter_comments").show();
-                }
-            },
-            error : function(e)
-            {
-                alert("Error!");
-                console.log("ERROR: ", e);
-            }*/
 
-        /*
-        if(countallRows() == 0) {
-            $(".filter_comments").show();
-
-        }*/
 
 
 

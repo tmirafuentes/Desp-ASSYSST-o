@@ -134,14 +134,17 @@ public class FacultyService {
                 for (Days s : cs.getDaysSet()) {//for each day that the course is in
                     if (s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
                     {
+                        //System.out.println("First Start time and End time: " + Integer.parseInt(startTime) + " " + Integer.parseInt(endTime));
+                        System.out.println("Second Start time and End time: " + s.getbeginTime().replace(":", "") + " " + s.getendTime().replace(":", ""));
                         //Just remove faculty loads that are conflicting with this sched
-                        if (conflictsWith(Integer.parseInt(startTime.replace(":", "")), Integer.parseInt(endTime.replace(":", "")),
-                                Integer.parseInt(s.getbeginTime().replace(":", "")), Integer.parseInt(s.getendTime().replace(":", ""))))
-                        {
-                            if(cs.getFaculty() != null) {
-                                int iter = findFacultyLoad(evaluatedLoads, cs.getFaculty().getUserId());//find faculty load
-                                if(iter != -1)
-                                    evaluatedLoads.remove(iter);//remove associated faculty load
+                        if(!s.getbeginTime().equals(":") && !s.getendTime().equals(":") && !s.getbeginTime().equals("") && !s.getendTime().equals("") && !startTime.equals("") && !endTime.equals("")) {
+                            if (conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
+                                    Integer.parseInt(s.getbeginTime().replace(":", "")), Integer.parseInt(s.getendTime().replace(":", "")))) {
+                                if (cs.getFaculty() != null) {
+                                    int iter = findFacultyLoad(evaluatedLoads, cs.getFaculty().getUserId());//find faculty load
+                                    if (iter != -1)
+                                        evaluatedLoads.remove(iter);//remove associated faculty load
+                                }
                             }
                         }
                     }

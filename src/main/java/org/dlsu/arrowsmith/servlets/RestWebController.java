@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.logging.Filter;
 
 @RestController
@@ -580,7 +578,10 @@ public class RestWebController {
             currLoad.setTotalLoad(fl.getTotalLoad());
             currLoad.setFirstName(fl.getFaculty().getFirstName());
             currLoad.setLastName(fl.getFaculty().getLastName());
-            transferableFacultyList.add(currLoad);
+            if(!(fl.getTotalLoad() >= 12))
+                transferableFacultyList.add(currLoad);
+            else
+                System.out.println(fl.getFaculty());
         }
 
         /* Create Response Object*/
@@ -630,14 +631,46 @@ public class RestWebController {
 
     /* Send and Save a Concern using POST */
     @PostMapping(value = "/post-concern")
-    public Response retrieveConcerns(@RequestBody ConcernDto concernSend)
+    public Response postConcerns(@RequestBody ConcernDto concernSend)
     {
         //convert concernDTO
         System.out.println("Debug supreme");
         Concern concern = this.transferToConcern(concernSend);
         //save concern
         System.out.println("Debug supreme2");
+        System.out.println("Before Going in " + concern.getDateTimeCommitted().toString());
         this.userService.saveConcern(concern);
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+    /* Send and Save a Offering using POST */
+    @PostMapping(value = "/add-offering")
+    public Response addCourse(@RequestBody OfferingModifyDto addedCourse)
+    {
+        CourseOffering currOffering = new CourseOffering();
+        currOffering.setSection(addedCourse.getClassSection());
+        currOffering.setStatus(addedCourse.getClassStatus());
+        //TODO: checker
+        if(!(offeringService.retrieveCourseByCourseCode(addedCourse.getCourseCode().toUpperCase()) == null))
+        {
+            currOffering.setCourse(offeringService.retrieveCourseByCourseCode(addedCourse.getCourseCode().toUpperCase()));
+            Set<Days> daySet = new HashSet<>();
+            Days day1 = new Days();
+            day1.setbeginTime(addedCourse.getStartTime());
+            day1.setendTime(addedCourse.getEndTime());
+            day1.setclassDay(addedCourse.getDay1());
+            day1.setRoom(offeringService.retrieveRoomByRoomCode(addedCourse.getRoomCode()));
+            Days day2 = new Days();
+            day2.setbeginTime(addedCourse.getStartTime());
+            day2.setendTime(addedCourse.getEndTime());
+            day2.setclassDay(addedCourse.getDay2());
+            day2.setRoom(offeringService.retrieveRoomByRoomCode(addedCourse.getRoomCode()));
+            currOffering.setDaysSet(daySet);
+            offeringService.saveCourseOffering(currOffering);
+        }
+
         /* Create Response Object */
         Response response = new Response();
         response.setStatus("Done");
@@ -645,11 +678,32 @@ public class RestWebController {
     }
     public ConcernDto transferToConcernDTO(Concern concern)
     {
+        LocalDateTime localDateTime = LocalDateTime.now();
+
         ConcernDto concernDto = new ConcernDto();
         concernDto.setMessage(concern.getMessage());
         concernDto.setUserId(concern.getSender().getUserId());
         concernDto.setSenderName(concern.getSender().getLastName() + ", " + concern.getSender().getFirstName());
-        System.out.println(concernDto.getSenderName());
+        if(concern.getDateTimeCommitted().getYear() == localDateTime.getYear() &&
+                concern.getDateTimeCommitted().getMonth() == localDateTime.getMonth() && concern.getDateTimeCommitted().getDayOfMonth() == localDateTime.getDayOfMonth())
+        {
+            if(concern.getDateTimeCommitted().getHour() < 12)
+                concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+            else
+                concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ " PM");
+        }
+        else
+        {
+            if(concern.getDateTimeCommitted().getHour() < 12)
+                concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
+                        + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+            else
+                concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
+                        + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " PM");
+        }
+
+
+        System.out.println("Date is " + concernDto.getDateAdded());
         return concernDto;
     }
     public Concern transferToConcern(ConcernDto concernDto)
@@ -660,7 +714,7 @@ public class RestWebController {
         System.out.println(concernDto.getSenderName());
         concern.setReceiver(userService.findUserByIDNumber(findUserSend((concernDto.getSenderName()))));
         concern.setMessage(concernDto.getMessage());
-
+        //System.out.println(concern.getTimeDateRecieved());
         System.out.println(concern.getSender().getUserId() + " " + concern.getReceiver().getUserId());
         return concern;
     }

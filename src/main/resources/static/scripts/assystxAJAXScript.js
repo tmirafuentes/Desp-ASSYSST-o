@@ -198,17 +198,24 @@ $(function()
     /* CONCERNS Part*/
     $("#button_concerns").click(function() {
         showConcernsAJAX();
+        $("#concerns_list table").remove();
+        $("#button-concern-threads").css({'background-color' : '#3cb878'});
     });
 
     $("#button-concern-compose").click(function() {
         $("#concerns_list").hide();
         $("#concern_compose").show();
-
+        $(this).css({'background-color' : '#3cb878'});
+        $("#button-concern-threads").css({'background-color' : '#e2e2e2'});
     });
+
     $("#button-concern-threads").click(function() {
-    $("#concerns_list").show();
-    $("#concern_compose").hide();
-        sendConcern();
+        $(this).css({'background-color' : '#3cb878'});
+        $("#concerns_list table").remove();
+        $("#button-concern-compose").css({'background-color' : '#e2e2e2'});
+        $("#concerns_list").show();
+        $("#concern_compose").hide();
+        showConcernsAJAX();
 
     });
     $("#compose_submit").click(function() {
@@ -233,8 +240,9 @@ $(function()
 
                         var header = "<table class='concern_entry'>"
                         var name = "<tr><td class ='concern_name'>" + concern_response.senderName + "</td></tr>"
+                        var date = "<tr><td class ='concern_time'>" + concern_response.dateAdded + "</td></tr>"
                         var concerm_proper = "<tr> <td colspan='2' class ='concern_message'>" + concern_response.message + "</td></tr></table>"
-                        var newConcern = header + name + concerm_proper;
+                        var newConcern = header + name + date + concerm_proper;
 
                         $("#concerns_list").append(newConcern);
                     });
