@@ -267,13 +267,14 @@ $(function()
             success : function(result)
             {
                 if(result.status == "Done") {
-                    console.log("Successfully Sent Concern")
+                    alert("Successfully Sent Concern")
 
                 }
             },
             error : function(e)
             {
                 console.log("ERROR: ", e);
+                alert("ERROR: Concern not sent!")
             }
         });
     }
