@@ -262,6 +262,7 @@ public class RestWebController {
         /* Update Days Object */
         Set<Days> daysSet = currOffering.getDaysSet();
 
+
         boolean noConflicts = true;
         if (daysSet == null)
         {
@@ -270,8 +271,8 @@ public class RestWebController {
             {
                 Days newDay1 = new Days();
                 newDay1.setclassDay(offering.getDay1());
-                newDay1.setbeginTime(offering.getStartTime());
-                newDay1.setendTime(offering.getEndTime());
+                newDay1.setbeginTime(offering.getStartTime().replace(":", ""));
+                newDay1.setendTime(offering.getEndTime().replace(":", ""));
                 newDay1.setCourseOffering(currOffering);
                 newDay1.setRoom(newRoom);
 
@@ -283,8 +284,8 @@ public class RestWebController {
             {
                 Days newDay2 = new Days();
                 newDay2.setclassDay(offering.getDay2());
-                newDay2.setbeginTime(offering.getStartTime());
-                newDay2.setendTime(offering.getEndTime());
+                newDay2.setbeginTime(offering.getStartTime().replace(":", ""));
+                newDay2.setendTime(offering.getEndTime().replace(":", ""));
                 newDay2.setCourseOffering(currOffering);
                 newDay2.setRoom(newRoom);
 
@@ -300,8 +301,8 @@ public class RestWebController {
                 if(!(offering.getDay1() == '-') && !isDay1Done)
                 {
                     dayInstance.setclassDay(offering.getDay1());
-                    dayInstance.setbeginTime(offering.getStartTime());
-                    dayInstance.setendTime(offering.getEndTime());
+                    dayInstance.setbeginTime(offering.getStartTime().replace(":", ""));
+                    dayInstance.setendTime(offering.getEndTime().replace(":", ""));
                     dayInstance.setCourseOffering(currOffering);
                     dayInstance.setRoom(newRoom);
 
@@ -320,8 +321,8 @@ public class RestWebController {
                 if(!(offering.getDay2() == '-') && isDay1Done)
                     {
                     dayInstance.setclassDay(offering.getDay2());
-                    dayInstance.setbeginTime(offering.getStartTime());
-                    dayInstance.setendTime(offering.getEndTime());
+                    dayInstance.setbeginTime(offering.getStartTime().replace(":", ""));
+                    dayInstance.setendTime(offering.getEndTime().replace(":", ""));
                     dayInstance.setCourseOffering(currOffering);
                     dayInstance.setRoom(newRoom);
                 }
@@ -335,8 +336,9 @@ public class RestWebController {
 
         /* Faculty */
         User currFaculty = currOffering.getFaculty();
+        System.out.println(offering.getFaculty());
         User newFaculty = userService.findUserByFirstNameLastName(offering.getFaculty());
-
+        System.out.println(newFaculty.getLastName());   
         if (currFaculty.getUserId() == 11111111 && currFaculty.getUserId() != newFaculty.getUserId())
         {
             // Retrieve Faculty Load of current faculty
@@ -377,6 +379,11 @@ public class RestWebController {
             facultyService.saveFacultyLoad(newFacultyLoad);
         }
 
+        Set<Days> memories = currOffering.getDaysSet();
+        for (Days dayInstance : memories)
+        {
+            System.out.println("Memories: " + dayInstance.getclassDay() + " " + dayInstance.getbeginTime() + " " + dayInstance.getendTime());
+        }
         /* Save Course Offering to Database */
         offeringService.saveCourseOffering(currOffering);
 

@@ -33,8 +33,8 @@ $(function()
         var formData = {
             classStatus : $("#select_right_class_type").val(),
             classSection : $("#text_section").val(),
-            startTime : $("#startTimeHolder").val(),
-            endTime : $("#endTimeHolder").val(),
+            startTime : $("#select_right_start_timeblock").val(),
+            endTime : $("#select_right_end_timeblock").val(),
             day1 : $("#select_day1").val(),
             day2 : $("#select_day2").val(),
             roomCode : $("#text_room").val(),
