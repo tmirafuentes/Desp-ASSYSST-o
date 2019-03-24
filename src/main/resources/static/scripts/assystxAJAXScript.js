@@ -46,12 +46,12 @@ $(function()
               {
                   $("#modify_offering_message").text("Course offering to be updated.");
               },
-              success : function(result)
-              {
-                  if(result.status == "Done") {
+              success : function(result) {
+                  if (result.status == "Done") {
                       $("#modify_offering_message").text("Course offering modified successfully!");
                   }
-              });
+              }
+          });
         }
         else{
             alert("There are blank Values specified in the form. Please fill them up first before proceeding.")

@@ -679,18 +679,44 @@ public class RestWebController {
                 concern.getDateTimeCommitted().getMonth() == localDateTime.getMonth() && concern.getDateTimeCommitted().getDayOfMonth() == localDateTime.getDayOfMonth())
         {
             if(concern.getDateTimeCommitted().getHour() < 12)
-                concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+            {
+                if(concern.getDateTimeCommitted().getMinute() > 10)
+                    concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+                else
+                    concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " AM");
+            }
             else
-                concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ " PM");
+            {
+                if(concern.getDateTimeCommitted().getMinute() > 10 )
+                    concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ " PM");
+                else
+                    concernDto.setDateAdded("Today " + concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute()+ " PM");
+            }
+
         }
         else
         {
             if(concern.getDateTimeCommitted().getHour() < 12)
-                concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
-                        + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+            {
+                if(concern.getDateTimeCommitted().getMinute() > 10)
+                    concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
+                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+                else
+                    concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
+                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " AM");
+
+            }
+
             else
-                concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
-                        + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " PM");
+            {
+                if(concern.getDateTimeCommitted().getMinute() > 10)
+                    concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
+                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " PM");
+                else
+                    concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
+                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " PM");
+            }
+
         }
 
 

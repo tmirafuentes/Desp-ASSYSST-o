@@ -285,7 +285,7 @@ public class OfferingService {
             System.out.println(i);
         Collections.sort(
                 timeslotList,
-                (time1, time2) -> Integer.parseInt( time1.substring(0, time1.indexOf(' '))) - Integer.parseInt(time2.substring(0, time2.indexOf(' '))));
+                (time1, time2) -> Integer.parseInt( time1.substring(0, time1.indexOf(' ')).replaceAll(":","")) - Integer.parseInt(time2.substring(0, time2.indexOf(' ')).replaceAll(":","")));
         //Collections.sort(timeslotList);
         return timeslotList.iterator();
     }
