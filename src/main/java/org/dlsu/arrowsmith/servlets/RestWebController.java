@@ -463,6 +463,8 @@ public class RestWebController {
         while(allConcerns.hasNext())
         {
             Concern concern = (Concern) allConcerns.next();
+            concern.setAcknowledged(true);
+            userService.saveConcern(concern);
             /* Transfer to DTO */
             ConcernDto conDTO = transferToConcernDTO(concern);
 
@@ -700,10 +702,10 @@ public class RestWebController {
             {
                 if(concern.getDateTimeCommitted().getMinute() > 10)
                     concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
-                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " AM");
+                            + concern.getDateTimeCommitted().getYear() + " " + concern.getDateTimeCommitted().getHour() + ":" + concern.getDateTimeCommitted().getMinute() + " AM");
                 else
                     concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
-                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " AM");
+                            + concern.getDateTimeCommitted().getYear() + " " + concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " AM");
 
             }
 
@@ -711,10 +713,10 @@ public class RestWebController {
             {
                 if(concern.getDateTimeCommitted().getMinute() > 10)
                     concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
-                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " PM");
+                            + concern.getDateTimeCommitted().getYear() + " " + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute() + " PM");
                 else
                     concernDto.setDateAdded(concern.getDateTimeCommitted().getMonth() + " " + concern.getDateTimeCommitted().getDayOfMonth() + ", "
-                            + concern.getDateTimeCommitted().getYear() + concern.getDateTimeCommitted().getHour() + ":"  + concern.getDateTimeCommitted().getMinute()+ concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " PM");
+                            + concern.getDateTimeCommitted().getYear() + " " + concern.getDateTimeCommitted().getHour() + ":0"  + concern.getDateTimeCommitted().getMinute() + " PM");
             }
 
         }
@@ -736,5 +738,18 @@ public class RestWebController {
         //System.out.println(concern.getTimeDateRecieved());
         System.out.println(concern.getSender().getUserId() + " " + concern.getReceiver().getUserId());
         return concern;
+    }
+
+    /*Gets number of unchecked concerns*/
+    @PostMapping(value = "/get-notifications")
+    public Response getNumberofUncheckedConcerns(@RequestBody Long userID, Model model) {
+        int numberToBePassed = 0;
+
+        numberToBePassed = userService.retrieveNumberConcernsByBoolean(userService.findUserByIDNumber(userID), false);
+        System.out.println("Passed" + numberToBePassed);
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(numberToBePassed);
+        return response;
     }
 }

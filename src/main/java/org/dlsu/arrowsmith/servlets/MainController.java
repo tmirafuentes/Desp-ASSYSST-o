@@ -151,6 +151,7 @@ public class MainController {
         model.addAttribute("allTimeslots", offeringService.getUniqueTimeSlots());
         model.addAttribute("allTerms", offeringService.getUniqueTerms());
         model.addAttribute("allClassTypes", offeringService.generateClassType());
+        //model.addAttribute("numConcerns", userService.retrieveNumberConcernsByBoolean(currUser, false));
         //model.addAttribute("allBuildings", offeringService.retrieveAllBuildings());
         //model.addAttribute("allRoomsTypesModal", offeringService.generateRoomType());
 

@@ -823,3 +823,14 @@
 	overflow: auto;
 	position: relative;
 }
+#notification_pop{
+	background-color:#BD081C;
+	color: white;
+	border-radius: 20px;
+	font-weight: bold;
+	height: 28px;
+	width: 25px;
+	text-align: center;
+	margin-top: -20%;
+	margin-left: 70%;
+}

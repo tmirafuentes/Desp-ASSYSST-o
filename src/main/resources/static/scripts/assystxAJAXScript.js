@@ -9,11 +9,48 @@
 
 $(function()
 {
+    getConcernNotifications();
+    setInterval(function(){
+        getConcernNotifications();
+    }, 15000);
     /**
      *
      * POST FORMS
      *
      */
+
+    function getConcernNotifications()
+    {
+        var tobeSearched = $("#input_userID").val();
+        console.log(tobeSearched)
+        /* Perform AJAX */
+        $.ajax({
+            type : "POST",
+            url : window.location + "/get-notifications",
+            contentType : 'application/json',
+            data :tobeSearched,
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    console.log(console.data);
+                    if(result.data > 0)
+                    {
+                        $("#notification_pop").show();
+                        $("#notification_pop").html(result.data);
+                    }
+                    else
+                        $("#notification_pop").hide();
+
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 
     /* Modify Offering POST Form Ajax */
     $("#modify_offering_form").submit(function(e)
@@ -234,7 +271,7 @@ $(function()
 
                         $("#concerns_list").prepend(newConcern);
                     });
-
+                    $("#notification_pop").hide();
                 }
             },
             error : function(e)
