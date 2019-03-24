@@ -9,15 +9,6 @@
 
 $(function()
 {
-    //showOfferings();
-
-    /* Load All Offerings GET Form AJAX
-
-    setInterval(function(){
-        console.log("Updating the System")
-        showOfferings();
-    }, 15000);*/
-
     /**
      *
      * POST FORMS
@@ -41,33 +32,26 @@ $(function()
             faculty : $("#select_faculty").val(),
             offeringId : $("#text_offId").val()
         };
-        console.log(formData.classStatus + formData.classSection + formData.startTime + formData.endTime + formData.day1 +
-            formData.day2 + formData.roomCode + formData.faculty + formData.offeringId)
         if(formData.classStatus != "" && formData.classSection != "" && formData.startTime != "" && formData.endTime != "" && formData.day1 != ""
         && formData.day2 != "" && formData.roomCode != "" && formData.faculty != "" && formData.offeringId != "")
         {
-            /* Perform AJAX */
-            $.ajax({
-                type: 'POST',
-                contentType : 'application/json',
-                url : window.location + "/modify-offering",
-                data : JSON.stringify(formData),
-                dataType : 'json',
-                success : function(result)
-                {
-                    if(result.status == "Done") {
-                        alert("Course Modification Saved!");
-
-                        /* Refresh Course Offerings */
-                        showOfferingsAJAX();
-                    }
-                },
-                error : function(e)
-                {
-                    console.log("ERROR: ", e);
-                    alert("Error!");
-                }
-            });
+          /* Perform AJAX */
+          $.ajax({
+              type: 'POST',
+              contentType : 'application/json',
+              url : window.location + "/modify-offering",
+              data : JSON.stringify(formData),
+              dataType : 'json',
+              beforeSend: function()
+              {
+                  $("#modify_offering_message").text("Course offering to be updated.");
+              },
+              success : function(result)
+              {
+                  if(result.status == "Done") {
+                      $("#modify_offering_message").text("Course offering modified successfully!");
+                  }
+              });
         }
         else{
             alert("There are blank Values specified in the form. Please fill them up first before proceeding.")
@@ -96,6 +80,10 @@ $(function()
             url : window.location + "/check-rooms",
             data : JSON.stringify(formData),
             dataType : 'json',
+            beforeSend : function()
+            {
+                $("#modify_offering_message").text("Course offering is being modified...");
+            },
             success : function(result)
             {
                 if(result.status == "Done") {

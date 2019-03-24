@@ -35,12 +35,12 @@ public class RestWebController {
      */
     @PostMapping(value = "/search-course")
     public Response filterCoursesbyCourseCode(@RequestBody String courseCode, Model model) {
-        ArrayList<CourseOffering> searchCourses =  offeringService.retrieveCourseOfferingSearch(courseCode);
+        ArrayList<CourseOffering> searchCourses = offeringService.retrieveCourseOfferingSearch(courseCode);
 
         ArrayList<OfferingModifyDto> listOfferDtos = convertToDTO(searchCourses.iterator());
 
         Response response = new Response();
-        if(listOfferDtos.size() == 0)
+        if (listOfferDtos.size() == 0)
             response.setStatus("Error");
         else
             response.setStatus("Done");
@@ -52,13 +52,12 @@ public class RestWebController {
     @PostMapping(value = "/filter-days")
     public Response filterCoursesOnDay(@RequestBody String day, Model model) {
         char charDay = day.charAt(1);
-        ArrayList<CourseOffering> dayCourses =  offeringService.getAllCoursesOnDay(charDay);
+        ArrayList<CourseOffering> dayCourses = offeringService.getAllCoursesOnDay(charDay);
 
         ArrayList<OfferingModifyDto> listOfferDtos = convertToDTO(dayCourses.iterator());
 
         /* Create Response Object */
         Response response = new Response();
-        if(listOfferDtos.size() == 0)
             response.setStatus("Error");
         else
             response.setStatus("Done");
@@ -676,6 +675,13 @@ public class RestWebController {
         response.setStatus("Done");
         return response;
     }
+     **
+     ** FUNCTIONS
+     **
+     */
+
+    /* Function for converting a list of CourseOfferings to OfferingModifyDto */
+    private ArrayList<OfferingModifyDto> convertToDTO(Iterator allOfferings) {
     public ConcernDto transferToConcernDTO(Concern concern)
     {
         LocalDateTime localDateTime = LocalDateTime.now();

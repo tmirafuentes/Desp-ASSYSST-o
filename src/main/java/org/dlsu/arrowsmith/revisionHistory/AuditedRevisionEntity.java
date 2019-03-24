@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "revision_history")
-@RevisionEntity(AuditingRevisionListener.class)
+@RevisionEntity(EntityRevisionTrackerListener.class)
 public class AuditedRevisionEntity {
     @RevisionNumber
     @Id

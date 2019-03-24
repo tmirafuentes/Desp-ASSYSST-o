@@ -106,6 +106,9 @@
         <tr>
             <td><textarea id="area_concerns"></textarea></td>
         </tr>-->
+         <tr>
+             <td colspan="2" id="modify_offering_message"></td>
+         </tr>
         <tr>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input name="offeringId" type="hidden" id="text_offId" />
