@@ -232,7 +232,7 @@ $(function()
                         var concerm_proper = "<tr> <td colspan='2' class ='concern_message'>" + concern_response.message + "</td></tr></table>"
                         var newConcern = header + name + date + concerm_proper;
 
-                        $("#concerns_list").append(newConcern);
+                        $("#concerns_list").prepend(newConcern);
                     });
 
                 }
