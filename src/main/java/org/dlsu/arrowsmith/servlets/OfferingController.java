@@ -40,33 +40,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
      *
      */
 
-    /*** Add Course Offering ***/
-    @RequestMapping(value = "/apo/add-offering", method = RequestMethod.POST)
-    public String addNewOfferingSubmit(@ModelAttribute("addOfferingForm") Course offeringForm,
-                                       BindingResult bindingResult,
-                                       Model model)
-    {
-        /* Errors */
-        if (bindingResult.hasErrors())
-            return "/apo/home";
 
-        /* Find Course Object through Course Code */
-        Course currCourse = offeringService.retrieveCourseByCourseCode(offeringForm.getCourseCode());
-
-        /* Initialize new Course Offering */
-        CourseOffering newOffering = new CourseOffering();
-        newOffering.setCourse(currCourse);
-        newOffering.setStartAY(2016);
-        newOffering.setEndAY(2017);
-        newOffering.setTerm(1);
-
-        /* Else, save new course offering to the database */
-        offeringService.saveCourseOffering(newOffering);
-
-        /* Message that course is successfully updated */
-        model.addAttribute("allOfferings", offeringService.generateSortedCourseOfferings(2016, 2017, 1));
-        return "redirect:/apo/home";
-    }
     ///apo", "/apo/home", "/cvc", "/cvc/home
     //value = {"/apo/modifyOffering"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     /* Modify Course Offering */

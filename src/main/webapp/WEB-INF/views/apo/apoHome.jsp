@@ -93,7 +93,7 @@
                     <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
                 </tr>-->
             </table>
-            <form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">
+            <%--<form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">--%>
                 <table id='modal_table_add_courses'>
                     <tr>
                         <th>Course</th>
@@ -120,10 +120,10 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <spring:bind path="courseCode">
-                    <form:input type="text" path="courseCode" id="add_offer_field" hidden="hidden" />
-                </spring:bind>
-            </form:form>
+            <%--<spring:bind path="courseCode">
+                <form:input type="text" path="courseCode" id="add_offer_field" hidden="hidden" />
+            </spring:bind>
+        </form:form> --%>
         </div>
 
         <!-- Modal for Assign Room -->

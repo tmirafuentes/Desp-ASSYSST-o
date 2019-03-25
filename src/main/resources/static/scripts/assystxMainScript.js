@@ -235,12 +235,12 @@ $(function()
         showallCourseModalRows();
     });
 
-    /* Add New Offering to System */
+    /* Add New Offering to System
     $(".add_offer_btns").click(function() {
         var courseCode = $(this).attr("value");
         $("#add_offer_field").val(courseCode);
         $("#modalAddOffering").dialog("close");
-    });
+    });*/
 
     /* Concerns Modal */
     $("#button_concerns").click(function() {

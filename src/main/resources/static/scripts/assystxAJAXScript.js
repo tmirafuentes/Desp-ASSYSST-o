@@ -22,7 +22,7 @@ $(function()
     function getConcernNotifications()
     {
         var tobeSearched = $("#input_userID").val();
-        console.log(tobeSearched)
+       // console.log(tobeSearched)
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -33,7 +33,7 @@ $(function()
             {
                 if(result.status == "Done")
                 {
-                    console.log(console.data);
+                   // console.log(console.data);
                     if(result.data > 0)
                     {
                         $("#notification_pop").show();
@@ -170,7 +170,7 @@ $(function()
             startTime : $("#startTimeHolder").val().replace(':', ''),
             endTime : $("#endTimeHolder").val().replace(':', '')
         };
-        console.log("going in");
+       // console.log("going in");
         /* Perform AJAX */
         $.ajax({
             type: 'POST',
@@ -250,7 +250,6 @@ $(function()
     function showConcernsAJAX()
     {
         var tobeSearched = $("#input_userID").val();
-        console.log(tobeSearched)
         /* Perform AJAX */
         $.ajax({
             type : "POST",
@@ -283,14 +282,14 @@ $(function()
     }
     function sendConcern()
     {
-        console.log("Location: " + window.location);
+        //console.log("Location: " + window.location);
 
         var formData = {
             userId : $("#input_userID").val(),
             senderName : $("#concern_receiver").val(),
             message : $("#concern_content").val()
         };
-        console.log(formData.userId)
+        //console.log(formData.userId)
         $.ajax({
             type : "POST",
             url : window.location + "/post-concern",
@@ -311,5 +310,28 @@ $(function()
             }
         });
     }
+    /* Adding new Course Offerings */
+    $(".add_offer_btns").click(function() {
+        var courseCode = $(this).attr("value");
 
+        $.ajax({
+            type : "POST",
+            url : window.location + "/add-course-offering",
+            contentType : 'application/json',
+            data : JSON.stringify(courseCode),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    alert("Successfully Added New Course Offering")
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+                alert("ERROR: Concern not sent!")
+            }
+        });
+
+    });
 });

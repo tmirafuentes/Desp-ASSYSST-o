@@ -266,5 +266,7 @@
                         </table>
                     </div>
                 </div>
+            <!-- Create new course modal -->
+
     </body>
 </html>

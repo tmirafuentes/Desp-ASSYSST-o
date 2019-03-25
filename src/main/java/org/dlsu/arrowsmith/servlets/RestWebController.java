@@ -502,37 +502,7 @@ public class RestWebController {
         response.setStatus("Done");
         return response;
     }
-    /* Send and Save a Offering using POST */
-    @PostMapping(value = "/add-offering")
-    public Response addCourse(@RequestBody OfferingModifyDto addedCourse)
-    {
-        CourseOffering currOffering = new CourseOffering();
-        currOffering.setSection(addedCourse.getClassSection());
-        currOffering.setStatus(addedCourse.getClassStatus());
-        //TODO: checker
-        if(!(offeringService.retrieveCourseByCourseCode(addedCourse.getCourseCode().toUpperCase()) == null))
-        {
-            currOffering.setCourse(offeringService.retrieveCourseByCourseCode(addedCourse.getCourseCode().toUpperCase()));
-            Set<Days> daySet = new HashSet<>();
-            Days day1 = new Days();
-            day1.setbeginTime(addedCourse.getStartTime());
-            day1.setendTime(addedCourse.getEndTime());
-            day1.setclassDay(addedCourse.getDay1());
-            day1.setRoom(offeringService.retrieveRoomByRoomCode(addedCourse.getRoomCode()));
-            Days day2 = new Days();
-            day2.setbeginTime(addedCourse.getStartTime());
-            day2.setendTime(addedCourse.getEndTime());
-            day2.setclassDay(addedCourse.getDay2());
-            day2.setRoom(offeringService.retrieveRoomByRoomCode(addedCourse.getRoomCode()));
-            currOffering.setDaysSet(daySet);
-            offeringService.saveCourseOffering(currOffering);
-        }
 
-        /* Create Response Object */
-        Response response = new Response();
-        response.setStatus("Done");
-        return response;
-    }
     /***
      **
      ** FUNCTIONS
@@ -750,6 +720,25 @@ public class RestWebController {
         Response response = new Response();
         response.setStatus("Done");
         response.setData(numberToBePassed);
+        return response;
+    }
+    /*Adds a new Course Offering*/
+    @PostMapping(value = "/add-course-offering")
+    public Response addCourseOffering(@RequestBody String courseCode) {
+        courseCode = courseCode.replaceAll("^\"|\"$", "");
+        System.out.println(courseCode);
+        System.out.println(offeringService.retrieveCourseByCourseCode(courseCode).getCourseId() + " " + offeringService.retrieveCourseByCourseCode(courseCode).getCourseName());
+        CourseOffering courseOffering = new CourseOffering();
+        courseOffering.setCourse(offeringService.retrieveCourseByCourseCode(courseCode));
+        courseOffering.setStartAY(2016);
+        courseOffering.setEndAY(2017);
+        courseOffering.setTerm(1);
+        courseOffering.setStatus("Regular");
+        courseOffering.setSection("-");
+        offeringService.saveCourseOffering(courseOffering);
+
+        Response response = new Response();
+        response.setStatus("Done");
         return response;
     }
 }
