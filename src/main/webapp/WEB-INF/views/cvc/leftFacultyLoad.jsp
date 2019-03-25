@@ -16,13 +16,12 @@
     <table class="contentFilters">
         <tr class = "leftSidebarRows">
             <td>
-                <form id ="form_search_faculty">
                     <p class = "filterTitles"> Search Faculty </p>
                     <input class = "filterForms" id="input_search_faculty" placeholder = "Search Faculty...">
                     <button id = "load_submit_faculty_search"><i class="fas fa-search"></i></button>
-                </form>
             </td>
         </tr>
+        <%--
         <tr class = "leftSidebarRows">
             <td>
                 <p class = "filterTitles"> View Offerings </p>
@@ -90,7 +89,7 @@
                 <button class = "filterClassDays" id="class_f"> F </button>
                 <button class = "filterClassDays" id="class_s"> S </button>
             </td>
-        </tr>
+        </tr>--%>
     </table>
 
     <div class = "sidebarMenu">
@@ -98,12 +97,8 @@
         <a href="/cvc/" class = "menuLinks" id="view_course_offerings">
             <div id = "button_view_course_offerings"> View Course Offerings</div>
         </a>
-        <a href="#" class = "menuLinks" id = "add_new_course">
             <div id = "button_add_new_course"> Add New Course</div>
-        </a>
-        <a href="#" class = "menuLinks" id = "concerns">
             <div id = "button_concerns"> Concerns </div>
-        </a>
     </div>
 
 </div>

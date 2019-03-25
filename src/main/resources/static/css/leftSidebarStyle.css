@@ -160,3 +160,7 @@
 #input_search_course{
     color: black;
 }
+#input_search_faculty{
+    position: relative;
+    top:30%;
+}

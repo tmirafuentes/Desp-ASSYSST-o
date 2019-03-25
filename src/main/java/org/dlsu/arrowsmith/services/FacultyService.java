@@ -239,6 +239,11 @@ public class FacultyService {
         return allLoads.iterator();
     }
 
+    public ArrayList<FacultyLoad> retrieveAllListFacultyLoadByTerm(int startAY, int endAY, int term, Department department) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTermAndDepartment(startAY, endAY, term, department);
+        return allLoads;
+    }
+
     /* Retrieve All Faculty Load Per College */
     public Iterator retrieveAllFacultyLoadByTerm(int startAY, int endAY, int term, College college) {
         ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTermAndCollege(startAY, endAY, term, college);

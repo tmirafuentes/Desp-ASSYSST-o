@@ -770,4 +770,32 @@ public class RestWebController {
         response.setStatus("Done");
         return response;
     }
+    /* Retrieve All Course Offerings through GET */
+    @GetMapping(value = "/show-faculty-load")
+    public Response showAllFacultyLoads(Model model) {
+        /* Create new list for course offerings */
+        ArrayList<FacultyLoad> allFacLoads = facultyService.retrieveAllListFacultyLoadByTerm(2016, 2017, 1,
+                userService.retrieveUser().getDepartment());
+
+        /* Convert to DTO */
+        ArrayList<FacultyLoadDto> listLoadDtos = new ArrayList<>();
+
+        for(FacultyLoad fl: allFacLoads) {
+            FacultyLoadDto currLoad = new FacultyLoadDto();
+            currLoad.setAdminLoad(fl.getAdminLoad());
+            currLoad.setResearchLoad(fl.getResearchLoad());
+            currLoad.setTeachingLoad(fl.getTeachingLoad());
+            currLoad.setTotalLoad(fl.getTotalLoad());
+            currLoad.setFirstName(fl.getFaculty().getFirstName());
+            currLoad.setLastName(fl.getFaculty().getLastName());
+            listLoadDtos.add(currLoad);
+        }
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(listLoadDtos);
+
+        return response;
+    }
 }

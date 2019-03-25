@@ -663,4 +663,29 @@ $("#class_s").click(function() {
         else
             return false;
     }
+    /* Faculty Load Search */
+    $('#input_search_faculty').on('input',function(e){
+        //alert("detected");
+        search_selected = true;
+        var textSearched = $.trim($("#input_search_faculty").val())
+        if(textSearched.toUpperCase() != "")
+        {
+            $(".genContentRows:not(:first-child)").each(function () {
+                var courseTraverse = $(':first-child', this).text();
+                courseTraverse = $.trim(courseTraverse);
+                if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
+                    $(this).hide();
+            });
+        }
+        else
+        {
+            //showOfferings();
+            //search_selected = false;
+        }
+    });
+
+    function showFacultyLoad()
+    {
+
+    }
 });

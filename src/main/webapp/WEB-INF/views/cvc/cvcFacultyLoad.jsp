@@ -27,6 +27,7 @@
         <script src="${minJquery}"></script>
         <script src="${uiJquery}"></script>
         <script src="${mainScript}"></script>
+        <script src="${filterScript}"></script>
     </head>
     <body>
         <!-- Filter Sidebar for CVC - Faculty Load -->
