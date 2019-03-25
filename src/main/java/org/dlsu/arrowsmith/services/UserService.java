@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -89,6 +87,12 @@ public class UserService {
             String newUser = s.getLastName() + ", " + s.getFirstName();
             allUsersParsed.add(newUser);
         }
+        Collections.sort(allUsersParsed, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
         return allUsersParsed.iterator();
     }
 
@@ -132,7 +136,11 @@ public class UserService {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiver(user);
         return concerns.iterator();
     }
-
+    public int retrieveNumberConcernsByBoolean(User user, boolean ack)
+    {
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiverAndAcknowledged(user, ack);
+        return concerns.size();
+    }
     /* Retrieve All Concerns By Receiver or Sender */
     public Iterator retrieveAllConcernsByUser(User sender, User receiver) {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrReceiver(sender, receiver);

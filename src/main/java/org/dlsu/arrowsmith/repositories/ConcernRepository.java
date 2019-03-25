@@ -10,4 +10,5 @@ public interface ConcernRepository extends CrudRepository<Concern, Long> {
     ArrayList<Concern> findAllBySender(User user);
     ArrayList<Concern> findAllByReceiver(User user);
     ArrayList<Concern> findAllBySenderOrReceiver(User sender, User receiver);
+    ArrayList<Concern> findAllByReceiverAndAcknowledged(User receiver, boolean acknowledged);
 }

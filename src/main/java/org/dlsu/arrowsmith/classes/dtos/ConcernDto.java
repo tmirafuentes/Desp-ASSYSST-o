@@ -7,6 +7,16 @@ public class ConcernDto {
     private String message;
     private String senderName;
 
+    public String getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(String date) {
+        this.dateAdded = date;
+    }
+
+    private String dateAdded;
+
     public String getSenderName() {
         return senderName;
     }

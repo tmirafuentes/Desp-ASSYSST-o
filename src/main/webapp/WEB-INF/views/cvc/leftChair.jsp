@@ -89,7 +89,7 @@
 
         <!-- Go To Deloading Page -->
             <div id = "button_add_new_course"> Add New Course</div>
-            <div id = "button_concerns"> Concerns </div>
+            <div id = "button_concerns"> Concerns <p id = "notification_pop"></p></div>
     </div>
 </div>
 </body>
