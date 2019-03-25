@@ -741,4 +741,33 @@ public class RestWebController {
         response.setStatus("Done");
         return response;
     }
+    /*Adds a new Faculty */
+    @PostMapping(value = "/add-faculty")
+    public Response addNewFaculty(@RequestBody NewFacultyDto facultyDto) {
+        User newFaculty = new User();
+        newFaculty.setUserType("Faculty");
+        newFaculty.setFirstName(facultyDto.getFirstName());
+        newFaculty.setLastName(facultyDto.getLastName());
+        newFaculty.setPassword("iLoveCCS");
+        newFaculty.setDepartment(facultyService.retrieveDepartmentByCode(facultyDto.getDepartment()));//department
+        userService.createNewUser(newFaculty);
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+    /*Adds a new Course */
+    @PostMapping(value = "/add-course")
+    public Response addNewCourse(@RequestBody NewCourseDto courseDto) {
+        Course course = new Course();
+        course.setCollege(offeringService.findCollegebyCode("CCS"));//assume ccs
+        course.setCourseCode(courseDto.getCourseCode());
+        course.setCourseName(courseDto.getCourseName());
+        course.setDepartment(facultyService.retrieveDepartmentByCode(courseDto.getDepartment()));
+        course.setUnits(courseDto.getUnits());
+
+        offeringService.saveCourse(course);
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
 }

@@ -631,6 +631,10 @@ public class OfferingService {
         this.setDayFilteredCourses(mondayCourses);
         return mondayCourses;
     }
+    public College findCollegebyCode(String code)
+    {
+        return collegeRepository.findCollegeByCollegeCode(code);
+    }
     //public Iterator retrieveAllTermsAndAY() {
         /* Get All Offerings */
         //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;

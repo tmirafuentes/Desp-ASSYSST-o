@@ -92,6 +92,8 @@ public class MainController {
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
         model.addAttribute("userID", userService.retrieveUserID());
         model.addAttribute("allUsers", userService.findAllUsers());
+        model.addAttribute("allDepartments", facultyService.retrieveAllFacultyDepartments().iterator());
+        model.addAttribute("allDepartments2", facultyService.retrieveAllFacultyDepartments().iterator());
         return "/cvc/cvcHome";
     }
 

@@ -39,6 +39,7 @@ public class User {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getUserId() {
         return userId;
     }

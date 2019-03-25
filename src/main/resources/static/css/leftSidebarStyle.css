@@ -146,7 +146,7 @@
     padding-left: 0.625em;
     margin-bottom: 0.625em;
 }
-#button_add_new_course, #button_concerns, #button_add_new_offering{
+#button_add_new_course, #button_concerns, #button_add_new_offering, #button_new_faculty{
     color:#000;
     background-color:#e1e1e1;
     width: 75%;

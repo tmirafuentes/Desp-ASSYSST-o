@@ -23,7 +23,8 @@ public class FacultyService {
     private FacultyLoadRepository facultyLoadRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private DepartmentRepository departmentRepository;
     /**
      **
      ** DELOADING
@@ -353,6 +354,18 @@ public class FacultyService {
         allFacultyLoadTypes.add("Teaching");
         allFacultyLoadTypes.add("Research");
         return allFacultyLoadTypes;
+    }
+
+    public ArrayList<String> retrieveAllFacultyDepartments(){
+        ArrayList<String> allFacultyDepartments = new ArrayList<>();
+        ArrayList<Department> allDepartments = (ArrayList) departmentRepository.findAll();
+        for(Department d: allDepartments)
+            allFacultyDepartments.add(d.getDeptCode());
+        return allFacultyDepartments;
+    }
+    public Department retrieveDepartmentByCode(String code)
+    {
+        return departmentRepository.findDepartmentByDeptCode(code);
     }
 
 

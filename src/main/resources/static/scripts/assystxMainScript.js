@@ -253,6 +253,35 @@ $(function()
         $("#modalConcerns").dialog("open");
     });
 
+    /* Open New Faculty Modal */
+    $("#button_new_faculty").click(function() {
+        $("#modalNewFaculty").dialog({
+            title:"Add New Faculty",
+            width:800,
+            height:600,
+            modal:true
+        });
+        $("#modalNewFaculty").dialog("open");
+    });
+    $("#new_faculty_cancel").click(function() {
+        $("#modalNewFaculty").dialog("close");
+    });
+
+    /* Open New Course Modal */
+    $("#button_add_new_course").click(function() {
+        $("#modalNewCourse").dialog({
+            title:"Add New Course",
+            width:800,
+            height:600,
+            modal:true
+        });
+        $("#modalNewCourse").dialog("open");
+    });
+
+    $("#new_course_cancel").click(function() {
+        $("#modalNewCourse").dialog("close");
+    });
+
     //setting up the cancel button
     $("#button_cancel_concerns").click(function(){
         $(".genContentRows:not(:first-child)").each(function () {

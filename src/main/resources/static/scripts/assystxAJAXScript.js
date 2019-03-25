@@ -334,4 +334,60 @@ $(function()
         });
 
     });
+    /* Submit a new faculty for the system */
+    $("#new_faculty_submit").click(function() {
+        var formData = {
+            lastName : $("#add_faculty_last_name").val(),
+            firstName : $("#add_faculty_first_name").val(),
+            department : $("#add_faculty_departments").val()
+        };
+
+        $.ajax({
+            type : "POST",
+            url : window.location + "/add-faculty",
+            contentType : 'application/json',
+            data : JSON.stringify(formData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    alert("Successfully Added New Faculty")
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+                alert("ERROR: Concern not sent!")
+            }
+        });
+    });
+
+    /* Submit a new course for the system */
+    $("#new_course_submit").click(function() {
+        var formData = {
+            courseName : $("#add_course_name").val(),
+            courseCode : $("#add_course_code").val(),
+            units : $("#add_course_units").val(),
+            department : $("#add_course_department").val()
+        };
+
+        $.ajax({
+            type : "POST",
+            url : window.location + "/add-course",
+            contentType : 'application/json',
+            data : JSON.stringify(formData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    alert("Successfully Added New Course")
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+                alert("ERROR: Concern not sent!")
+            }
+        });
+    });
 });
