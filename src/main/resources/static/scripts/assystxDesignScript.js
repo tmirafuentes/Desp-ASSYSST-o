@@ -78,4 +78,11 @@ $(function()
             });
         }
     });
+
+    /**
+     *
+     * SELECTING A
+     * COURSE OFFERING
+     *
+     */
 });

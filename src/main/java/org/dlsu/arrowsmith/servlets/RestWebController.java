@@ -3,13 +3,16 @@ package org.dlsu.arrowsmith.servlets;
 import org.dlsu.arrowsmith.classes.dro.Response;
 import org.dlsu.arrowsmith.classes.dtos.*;
 import org.dlsu.arrowsmith.classes.main.*;
+import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
+import org.hibernate.envers.RevisionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.sampled.AudioInputStream;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Filter;
@@ -533,6 +536,42 @@ public class RestWebController {
         response.setStatus("Done");
         return response;
     }
+
+    @GetMapping(value = "/get-last-update-link")
+    public Response updateRevisionHistoryLink(Model model)
+    {
+        /* Retrieve All Revision History */
+        Iterator revisionEntities = userService.retrieveAllRevHistory();
+
+        /* Find most recent revision entity */
+        AuditedRevisionEntity recentRevEntity = (AuditedRevisionEntity)revisionEntities.next();
+        Date recentTimestamp = recentRevEntity.getDateModified();
+        while(revisionEntities.hasNext())
+        {
+            AuditedRevisionEntity temp = (AuditedRevisionEntity)revisionEntities.next();
+            if (recentTimestamp.before(temp.getDateModified()))
+            {
+                recentRevEntity = temp;
+                recentTimestamp = temp.getDateModified();
+            }
+        }
+
+        /* Get Name of faculty */
+        User revUser = userService.findUserByIDNumber(Long.parseLong(recentRevEntity.getFullName()));
+        String fullname = revUser.getFirstName() + " " + revUser.getLastName();
+
+        /* Transfer to DTO */
+        RevHistoryLinkDto linkDto = new RevHistoryLinkDto();
+        linkDto.setFullname(fullname);
+        linkDto.setTimestamp(recentTimestamp);
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setData(linkDto);
+        response.setStatus("Done");
+        return response;
+    }
+
     /***
      **
      ** FUNCTIONS
