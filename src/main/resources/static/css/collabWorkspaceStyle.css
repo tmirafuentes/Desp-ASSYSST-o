@@ -64,3 +64,7 @@ html,body
     font-size: 1em;
     display: table-cell;
 }
+.cwFacultyLoad{
+    width: 80%;
+    overflow: auto;
+}

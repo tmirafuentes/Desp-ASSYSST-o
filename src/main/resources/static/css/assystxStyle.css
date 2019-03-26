@@ -379,8 +379,9 @@
 	box-shadow: none;
 	border:0;
 	background-color:white;
-	top:7%;
+	top:50%;
 	right:5;
+	height: 1em;
 }
 #load_submit_expertise_search{
 	position: absolute;
@@ -838,4 +839,13 @@
 	text-align: center;
 	margin-top: -20%;
 	margin-left: 70%;
+}
+.deload_button{
+	font-weight:bold;
+	color:white;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background-color:#3cb878;
+	height:2.5em;
 }
