@@ -1,27 +1,29 @@
 $(function() {
     var day_clicked = false;
     var search_selected = false;
+    var search_fac = false;
     showOfferings();
+    showFacultyLoad();
     setInterval(function(){
 
         console.log("Updating the System")
 
-        if(!search_selected)
-        {
-            if(day_clicked)
-            {
-                retrieveDayFilter();
-            }
-            else{
-                if(checkFilters())
-                {
-                    retrieveFilteredOfferings();
-                }
-                else
-                {
-                    showOfferings();
+        if(!window.location.href.indexOf("manage") > -1) {
+            if (!search_selected) {
+                if (day_clicked) {
+                    retrieveDayFilter();
+                } else {
+                    if (checkFilters()) {
+                        retrieveFilteredOfferings();
+                    } else {
+                        showOfferings();
+                    }
                 }
             }
+        }
+        else{
+            if(!search_fac)
+                showFacultyLoad();
         }
 
 
@@ -666,7 +668,7 @@ $("#class_s").click(function() {
     /* Faculty Load Search */
     $('#input_search_faculty').on('input',function(e){
         //alert("detected");
-        search_selected = true;
+        search_fac = true;
         var textSearched = $.trim($("#input_search_faculty").val())
         if(textSearched.toUpperCase() != "")
         {
@@ -679,13 +681,54 @@ $("#class_s").click(function() {
         }
         else
         {
-            //showOfferings();
-            //search_selected = false;
+            showFacultyLoad();
+            search_fac = false;
         }
     });
 
     function showFacultyLoad()
     {
+        /* Perform AJAX */
+        $.ajax({
+            type : "GET",
+            url : window.location + "/show-faculty-load",
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    /* Keep Track of Selected Offering */
+                    //var selFaculty = $(".selectedOffering").find(".cols-offid").val();
 
+                    /* Remove All The Previous Faculty */
+                    $(".cwFacultyLoad .generatedContent .genContentRows:not(:first-child)").remove();
+                    /* For Each Offering */
+                    $.each(result.data, function(i, load)
+                    {
+                        var facultyName = "<div class='genContentCols'>" + load.lastName +  ', ' + load.firstName + "</div>";
+                        var teachingLoad = "<div class='genContentCols'>" + load.teachingLoad + "</div>";
+                        var adminLoad = "<div class='genContentCols'>" + load.adminLoad + "</div>";
+                        var researchLoad = "<div class='genContentCols'>" + load.researchLoad + "</div>";
+                        var totalLoad = "<div class='genContentCols'>" + load.totalLoad + "</div>";
+                        var facultyRow = "<div class='genContentRows'>" +
+                            "" + facultyName + teachingLoad + adminLoad + researchLoad + totalLoad +
+                            "</div>";
+                        //console.log(load.lastName + load.firstName + load.adminLoad + load.researchLoad + load.totalLoad)
+                        /* Add to UI */
+                        $(".cwFacultyLoad .generatedContent").append(facultyRow);
+
+                        /* Optional: if selected offering, add class
+                        console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
+                        if(offering.offeringId == parseInt(selOffering)) {
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").addClass("selectedOffering");
+                            $(".cwOfferings .generatedContent .genContentRows:last-child").css({'background-color' : '#3cb878'});*/
+                    });
+                }
+            },
+            error : function(e)
+            {
+                //alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
     }
 });

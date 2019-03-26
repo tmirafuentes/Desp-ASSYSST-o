@@ -640,6 +640,10 @@ public class OfferingService {
         //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;
         //return termsAYear.iterator();
     //}
-    /* Filter Functions*/
 
+    /* Course Offering Loads Functions*/
+    public ArrayList<CourseOffering> findAllCourseOfferingLoads(User faculty)
+    {
+        return courseOfferingRepository.findAllByFacultyAndStartAYAndEndAYAndTerm(faculty, 2016, 2017, 1);
+    }
 }
