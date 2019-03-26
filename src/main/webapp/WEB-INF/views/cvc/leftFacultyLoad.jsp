@@ -97,8 +97,8 @@
         <a href="/cvc/" class = "menuLinks" id="view_course_offerings">
             <div id = "button_view_course_offerings"> View Course Offerings</div>
         </a>
-            <div id = "button_add_new_course"> Add New Course</div>
-            <div id = "button_concerns"> Concerns </div>
+            <div class = "menuLinks" id = "button_add_new_course"> Add New Course</div>
+            <div class = "menuLinks" id = "button_concerns"> Concerns </div>
     </div>
 
 </div>
