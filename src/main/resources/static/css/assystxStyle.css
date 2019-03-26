@@ -128,7 +128,12 @@
 	top:7;
 	color:black;
 	text-decoration:none;
-
+}
+.online_user{
+	position: relative;
+	left:60%;
+	color:black;
+	text-decoration:none;
 }
 #last_edited{
 	position:relative;

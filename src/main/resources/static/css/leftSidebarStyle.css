@@ -164,3 +164,50 @@
     position: relative;
     top:30%;
 }
+#table_add_course, #table_add_faculty{
+    font-family: Gotham Book;
+    font-size:1.3em;
+    margin:0 auto;
+}
+#table_add_course td, #table_add_faculty td{
+   padding-top:0.75em;
+}
+
+#table_add_course th, #table_add_faculty th{
+    text-align:right;
+    padding-top:0.85em;
+}
+
+.modal_button{
+    text-align:center;
+}
+
+#new_course_submit, #new_faculty_submit{
+    background-color:#3cb878;
+    height:2.188em;
+    width:3.9em;
+    cursor:pointer;
+    box-shadow: none;
+    border:0;
+    font-weight:bold;
+    color:white;
+    -webkit-border-radius:3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+#new_course_cancel, #new_faculty_cancel{
+    background-color:#BD081C;
+    height:2.188em;
+    width:3.9em;
+    cursor:pointer;
+    box-shadow: none;
+    border:0;
+    font-weight:bold;
+    color:white;
+    -webkit-border-radius:3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+}

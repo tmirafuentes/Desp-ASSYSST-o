@@ -270,15 +270,15 @@
                 <div class="divModals" id="modalNewFaculty">
                     <table id = "table_add_faculty">
                         <tr>
-                            <td>Faculty Last Name </td>
+                            <th>Faculty Last Name: </th>
                             <td><input type = "text" id = "add_faculty_last_name"> </td>
                         </tr>
                         <tr>
-                            <td>Faculty First Name </td>
+                            <th>Faculty First Name: </th>
                             <td><input type = "text" id = "add_faculty_first_name"> </td>
                         </tr>
                         <tr>
-                            <td>Department </td>
+                            <th>Department: </th>
                             <td><select id = "add_faculty_departments">
                                 <c:forEach items="${allDepartments}" var="department">
                                     <option value="${department}">
@@ -288,15 +288,15 @@
                             </select></td>
                         </tr>
                         <tr>
-                            <td>Faculty Type </td>
+                            <th>Faculty Type: </th>
                             <td><select id = "add_faculty_type">
                                 <option value = "full">Full</option>
                                 <option value = "part_time">Part-Time</option>
                             </select></td>
                         </tr>
                         <tr>
-                            <td><button id="new_faculty_submit" type="submit">Submit</button></td>
-                            <td><button id="new_faculty_cancel">Cancel</button></td>
+                            <td class="modal_button"><button id="new_faculty_submit" type="submit">Submit</button></td>
+                            <td class="modal_button"><button id="new_faculty_cancel">Cancel</button></td>
                         </tr>
                     </table>
                 </div>
@@ -305,15 +305,15 @@
         <div class="divModals" id="modalNewCourse">
             <table id = "table_add_course">
                 <tr>
-                    <td>Course Name : </td>
+                    <th>Course Name : </th>
                     <td><input type="text" id = "add_course_name"></td>
                 </tr>
                 <tr>
-                    <td>Course Code : </td>
+                    <th>Course Code : </th>
                     <td><input type="text" id = "add_course_code"></td>
                 </tr>
                 <tr>
-                    <td>Department : </td>
+                    <th>Department : </th>
                     <td><select id = "add_course_department">
                         <c:forEach items="${allDepartments2}" var="department">
                             <option value="${department}">
@@ -323,13 +323,13 @@
                     </select></td>
                 </tr>
                 <tr>
-                    <td>Units : </td>
+                    <th>Units : </th>
                     <td><input id = "add_course_units" type="number" min="0">
                     </td>
                 </tr>
                 <tr>
-                    <td><button id="new_course_submit" type="submit">Submit</button></td>
-                    <td><button id="new_course_cancel">Cancel</button></td>
+                    <td class="modal_button"><button id="new_course_submit" type="submit">Submit</button></td>
+                    <td class="modal_button"><button id="new_course_cancel">Cancel</button></td>
                 </tr>
             </table>
         </div>

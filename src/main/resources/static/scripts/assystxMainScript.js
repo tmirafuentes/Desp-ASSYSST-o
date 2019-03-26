@@ -257,8 +257,8 @@ $(function()
     $("#button_new_faculty").click(function() {
         $("#modalNewFaculty").dialog({
             title:"Add New Faculty",
-            width:800,
-            height:600,
+            width:550,
+            height:350,
             modal:true
         });
         $("#modalNewFaculty").dialog("open");
@@ -271,8 +271,8 @@ $(function()
     $("#button_add_new_course").click(function() {
         $("#modalNewCourse").dialog({
             title:"Add New Course",
-            width:800,
-            height:600,
+            width:500,
+            height:350,
             modal:true
         });
         $("#modalNewCourse").dialog("open");
