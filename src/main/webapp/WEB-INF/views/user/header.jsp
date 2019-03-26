@@ -19,8 +19,12 @@
         </c:if>
     </div>
     <div id = "smaller_header">
-        <a href ="${contextPath}/revision-history" id = "last_edited">Last edited 1 hour ago</a>
-        <a href ="#" id = "online_icons">Online Users</a>
+        <a href ="${contextPath}/revision-history" id = "last_edited"></a>
+        <a href ="#" id="users_title">Online Users</a>
+        <div id="online_icons">
+            <div class="online_avatar">H</div>
+            <div class="online_avatar">R</div>
+        </div>
         <p id = "modify_offering"> Modify Offering</p>
     </div>
 </html>

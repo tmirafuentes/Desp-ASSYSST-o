@@ -107,4 +107,11 @@ $(function()
         }
         return unique;
     }
+
+    /**
+     *
+     * SELECTING A
+     * COURSE OFFERING
+     *
+     */
 });
