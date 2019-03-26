@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sound.sampled.AudioInputStream;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Filter;
@@ -505,37 +504,6 @@ public class RestWebController {
         response.setStatus("Done");
         return response;
     }
-    /* Send and Save a Offering using POST */
-    @PostMapping(value = "/add-offering")
-    public Response addCourse(@RequestBody OfferingModifyDto addedCourse)
-    {
-        CourseOffering currOffering = new CourseOffering();
-        currOffering.setSection(addedCourse.getClassSection());
-        currOffering.setStatus(addedCourse.getClassStatus());
-        //TODO: checker
-        if(!(offeringService.retrieveCourseByCourseCode(addedCourse.getCourseCode().toUpperCase()) == null))
-        {
-            currOffering.setCourse(offeringService.retrieveCourseByCourseCode(addedCourse.getCourseCode().toUpperCase()));
-            Set<Days> daySet = new HashSet<>();
-            Days day1 = new Days();
-            day1.setbeginTime(addedCourse.getStartTime());
-            day1.setendTime(addedCourse.getEndTime());
-            day1.setclassDay(addedCourse.getDay1());
-            day1.setRoom(offeringService.retrieveRoomByRoomCode(addedCourse.getRoomCode()));
-            Days day2 = new Days();
-            day2.setbeginTime(addedCourse.getStartTime());
-            day2.setendTime(addedCourse.getEndTime());
-            day2.setclassDay(addedCourse.getDay2());
-            day2.setRoom(offeringService.retrieveRoomByRoomCode(addedCourse.getRoomCode()));
-            currOffering.setDaysSet(daySet);
-            offeringService.saveCourseOffering(currOffering);
-        }
-
-        /* Create Response Object */
-        Response response = new Response();
-        response.setStatus("Done");
-        return response;
-    }
 
     @GetMapping(value = "/get-last-update-link")
     public Response updateRevisionHistoryLink(Model model)
@@ -789,6 +757,98 @@ public class RestWebController {
         Response response = new Response();
         response.setStatus("Done");
         response.setData(numberToBePassed);
+        return response;
+    }
+    /*Adds a new Course Offering*/
+    @PostMapping(value = "/add-course-offering")
+    public Response addCourseOffering(@RequestBody String courseCode) {
+        courseCode = courseCode.replaceAll("^\"|\"$", "");
+        System.out.println(courseCode);
+        System.out.println(offeringService.retrieveCourseByCourseCode(courseCode).getCourseId() + " " + offeringService.retrieveCourseByCourseCode(courseCode).getCourseName());
+        CourseOffering courseOffering = new CourseOffering();
+        courseOffering.setCourse(offeringService.retrieveCourseByCourseCode(courseCode));
+        courseOffering.setStartAY(2016);
+        courseOffering.setEndAY(2017);
+        courseOffering.setTerm(1);
+        courseOffering.setStatus("Regular");
+        courseOffering.setSection("-");
+        offeringService.saveCourseOffering(courseOffering);
+
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+    /*Adds a new Faculty */
+    @PostMapping(value = "/add-faculty")
+    public Response addNewFaculty(@RequestBody NewFacultyDto facultyDto) {
+        User newFaculty = new User();
+        newFaculty.setUserType("Faculty");
+        newFaculty.setFirstName(facultyDto.getFirstName());
+        newFaculty.setLastName(facultyDto.getLastName());
+        newFaculty.setPassword("iLoveCCS");
+        newFaculty.setDepartment(facultyService.retrieveDepartmentByCode(facultyDto.getDepartment()));//department
+        userService.createNewUser(newFaculty);
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+    /*Adds a new Course */
+    @PostMapping(value = "/add-course")
+    public Response addNewCourse(@RequestBody NewCourseDto courseDto) {
+        Course course = new Course();
+        course.setCollege(offeringService.findCollegebyCode("CCS"));//assume ccs
+        course.setCourseCode(courseDto.getCourseCode());
+        course.setCourseName(courseDto.getCourseName());
+        course.setDepartment(facultyService.retrieveDepartmentByCode(courseDto.getDepartment()));
+        course.setUnits(courseDto.getUnits());
+
+        offeringService.saveCourse(course);
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+    /* Retrieve All Course Offerings through GET */
+    @GetMapping(value = "manage-load/show-faculty-load")
+    public Response showAllFacultyLoads(Model model) {
+        /* Create new list for course offerings */
+        ArrayList<FacultyLoad> allFacLoads = facultyService.retrieveAllListFacultyLoadByTerm(2016, 2017, 1,
+                userService.retrieveUser().getDepartment());
+        System.out.println(userService.retrieveUser().getDepartment().getDeptId());
+        /* Convert to DTO */
+        ArrayList<FacultyLoadDto> listLoadDtos = new ArrayList<>();
+
+        for(FacultyLoad fl: allFacLoads) {
+            FacultyLoadDto currLoad = new FacultyLoadDto();
+            currLoad.setAdminLoad(fl.getAdminLoad());
+            currLoad.setResearchLoad(fl.getResearchLoad());
+            currLoad.setTeachingLoad(fl.getTeachingLoad());
+            currLoad.setTotalLoad(fl.getTotalLoad());
+            currLoad.setFirstName(fl.getFaculty().getFirstName());
+            currLoad.setLastName(fl.getFaculty().getLastName());
+            listLoadDtos.add(currLoad);
+        }
+        System.out.println(listLoadDtos.size());
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(listLoadDtos);
+
+        return response;
+    }
+    /* Retrieve All Course Offerings through GET */
+    @PostMapping(value = "manage-load/person-faculty-load")
+    public Response getFacultyLoad(@RequestBody String facultyName, Model model) {
+        /* Create new list for course offerings */
+
+        ArrayList<OfferingModifyDto> convertedFacLoad = new ArrayList<>();
+        User givenFaculty = userService.findUserByFirstNameLastName(facultyName.replaceAll("^\"|\"$", ""));
+        ArrayList<CourseOffering> facLoad = offeringService.findAllCourseOfferingLoads(givenFaculty);
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(convertToDTO(facLoad.iterator()));
+        System.out.println("Broken: " + facLoad.size());
         return response;
     }
 }

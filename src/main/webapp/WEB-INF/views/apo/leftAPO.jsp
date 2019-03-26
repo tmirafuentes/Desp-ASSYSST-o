@@ -81,7 +81,7 @@
     </table>
     <div class = "sidebarMenu">
         <button class = "menuLinks" id="button_add_offering"> Add New Offering </button>
-        <button class = "menuLinks" id ="button_concerns"> Concerns </button>
+        <button class = "menuLinks" id ="button_concerns"> Concerns <p id = "notification_pop"></p></button>
     </div>
 </div>
 </body>

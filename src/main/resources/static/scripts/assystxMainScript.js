@@ -235,12 +235,12 @@ $(function()
         showallCourseModalRows();
     });
 
-    /* Add New Offering to System */
+    /* Add New Offering to System
     $(".add_offer_btns").click(function() {
         var courseCode = $(this).attr("value");
         $("#add_offer_field").val(courseCode);
         $("#modalAddOffering").dialog("close");
-    });
+    });*/
 
     /* Concerns Modal */
     $("#button_concerns").click(function() {
@@ -251,6 +251,35 @@ $(function()
             modal:true
         });
         $("#modalConcerns").dialog("open");
+    });
+
+    /* Open New Faculty Modal */
+    $("#button_new_faculty").click(function() {
+        $("#modalNewFaculty").dialog({
+            title:"Add New Faculty",
+            width:550,
+            height:350,
+            modal:true
+        });
+        $("#modalNewFaculty").dialog("open");
+    });
+    $("#new_faculty_cancel").click(function() {
+        $("#modalNewFaculty").dialog("close");
+    });
+
+    /* Open New Course Modal */
+    $("#button_add_new_course").click(function() {
+        $("#modalNewCourse").dialog({
+            title:"Add New Course",
+            width:500,
+            height:350,
+            modal:true
+        });
+        $("#modalNewCourse").dialog("open");
+    });
+
+    $("#new_course_cancel").click(function() {
+        $("#modalNewCourse").dialog("close");
     });
 
     //setting up the cancel button
