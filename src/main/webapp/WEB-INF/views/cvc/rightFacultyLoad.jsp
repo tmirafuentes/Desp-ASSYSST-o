@@ -10,6 +10,7 @@
 
 <body>
 <div id = "right_side" class="modify_sidebar">
+    <%--
     <table id = "table_faculty_name">
         <tr>
             <th>
@@ -32,6 +33,7 @@
         </tr>
         -->
     </table>
+    --%>
     <p class = "facultyInfoTitles" id="label_currLoad">Current Load: </p>
     <table class = "rightDeloadingLoadingButtons">
         <tr>
@@ -54,36 +56,6 @@
                 <div class="genLoadCols">Time</div>
                 <div class="genLoadCols">Room</div>
             </div>
-            <c:forEach items="${allOfferings}" var="offering">
-                <div class="genLoadRows">
-                    <div class="genLoadCols" name="courseCode">
-                        <c:out value="${offering.course.courseCode}" />
-                        <input type="text" id='Offeringfaculty_id' value="${offering.faculty.userId}" hidden>
-                    </div>
-                    <div class="genLoadCols" name="section">
-                        <c:out value="${offering.section}" />
-                    </div>
-                    <div class="genLoadCols" name="time">
-                        <c:forEach items="${offering.daysSet}" var="days" varStatus="dCtr">
-                            <c:out value="${days.classDay}" />
-                        </c:forEach>
-                    </div>
-                    <div class="genLoadCols" name="days">
-                        <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
-                            <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
-                        </c:forEach>
-                    </div>
-                    <div class="genLoadCols" name="room">
-                        <c:forEach items="${offering.daysSet}" var="rooms" begin="0" end="0">
-                            <c:out value="${rooms.room.roomCode}" />
-                        </c:forEach>
-                    </div>
-                    <div class = "genLoadCols" name="id" hidden>
-                        <c:out value="${offering.faculty.userId}" />
-                    </div>
-                </div>
-
-            </c:forEach>
         </div>
     </div>
 </div>

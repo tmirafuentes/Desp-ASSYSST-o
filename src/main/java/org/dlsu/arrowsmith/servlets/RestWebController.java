@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.HTMLDocument;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Filter;
@@ -771,12 +773,12 @@ public class RestWebController {
         return response;
     }
     /* Retrieve All Course Offerings through GET */
-    @GetMapping(value = "/show-faculty-load")
+    @GetMapping(value = "manage-load/show-faculty-load")
     public Response showAllFacultyLoads(Model model) {
         /* Create new list for course offerings */
         ArrayList<FacultyLoad> allFacLoads = facultyService.retrieveAllListFacultyLoadByTerm(2016, 2017, 1,
                 userService.retrieveUser().getDepartment());
-
+        System.out.println(userService.retrieveUser().getDepartment().getDeptId());
         /* Convert to DTO */
         ArrayList<FacultyLoadDto> listLoadDtos = new ArrayList<>();
 
@@ -790,12 +792,28 @@ public class RestWebController {
             currLoad.setLastName(fl.getFaculty().getLastName());
             listLoadDtos.add(currLoad);
         }
-
+        System.out.println(listLoadDtos.size());
         /* Create Response Object */
         Response response = new Response();
         response.setStatus("Done");
         response.setData(listLoadDtos);
 
+        return response;
+    }
+    /* Retrieve All Course Offerings through GET */
+    @PostMapping(value = "manage-load/person-faculty-load")
+    public Response getFacultyLoad(@RequestBody String facultyName, Model model) {
+        /* Create new list for course offerings */
+
+        ArrayList<OfferingModifyDto> convertedFacLoad = new ArrayList<>();
+        User givenFaculty = userService.findUserByFirstNameLastName(facultyName.replaceAll("^\"|\"$", ""));
+        ArrayList<CourseOffering> facLoad = offeringService.findAllCourseOfferingLoads(givenFaculty);
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(convertToDTO(facLoad.iterator()));
+        System.out.println("Broken: " + facLoad.size());
         return response;
     }
 }
