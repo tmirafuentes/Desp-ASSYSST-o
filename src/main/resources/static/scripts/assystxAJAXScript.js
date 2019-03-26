@@ -10,14 +10,81 @@
 $(function()
 {
     getConcernNotifications();
+    updateRevHistoryLink();
     setInterval(function(){
         getConcernNotifications();
-    }, 15000);
+        updateRevHistoryLink();
+    }, 10000);
+
     /**
      *
      * POST FORMS
      *
      */
+
+    function updateRevHistoryLink()
+    {
+        $.ajax({
+           type : "GET",
+           url : window.location + "/get-last-update-link",
+           contentType : 'application/json',
+           success : function(result)
+           {
+               var linkString = "Last edited ";
+
+               /* Format Timestamp representation */
+
+               /* Get Times */
+               var revisionDate = new Date(result.data.timestamp).getTime();
+               var currDate = new Date().getTime();
+
+               /* Get Difference */
+               var timeDifference = currDate - revisionDate;
+
+               /* Get appropriate string for time */
+               if (timeDifference < 60000) // Less than a minute
+               {
+                   linkString += "a few seconds ago ";
+               } else if (timeDifference >= 60000 && timeDifference < 3600000) // Less than an hour
+               {
+                   var tempTime = Math.floor(timeDifference / 60000);
+                   linkString += tempTime + " minute";
+                   if (tempTime > 1)
+                       linkString += "s";
+                   linkString += " ago ";
+               } else if (timeDifference >= 3600000 && timeDifference < 86400000) // Less than a day
+               {
+                   var tempTime = Math.floor(timeDifference / 3600000);
+                   linkString += tempTime + " hour";
+                   if (tempTime > 1)
+                       linkString += "s";
+                    linkString += " ago ";
+               } else if (timeDifference >= 86400000 && timeDifference < 2678400000) // Less than a month or 30 days
+               {
+                   var tempTime = Math.floor(timeDifference / 86400000);
+                   linkString += tempTime + " day";
+                   if (tempTime > 1)
+                       linkString += "s";
+                   linkString += " ago ";
+               } else
+               {
+                   var revDateAgain = new Date(result.data.timestamp);
+                   linkString += "at " + revDateAgain.toLocaleDateString() + " ";
+               }
+
+               /* Set Faculty */
+               linkString += "by " + result.data.fullname + ".";
+
+               $("#last_edited").text("");
+               $("#last_edited").text(linkString);
+           },
+           error : function (e)
+           {
+               $("#last_edited").text("");
+               $("#last_edited").text("All changes saved.");
+           }
+        });
+    }
 
     function getConcernNotifications()
     {
