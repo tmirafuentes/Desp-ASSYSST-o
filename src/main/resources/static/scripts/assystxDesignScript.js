@@ -15,7 +15,6 @@ $(function()
      *
      */
     $(".cwOfferings .generatedContent").on("click", ".genContentRows:not(:first-child)", function()
-    //$(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function()
     {
         /* Check if the offering is selected already; if so, unselect it */
         if ($(this).css("background-color") === "rgb(60, 184, 120)")
@@ -37,7 +36,6 @@ $(function()
             $(this).css({'background-color' : '#3cb878'});
             $(this).addClass("selectedOffering");
 
-            console.log($(this).find(".cols-offid").val());
             /* Perform AJAX */
             $.ajax({
                 type : "POST",
@@ -71,7 +69,44 @@ $(function()
                 },
                 error : function(e)
                 {
-                    alert("Error!");
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+    });
+
+    /* Selecting a Revision in Revision History */
+    $("#revisionWrapper").on("click", ".revision_holder", function()
+    {
+        if ($(this).hasClass("selectedRevision"))
+        {
+            $(".collabWorkspace .generatedContent .genContentRows:not(:first-child)").remove();
+            $(this).removeClass("selectedRevision");
+            $(this).css({'background-color' : '#ffffff'});
+        }
+        else
+        {
+            $(".collabWorkspace .generatedContent .genContentRows:not(:first-child)").removeClass("selectedRevision");
+            $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").css({'background-color' : '#ffffff'});
+            $(this).css({'background-color' : '#3cb878'});
+            $(this).addClass("selectedRevision");
+
+            /* Perform AJAX */
+            $.ajax({
+                type : "POST",
+                contentType : 'application/json',
+                url : window.location + "/find-revision",
+                data : $(this).find(".rev-his-id").val(),
+                dataType : 'json',
+                success : function(result)
+                {
+                    if(result.status == "Done")
+                    {
+                        alert("Course Section = " + result.data.classSection);
+                    }
+                },
+                error : function(e)
+                {
                     console.log("ERROR: ", e);
                 }
             });

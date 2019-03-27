@@ -20,7 +20,7 @@
         </c:if>
     </div>
     <div id = "smaller_header">
-        <a href ="/${userType}" id = "last_edited">Return to home page</a>
+        <a href ="/${userType}" id = "last_edited"><- Return to home page</a>
         <a href ="#" id = "online_icons">Online Users</a>
         <p id = "modify_offering"> Revision History</p>
     </div>

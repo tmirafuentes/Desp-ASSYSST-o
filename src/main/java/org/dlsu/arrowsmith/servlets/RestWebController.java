@@ -4,20 +4,28 @@ import org.dlsu.arrowsmith.classes.dro.Response;
 import org.dlsu.arrowsmith.classes.dtos.*;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
+import org.dlsu.arrowsmith.revisionHistory.ModifiedEntityTypeEntity;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.RevisionEntity;
+import org.hibernate.envers.query.AuditEntity;
+import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Filter;
 
 @RestController
-@RequestMapping({"/apo", "/cvc"})
+@RequestMapping({"/apo", "/cvc", "/revision-history"})
 public class RestWebController {
     /*** Services ***/
     @Autowired
@@ -28,6 +36,9 @@ public class RestWebController {
 
     @Autowired
     private FacultyService facultyService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /***
      *
@@ -378,6 +389,37 @@ public class RestWebController {
         return response;
     }
 
+    /* Retrieve Specific Revision Entity through POST */
+    @PostMapping(value = "/find-revision")
+    public Response findRevisionEntity(@RequestBody Long revisionId) {
+        /* Retrieve specific revision entity from database */
+        AuditedRevisionEntity are = userService.findAREById(revisionId);
+
+        /* Retrieve specific Entity Type from database */
+        ArrayList<ModifiedEntityTypeEntity> mete = userService.findMETEById(are);
+
+        /* Retrieve from audit table */
+        AuditReader auditReader = AuditReaderFactory.get(entityManager);
+        AuditQuery q = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, false);
+        q.add(AuditEntity.revisionNumber().eq(are.getId()));
+        CourseOffering co = (CourseOffering) q.getSingleResult();
+
+        /* Add Details to Course Offering */
+        Long offeringId = co.getofferingId();
+        co.setCourse(offeringService.retrieveCourseOffering(offeringId).getCourse());
+        co.setFaculty(offeringService.retrieveCourseOffering(offeringId).getFaculty());
+        co.setDaysSet(offeringService.retrieveCourseOffering(offeringId).getDaysSet());
+
+        OfferingModifyDto offeringDto = transferToDTO(co);
+
+        /* Create new Response object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(offeringDto);
+
+        return response;
+    }
+
     /* Find all rooms that are available at this time and day */
     @PostMapping(value = "/check-rooms")
     public Response showRoomsApplicable(@RequestBody ModifyRoomDto timeInfo)
@@ -512,7 +554,9 @@ public class RestWebController {
         Iterator revisionEntities = userService.retrieveAllRevHistory();
 
         /* Find most recent revision entity */
-        AuditedRevisionEntity recentRevEntity = (AuditedRevisionEntity)revisionEntities.next();
+        RevHistoryLinkDto recentRevEntity = (RevHistoryLinkDto)revisionEntities.next();
+
+        /*
         Date recentTimestamp = recentRevEntity.getDateModified();
         while(revisionEntities.hasNext())
         {
@@ -524,18 +568,18 @@ public class RestWebController {
             }
         }
 
-        /* Get Name of faculty */
+        /* Get Name of faculty
         User revUser = userService.findUserByIDNumber(Long.parseLong(recentRevEntity.getFullName()));
         String fullname = revUser.getFirstName() + " " + revUser.getLastName();
 
-        /* Transfer to DTO */
+        /* Transfer to DTO
         RevHistoryLinkDto linkDto = new RevHistoryLinkDto();
         linkDto.setFullname(fullname);
         linkDto.setTimestamp(recentTimestamp);
 
         /* Create Response Object */
         Response response = new Response();
-        response.setData(linkDto);
+        response.setData(recentRevEntity);
         response.setStatus("Done");
         return response;
     }

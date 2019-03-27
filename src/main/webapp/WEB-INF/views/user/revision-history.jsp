@@ -8,6 +8,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -20,22 +21,33 @@
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
         <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+        <c:url value="/scripts/assystxAJAXScript.js" var="ajaxScript" />
+        <c:url value="/scripts/assystxDesignScript.js" var="designScript" />
         <link rel="stylesheet" type="text/css" href="${mainCss}">
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <script src="${minJquery}"></script>
         <script src="${uiJquery}"></script>
         <script src="${mainScript}"></script>
+        <script src="${ajaxScript}"></script>
+        <script src="${designScript}"></script>
     </head>
     <body>
-        <!-- Filter Sidebar for APO -->
-        <%@ include file="../apo/leftAPO.jsp" %>
+        <!-- Filter Sidebar-->
+        <c:choose>
+            <c:when test="${userType == 'cvc'}">
+                <%@ include file="../cvc/leftChair.jsp" %>
+            </c:when>
+            <c:when test="${userType == 'apo'}">
+                <%@ include file="../apo/leftAPO.jsp" %>
+            </c:when>
+        </c:choose>
 
         <!-- Revision History Header for ASSYSTX -->
         <%@ include file="revision-history-header.jsp" %>
 
         <!-- Revision History Workspace for ASSYSTX -->
-        <div class="collabWorkspace cwOfferings">
+        <div class="collabWorkspace">
             <div class="generatedContent">
                 <div class="genContentRows">
                     <div class="genContentCols">Course</div>
@@ -46,66 +58,71 @@
                     <div class="genContentCols">Faculty</div>
                 </div>
             </div>
-            <div class = "filter_comments">No Results Found</div>
         </div>
 
         <!-- Revision History Menu for ASSYSTX -->
         <div class="rightSidebar">
-            <div id = "revisionWrapper">
-                <div class = "date_specified">
-                    <p class = "p_date">Today</p>
-                </div>
+            <div id = "revisionWrapper" style="overflow: auto;">
                 <c:choose>
                     <c:when test="${empty revHistory}">
                         No revisions yet.
                     </c:when>
                     <c:otherwise>
+                        <c:set var="basisDate" value="" scope="session" />
+                        <c:set var="prevTime" value="" scope="session" />
                         <c:forEach items="${revHistory}" var="revisions">
-                            <div class ="revision_holder">
-                            <table class="revision_entry">
-                                <tr>
-                                    <td class = "revision_person">${revisions.fullName}</td>
-                                </tr>
-                                <tr>
-                                    <td class = "revision_position">ST Chair</td>
-                                </tr>
-                                <tr>
-                                    <td class = "revision_time">${revisions.dateModified}</td>
-                                </tr>
-                            </table>
-                            </div>
+                            <!-- Check Date to group same days -->
+                            <c:set var="itDate" value="${revisions.timestamp}" />
+
+                            <fmt:formatDate type="date" dateStyle="LONG" value="${basisDate}" var="fmtBasisDate" />
+                            <fmt:formatDate type="date" dateStyle="LONG" value="${itDate}" var="fmtItDate" />
+
+                            <!-- If BasisDate is empty (start of iteration ) or different itDate and basisDate -->
+                            <c:if test="${empty basisDate || fmtBasisDate ne fmtItDate}">
+                                <c:set var="basisDate" value="${itDate}"/>
+                                <div class = "date_specified">
+                                    <p class = "p_date">
+                                        <c:out value="${fmtItDate}" />
+                                    </p>
+                                </div>
+                                <c:set var="prevTime" value="" />
+                            </c:if>
+
+                            <!-- Check Time to group same modifications -->
+                            <fmt:formatDate type="date" dateStyle="LONG" value="${basisDate}" var="fmtBasisDate" />
+                            <fmt:formatDate type="time" timeStyle="short" value="${itDate}" var="fmtItTime" />
+
+                            <!-- Remove duplicate revisions -->
+                            <c:if test="${fmtBasisDate eq fmtItDate}">
+                                <c:if test="${prevTime ne fmtItTime}">
+                                    <!-- Add within the day -->
+                                    <div class ="revision_holder">
+                                        <table class="revision_entry">
+                                            <tr>
+                                                <td class = "revision_person">
+                                                    <c:out value="${revisions.fullname}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class = "revision_position">
+                                                    <c:out value="${revisions.position}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class = "revision_time">
+                                                    <fmt:formatDate value="${itDate}" type="TIME" timeStyle="short" var="fmtItTime" />
+                                                    <c:out value="${fmtItTime}" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" value="${revisions.revNumber}" class="rev-his-id">
+                                    </div>
+                                    <c:set value="${fmtItTime}" var="prevTime" />
+                                </c:if>
+                            </c:if>
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
-                <div class = "date_specified">
-                    <p class = "p_date">December 10, 2018</p>
-                </div>
-                <div class ="revision_holder">
-                    <table class="revision_entry">
-                        <tr>
-                            <td class = "revision_person">Ryan Dimaunahan</td>
-                        </tr>
-                        <tr>
-                            <td class = "revision_position">ST Chair</td>
-                        </tr>
-                        <tr>
-                            <td class = "revision_time">4:19 PM</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class ="revision_holder">
-                    <table class="revision_entry">
-                        <tr>
-                            <td class = "revision_person">Ryan Dimaunahan</td>
-                        </tr>
-                        <tr>
-                            <td class = "revision_position">ST Chair</td>
-                        </tr>
-                        <tr>
-                            <td class = "revision_time">4:19 PM</td>
-                        </tr>
-                    </table>
-                </div>
             </div>
         </div>
     </body>

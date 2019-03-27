@@ -122,9 +122,9 @@ public class MainController {
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
         model.addAttribute("loggedUser", userRealName);
         String userType = currUser.getUserType();
-        if(userType.equals("Academic Programming Officer"
 
-        /* Get logged in user type */))
+        /* Get logged in user type */
+        if(userType.equals("Academic Programming Officer)"))
             model.addAttribute("userType", "apo");
         else if(userType.equals("Chair"))
             model.addAttribute("userType", "cvc");

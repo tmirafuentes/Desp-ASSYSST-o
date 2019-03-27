@@ -1,13 +1,12 @@
 package org.dlsu.arrowsmith.services;
 
+import org.dlsu.arrowsmith.classes.dtos.RevHistoryLinkDto;
 import org.dlsu.arrowsmith.classes.main.Concern;
 import org.dlsu.arrowsmith.classes.main.Role;
 import org.dlsu.arrowsmith.classes.main.User;
-import org.dlsu.arrowsmith.repositories.ConcernRepository;
-import org.dlsu.arrowsmith.repositories.RevisionHistoryRepository;
-import org.dlsu.arrowsmith.repositories.RoleRepository;
-import org.dlsu.arrowsmith.repositories.UserRepository;
+import org.dlsu.arrowsmith.repositories.*;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
+import org.dlsu.arrowsmith.revisionHistory.ModifiedEntityTypeEntity;
 import org.dlsu.arrowsmith.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +25,8 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private RevisionHistoryRepository revisionHistoryRepository;
+    @Autowired
+    private ModifiedEntityTypeEntityRepository modifiedEntityTypeEntityRepository;
 
     /* Services */
     @Autowired
@@ -166,13 +167,45 @@ public class UserService {
      **
      */
 
+    public AuditedRevisionEntity findAREById(Long revisionId)
+    {
+        return (AuditedRevisionEntity) revisionHistoryRepository.findAuditedRevisionEntityById(revisionId);
+    }
+
     /* Retrieve All Revision History */
     public Iterator retrieveAllRevHistory()
     {
+        /* Get all entities */
         ArrayList<AuditedRevisionEntity> revisionEntities = (ArrayList<AuditedRevisionEntity>)revisionHistoryRepository.findAll();
-        return revisionEntities.iterator();
+
+        /* Create DTO */
+        ArrayList<RevHistoryLinkDto> allRevisions = new ArrayList<>();
+
+        /* Loop through entries and modify it for DTO */
+        for(AuditedRevisionEntity are : revisionEntities)
+        {
+            /* Create Temp Object */
+            RevHistoryLinkDto temp = new RevHistoryLinkDto();
+            /* Assign Timestamp */
+            temp.setTimestamp(are.getDateModified());
+            /* Assign User */
+            User revUser = findUserByIDNumber(Long.parseLong(are.getFullName()));
+            temp.setFullname(revUser.getFirstName() + " " + revUser.getLastName());
+            /* Assign Position */
+            temp.setPosition(revUser.getUserType());
+            /* Assign Rev ID */
+            temp.setRevNumber(are.getId());
+
+            allRevisions.add(0, temp);
+        }
+
+        return allRevisions.iterator();
     }
 
+    public ArrayList<ModifiedEntityTypeEntity> findMETEById(AuditedRevisionEntity are)
+    {
+        return (ArrayList<ModifiedEntityTypeEntity>) modifiedEntityTypeEntityRepository.findModifiedEntityTypeEntityByRevision(are);
+    }
 
     /***
      *
