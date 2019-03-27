@@ -50,6 +50,10 @@
 .revision_time{
     top:2;
 }
-#revisionWrapper{
+.rightSidebar{
     margin-top:8em;
+}
+
+#revisionWrapper{
+    margin-top:-1em;
 }
