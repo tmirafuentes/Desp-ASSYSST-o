@@ -895,4 +895,14 @@ public class RestWebController {
         System.out.println("Broken: " + facLoad.size());
         return response;
     }
+
+    @PostMapping(value = "manage-load/deload-person")
+    public Response deloadFaculty(@RequestBody deloadModalDto deloadInstance, Model model) {
+        User givenFaculty = userService.findUserByFirstNameLastName(deloadInstance.getFacultyName().replaceAll("^\"|\"$", ""));
+        facultyService.undergoDeloading(givenFaculty, deloadInstance.getDeloadType());
+        Response response = new Response();
+        response.setStatus("Done");//set
+        return response;
+    }
+
 }

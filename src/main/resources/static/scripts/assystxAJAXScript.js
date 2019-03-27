@@ -314,6 +314,11 @@ $(function()
         sendConcern();
     });
 
+
+    /* Deload Part */
+    $(".assignFacultyBtns").click(function() {
+      console.log($(this).val());
+    });
     function showConcernsAJAX()
     {
         var tobeSearched = $("#input_userID").val();
@@ -456,5 +461,32 @@ $(function()
                 alert("ERROR: Concern not sent!")
             }
         });
+    });
+
+    $("#submit_deload").click(function() {
+        var formData = {
+            facultyName : $("#deload_name").text(),
+            deloadType : $("#deload_type option:selected").text().trim()
+        };
+        $.ajax({
+            type : "POST",
+            contentType : 'application/json',
+            url : window.location + "/deload-person",
+            data : JSON.stringify(formData),
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    alert("Faculty Successfully Deloaded");
+                }
+
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+
     });
 });

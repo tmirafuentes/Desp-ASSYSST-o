@@ -370,4 +370,10 @@ $(function()
         });
         });
     });*/
+        $("#deload_type").change(function() {
+            var tobePut = $(this).val();
+            var tobePutCode = $(this).text();
+            $("#deload_units").val(tobePut);
+            $("#deload_code_holder").text(tobePutCode);
+        });
 });

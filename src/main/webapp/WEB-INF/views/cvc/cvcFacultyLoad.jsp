@@ -49,14 +49,164 @@
                                 <div class="genContentCols">Admin Load</div>
                                 <div class="genContentCols">Research Load</div>
                                 <div class="genContentCols">Total Load</div>
+                                <div class="genContentCols">Deload</div>
                             </div>
                         </div>
 
         </div>
 
         <!-- View Faculty Information -->
-        <%@ include file="rightFacultyLoad.jsp" %>
-
+        <%--<%@ include file="rightFacultyLoad.jsp" %> --%>
+        <!-- Modal for Deloading -->
+        <div class = "divModals" id = "modalDeloading">
+         <table id = "table_deload">
+             <tr>
+                 <td id = "deload_name"></td>
+             </tr>
+             <tr>
+                 <td id = "deload_totalLoad"></td>
+             </tr>
+             <tr>
+                 <td>Deloaded Units: <input type="number" min="0" id="deload_units" disabled> </td>
+             </tr>
+             <tr>
+                 <td>Deload Type: <select id="deload_type">
+                     <option value="0">-</option>
+                     <c:forEach items="${allDeloading}" var="generatedDeloading">
+                         <option value="${generatedDeloading.units}">
+                             <c:out value="${generatedDeloading.deloadCode}" />
+                         </option>
+                     </c:forEach>
+                 </select>
+                     <input id="deload_code_holder" hidden>
+                 </td>
+             </tr>
+             <tr>
+                 <td><button id="submit_deload">Confirm</button></td>
+             </tr>
+         </table>
+            <%--
+            <div class="generatedFacultyLoadTable">
+                <div class="generatedLoad">
+                    <div class="genLoadRows">
+                        <div class="genLoadCols">Course Code</div>
+                        <div class="genLoadCols">Section</div>
+                        <div class="genLoadCols">Day</div>
+                        <div class="genLoadCols">Time</div>
+                        <div class="genLoadCols">Room</div>
+                    </div>
+                </div>
+            </div>
+        </div>--%>
+        <!-- Modal for Concerns -->
+        <div class="divModals" id="modalConcerns">
+            <div id="concerns_tabs">
+                <div class="concerns_buttons" id="button-concern-threads">
+                    Threads
+                </div>
+                <div class="concerns_buttons" id="button-concern-compose">
+                    Compose
+                </div>
+            </div>
+            <div id="concerns_body">
+                <div id = "concerns_list">
+                    <table class='concern_entry'>
+                        <tr>
+                            <td class ='concern_name'>Ryan Dimaunahan</td>
+                            <td class ='concern_time'>1:29 PM</td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                        </tr>
+                    </table>
+                </div>
+                <table id="concern_compose">
+                    <tr>
+                        <td class="compose_addressbar">To:</td>
+                        <td class="compose_addressbar"><select  id="concern_receiver">
+                            <c:forEach items="${allUsers}" var="user">
+                                <option value="${user}">
+                                    <c:out value="${user}" />
+                                </option>
+                            </c:forEach>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="concern_button_submit"><button id="compose_submit" type="submit">Submit</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- Modal for new Faculty -->
+        <div class="divModals" id="modalNewFaculty">
+            <table id = "table_add_faculty">
+                <tr>
+                    <td>Faculty Last Name </td>
+                    <td><input type = "text" id = "add_faculty_last_name"> </td>
+                </tr>
+                <tr>
+                    <td>Faculty First Name </td>
+                    <td><input type = "text" id = "add_faculty_first_name"> </td>
+                </tr>
+                <tr>
+                    <td>Department </td>
+                    <td><select id = "add_faculty_departments">
+                        <c:forEach items="${allDepartments}" var="department">
+                            <option value="${department}">
+                                <c:out value="${department}" />
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Faculty Type </td>
+                    <td><select id = "add_faculty_type">
+                        <option value = "full">Full</option>
+                        <option value = "part_time">Part-Time</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><button id="new_faculty_submit" type="submit">Submit</button></td>
+                    <td><button id="new_faculty_cancel">Cancel</button></td>
+                </tr>
+            </table>
+        </div>
+        <!-- Create new course modal -->
+        <!-- Modal for Adding a New Course -->
+        <div class="divModals" id="modalNewCourse">
+            <table id = "table_add_course">
+                <tr>
+                    <td>Course Name : </td>
+                    <td><input type="text" id = "add_course_name"></td>
+                </tr>
+                <tr>
+                    <td>Course Code : </td>
+                    <td><input type="text" id = "add_course_code"></td>
+                </tr>
+                <tr>
+                    <td>Department : </td>
+                    <td><select id = "add_course_department">
+                        <c:forEach items="${allDepartments2}" var="department">
+                            <option value="${department}">
+                                <c:out value="${department}" />
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Units : </td>
+                    <td><input id = "add_course_units" type="number" min="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td><button id="new_course_submit" type="submit">Submit</button></td>
+                    <td><button id="new_course_cancel">Cancel</button></td>
+                </tr>
+            </table>
+        </div>
 
     </body>
 </html>
