@@ -393,7 +393,6 @@ public class RestWebController {
     @PostMapping(value = "/find-revision")
     public Response findRevisionEntity(@RequestBody Long revisionId) {
         /* Retrieve specific revision entity from database */
-        System.out.println(revisionId);
         AuditedRevisionEntity are = userService.findAREById(revisionId);
 
         /* Retrieve specific Entity Type from database */
@@ -403,6 +402,7 @@ public class RestWebController {
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
         AuditQuery q = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, false);
         q.add(AuditEntity.revisionNumber().eq(are.getId()));
+
         CourseOffering co = (CourseOffering) q.getSingleResult();
 
         /* Add Details to Course Offering */
@@ -893,7 +893,6 @@ public class RestWebController {
         Response response = new Response();
         response.setStatus("Done");
         response.setData(convertToDTO(facLoad.iterator()));
-        System.out.println("Broken: " + facLoad.size());
         return response;
     }
 
