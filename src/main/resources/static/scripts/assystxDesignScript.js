@@ -103,6 +103,23 @@ $(function()
                     if(result.status == "Done")
                     {
                         alert("Course Section = " + result.data.classSection);
+                        $(".collabWorkspace .generatedContent .genContentRows:not(:first-child)").remove();
+
+                            /* Create Divs */
+                            var courseCode = "<div class='genContentCols cols-course-code'>" + result.data.courseCode + "</div>";
+                            var section = "<div class='genContentCols cols-section'>" + result.data.classSection + "</div>";
+                            var newDays = orderDays(result.data.day1 + result.data.day2);
+                            var days = (result.data.day1 != '-') ? "<div class='genContentCols .cols-days'>" + newDays + "</div>"
+                                : "<div class='genContentCols cols-days'>None</div>";
+                            var time = (result.data.startTime != ':') ? "<div class='genContentCols cols-timeslot'>" + result.data.startTime + " - " + result.data.endTime + "</div>"
+                                : "<div class='genContentCols cols-timeslot'>Unassigned</div>";
+                            var room = "<div class='genContentCols cols-room-code'>" + result.data.roomCode + "</div>";
+                            var faculty = "<div class='genContentCols cols-faculty'>" + result.data.faculty + "</div>";
+                            var offeringRow = "<div class='genContentRows'>" +
+                                "" + courseCode + section + days + time + room + faculty + offerid +
+                                "</div>";
+                        $(".collabWorkspace .generatedContent").append(offeringRow);
+
                     }
                 },
                 error : function(e)

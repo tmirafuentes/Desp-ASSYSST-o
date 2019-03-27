@@ -55,7 +55,8 @@
 
         </div>
 
-        <!-- View Faculty Information -->
+        <%-- View Faculty Information
+        <%@ include file="rightFacultyLoad.jsp" %>--%>
         <!-- Modal for Concerns -->
         <div class="divModals" id="modalConcerns">
             <div id="concerns_tabs">
@@ -165,6 +166,46 @@
                     <td><button id="new_course_cancel">Cancel</button></td>
                 </tr>
             </table>
+        </div>
+        <div class = "divModals" id = "modalDeloading">
+
+            <table id = "table_deload">
+                <tr>
+                    <td id = "deload_name"></td>
+                </tr>
+                <tr>
+                    <td id = "deload_totalLoad"></td>
+                </tr>
+                <tr>
+                    <td>Deloaded Units: <input type="number" min="0" id="deload_units" disabled> </td>
+                </tr>
+                <tr>
+                    <td>Deload Type: <select id="deload_type">
+                        <option value="0">-</option>
+                        <c:forEach items="${allDeloading}" var="generatedDeloading">
+                            <option value="${generatedDeloading.units}">
+                                <c:out value="${generatedDeloading.deloadCode}" />
+                            </option>
+                        </c:forEach>
+                    </select>
+                        <input id="deload_code_holder" hidden>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button id="submit_deload">Confirm</button></td>
+                </tr>
+            </table>
+            <div class="generatedFacultyLoadTable">
+                <div class="generatedLoad">
+                    <div class="genLoadRows">
+                        <div class="genLoadCols">Course Code</div>
+                        <div class="genLoadCols">Section</div>
+                        <div class="genLoadCols">Day</div>
+                        <div class="genLoadCols">Time</div>
+                        <div class="genLoadCols">Room</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </body>

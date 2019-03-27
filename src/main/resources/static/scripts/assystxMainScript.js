@@ -209,8 +209,8 @@ $(function()
 
         $("#modalDeloadFaculty").dialog({
            title: "Deload Faculty",
-           width: 400,
-           height: 300,
+            width:750,
+            height:600,
            modal: true
         });
         $("#modalDeloadFaculty").dialog("open");

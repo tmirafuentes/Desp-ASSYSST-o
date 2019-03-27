@@ -747,10 +747,50 @@ $("#class_s").click(function() {
                         //Assign the Other Values
                         $('#deload_totalLoad').text("Total Load: " + $(this).parent().siblings().eq(4).text());
 
+                        $.ajax({
+                            type : "POST",
+                            contentType : 'application/json',
+                            url : window.location + "/person-faculty-load",
+                            data : facultyName,
+                            dataType : 'json',
+                            success : function(result)
+                            {
+                                if(result.status == "Done") {
+                                    $(".generatedFacultyLoadTable .generatedLoad .genLoadRows:not(:first-child)").remove();
+                                    /* For Each Offering */
+                                    $.each(result.data, function(i, offering)
+                                    {
+                                        /* Create Divs */
+                                        var courseCode = "<div class='genLoadCols'>" + offering.courseCode + "</div>";
+                                        var section = "<div class='genLoadCols'>" + offering.classSection + "</div>";
+                                        var newDays = orderDays(offering.day1 + offering.day2);
+                                        var days = (offering.day1 != '-') ? "<div class='genLoadCols'>" + newDays + "</div>"
+                                            : "<div class='genLoadCols'>None</div>";
+                                        var time = (offering.startTime != ':') ? "<div class='genLoadCols'>" + offering.startTime + " - " + offering.endTime + "</div>"
+                                            : "<div class='genLoadCols'>Unassigned</div>";
+                                        var room = "<div class='genLoadCols'>" + offering.roomCode + "</div>";
+
+                                        var offeringRow = "<div class='genLoadRows'>" +
+                                            "" + courseCode + section + days + time + room +
+                                            "</div>";
+
+                                        /* Add to UI */
+                                        $(".generatedFacultyLoadTable .generatedLoad").append(offeringRow);
+                                    });
+                                }
+
+                            },
+                            error : function(e)
+                            {
+                                alert("Error!");
+                                console.log("ERROR: ", e);
+                            }
+                        });
+
                         $("#modalDeloading").dialog({
                             title:"Deload Faculty",
-                            width:250,
-                            height:300,
+                            width:400,
+                            height:500,
                             modal:true
                         });
                         $("#modalDeloading").dialog("open");
