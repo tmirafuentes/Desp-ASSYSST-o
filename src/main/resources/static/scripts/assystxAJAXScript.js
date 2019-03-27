@@ -88,14 +88,14 @@ $(function()
 
     function getConcernNotifications()
     {
-        var tobeSearched = $("#input_userID").val();
+        //var tobeSearched = $("#input_userID").val();
        // console.log(tobeSearched)
         /* Perform AJAX */
         $.ajax({
-            type : "POST",
+            type : "GET",
             url : window.location + "/get-notifications",
             contentType : 'application/json',
-            data :tobeSearched,
+            //data :tobeSearched,
             success : function(result)
             {
                 if(result.status == "Done")
@@ -316,13 +316,13 @@ $(function()
 
     function showConcernsAJAX()
     {
-        var tobeSearched = $("#input_userID").val();
+        //var tobeSearched = $("#input_userID").val();
         /* Perform AJAX */
         $.ajax({
-            type : "POST",
+            type : "GET",
             url : window.location + "/get-concerns",
             contentType : 'application/json',
-            data :tobeSearched,
+            //data :tobeSearched,
             success : function(result)
             {
                 if(result.status == "Done")

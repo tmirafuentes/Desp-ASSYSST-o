@@ -494,13 +494,13 @@ public class RestWebController {
     }
 
     /* Retrieve All Concerns through GET */
-    @PostMapping(value = "/get-concerns")
-    public Response retrieveConcerns(@RequestBody Long userID, Model model)
+    @GetMapping(value = {"/get-concerns", "/revision-history/get-concerns", "manage-load/get-concerns"})
+    public Response retrieveConcerns()//@RequestBody Long userID, Model model
     {
        // Long converUserID = Long.parseLong(userID);
-        System.out.println("User Identifitcation: " + userID);
+        //System.out.println("User Identifitcation: " + userID);
         /* Create new list for concerns */
-        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.findUserByIDNumber(userID));
+        Iterator allConcerns = userService.retrieveAllConcernsByReceiver(userService.retrieveUser());
 
         /* Convert to DTO */
         ArrayList<ConcernDto> listConcernDtos = new ArrayList<>();
@@ -792,11 +792,11 @@ public class RestWebController {
     }
 
     /*Gets number of unchecked concerns*/
-    @PostMapping(value = "/get-notifications")
-    public Response getNumberofUncheckedConcerns(@RequestBody Long userID, Model model) {
+    @GetMapping(value = {"/get-notifications", "revision-history/get-notifications", "/manage-load/get-notifications"} )
+    public Response getNumberofUncheckedConcerns() {//@RequestBody Long userID
         int numberToBePassed = 0;
 
-        numberToBePassed = userService.retrieveNumberConcernsByBoolean(userService.findUserByIDNumber(userID), false);
+        numberToBePassed = userService.retrieveNumberConcernsByBoolean(userService.retrieveUser(), false);
         System.out.println("Passed" + numberToBePassed);
         Response response = new Response();
         response.setStatus("Done");

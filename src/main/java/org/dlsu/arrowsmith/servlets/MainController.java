@@ -92,6 +92,7 @@ public class MainController {
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
         model.addAttribute("userID", userService.retrieveUserID());
         model.addAttribute("allUsers", userService.findAllUsers());
+        model.addAttribute("allUsers2", userService.findAllUsers());
         model.addAttribute("allDepartments", facultyService.retrieveAllFacultyDepartments().iterator());
         model.addAttribute("allDepartments2", facultyService.retrieveAllFacultyDepartments().iterator());
         return "/cvc/cvcHome";
@@ -121,6 +122,7 @@ public class MainController {
         User currUser = userService.retrieveUser();
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
         model.addAttribute("loggedUser", userRealName);
+        model.addAttribute("allUsers", userService.findAllUsers());
         String userType = currUser.getUserType();
 
         /* Get logged in user type */

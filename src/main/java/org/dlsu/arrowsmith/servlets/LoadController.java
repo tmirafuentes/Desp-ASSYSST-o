@@ -60,7 +60,7 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("allRoomTypes", offeringService.generateRoomType());
         model.addAttribute("allOfferings", offeringService.retrieveAllOfferingsByTerm(2016, 2017, 1));
         model.addAttribute("allDeloading", facultyService.retrieveAllDeloading());
-
+        model.addAttribute("allUsers", userService.findAllUsers());
         /* Load Dto for Modify Faculty Load */
         model.addAttribute("facultyDeloadForm", new FacultyDeloadDto());
 
@@ -137,6 +137,7 @@ public class LoadController { // This Controller is for the Faculty Load Assignm
         model.addAttribute("facultyForm", new User());
         model.addAttribute("facultyCollege", currCollege);
         model.addAttribute("facultyDept", currDept);
+
         return "cvc/add-faculty";
     }
 

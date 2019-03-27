@@ -125,5 +125,48 @@
                 </c:choose>
             </div>
         </div>
+        <!-- Modal for Concerns -->
+        <!-- Modal for Concerns -->
+        <div class="divModals" id="modalConcerns">
+            <div id="concerns_tabs">
+                <div class="concerns_buttons" id="button-concern-threads">
+                    Threads
+                </div>
+                <div class="concerns_buttons" id="button-concern-compose">
+                    Compose
+                </div>
+            </div>
+            <div id="concerns_body">
+                <div id = "concerns_list">
+                    <table class='concern_entry'>
+                        <tr>
+                            <td class ='concern_name'>Ryan Dimaunahan</td>
+                            <td class ='concern_time'>1:29 PM</td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                        </tr>
+                    </table>
+                </div>
+                <table id="concern_compose">
+                    <tr>
+                        <td class="compose_addressbar">To:</td>
+                        <td class="compose_addressbar"><select  id="concern_receiver">
+                            <c:forEach items="${allUsers}" var="user">
+                                <option value="${user}">
+                                    <c:out value="${user}" />
+                                </option>
+                            </c:forEach>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="concern_button_submit"><button id="compose_submit" type="submit">Submit</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </body>
 </html>
