@@ -393,6 +393,7 @@ public class RestWebController {
     @PostMapping(value = "/find-revision")
     public Response findRevisionEntity(@RequestBody Long revisionId) {
         /* Retrieve specific revision entity from database */
+        System.out.println(revisionId);
         AuditedRevisionEntity are = userService.findAREById(revisionId);
 
         /* Retrieve specific Entity Type from database */

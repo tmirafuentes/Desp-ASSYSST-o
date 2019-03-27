@@ -87,7 +87,7 @@ $(function()
         else
         {
             $(".collabWorkspace .generatedContent .genContentRows:not(:first-child)").removeClass("selectedRevision");
-            $(".cwOfferings .generatedContent .genContentRows:not(:first-child)").css({'background-color' : '#ffffff'});
+            $(".revision_holder").css({'background-color' : '#ffffff'});
             $(this).css({'background-color' : '#3cb878'});
             $(this).addClass("selectedRevision");
 
