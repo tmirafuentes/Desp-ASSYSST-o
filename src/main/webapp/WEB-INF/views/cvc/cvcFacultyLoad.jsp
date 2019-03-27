@@ -49,13 +49,13 @@
                                 <div class="genContentCols">Admin Load</div>
                                 <div class="genContentCols">Research Load</div>
                                 <div class="genContentCols">Total Load</div>
+                                <div class="genContentCols">Deload</div>
                             </div>
                         </div>
 
         </div>
 
         <!-- View Faculty Information -->
-        <%@ include file="rightFacultyLoad.jsp" %>
         <!-- Modal for Concerns -->
         <div class="divModals" id="modalConcerns">
             <div id="concerns_tabs">
@@ -97,6 +97,74 @@
                     </tr>
                 </table>
             </div>
+        </div>
+
+        <!-- Modal for new Faculty -->
+        <div class="divModals" id="modalNewFaculty">
+            <table id = "table_add_faculty">
+                <tr>
+                    <td>Faculty Last Name </td>
+                    <td><input type = "text" id = "add_faculty_last_name"> </td>
+                </tr>
+                <tr>
+                    <td>Faculty First Name </td>
+                    <td><input type = "text" id = "add_faculty_first_name"> </td>
+                </tr>
+                <tr>
+                    <td>Department </td>
+                    <td><select id = "add_faculty_departments">
+                        <c:forEach items="${allDepartments}" var="department">
+                            <option value="${department}">
+                                <c:out value="${department}" />
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Faculty Type </td>
+                    <td><select id = "add_faculty_type">
+                        <option value = "full">Full</option>
+                        <option value = "part_time">Part-Time</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><button id="new_faculty_submit" type="submit">Submit</button></td>
+                    <td><button id="new_faculty_cancel">Cancel</button></td>
+                </tr>
+            </table>
+        </div>
+        <!-- Create new course modal -->
+        <!-- Modal for Adding a New Course -->
+        <div class="divModals" id="modalNewCourse">
+            <table id = "table_add_course">
+                <tr>
+                    <td>Course Name : </td>
+                    <td><input type="text" id = "add_course_name"></td>
+                </tr>
+                <tr>
+                    <td>Course Code : </td>
+                    <td><input type="text" id = "add_course_code"></td>
+                </tr>
+                <tr>
+                    <td>Department : </td>
+                    <td><select id = "add_course_department">
+                        <c:forEach items="${allDepartments2}" var="department">
+                            <option value="${department}">
+                                <c:out value="${department}" />
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Units : </td>
+                    <td><input id = "add_course_units" type="number" min="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td><button id="new_course_submit" type="submit">Submit</button></td>
+                    <td><button id="new_course_cancel">Cancel</button></td>
+                </tr>
+            </table>
         </div>
 
     </body>

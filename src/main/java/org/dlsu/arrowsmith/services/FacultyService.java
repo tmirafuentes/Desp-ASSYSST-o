@@ -301,11 +301,23 @@ public class FacultyService {
     }
 
     /* Assign Deloading Load to a Faculty in a given Term */
-    public void assignResearchLoadToFaculty(int startAY, int endAY, int term, User faculty, DeloadInstance deloadingInstance) {
+    public void assignDeloadToFaculty(int startAY, int endAY, int term, User faculty, DeloadInstance deloadingInstance) {
         if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
             FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-            facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + deloadingInstance.getDeloading().getUnits());
-            facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
+            if(deloadingInstance.getDeloading().getDeloadType().equals("AL"))
+            {
+                if(!(deloadingInstance.getDeloading().getUnits() > facultyLoad.getAdminLoad()))
+                {
+                    facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() - deloadingInstance.getDeloading().getUnits());
+                    facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
+                }
+            }
+            else if(deloadingInstance.getDeloading().getDeloadType().equals("RL")) {
+                if(!(deloadingInstance.getDeloading().getUnits() > facultyLoad.getResearchLoad())) {
+                    facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() - deloadingInstance.getDeloading().getUnits());
+                    facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
+                }
+            }
         }
     }
     //    Retrieve All Deload Instances
@@ -373,5 +385,20 @@ public class FacultyService {
         return departmentRepository.findDepartmentByDeptCode(code);
     }
 
+    public void undergoDeloading(User faculty, String deloadCode)
+    {
+        System.out.println("Deload Code: " + deloadCode);
+        Deloading deloadingToBeUsed = deloadingRepository.findDeloadingByDeloadCode(deloadCode);
+        DeloadInstance deloadInstance = new DeloadInstance();
+
+        deloadInstance.setDeloading(deloadingToBeUsed);
+        deloadInstance.setFaculty(faculty);
+        deloadInstance.setStartAY(2016);
+        deloadInstance.setEndAY(2017);
+        deloadInstance.setTerm(1);
+        System.out.println("Deload Units " + deloadInstance.getDeloading().getUnits());
+        this.assignDeloadToFaculty(2016, 2017, 1, faculty, deloadInstance);
+        this.saveDeloadInstance(deloadInstance);
+    }
 
 }

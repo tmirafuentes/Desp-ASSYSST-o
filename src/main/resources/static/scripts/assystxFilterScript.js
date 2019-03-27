@@ -674,6 +674,7 @@ $("#class_s").click(function() {
         {
             $(".genContentRows:not(:first-child)").each(function () {
                 var courseTraverse = $(':first-child', this).text();
+                courseTraverse = courseTraverse.replace("Deload", "");
                 courseTraverse = $.trim(courseTraverse);
                 if(!checkSearch(textSearched.toUpperCase(), courseTraverse.toUpperCase()))
                     $(this).hide();
@@ -704,24 +705,62 @@ $("#class_s").click(function() {
                     /* For Each Offering */
                     $.each(result.data, function(i, load)
                     {
+                        var buttonVal = load.lastName + ", "  + load.firstName;
                         var facultyName = "<div class='genContentCols'>" + load.lastName +  ', ' + load.firstName + "</div>";
                         var teachingLoad = "<div class='genContentCols'>" + load.teachingLoad + "</div>";
                         var adminLoad = "<div class='genContentCols'>" + load.adminLoad + "</div>";
                         var researchLoad = "<div class='genContentCols'>" + load.researchLoad + "</div>";
                         var totalLoad = "<div class='genContentCols'>" + load.totalLoad + "</div>";
+                        var buttonDeload = "<div class = 'genContentCols'><button class='deload_button' value='" + buttonVal + "' type='button'>Deload</button></td></tr>"
                         var facultyRow = "<div class='genContentRows'>" +
-                            "" + facultyName + teachingLoad + adminLoad + researchLoad + totalLoad +
+                            "" + facultyName + teachingLoad + adminLoad + researchLoad + totalLoad + buttonDeload +
                             "</div>";
                         //console.log(load.lastName + load.firstName + load.adminLoad + load.researchLoad + load.totalLoad)
                         /* Add to UI */
                         $(".cwFacultyLoad .generatedContent").append(facultyRow);
 
-                        /* Optional: if selected offering, add class
-                        console.log("Sel = " + offering.offeringId + " type = " + typeof offering.offeringId);
-                        if(offering.offeringId == parseInt(selOffering)) {
-                            $(".cwOfferings .generatedContent .genContentRows:last-child").addClass("selectedOffering");
-                            $(".cwOfferings .generatedContent .genContentRows:last-child").css({'background-color' : '#3cb878'});*/
                     });
+                    /* Select a Deload button*/
+                    function colorChange()
+                    //$(".cwOfferings .generatedContent .genContentRows:not(:first-child)").click(function()
+                    {
+                        /* Check if the offering is selected already; if so, unselect it */
+                        if ( $(this).parents(".genContentRows").css("background-color") === "rgb(60, 184, 120)")
+                        {
+                            $(this).parents(".genContentRows").removeClass("selectedOffering");
+                            $(this).parents(".genContentRows").css({'background-color' : '#e2e2e2'});
+                        }
+                        /* If not, select it */
+                        else if ($(this).parents(".genContentRows").css("background-color") === "rgb(226, 226, 226)")
+                        {
+                            /* Modify course offering row appearance */
+                            //$(".modify_sidebar").find("input:text").val("");
+                            $(".cwFacultyLoad .generatedContent .genContentRows:not(:first-child)").removeClass("selectedOffering");
+                            $(".cwFacultyLoad .generatedContent .genContentRows:not(:first-child)").css({'background-color' : '#e2e2e2'});
+                            $(this).parents(".genContentRows").css({'background-color' : '#3cb878'});
+                            $(this).parents(".genContentRows").addClass("selectedOffering");
+
+                        }
+
+                        var facultyName = $(this).attr("value");
+                        $("#deload_name").text(facultyName)
+                        //Assign the Other Values
+                        $('#deload_totalLoad').text("Total Load: " + $(this).parent().siblings().eq(4).text());
+
+                        $("#modalDeloading").dialog({
+                            title:"Deload Faculty",
+                            width:250,
+                            height:300,
+                            modal:true
+                        });
+                        $("#modalDeloading").dialog("open");
+                    }
+
+                    var loadColumns = document.getElementsByClassName("deload_button");
+                    for (var i = 0; i < loadColumns.length; i++) {
+                        var load = loadColumns[i];
+                        load.onclick = colorChange;
+                    }
                 }
             },
             error : function(e)

@@ -5,6 +5,10 @@
 	src: url(fonts/Gotham.ttf);
 }
 
+@font-face {
+	font-family: Gotham Book;
+	src: url(fonts/GothamBook.ttf);
+}
 /**
  *	LEFT SIDE
  *	FILTER SIDEBAR
@@ -116,7 +120,7 @@
 }
 #user_icon{
 	position:absolute;
-	top:20;
+	top:10;
 	right:100;
 	color:white;
 	font-weight:bold;
@@ -124,16 +128,35 @@
 }
 #online_icons{
 	position: relative;
-	left:60%;
-	top:7;
+	top:-15;
+	left:65%;
 	color:black;
-	text-decoration:none;
+	width:15%;
+	height:1.5em;
 }
-.online_user{
-	position: relative;
-	left:60%;
+.online_avatar{
+	float:left;
+	width:13%;
+	height:120%;
+	background-color:blue;
+	font-size:1.5em;
+	margin-left:0.8em;
+	text-align:center;
+	font-weight: bold;
+	font-family: Gotham Book;
+	color:#fff;
+	-webkit-border-radius:10em;
+	-moz-border-radius: 10em;
+	border-radius: 10em;
+}
+#users_title{
+	position:relative;
+	text-decoration: none;
+	left:50%;
+	top:8;
+}
+#users_title:link, #users_title:visited{
 	color:black;
-	text-decoration:none;
 }
 #last_edited{
 	position:relative;
@@ -379,8 +402,9 @@
 	box-shadow: none;
 	border:0;
 	background-color:white;
-	top:7%;
+	top:50%;
 	right:5;
+	height: 1em;
 }
 #load_submit_expertise_search{
 	position: absolute;
@@ -838,4 +862,13 @@
 	text-align: center;
 	margin-top: -20%;
 	margin-left: 70%;
+}
+.deload_button{
+	font-weight:bold;
+	color:white;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background-color:#3cb878;
+	height:2.5em;
 }
