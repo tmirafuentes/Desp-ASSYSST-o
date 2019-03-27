@@ -94,7 +94,7 @@
 
     <div class = "sidebarMenu">
             <!-- Go to Faculty Load Page -->
-        <a href="/cvc/" class = "menuLinks" id="view_course_offerings">
+        <a href="/cvc" class = "menuLinks" id="view_course_offerings">
             <div id = "button_view_course_offerings"> View Course Offerings</div>
         </a>
             <%--<div id = "button_add_new_course"> Add New Course</div>

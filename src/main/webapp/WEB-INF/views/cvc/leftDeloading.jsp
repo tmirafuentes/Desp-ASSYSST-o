@@ -79,7 +79,7 @@
     </table>
     <div id = "left_button_holder">
         <!-- Go to Faculty Load Page -->
-        <a href="/cvc/" class = left_buttons id ="button_view_course_offerings"> View Course Offerings</a>
+        <a href="/cvc" class = left_buttons id ="button_view_course_offerings"> View Course Offerings</a>
         <!-- Go To Deloading Page -->
         <button class = left_buttons id="button_deloading"> Deloading </button>
         <button class = left_buttons id ="button_concerns"> Concerns </button>

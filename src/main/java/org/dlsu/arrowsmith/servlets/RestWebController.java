@@ -265,7 +265,6 @@ public class RestWebController {
         /* Update Days Object */
         Set<Days> daysSet = currOffering.getDaysSet();
 
-
         boolean noConflicts = true;
         if (daysSet == null)        /* No current class days and room for the offering */
         {
@@ -299,6 +298,7 @@ public class RestWebController {
                     dayInstance = createNewDay(offering, newRoom, currOffering, 1);
                     dayInstance.setdaysId(daysId);
                     isDay1Done = true;
+                    offeringService.saveDays(dayInstance);
                     continue;
                 }
                 // If input Day 1 is null or "-" in the form - delete day instance
@@ -316,6 +316,7 @@ public class RestWebController {
                     Long daysId = dayInstance.getdaysId();
                     dayInstance = createNewDay(offering, newRoom, currOffering, 2);
                     dayInstance.setdaysId(daysId);
+                    offeringService.saveDays(dayInstance);
                 }
                 // If Day 2 is null or "-" in the form
                 else if (offering.getDay2() == '-' && isDay1Done)
@@ -325,10 +326,14 @@ public class RestWebController {
                 }
             }
         }
+        currOffering.setDaysSet(daysSet);
+        for (Days d : daysSet) {
+            System.out.println("Days ID = " + d.getdaysId());
+            offeringService.saveDays(d);
+        }
 
         /* Faculty */
         User currFaculty = currOffering.getFaculty();
-        System.out.println(offering.getFaculty());
         User newFaculty = userService.findUserByFirstNameLastName(offering.getFaculty());
 
         /* If there is a current faculty and is being replaced by a new faculty */
@@ -354,11 +359,12 @@ public class RestWebController {
             modifyFacultyLoad(newFaculty, currOffering, currOffering.getCourse().getUnits());
         }
 
-        Set<Days> memories = currOffering.getDaysSet();
+        /*Set<Days> memories = currOffering.getDaysSet();
         for (Days dayInstance : memories)
         {
             System.out.println("Memories: " + dayInstance.getclassDay() + " " + dayInstance.getbeginTime() + " " + dayInstance.getendTime());
-        }
+        }*/
+
         /* Save Course Offering to Database */
         offeringService.saveCourseOffering(currOffering);
 

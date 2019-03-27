@@ -8,10 +8,13 @@ import org.dlsu.arrowsmith.repositories.*;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 import org.dlsu.arrowsmith.revisionHistory.ModifiedEntityTypeEntity;
 import org.dlsu.arrowsmith.security.SecurityService;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.*;
 
 @Service
@@ -35,6 +38,10 @@ public class UserService {
     /* Encryptor */
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    /* Others */
+    @Autowired
+    private EntityManager entityManager;
 
     /**
      **
@@ -172,6 +179,8 @@ public class UserService {
         return (AuditedRevisionEntity) revisionHistoryRepository.findAuditedRevisionEntityById(revisionId);
     }
 
+    /* Retrieve Most Recent Entry */
+
     /* Retrieve All Revision History */
     public Iterator retrieveAllRevHistory()
     {
@@ -182,6 +191,7 @@ public class UserService {
         ArrayList<RevHistoryLinkDto> allRevisions = new ArrayList<>();
 
         /* Loop through entries and modify it for DTO */
+        AuditReader auditReader = AuditReaderFactory.get(entityManager);
         for(AuditedRevisionEntity are : revisionEntities)
         {
             /* Create Temp Object */

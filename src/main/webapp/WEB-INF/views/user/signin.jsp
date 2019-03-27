@@ -38,7 +38,7 @@
         </tr>
     </table>
         <div id="login_error_message">
-
+            ${error}
         </div>
     </form>
 </div>

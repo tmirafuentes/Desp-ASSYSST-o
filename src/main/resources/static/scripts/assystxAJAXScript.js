@@ -395,13 +395,13 @@ $(function()
             success : function(result)
             {
                 if(result.status == "Done") {
-                    alert("Successfully Added New Course Offering")
+                    $(".success-feedback").show();
+                    alert("Successfully Added New Course Offering");
                 }
             },
             error : function(e)
             {
                 console.log("ERROR: ", e);
-                alert("ERROR: Concern not sent!")
             }
         });
 

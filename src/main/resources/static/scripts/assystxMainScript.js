@@ -225,6 +225,7 @@ $(function()
 
     /* Open Add Offering Modal */
     $("#button_add_offering").click(function() {
+        $(".success-feedback").hide();
         $("#modalAddOffering").dialog({
             title:"Add Course Offerings",
             width:800,

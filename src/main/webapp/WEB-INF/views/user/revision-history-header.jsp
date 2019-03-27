@@ -21,7 +21,10 @@
     </div>
     <div id = "smaller_header">
         <a href ="/${userType}" id = "last_edited"><- Return to home page</a>
-        <a href ="#" id = "online_icons">Online Users</a>
+        <div id="online_icons">
+            <div class="online_avatar">H</div>
+            <div class="online_avatar">R</div>
+        </div>
         <p id = "modify_offering"> Revision History</p>
     </div>
 </html>

@@ -77,9 +77,6 @@
                     <td>
                         <select class = 'modal_select' id='select_degree'>
                             <option value="All">All</option>
-                            <c:forEach items="${allDegrees}" var="degreeType">
-                                <option value="${degreeType.degreeName}"><c:out value="${degreeType.degreeName}" /></option>
-                            </c:forEach>
                         </select>
                     </td>
                     <td><select class = 'modal_select' id='select_batch'></select></td>
@@ -95,6 +92,11 @@
             </table>
             <%--<form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">--%>
                 <table id='modal_table_add_courses'>
+                    <tr>
+                        <td colspan="4">
+                            <span class="success-feedback">Course offering added successfully!</span>
+                        </td>
+                    </tr>
                     <tr>
                         <th>Course</th>
                         <th>Name</th>
