@@ -27,6 +27,8 @@ public class OfferingService {
     private RoomRepository roomRepository;
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
+    @Autowired
+    private OnlineUsersRepository onlineUsersRepository;
 
     public ArrayList<CourseOffering> getSearchCourses() {
         return searchCourses;
@@ -645,5 +647,9 @@ public class OfferingService {
     public ArrayList<CourseOffering> findAllCourseOfferingLoads(User faculty)
     {
         return courseOfferingRepository.findAllByFacultyAndStartAYAndEndAYAndTerm(faculty, 2016, 2017, 1);
+    }
+    public void saveOnlineUser(OnlineUsers ol)
+    {
+        onlineUsersRepository.save(ol);
     }
 }

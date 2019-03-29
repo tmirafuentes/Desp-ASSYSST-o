@@ -911,4 +911,25 @@ public class RestWebController {
         return response;
     }
 
+    /* Retrieve All Concerns through GET */
+    @PostMapping(value = {"/insert-online-user"})
+    public Response addOnlineUser (@RequestBody String randomColor)
+    {
+
+        Long userId = userService.retrieveUser().getUserId();
+        System.out.println("this is the current user: " + userId);
+        System.out.println("this is the current color: " + randomColor);
+
+        OnlineUsers ol = new OnlineUsers();
+        ol.setUserId(userId);
+        ol.setUser_color(randomColor.replaceAll("^\"|\"$", ""));
+        offeringService.saveOnlineUser(ol);
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        //response.setData(listConcernDtos);
+
+        return response;
+    }
+
 }

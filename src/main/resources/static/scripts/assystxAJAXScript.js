@@ -9,6 +9,7 @@
 
 $(function()
 {
+    //insertNewUser();
     getConcernNotifications();
     updateRevHistoryLink();
     setInterval(function(){
@@ -21,7 +22,33 @@ $(function()
      * POST FORMS
      *
      */
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 
+    function insertNewUser()
+    {
+        $.ajax({
+            type : "POST",
+            url : window.location + "/insert-online-user",
+            data : getRandomColor(),
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(result)
+            {
+                alert("added successful")
+            },
+            error : function (e)
+            {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
     function updateRevHistoryLink()
     {
         $.ajax({
