@@ -687,4 +687,8 @@ public class OfferingService {
     {
         return (ArrayList<OnlineUsers>) onlineUsersRepository.findAll();
     }
+    public Long findUserOfferingWhereabouts(Long userId)
+    {
+        return modifyingCoursesRepository.findByUserId(userId).getOfferingId();
+    }
 }

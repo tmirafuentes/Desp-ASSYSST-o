@@ -980,5 +980,28 @@ public class RestWebController {
 
         return response;
     }
+    /* Retrieve All Course Offerings through GET */
+    @GetMapping(value = "/course-retrieve-user-locations")
+    public Response showallOfferingLocations(Model model) {
+        /* Create new list for course offerings */
+        ArrayList<OnlineUsers> allUsers = offeringService.retrieveAllOnlineUsers();
+        ArrayList<userRepresentationDto> names = new ArrayList<>();
+        for(OnlineUsers u: allUsers){
+            userRepresentationDto nUser = new userRepresentationDto();
+            nUser.setUserCharacter(userService.findUserByIDNumber(u.getUserId()).getFirstName().charAt(0));
+            nUser.setUserColor(u.getUser_color());
+            nUser.setUserName(userService.findUserByIDNumber(u.getUserId()).getFirstName());
+            nUser.setUserOfferingWhereabouts(offeringService.findUserOfferingWhereabouts(u.getUserId()));
+            names.add(nUser);
+        }
+
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(names);
+
+        return response;
+    }
 
 }

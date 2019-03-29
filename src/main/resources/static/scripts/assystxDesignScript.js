@@ -10,6 +10,7 @@ $(function()
 {
     setInterval(function(){
         retrieveAllOnlineUsers();
+        courseModificationUsers()
     }, 1500);
     /**
      *
@@ -198,6 +199,7 @@ $(function()
                     $.each(result.data, function(i, user) {
                         var oneEntry = "<div class='online_avatar' id =" + 'user_' + i + ">" + user.userCharacter + "</div>";
                         $("#online_icons").append(oneEntry);
+                        $("#online_icons").find('#user_' + i).css("background-color", user.userColor);
                     });
                 }
             },
@@ -254,5 +256,40 @@ $(function()
             }
         });
         return locked;
+    }
+    function courseModificationUsers()
+    {
+        $.ajax({
+            type : "GET",
+            contentType : 'application/json',
+            url : window.location + "/course-retrieve-user-locations",
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    //clear all borders
+                    $(".cwofferings .generatedContent .genContentRows .cols-offid").each(function( index ) {
+                        $(this).parent().css("border", "none")
+                    });
+                    //for each user
+                    //find equivalent course offering
+                    //change the border
+                    $.each(result.data, function(i, user) {
+                        $(".cwofferings .generatedContent .genContentRows .cols-offid").each(function( index ) {
+                            if($(this).val() == user.userOfferingWhereabouts)
+                            {
+                                console.log($(this).val + " " + user.userOfferingWhereabouts)
+                                $(this).parent().css("border", "3px solid " + user.userColor)
+                            }
+                        });
+                    });
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+            }
+        });
     }
 });

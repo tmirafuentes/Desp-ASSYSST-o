@@ -4,6 +4,16 @@ public class userRepresentationDto {
     private String userColor;
     private char userCharacter;
 
+    public Long getUserOfferingWhereabouts() {
+        return userOfferingWhereabouts;
+    }
+
+    public void setUserOfferingWhereabouts(Long userOfferingWhereabouts) {
+        this.userOfferingWhereabouts = userOfferingWhereabouts;
+    }
+
+    private Long userOfferingWhereabouts;
+
     public String getUserColor() {
         return userColor;
     }
