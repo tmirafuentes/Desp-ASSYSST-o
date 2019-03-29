@@ -1,7 +1,6 @@
 package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.envers.Audited;
-
 import javax.persistence.*;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
@@ -10,15 +9,19 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 
 public class OnlineUsers {
-    public OnlineUsers(){
-
-    }
     private Long userId;
     private String user_color;
 
+    public OnlineUsers(){
+
+    }
+
+
+    @Id
     public Long getUserId() {
         return userId;
     }
+
 
     public void setUserId(Long userId) {
         this.userId = userId;

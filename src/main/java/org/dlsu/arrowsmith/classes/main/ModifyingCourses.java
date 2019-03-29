@@ -1,7 +1,7 @@
 package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.envers.Audited;
-
+import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
@@ -15,7 +15,7 @@ public class ModifyingCourses {
     public Long getUserId() {
         return userId;
     }
-
+    @Id
     public void setUserId(Long userId) {
         this.userId = userId;
     }

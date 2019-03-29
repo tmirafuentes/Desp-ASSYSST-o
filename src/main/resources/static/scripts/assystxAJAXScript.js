@@ -9,7 +9,7 @@
 
 $(function()
 {
-    //insertNewUser();
+    insertNewUser();
     getConcernNotifications();
     updateRevHistoryLink();
     setInterval(function(){
