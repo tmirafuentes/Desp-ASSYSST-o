@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ModifyingCoursesRepository extends CrudRepository<ModifyingCourses, Long> {
     ModifyingCourses findByUserIdAndOfferingId(Long userId, Long offeringId);
+    ModifyingCourses findByOfferingId(Long offeringId);
+    ModifyingCourses findByUserId(Long userId);
 }

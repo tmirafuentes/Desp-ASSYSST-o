@@ -41,7 +41,7 @@ $(function()
             contentType : 'application/json',
             success : function(result)
             {
-                alert("added successful")
+                console.log("User adding successful")
             },
             error : function (e)
             {

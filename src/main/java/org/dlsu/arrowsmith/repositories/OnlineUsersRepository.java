@@ -6,5 +6,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OnlineUsersRepository extends CrudRepository<OnlineUsers, Long> {
     OnlineUsers findByUserId(Long id);
-
 }

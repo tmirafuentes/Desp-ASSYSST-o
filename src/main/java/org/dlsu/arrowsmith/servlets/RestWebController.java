@@ -379,22 +379,48 @@ public class RestWebController {
     /* Retrieve Specific Course Offering through POST */
     @PostMapping(value = "/find-offering")
     public Response findCourseOffering(@RequestBody Long offeringId) {
-        /* Retrieve specific course offering from database */
-        //CourseOffering selectedOffering = offeringService.retrieveCourseOffering(Long.parseLong(offeringId));
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(offeringId);
-
-        /* Transfer to DTO for easier processing for front-end */
-        OfferingModifyDto offeringDto = transferToDTO(selectedOffering);
-
-        //System.out.println(offeringDto.getStartTime() + offeringDto.getEndTime());
-        /* Create new Response object */
         Response response = new Response();
-        response.setStatus("Done");
-        response.setData(offeringDto);
+
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(offeringId);
+        OfferingModifyDto offeringDto = transferToDTO(selectedOffering);
+        //check if offering is locked in the first place
+        //lock offering
+        if(!offeringService.checkLockOffering(offeringId))
+        {
+            //lock offering
+            offeringService.lockOffering(userService.retrieveUser().getUserId(), offeringId);
+            response.setStatus("Done");
+            response.setData(offeringDto);
+        }
+        else
+            response.setStatus("Locked");
 
         return response;
     }
 
+    /* Retrieve Specific Course Offering through POST */
+    @GetMapping(value = "/free-offering")
+    public Response freeCourseOffering() {
+        /* Retrieve specific course offering from database */
+
+        offeringService.freeOffering(userService.retrieveUser().getUserId());
+        /* Create new Response object */
+        Response response = new Response();
+        response.setStatus("Done");
+        return response;
+    }
+
+    @PostMapping(value = "/check-lock-offering")
+    public Response findIfCourseOfferingLocked(@RequestBody Long offeringId) {
+       boolean checkCourseOffering = offeringService.checkLockOffering(offeringId);
+        checkCourseOffering = !checkCourseOffering;
+
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(checkCourseOffering);
+
+        return response;
+    }
     /* Retrieve Specific Revision Entity through POST */
     @PostMapping(value = "/find-revision")
     public Response findRevisionEntity(@RequestBody Long revisionId) {
@@ -928,6 +954,29 @@ public class RestWebController {
         Response response = new Response();
         response.setStatus("Done");
         //response.setData(listConcernDtos);
+
+        return response;
+    }
+
+    /* Retrieve All Course Offerings through GET */
+    @GetMapping(value = "/retrieve-online-users")
+    public Response showallOnline(Model model) {
+        /* Create new list for course offerings */
+        ArrayList<OnlineUsers> allUsers = offeringService.retrieveAllOnlineUsers();
+        ArrayList<userRepresentationDto> names = new ArrayList<>();
+        for(OnlineUsers u: allUsers){
+            userRepresentationDto nUser = new userRepresentationDto();
+            nUser.setUserCharacter(userService.findUserByIDNumber(u.getUserId()).getFirstName().charAt(0));
+            nUser.setUserColor(u.getUser_color());
+            nUser.setUserName(userService.findUserByIDNumber(u.getUserId()).getFirstName());
+            names.add(nUser);
+        }
+
+
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(names);
 
         return response;
     }

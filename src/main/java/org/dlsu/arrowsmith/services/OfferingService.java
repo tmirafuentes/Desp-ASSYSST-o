@@ -29,6 +29,8 @@ public class OfferingService {
     private DegreeProgramRepository degreeProgramRepository;
     @Autowired
     private OnlineUsersRepository onlineUsersRepository;
+    @Autowired
+    private ModifyingCoursesRepository modifyingCoursesRepository;
 
     public ArrayList<CourseOffering> getSearchCourses() {
         return searchCourses;
@@ -637,11 +639,6 @@ public class OfferingService {
     {
         return collegeRepository.findCollegeByCollegeCode(code);
     }
-    //public Iterator retrieveAllTermsAndAY() {
-        /* Get All Offerings */
-        //ArrayList<CourseOffering> termsAYear = courseOfferingRepository;
-        //return termsAYear.iterator();
-    //}
 
     /* Course Offering Loads Functions*/
     public ArrayList<CourseOffering> findAllCourseOfferingLoads(User faculty)
@@ -651,5 +648,43 @@ public class OfferingService {
     public void saveOnlineUser(OnlineUsers ol)
     {
         onlineUsersRepository.save(ol);
+    }
+
+    //returns true if unlocked and false if locked
+    public boolean checkLockOffering(Long offeringId)
+    {
+        ModifyingCourses mc = modifyingCoursesRepository.findByOfferingId(offeringId);
+        if(mc != null)//the course is found, the course is locked
+            return true;
+        else//the course isn't found, the course isn't locked
+            return false;
+    }
+
+    //Add the course offering to the lock list
+    public void lockOffering(Long userId, Long offeringId)
+    {
+        ModifyingCourses mc = new ModifyingCourses();
+        mc.setOfferingId(offeringId);
+        mc.setUserId(userId);
+        modifyingCoursesRepository.save(mc);
+    }
+
+    public void freeOffering(Long userId)
+    {
+        //Get the size of the list to see if null or not
+        ArrayList<ModifyingCourses> mcList = (ArrayList<ModifyingCourses>)modifyingCoursesRepository.findAll();
+        int size = mcList.size();
+        //will only free if there are courses in the locked list and
+        if(size > 0 && !checkLockOffering(modifyingCoursesRepository.findByUserId(userId).getOfferingId()))
+        {
+            ModifyingCourses mc = modifyingCoursesRepository.findByUserId(userId);
+            mc.setOfferingId(null);
+            modifyingCoursesRepository.save(mc);
+        }
+    }
+
+    public ArrayList<OnlineUsers> retrieveAllOnlineUsers()
+    {
+        return (ArrayList<OnlineUsers>) onlineUsersRepository.findAll();
     }
 }
