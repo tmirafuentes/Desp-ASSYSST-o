@@ -11,7 +11,7 @@ $(function()
     setInterval(function(){
         retrieveAllOnlineUsers();
         courseModificationUsers()
-    }, 1500);
+    }, 150);
     /**
      *
      * SELECTING A
@@ -37,6 +37,7 @@ $(function()
             freeCurrentLock();
             if(!checkCurrentSelection(offeringID))
             {
+                $(".modify_sidebar").hide();
                 /* Perform AJAX */
                 /* Modify course offering row appearance */
                 $(".modify_sidebar").find("input:text").val("");
@@ -248,6 +249,33 @@ $(function()
                        locked = true;
                    else
                        locked = false;
+                }
+            },
+            error : function(e)
+            {
+                console.log("ERROR: ", e);
+            }
+        });
+        return locked;
+    }
+    function checkCurrentSelectionUser()
+    {
+        var locked = false;
+        /* Perform AJAX */
+        $.ajax({
+            type : "GET",
+            contentType : 'application/json',
+            url : window.location + "/check-user-lock-offering",
+            data : offeringID,
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    if(result.data.checkCourseOffering == true)
+                        locked = true;
+                    else
+                        locked = false;
                 }
             },
             error : function(e)

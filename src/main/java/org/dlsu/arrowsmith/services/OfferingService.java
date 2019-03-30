@@ -660,6 +660,15 @@ public class OfferingService {
             return false;
     }
 
+    public boolean checkLockOfferingPerson(Long userId)
+    {
+        ModifyingCourses mc = modifyingCoursesRepository.findByUserId(userId);
+        if(mc != null)//the course is found, the course is locked
+            return true;
+        else//the course isn't found, the course isn't locked
+            return false;
+    }
+
     //Add the course offering to the lock list
     public void lockOffering(Long userId, Long offeringId)
     {

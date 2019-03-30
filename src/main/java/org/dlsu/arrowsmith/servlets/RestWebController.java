@@ -421,6 +421,17 @@ public class RestWebController {
 
         return response;
     }
+    @GetMapping(value = "/check-user-lock-offering")
+    public Response findIfCourseOfferingLockedUser() {
+        boolean checkCourseOffering = offeringService.checkLockOfferingPerson(userService.retrieveUser().getUserId());
+        checkCourseOffering = !checkCourseOffering;
+
+        Response response = new Response();
+        response.setStatus("Done");
+        response.setData(checkCourseOffering);
+
+        return response;
+    }
     /* Retrieve Specific Revision Entity through POST */
     @PostMapping(value = "/find-revision")
     public Response findRevisionEntity(@RequestBody Long revisionId) {
@@ -986,13 +997,17 @@ public class RestWebController {
         /* Create new list for course offerings */
         ArrayList<OnlineUsers> allUsers = offeringService.retrieveAllOnlineUsers();
         ArrayList<userRepresentationDto> names = new ArrayList<>();
+        Long currentUserID = userService.retrieveUser().getUserId();
         for(OnlineUsers u: allUsers){
-            userRepresentationDto nUser = new userRepresentationDto();
-            nUser.setUserCharacter(userService.findUserByIDNumber(u.getUserId()).getFirstName().charAt(0));
-            nUser.setUserColor(u.getUser_color());
-            nUser.setUserName(userService.findUserByIDNumber(u.getUserId()).getFirstName());
-            nUser.setUserOfferingWhereabouts(offeringService.findUserOfferingWhereabouts(u.getUserId()));
-            names.add(nUser);
+            if(u.getUserId() != currentUserID)
+            {
+                userRepresentationDto nUser = new userRepresentationDto();
+                nUser.setUserCharacter(userService.findUserByIDNumber(u.getUserId()).getFirstName().charAt(0));
+                nUser.setUserColor(u.getUser_color());
+                nUser.setUserName(userService.findUserByIDNumber(u.getUserId()).getFirstName());
+                nUser.setUserOfferingWhereabouts(offeringService.findUserOfferingWhereabouts(u.getUserId()));
+                names.add(nUser);
+            }
         }
 
 

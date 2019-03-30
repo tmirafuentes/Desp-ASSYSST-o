@@ -6,7 +6,6 @@ import javax.persistence.*;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
-@Audited(targetAuditMode = NOT_AUDITED)
 
 public class OnlineUsers {
     private Long userId;
