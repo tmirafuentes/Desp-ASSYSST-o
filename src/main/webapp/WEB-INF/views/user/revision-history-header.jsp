@@ -9,15 +9,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <div id = "header">
-        <p id = "system_title"> ASSYSTX </p>
-
         <c:if test="${pageContext.request.userPrincipal.name != null}">
             <a onclick="document.forms['logoutForm'].submit()" id="user_icon">${loggedUser}</a>
             <form id="logoutForm" method="POST" action="${contextPath}/logout">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             </form>
-            <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+            <a onclick="document.forms['logoutForm'].submit()" id="button_logout">Logout</a>
         </c:if>
+        <p id = "system_title"> ASSYSTX </p>
     </div>
     <div id = "smaller_header">
         <a href ="/${userType}" id = "last_edited"><- Return to home page</a>
