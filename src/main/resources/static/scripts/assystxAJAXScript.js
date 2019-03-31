@@ -517,7 +517,7 @@ $(function()
 
     });
 
-    $("#user_icon").click(function() {
+    $("#button_logout").click(function() {
         $.ajax({
             type : "GET",
             contentType : 'application/json',
