@@ -856,6 +856,7 @@ public class RestWebController {
         newFaculty.setFirstName(facultyDto.getFirstName());
         newFaculty.setLastName(facultyDto.getLastName());
         newFaculty.setPassword("iLoveCCS");
+        newFaculty.setCollege(facultyService.retrieveCollegeByCode("CCS"));
         newFaculty.setDepartment(facultyService.retrieveDepartmentByCode(facultyDto.getDepartment()));//department
         userService.createNewUser(newFaculty);
         Response response = new Response();
@@ -950,7 +951,20 @@ public class RestWebController {
 
         return response;
     }
+    /* Retrieve All Concerns through GET */
+    @GetMapping(value = {"/logout-online-person"})
+    public Response logoutOnlineUser ()
+    {
+        Long userId = userService.retrieveUser().getUserId();
+        System.out.println("Loggin out " + userId);
+        offeringService.logoutOnlineUser(userId);
+        /* Create Response Object */
+        Response response = new Response();
+        response.setStatus("Done");
+        //response.setData(listConcernDtos);
 
+        return response;
+    }
     /* Retrieve All Course Offerings through GET */
     @GetMapping(value = "/retrieve-online-users")
     public Response showallOnline(Model model) {

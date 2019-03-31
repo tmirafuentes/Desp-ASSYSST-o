@@ -20,6 +20,7 @@ public class ModifyingCourses {
         this.userId = userId;
     }
 
+    @Column(name = "offering_id")
     public Long getOfferingId() {
         return offeringId;
     }
