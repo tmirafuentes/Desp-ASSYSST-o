@@ -21,8 +21,6 @@
         <a href ="${contextPath}/revision-history" id = "last_edited"></a>
         <a href ="#" id="users_title"></a>
         <div id="online_icons">
-            <div class="online_avatar">H</div>
-            <div class="online_avatar">R</div>
         </div>
         <p id = "modify_offering"> Modify Offering</p>
     </div>

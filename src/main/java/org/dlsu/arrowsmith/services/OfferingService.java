@@ -700,4 +700,26 @@ public class OfferingService {
     {
         return modifyingCoursesRepository.findByUserId(userId).getOfferingId();
     }
+    public void logoutOnlineUser(Long ol)
+    {
+        OnlineUsers onlineUsers = onlineUsersRepository.findByUserId(ol);
+        //System.out.println(modifyingCoursesRepository.findByOfferingId(ol).getOfferingId());
+        onlineUsersRepository.delete(onlineUsers);
+        findAnddeselect(ol);
+    }
+
+    public void findAnddeselect(Long userId)
+    {
+        ArrayList<ModifyingCourses> currentCourses = (ArrayList<ModifyingCourses>) modifyingCoursesRepository.findAll();
+        Long holder;
+        for(ModifyingCourses a: currentCourses)
+        {
+            holder = new Long(a.getUserId());
+            if(holder.equals(userId))
+                modifyingCoursesRepository.delete(a);
+        }
+
+
+    }
+
 }

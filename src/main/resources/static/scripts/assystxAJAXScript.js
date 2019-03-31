@@ -516,4 +516,25 @@ $(function()
         });
 
     });
+
+    $("#user_icon").click(function() {
+        $.ajax({
+            type : "GET",
+            contentType : 'application/json',
+            url : window.location + "/logout-online-person",
+            dataType : 'json',
+            success : function(result)
+            {
+                if(result.status == "Done") {
+                    console.log("Logout Done");
+                }
+
+            },
+            error : function(e)
+            {
+                alert("Error!");
+                console.log("ERROR: ", e);
+            }
+        });
+    });
 });

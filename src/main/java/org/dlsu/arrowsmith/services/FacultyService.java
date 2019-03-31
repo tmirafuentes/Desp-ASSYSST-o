@@ -25,6 +25,8 @@ public class FacultyService {
     private UserRepository userRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    private CollegeRepository collegeRepository;
     /**
      **
      ** DELOADING
@@ -384,7 +386,10 @@ public class FacultyService {
     {
         return departmentRepository.findDepartmentByDeptCode(code);
     }
-
+    public College retrieveCollegeByCode(String code)
+    {
+        return collegeRepository.findCollegeByCollegeCode(code);
+    }
     public void undergoDeloading(User faculty, String deloadCode)
     {
         System.out.println("Deload Code: " + deloadCode);

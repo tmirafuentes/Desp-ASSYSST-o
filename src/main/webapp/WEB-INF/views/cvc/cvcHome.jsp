@@ -192,8 +192,8 @@
                          <option value="First">1st</option>
                          <option value="Second">2nd</option>
                          <option value="Third">3rd</option>
-                     </select></td>--%>
-                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
+                     </select></td>
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>--%>
                 </tr>
             </table>
             <table id="modal_table_assign_faculty">

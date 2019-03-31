@@ -132,24 +132,24 @@
         <div class="divModals" id="modalAssignRoom">
             <table class="modal_header">
                 <tr>
-                    <th>Search</th>
-                    <%--<th margin-left="50px">Room Type</th>
-                    <th>Building</th> --%>
+                    <%-- <th>Search</th>
+                     <th margin-left="50px">Room Type</th>
+                     <th>Building</th> --%>
                 </tr>
                 <tr>
                     <td>
-                        <input class = 'modal_search' id='input_search_room'>
-                        <button id='button_search_room'><i class='fas fa-search'></i></button>
-                    </td>
-                    <!--
-                    <td>
-                        <select class = 'modal_select' id='select_room_type'>
-                            <option value="All">All</option>
-                            <%--
-                            <c:forEach items="${allRoomTypesModal}" var="roomType">
-                                <option value="${roomType}"><c:out value="${roomType}"/></option>
-                            </c:forEach>
-                            --%>
+                        <%-- <input class = 'modal_search' id='input_search_room'>
+                        <button id='button_search_room'><i class='fas fa-search'></i></button>--%>
+                     </td>
+                     <!--
+                     <td>
+                         <select class = 'modal_select' id='select_room_type'>
+                             <option value="All">All</option>
+                             <%--
+                             <c:forEach items="${allRoomTypesModal}" var="roomType">
+                                 <option value="${roomType}"><c:out value="${roomType}"/></option>
+                             </c:forEach>
+                             --%>
                         </select>
                     </td>
                     <td>
