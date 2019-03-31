@@ -8,7 +8,6 @@ import java.util.Set;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
-@Audited(targetAuditMode = NOT_AUDITED)
 public class Deloading {
     private Long deloadId;
     private String deloadName;

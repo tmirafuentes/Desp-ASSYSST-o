@@ -4,6 +4,8 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
 @Audited
 public class DeloadInstance {
@@ -70,6 +72,7 @@ public class DeloadInstance {
 
     @ManyToOne
     @JoinColumn(name = "deloadId")
+    @Audited(targetAuditMode = NOT_AUDITED)
     public Deloading getDeloading() {
         return deloading;
     }

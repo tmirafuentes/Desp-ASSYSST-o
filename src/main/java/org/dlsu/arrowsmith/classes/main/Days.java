@@ -1,5 +1,7 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -58,7 +60,9 @@ public class Days {
         this.endTime = endTime;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(
+            action = NotFoundAction.IGNORE)
     @JoinColumn(name = "offering_id")
     public CourseOffering getCourseOffering() {
         return courseOffering;

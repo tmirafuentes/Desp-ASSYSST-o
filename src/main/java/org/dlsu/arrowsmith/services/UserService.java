@@ -1,15 +1,15 @@
 package org.dlsu.arrowsmith.services;
 
 import org.dlsu.arrowsmith.classes.dtos.RevHistoryLinkDto;
-import org.dlsu.arrowsmith.classes.main.Concern;
-import org.dlsu.arrowsmith.classes.main.Role;
-import org.dlsu.arrowsmith.classes.main.User;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.*;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 import org.dlsu.arrowsmith.revisionHistory.ModifiedEntityTypeEntity;
 import org.dlsu.arrowsmith.security.SecurityService;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
+import org.hibernate.envers.query.AuditEntity;
+import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    /* Others */
+    /* Entity Manager */
     @Autowired
     private EntityManager entityManager;
 
@@ -51,56 +51,71 @@ public class UserService {
      */
 
     /*** Create New User ***/
-    public void createNewUser(User u) {
+    public void createNewUser(User u)
+    {
         u.setPassword(bCryptPasswordEncoder.encode(u.getPassword()));
         userRepository.save(u);
     }
 
-    public void createNewUser(User u, ArrayList<Role> roles) {
+    public void createNewUser(User u, ArrayList<Role> roles)
+    {
         u.setPassword(bCryptPasswordEncoder.encode(u.getPassword()));
         u.setRoles(new HashSet<>(roles));
         userRepository.save(u);
     }
 
     /*** Update New User ***/
-    public void updateUser(User u) {
+    public void updateUser(User u)
+    {
         userRepository.save(u);
     }
 
     /*** Retrieve User by ID number ***/
-    public User findUserByIDNumber(Long idNumber) {
+    public User findUserByIDNumber(Long idNumber)
+    {
         return userRepository.findUserByUserId(idNumber);
     }
 
     /*** Retrieve User by Username ***/
-    public User findUserByUsername(String username) {
+    public User findUserByUsername(String username)
+    {
         return userRepository.findByUsername(username);
     }
 
     /*** Retrieve User by First Name and Last Name ***/
-    public User findUserByFirstNameLastName(String givenName) {
+    public User findUserByFirstNameLastName(String givenName)
+    {
+        /* If given name is unassigned, return null */
         if(givenName.equals("Unassigned"))
             return null;
 
+        /* Else, parse given name and search into the database */
         String[] facultyName = givenName.split(", ");
         return userRepository.findByFirstNameContainsAndLastNameContains(facultyName[1], facultyName[0]);
     }
 
-    /*** Retrieve all Users ***/
-    public Iterator findAllUsers() {
+    /*** Retrieve all Users and return sorted list of their names ***/
+    public Iterator findAllUsers()
+    {
+        /* Retrieve all general users */
         ArrayList<User> allUsers = (ArrayList<User>) userRepository.findAll();
+
+        /* Get the names and format them for sorting */
         ArrayList<String> allUsersParsed = new ArrayList<>();
         for(User s: allUsers)
         {
             String newUser = s.getLastName() + ", " + s.getFirstName();
             allUsersParsed.add(newUser);
         }
+
+        /* Sort by last name */
         Collections.sort(allUsersParsed, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s1.compareToIgnoreCase(s2);
             }
         });
+
         return allUsersParsed.iterator();
     }
 
@@ -144,16 +159,25 @@ public class UserService {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiver(user);
         return concerns.iterator();
     }
+
     public int retrieveNumberConcernsByBoolean(User user, boolean ack)
     {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiverAndAcknowledged(user, ack);
         return concerns.size();
     }
+
     /* Retrieve All Concerns By Receiver or Sender */
     public Iterator retrieveAllConcernsByUser(User sender, User receiver) {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrReceiver(sender, receiver);
         return concerns.iterator();
     }
+
+    /**
+     **
+     ** ROLE
+     ** CRUD FUNCTIONS
+     **
+     */
 
     /*** Add Role ***/
     public void saveRole(Role r)
@@ -180,38 +204,57 @@ public class UserService {
     }
 
     /* Retrieve Most Recent Entry */
+    public RevHistoryLinkDto findLatestRevisionEntity()
+    {
+        return (RevHistoryLinkDto) retrieveRevHistoryOfferings().next();
+    }
 
-    /* Retrieve All Revision History */
-    public Iterator retrieveAllRevHistory()
+    /* Retrieve All Revision History for Course Offering and Days and sort by most recent */
+    public Iterator retrieveRevHistoryOfferings()
     {
         /* Get all entities */
         ArrayList<AuditedRevisionEntity> revisionEntities = (ArrayList<AuditedRevisionEntity>)revisionHistoryRepository.findAll();
 
-        /* Create DTO */
+        /* Create DTO ArrayList */
         ArrayList<RevHistoryLinkDto> allRevisions = new ArrayList<>();
 
         /* Loop through entries and modify it for DTO */
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
         for(AuditedRevisionEntity are : revisionEntities)
         {
-            /* Create Temp Object */
-            RevHistoryLinkDto temp = new RevHistoryLinkDto();
-            /* Assign Timestamp */
-            temp.setTimestamp(are.getDateModified());
-            /* Assign User */
-            User revUser = findUserByIDNumber(Long.parseLong(are.getFullName()));
-            temp.setFullname(revUser.getFirstName() + " " + revUser.getLastName());
-            /* Assign Position */
-            temp.setPosition(revUser.getUserType());
-            /* Assign Rev ID */
-            temp.setRevNumber(are.getId());
+            /* Query Course Offering Entities or Days */
+            AuditQuery courseOfferingQuery = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, true)
+                                                                        .add(AuditEntity.revisionNumber().eq(are.getId()));
+            AuditQuery daysQuery = auditReader.createQuery().forRevisionsOfEntity(Days.class, true, true)
+                                                                        .add(AuditEntity.revisionNumber().eq(are.getId()));
 
-            allRevisions.add(0, temp);
+            /* Only include Course Offering and Days revisions */
+            if(courseOfferingQuery.getResultList().size() > 0 || daysQuery.getResultList().size() > 0)
+            {
+                /* Create Temp Object */
+                RevHistoryLinkDto temp = new RevHistoryLinkDto();
+
+                /* Assign Timestamp */
+                temp.setTimestamp(are.getDateModified());
+
+                /* Assign User */
+                User revUser = findUserByIDNumber(Long.parseLong(are.getFullName()));
+                temp.setFullname(revUser.getFirstName() + " " + revUser.getLastName());
+
+                /* Assign Position */
+                temp.setPosition(revUser.getUserType());
+
+                /* Assign Rev ID */
+                temp.setRevNumber(are.getId());
+
+                allRevisions.add(0, temp);
+            }
         }
 
         return allRevisions.iterator();
     }
 
+    /* Retrieve Specific Modified Entity Type Entity */
     public ArrayList<ModifiedEntityTypeEntity> findMETEById(AuditedRevisionEntity are)
     {
         return (ArrayList<ModifiedEntityTypeEntity>) modifiedEntityTypeEntityRepository.findModifiedEntityTypeEntityByRevision(are);
@@ -227,6 +270,7 @@ public class UserService {
         Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
         return userRepository.findUserByUserId(idNumber);
     }
+
     public Long retrieveUserID() {
         Long idNumber = Long.parseLong(securityService.findLoggedInUsername());
         return idNumber;

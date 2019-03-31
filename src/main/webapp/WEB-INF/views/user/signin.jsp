@@ -3,47 +3,44 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<html>
-<head>
-    <title>ASSYSTX</title>
-    <c:url value="/css/mainStyle.css" var="mainCss" />
-    <link rel="stylesheet" type="text/css" href="${mainCss}">
-    <!-- <script src="myScript.js"/> -->
-</head>
-<body>
-<div id = "header">
-    <p id = "system_title"> ASSYSTX </p>
-</div>
-<div id = "main_content">
-    <form method="POST" action="/signin">
-    <table id = "table_login">
-        <tr>
-            <td><p class = "p_table_label"> ID Number</p></td>
-        </tr>
-        <tr><!-- APO: 22131451     CVC: 22742131 -->
-            <td><input type="text" id="text_ID" name="username" value="22742131"></td>
-        </tr>
-        <tr>
-            <td><p class = "p_table_label">Password</p></td>
-        </tr>
-        <tr>
-            <td><input type="password"  id="text_password" name="password" value="iLoveCCS"></td>
-        </tr>
-        <tr>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <td><button id="button_submit" type="submit">Submit</button></td>
-        </tr>
-    </table>
-        <div id="login_error_message">
-            ${error}
-        </div>
-    </form>
-</div>
-<!--<div id = "smaller_header">
-</div>-->
-</body>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 
+        <title>ASSYSTX</title>
+
+        <c:url value="/css/signin-style.css" var="signinStyle" />
+        <link rel="stylesheet" type="text/css" href="${signinStyle}" />
+    </head>
+    <body>
+        <div class="signin-wrapper">
+            <div class="signin-assystx-intro signin-containers">
+                <h1 id="signin-intro-title">ASSYSTX</h1>
+                <p id="signin-intro-description">
+                    ASSYSTX is the course scheduling and faculty load assignment
+                    system for the College of Computer Studies. This is for exclusive
+                    use of its faculty and Academic Programming Officer. Please do not
+                    hack us huhu.
+                    <br><br>
+                    This is an undergraduate thesis by Roi Ante, Troy Mirafuentes,
+                    and Gavin Sanchez as advised by Mr. Jordan Deja.
+                </p>
+            </div>
+            <div class="signin-assystx-login signin-containers">
+                <form method="POST" action="/signin">
+                    <label for="signin-username">ID Number</label>
+                    <input type="text" placeholder="Enter DLSU ID" id="signin-username" name="username" value="22131451" />
+
+                    <label for="signin-password">Password</label>
+                    <input type="password" placeholder="iLoveCCS" id="signin-password" name="password" value="iLoveCCS" />
+
+                    <input type="text" id="signin-error" name="error" value="${error}" disabled />
+
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <button type="submit" id="signin-submit-button">Signin to ASSYSTX</button>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

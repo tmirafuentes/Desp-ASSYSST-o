@@ -2,6 +2,7 @@ package org.dlsu.arrowsmith.classes.main;
 
 import org.apache.tomcat.jni.Local;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -11,7 +12,6 @@ import java.util.Date;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
-@Audited(targetAuditMode = NOT_AUDITED)
 public class Concern {
     private Long concernId;
     private String message;
@@ -29,9 +29,6 @@ public class Concern {
 
     @Basic
     private java.time.LocalDateTime dateTimeCommitted;
-
-
-
 
     public Concern() {
         this.dateTimeCommitted = LocalDateTime.now();
@@ -80,6 +77,7 @@ public class Concern {
 
     @ManyToOne
     @JoinColumn(name = "sender")
+    @Audited(targetAuditMode = NOT_AUDITED)
     public User getSender() {
         return sender;
     }
@@ -90,6 +88,7 @@ public class Concern {
 
     @ManyToOne
     @JoinColumn(name = "receiver")//, insert    able=false, updatable=false)
+    @Audited(targetAuditMode = NOT_AUDITED)
     public User getReceiver() {
         return receiver;
     }

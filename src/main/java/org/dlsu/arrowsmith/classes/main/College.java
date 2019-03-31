@@ -8,7 +8,7 @@ import java.util.Set;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
-@Audited(targetAuditMode = NOT_AUDITED)
+//@Audited(targetAuditMode = NOT_AUDITED)
 public class College {
     private Long collegeId;
     private String collegeName;

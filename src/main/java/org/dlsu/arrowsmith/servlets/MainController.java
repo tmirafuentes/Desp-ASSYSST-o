@@ -132,7 +132,7 @@ public class MainController {
             model.addAttribute("userType", "cvc");
 
         /* Load revision history from database */
-        model.addAttribute("revHistory", userService.retrieveAllRevHistory());
+        model.addAttribute("revHistory", userService.retrieveRevHistoryOfferings());
 
         return "user/revision-history";
     }

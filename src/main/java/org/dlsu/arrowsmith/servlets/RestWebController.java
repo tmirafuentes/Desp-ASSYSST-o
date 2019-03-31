@@ -359,12 +359,6 @@ public class RestWebController {
             modifyFacultyLoad(newFaculty, currOffering, currOffering.getCourse().getUnits());
         }
 
-        /*Set<Days> memories = currOffering.getDaysSet();
-        for (Days dayInstance : memories)
-        {
-            System.out.println("Memories: " + dayInstance.getclassDay() + " " + dayInstance.getbeginTime() + " " + dayInstance.getendTime());
-        }*/
-
         /* Save Course Offering to Database */
         offeringService.saveCourseOffering(currOffering);
 
@@ -404,27 +398,40 @@ public class RestWebController {
         /* Retrieve specific Entity Type from database */
         ArrayList<ModifiedEntityTypeEntity> mete = userService.findMETEById(are);
 
+        /* Initialize Course Offering involved in revision */
+        CourseOffering co = null;
+
         /* Retrieve from audit table */
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
-        AuditQuery q = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, false);
-        q.add(AuditEntity.revisionNumber().eq(are.getId()));
 
-        CourseOffering co = (CourseOffering) q.getSingleResult();
+        /* Try from Course Offering */
+        AuditQuery coQuery = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, false);
+        coQuery.add(AuditEntity.revisionNumber().eq(are.getId()));
+
+        /* Try from Days */
+        AuditQuery daysQuery = auditReader.createQuery().forRevisionsOfEntity(Days.class, true, true);
+        daysQuery.add(AuditEntity.revisionNumber().eq(are.getId()));
+
+        if (coQuery.getResultList().size() > 0) {
+            co = (CourseOffering) coQuery.getResultList().get(0);
+        } else if (daysQuery.getResultList().size() > 0) {
+            Days temp = (Days) daysQuery.getResultList().get(0);
+            co = temp.getCourseOffering();
+            System.out.println("Course Off Days = " + co.getofferingId());
+        }
 
         /* Add Details to Course Offering */
-        Long offeringId = co.getofferingId();
-        co.setCourse(offeringService.retrieveCourseOffering(offeringId).getCourse());
-        co.setFaculty(offeringService.retrieveCourseOffering(offeringId).getFaculty());
-        co.setDaysSet(offeringService.retrieveCourseOffering(offeringId).getDaysSet());
+        //Long offeringId = co.getofferingId();
+        CourseOffering tempCO = offeringService.retrieveCourseOffering(co.getofferingId());
+        co.setCourse(tempCO.getCourse());
+        co.setFaculty(tempCO.getFaculty());
+        co.setDaysSet(tempCO.getDaysSet());
+
 
         OfferingModifyDto offeringDto = transferToDTO(co);
 
         /* Create new Response object */
-        Response response = new Response();
-        response.setStatus("Done");
-        response.setData(offeringDto);
-
-        return response;
+        return new Response("Done", offeringDto);
     }
 
     /* Find all rooms that are available at this time and day */
@@ -555,34 +562,10 @@ public class RestWebController {
     }
 
     @GetMapping(value = "/get-last-update-link")
-    public Response updateRevisionHistoryLink(Model model)
+    public Response updateRevisionHistoryLink()
     {
-        /* Retrieve All Revision History */
-        Iterator revisionEntities = userService.retrieveAllRevHistory();
-
         /* Find most recent revision entity */
-        RevHistoryLinkDto recentRevEntity = (RevHistoryLinkDto)revisionEntities.next();
-
-        /*
-        Date recentTimestamp = recentRevEntity.getDateModified();
-        while(revisionEntities.hasNext())
-        {
-            AuditedRevisionEntity temp = (AuditedRevisionEntity)revisionEntities.next();
-            if (recentTimestamp.before(temp.getDateModified()))
-            {
-                recentRevEntity = temp;
-                recentTimestamp = temp.getDateModified();
-            }
-        }
-
-        /* Get Name of faculty
-        User revUser = userService.findUserByIDNumber(Long.parseLong(recentRevEntity.getFullName()));
-        String fullname = revUser.getFirstName() + " " + revUser.getLastName();
-
-        /* Transfer to DTO
-        RevHistoryLinkDto linkDto = new RevHistoryLinkDto();
-        linkDto.setFullname(fullname);
-        linkDto.setTimestamp(recentTimestamp);
+        RevHistoryLinkDto recentRevEntity = userService.findLatestRevisionEntity();
 
         /* Create Response Object */
         Response response = new Response();
@@ -804,7 +787,6 @@ public class RestWebController {
         int numberToBePassed = 0;
 
         numberToBePassed = userService.retrieveNumberConcernsByBoolean(userService.retrieveUser(), false);
-        System.out.println("Passed" + numberToBePassed);
         Response response = new Response();
         response.setStatus("Done");
         response.setData(numberToBePassed);
