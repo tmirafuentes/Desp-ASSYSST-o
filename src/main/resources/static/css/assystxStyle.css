@@ -125,6 +125,15 @@
 	color:white;
 	font-weight:bold;
 	text-decoration:none;
+    font-size:1.2em;
+}
+#button_logout{
+    position:absolute;
+    top:10;
+    right:25;
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
 }
 #online_icons{
 	position: relative;
@@ -920,3 +929,4 @@
 	text-align:center;
 	cursor:pointer;
 }
+
