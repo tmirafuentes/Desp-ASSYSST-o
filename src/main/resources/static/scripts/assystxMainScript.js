@@ -6,10 +6,6 @@ $(function()
     }).appendTo('body');
     $(".modify_sidebar").hide();
 
-
-
-
-
     /* Selecting an offering */
     $(".cwOfferings .generatedContent .genContentRowss:not(:first-child)").click(function(){
 
