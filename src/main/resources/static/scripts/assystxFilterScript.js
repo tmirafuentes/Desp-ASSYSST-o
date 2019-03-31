@@ -789,8 +789,8 @@ $("#class_s").click(function() {
 
                         $("#modalDeloading").dialog({
                             title:"Deload Faculty",
-                            width:400,
-                            height:500,
+                            width:500,
+                            height:400,
                             modal:true
                         });
                         $("#modalDeloading").dialog("open");

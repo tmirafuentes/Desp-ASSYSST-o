@@ -136,18 +136,19 @@
 }
 .online_avatar{
 	float:left;
-	width:13%;
-	height:120%;
+	width:12%;
+	height:130%;
 	background-color:blue;
 	font-size:1.5em;
 	margin-left:0.8em;
 	text-align:center;
+	line-height:1.3em;
 	font-weight: bold;
 	font-family: Gotham Book;
 	color:#fff;
-	-webkit-border-radius:10em;
-	-moz-border-radius: 10em;
-	border-radius: 10em;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
 }
 #users_title{
 	position:relative;
@@ -555,6 +556,7 @@
     cursor: pointer;
 }
 
+
 #deload_confirm, #faculty_set_button, #room_set_button, #room_done_button, #course_done_button{
 	background-color:#3cb878 ;
 }
@@ -870,8 +872,51 @@
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	background-color:#3cb878;
-	height:2.5em;
+	box-shadow: none;
+	border:0;
+	height:2.3em;
+	width:5.5em;
+	text-align:center;
+	cursor:pointer;
 }
 #table_deload{
+	margin:0 auto;
+	font-family: Gotham Book;
+	margin-top:2em;
+	border-collapse: separate;
+	border-spacing: 0 1em;
+}
 
+#deload_name{
+	font-size:2.5em;
+}
+
+#deload_totalLoad{
+	padding-bottom:1.5em;
+}
+
+#deload_units, #deload_type{
+	width:15em;
+}
+
+.deload_label{
+	text-align:right;
+}
+
+#button_submit_deload{
+	text-align:center;
+}
+#submit_deload{
+	font-weight:bold;
+	color:white;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background-color:#3cb878;
+	box-shadow: none;
+	border:0;
+	height:2.5em;
+	width:5.5em;
+	text-align:center;
+	cursor:pointer;
 }

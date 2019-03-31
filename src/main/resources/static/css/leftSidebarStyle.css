@@ -154,6 +154,11 @@
     line-height: 2.5em;
     padding-left: 0.6em;
 }
+
+#button_new_faculty{
+    margin-top:0.05em;
+}
+
 #button_add_offering{
     width: 75%;
 }

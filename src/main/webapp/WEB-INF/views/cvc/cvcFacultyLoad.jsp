@@ -171,16 +171,19 @@
 
             <table id = "table_deload">
                 <tr>
-                    <td id = "deload_name"></td>
+                    <th id = "deload_name" colspan="2"></th>
                 </tr>
                 <tr>
-                    <td id = "deload_totalLoad"></td>
+                    <th id = "deload_totalLoad" colspan="2"></th>
                 </tr>
                 <tr>
-                    <td>Deloaded Units: <input type="number" min="0" id="deload_units" disabled> </td>
+                    <th class="deload_label">Deloaded Units: </th>
+                    <td><input type="number" min="0" id="deload_units" disabled> </td>
                 </tr>
                 <tr>
-                    <td>Deload Type: <select id="deload_type">
+                    <th class="deload_label">Deload Type: </th>
+                    <td>
+                    <select id="deload_type">
                         <option value="0">-</option>
                         <c:forEach items="${allDeloading}" var="generatedDeloading">
                             <option value="${generatedDeloading.units}">
@@ -192,20 +195,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><button id="submit_deload">Confirm</button></td>
+                    <td colspan="2" id="button_submit_deload"><button id="submit_deload">Submit</button></td>
                 </tr>
             </table>
-            <div class="generatedFacultyLoadTable">
-                <div class="generatedLoad">
-                    <div class="genLoadRows">
-                        <div class="genLoadCols">Course Code</div>
-                        <div class="genLoadCols">Section</div>
-                        <div class="genLoadCols">Day</div>
-                        <div class="genLoadCols">Time</div>
-                        <div class="genLoadCols">Room</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </body>
