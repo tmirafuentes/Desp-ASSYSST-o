@@ -1,107 +1,231 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Troy Mirafuentes
-  Date: 2/1/2019
-  Time: 12:54 PM
+  User: admin
+  Date: 03-Feb-19
+  Time: 3:11 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
-<head>
-    <title>APO Home</title>
-    <c:url value="/css/assystxAPOStyle.css" var="mainCss" />
-    <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
-    <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="jqueryMin" />
-    <c:url value="/scripts/jquery/jquery-ui.js" var="jqueryUI" />
-    <c:url value="/scripts/assystxAPOScript.js" var="mainJs" />
+    <head>
+        <title>ASSYSTX</title>
 
-    <link rel="stylesheet" type="text/css" href="${mainCss}">
-    <link rel="stylesheet" type="text/css" href="${jqueryCss}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="${jqueryMin}"></script>
-    <script src="${jqueryUI}"></script>
-    <script src="${mainJs}"></script>
-</head>
-<body>
-<div id = "left_side">
-    <!-- Left Filters -->
-    <%@ include file="../leftFilters.jsp"%>
+        <meta name="_csrf" content="${_csrf.token}"/>
+        <!-- default header name is X-CSRF-TOKEN -->
+        <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <!-- Menu -->
-    <div id = "left_button_holder">
-        <button class = left_buttons id="button_add_offering"> Add New Offering </button>
-        <button class = left_buttons id ="button_export_schedule"> Export Schedule </button>
-        <button class = left_buttons id ="button_concerns"> Concerns </button>
-    </div>
-</div>
+        <c:url value="/css/mainStyle.css" var="mainCss" />
+        <c:url value="/css/jquery/jquery-ui.css" var="jqueryCss" />
+        <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+        <c:url value="/scripts/jquery/jquery-ui.js" var="uiJquery" />
+        <c:url value="/scripts/assystxMainScript.js" var="mainScript" />
+        <c:url value="/scripts/assystxAJAXScript.js" var="ajaxScript" />
+        <c:url value="/scripts/assystxFilterScript.js" var="filterScript" />
+        <c:url value="/scripts/assystxDesignScript.js" var="designScript" />
+        <link rel="stylesheet" type="text/css" href="${mainCss}">
+        <link rel="stylesheet" type="text/css" href="${jqueryCss}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <script src="${minJquery}"></script>
+        <script src="${uiJquery}"></script>
+        <script src="${mainScript}"></script>
+        <script src="${ajaxScript}"></script>
+        <script src="${filterScript}"></script>
+        <script src="${designScript}"></script>
+    </head>
+    <body>
+        <!-- Filter Sidebar for APO -->
+        <%@ include file="leftAPO.jsp" %>
 
-<!-- Header -->
-<%@ include file="../header.jsp" %>
+        <!-- General Header for ASSYSTX -->
+        <%@ include file="../user/header.jsp" %>
+        <input type="text" id="input_userID" value="${userID}" hidden>
+        <!-- Collaborative Workspace for ASSYSTX -->
+        <div class="collabWorkspace cwOfferings">
+            <div class="generatedContent">
+                <div class="genContentRows">
+                    <div class="genContentCols">Course</div>
+                    <div class="genContentCols">Section</div>
+                    <div class="genContentCols">Day</div>
+                    <div class="genContentCols">Time</div>
+                    <div class="genContentCols">Room</div>
+                    <div class="genContentCols">Faculty</div>
+                </div>
+            </div>
+            <div class = "filter_comments">No Results Found</div>
+        </div>
 
-<!-- Live Editing Partition -->
-<%@ include file="../liveEditing.jsp" %>
+        <!-- Modify Sidebar for APO -->
+        <%@ include file="../apo/rightAPO.jsp" %>
 
-<!-- Course Offerings Shared Workspace -->
-<div id = "main_content">
-    <form:form method="get">
-        <c:choose>
-            <c:when test="${empty allOfferings}">
-                No products to display.
-            </c:when>
-            <c:otherwise>
-                <table id = "generated_list">
+        <!-- Add Course Offering Modal for APO -->
+        <div class="divModals" id="modalAddOffering">
+            <table class="modal_header">
+                <!--<tr>
+                    <th>Degree Program</th>
+                    <th>Batch</th>
+                    <th>Academic Year</th>
+                    <th>Term</th>
+                    <th>Search</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select class = 'modal_select' id='select_degree'>
+                            <option value="All">All</option>
+                        </select>
+                    </td>
+                    <td><select class = 'modal_select' id='select_batch'></select></td>
+                    <td><select class = 'modal_select' id='select_academic_year'></select></td>
+                    <td><select class = 'modal_select' id='select_term'>
+                        <option value="All">All</option>
+                        <option value="First">1st</option>
+                        <option value="Second">2nd</option>
+                        <option value="Third">3rd</option>
+                    </select></td>
+                    <td><input class = 'modal_search' id='modal_input_search_course'><button id='button_search_course'><i class='fas fa-search fa-lg'></i></button></td>
+                </tr>-->
+            </table>
+            <%--<form:form method="POST" action="/apo/add-offering" modelAttribute="addOfferingForm">--%>
+                <table id='modal_table_add_courses'>
+                    <tr>
+                        <td colspan="4">
+                            <span class="success-feedback">Course offering added successfully!</span>
+                        </td>
+                    </tr>
                     <tr>
                         <th>Course</th>
-                        <th>Section</th>
-                        <th>Day</th>
-                        <th>Time</th>
-                        <th>Room</th>
-                        <th>Faculty</th>
+                        <th>Name</th>
+                        <th>Units</th>
+                        <th>Add</th>
                     </tr>
-                    <c:forEach items="${allOfferings}" var="offering">
+                    <c:forEach items="${allCourses}" var="course">
                         <tr>
-                            <td name="courseCode"><c:out value="${offering.course.courseCode}" /></td>
-                            <td name="section"><c:out value="${offering.section}" /></td>
-                            <td name="days">
-                                <c:forEach items="${offering.daysSet}" var="days">
-                                    <c:out value="${days.classDay}" />
-                                </c:forEach>
+                            <td class="course_code">
+                                    ${course.courseCode}
+                            </td>
+                            <td class="course_name">
+                                    ${course.courseName}
+                            </td>
+                            <td class="course_units">
+                                    ${course.units}
                             </td>
                             <td>
-                                <c:forEach items="${offering.daysSet}" var="time" begin="0" end="0">
-                                    <c:out value="${time.beginTime}" /> - <c:out value="${time.endTime}" />
-                                </c:forEach>
-                            </td>
-                            <td>
-                                <c:forEach items="${offering.daysSet}" var="rooms" begin="0" end="0">
-                                    <c:out value="${rooms.room.roomCode}" />
-                                </c:forEach>
-                            </td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${empty offering.faculty}">
-                                        None
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:out value="${offering.faculty.firstName} ${offering.faculty.lastName}"/>
-                                    </c:otherwise>
-                                </c:choose>
+                                <button type="submit" class = 'add_modal_buttons add_offer_btns' value="${course.courseCode}">
+                                    +
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
-            </c:otherwise>
-        </c:choose>
-    </form:form>
-</div>
+            <%--<spring:bind path="courseCode">
+                <form:input type="text" path="courseCode" id="add_offer_field" hidden="hidden" />
+            </spring:bind>
+        </form:form> --%>
+        </div>
 
-<!-- Edit Offering Sidebar -->
-<%@ include file="../rightEdit.jsp" %>
+        <!-- Modal for Assign Room -->
+        <div class="divModals" id="modalAssignRoom">
+            <table class="modal_header">
+                <tr>
+                    <th>Search</th>
+                    <%--<th margin-left="50px">Room Type</th>
+                    <th>Building</th> --%>
+                </tr>
+                <tr>
+                    <td>
+                        <input class = 'modal_search' id='input_search_room'>
+                        <button id='button_search_room'><i class='fas fa-search'></i></button>
+                    </td>
+                    <!--
+                    <td>
+                        <select class = 'modal_select' id='select_room_type'>
+                            <option value="All">All</option>
+                            <%--
+                            <c:forEach items="${allRoomTypesModal}" var="roomType">
+                                <option value="${roomType}"><c:out value="${roomType}"/></option>
+                            </c:forEach>
+                            --%>
+                        </select>
+                    </td>
+                    <td>
+                        <select class = 'modal_select' id='select_building'>
+                            <option value='All'>All</option>
+                            <%--
+                            <c:forEach items='${allBuildings}' var='building'>
+                                <option value='${building.bldgName}'><c:out value='${building.bldgName}' /></option>
+                            </c:forEach>
+                            --%>
+                        </select>
+                    </td>
+                    -->
+                </tr>
+            </table>
+            <table id="modal_table_room">
+                <tr>
+                    <th>Room</th>
+                    <th>Room Type</th>
+                    <th>Building</th>
+                    <th>Capacity</th>
+                    <th>Assign</th>
+                </tr>
+                <c:forEach items="${allRooms}" var="room">
+                    <tr>
+                        <td>${room.roomCode}</td>
+                        <td>${room.roomType}</td>
+                        <td>${room.building.bldgName}</td>
+                        <td>${room.roomCapacity}</td>
+                        <td><button class = 'assign_modal_buttons assignRoomBtns' value="${room.roomCode}" type="button">Assign</button></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
 
-</body>
+        <!-- Modal for Concerns -->
+        <div class="divModals" id="modalConcerns">
+            <div id="concerns_tabs">
+                <div class="concerns_buttons" id="button-concern-threads">
+                    Threads
+                </div>
+                <div class="concerns_buttons" id="button-concern-compose">
+                    Compose
+                </div>
+            </div>
+            <div id="concerns_body">
+                <div id = "concerns_list">
+                    <table class='concern_entry'>
+                        <tr>
+                            <td class ='concern_name'>Ryan Dimaunahan</td>
+                            <td class ='concern_time'>1:29 PM</td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' class ='concern_message'>Hello Sir Ryan, Concern lang po. Si Doc Mc ay bawal na mag-stay ng gabi so no night classes. Tnx po.</td>
+                        </tr>
+                    </table>
+                </div>
+                <table id="concern_compose">
+                    <tr>
+                        <td class="compose_addressbar">To:</td>
+                        <td class="compose_addressbar"><select  id="concern_receiver">
+                            <c:forEach items="${allUsers}" var="user">
+                                <option value="${user}">
+                                    <c:out value="${user}" />
+                                </option>
+                            </c:forEach>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><textarea id="concern_content">This is a dummy text</textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="concern_button_submit"><button id="compose_submit" type="submit">Submit</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
 </html>
