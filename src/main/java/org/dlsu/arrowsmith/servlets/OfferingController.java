@@ -4,6 +4,7 @@ import org.dlsu.arrowsmith.classes.*;
 import org.dlsu.arrowsmith.classes.dtos.ConcernDto;
 import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.classes.main.*;
+import org.dlsu.arrowsmith.repositories.ModifyingCoursesRepository;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.dlsu.arrowsmith.services.FacultyService;
@@ -29,6 +30,7 @@ public class OfferingController {   // This Controller is for the Course Schedul
 
     @Autowired
     private FacultyService facultyService;
+
 
     /*** Extra Stuff ***/
     private MessageSource messages;
@@ -509,4 +511,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
         }
         return isConflict;
     }
+
+
 }
