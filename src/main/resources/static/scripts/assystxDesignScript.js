@@ -118,7 +118,7 @@ $(function()
                 {
                     if(result.status == "Done")
                     {
-                        alert("Course Section = " + result.data.classSection);
+                        //alert("Course Section = " + result.data.classSection);
                         $(".collabWorkspace .generatedContent .genContentRows:not(:first-child)").remove();
 
                             /* Create Divs */
@@ -132,7 +132,7 @@ $(function()
                             var room = "<div class='genContentCols cols-room-code'>" + result.data.roomCode + "</div>";
                             var faculty = "<div class='genContentCols cols-faculty'>" + result.data.faculty + "</div>";
                             var offeringRow = "<div class='genContentRows'>" +
-                                "" + courseCode + section + days + time + room + faculty + offerid +
+                                "" + courseCode + section + days + time + room + faculty +
                                 "</div>";
                         $(".collabWorkspace .generatedContent").append(offeringRow);
 
