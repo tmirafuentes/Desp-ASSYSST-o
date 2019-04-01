@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:form="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
         <title>ASSYSTX - APO</title>
@@ -33,11 +33,13 @@
             <h2>ASSYSTX</h2>
             <hr>
 
-            <h3>CVC Functions</h3>
+            <h3>APO Functions</h3>
             <ul class="workspace-navigation-user-functions">
+                <!--
                 <li> <a href="javascript:void(0)" id="workspace-navigation-view-faculty"> View Faculty Load Info</a> </li>
                 <li> <a href="javascript:void(0)" id="workspace-navigation-add-course"> Add New Course</a> </li>
-                <li> <a href="javascript:void(0)" id="workspace-navigation-add-faculty"> Add New Faculty</a> </li>
+                <li> <a href="javascript:void(0)" id="workspace-navigation-add-faculty"> Add New Faculty</a> </li>-->
+                <li> <a href="javascript:void(0)" id="workspace-navigation-add-offering"> Add New Offering</a> </li>
             </ul>
             <hr>
 
@@ -225,6 +227,104 @@
                         </li>
                     </ul>
                 </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="workspace-main-rows-single">
+                    <ul class="workspace-main-rows-list">
+                        <li>&nbsp;</li>
+                        <li>ADVANDB</li>
+                        <li>S20</li>
+                        <li>M W</li>
+                        <li>09:15 - 10:45</li>
+                        <li>G206</li>
+                        <li>Bulos, Remedios</li>
+                        <li>
+                            <button class="workspace-main-modify-button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
 
@@ -273,6 +373,42 @@
             <button type="button" class="modify-offering-submit-buttons" id="modify-offering-submit-button">Submit</button>
             <button type="button" class="modify-offering-submit-buttons" id="modify-offering-cancel-button">Cancel</button>
             <button type="button" class="modify-offering-submit-buttons" id="modify-offering-delete-button">Delete</button>
+        </div>
+
+        <!-- Floating Button and Modal for Add New Offering -->
+        <button type="button" class="workspace-add-offering-button" title="Add New Course Offering">+</button>
+        <div class="assystx-workspace-modals assystx-workspace-add-offering-modal">
+            <div class="workspace-add-offering-instance">
+                <label>Select Course: </label>
+                <select class="workspace-add-offering-courses">
+                    <option value="None">COMPRO1</option>
+                    <option value="None">COMPRO2</option>
+                    <option value="None">OBJECTP</option>
+                    <option value="None">SWDESPA</option>
+                    <option value="None">HCIFACE</option>
+                    <option value="None">WEBAPDE</option>
+                    <option value="None">SOFENGG</option>
+                    <option value="None">MOBAPDE</option>
+                </select><br>
+
+                <ul class="add-offering-course-details add-offering-details-label">
+                    <li>Name</li>
+                    <li>Units</li>
+                    <li>Section</li>
+                </ul>
+
+                <ul class="add-offering-course-details">
+                    <li>Introduction to C Programming</li>
+                    <li>3.0</li>
+                    <li>
+                        <input type="text" class="add-offering-course-section" />
+                    </li>
+                </ul>
+            </div>
+            <div class = "add-offering-divider-container">
+                <hr class="add-offering-divider">
+                <button type="button" class="workspace-add-more-button" title="Add More Course Offerings">+</button>
+            </div>
         </div>
 
     </body>
