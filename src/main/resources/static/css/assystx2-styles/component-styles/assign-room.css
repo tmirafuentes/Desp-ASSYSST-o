@@ -1,0 +1,191 @@
+/*** ASSIGN ROOM HEADER/MENU ***/
+#assign-room-dropdowns-container
+{
+    position: sticky;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 5%;
+    padding-left: 21%;
+}
+
+/* Box Seen in UI */
+#assign-room-dropdowns-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-room-dropdowns-box select
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    border: none;
+    border-bottom: 2px solid #000000;
+    font-family: Open Sans;
+    font-size: 0.85em;
+    color: #0000000;
+    cursor: pointer;
+    width: 90%;
+}
+
+#assign-room-building-menu option
+{
+    padding: 3%;
+}
+
+/*** CONFIRMATION/SUMMARY SECTION ***/
+#assign-room-confirm-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 5%;
+    padding-left: 21%;
+}
+
+#assign-room-confirm-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-room-confirm-table
+{
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 90%;
+    border-collapse: collapse;
+}
+
+#assign-room-confirm-table tr td:first-child
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: bold;
+    color: #000000;
+    border-bottom: 2px solid #efefef;
+    padding: 5px;
+}
+
+#assign-room-confirm-table tr td:nth-child(2)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    border-bottom: 2px solid #efefef;
+}
+
+#assign-room-confirm-table tr:last-child td
+{
+    border: none;
+    padding-top: 20px;
+    padding-left: 26%;
+    padding-right: 0;
+}
+
+.assign-room-btns
+{
+    margin: 0 auto;
+    margin-right: 3px;
+    padding: 5px;
+    font-family: Gotham Black;
+    font-size: 1em;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+#assign-room-cancel
+{
+    background-color: #e71d36;
+}
+
+#assign-room-submit
+{
+    background-color: #00e08e;
+}
+
+/*** ASSIGN ROOM TABLE ***/
+#assign-room-table-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-left: 2.5%;
+    padding-right: 15%;
+    padding-top: 2%;
+}
+
+/* Box Seen in UI */
+#assign-room-table-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-room-table-box hr
+{
+    width: 95%;
+}
+
+#room-assign-table
+{
+    margin: 0 auto;
+    margin-top: 15px;
+    border-collapse: collapse;
+    font-family: Open Sans;
+    font-size: 0.80em;
+//font-weight: bold;
+    color: #000000;
+    width: 95%;
+    border: 2px solid #000;
+}
+
+#room-assign-table td
+{
+    height: 6px;
+    width: 100px;
+    border-right: 2px solid black;
+    border-bottom: 1px solid gray;
+    background-color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+}
+
+#room-assign-table .room-table-header
+{
+    border-bottom: 2px solid black;
+}
+
+#room-assign-table tr:first-child td
+{
+    padding: 5px;
+}
+
+#room-assign-table tr:first-child td:not(:nth-child(1))
+{
+    width: 25px;
+}
+
+#room-assign-table .room-table-unavailable
+{
+    background-color: #d3d3d3;
+}

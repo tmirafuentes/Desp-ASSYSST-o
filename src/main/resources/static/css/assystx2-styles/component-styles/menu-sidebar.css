@@ -1,0 +1,20 @@
+#menu-container
+{
+    grid-row: 2;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 5%;
+    padding-left: 15%;
+}
+
+/* Box Seen in UI */
+#menu-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}

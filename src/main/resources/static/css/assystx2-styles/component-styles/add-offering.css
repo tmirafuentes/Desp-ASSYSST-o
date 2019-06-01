@@ -1,0 +1,90 @@
+#add-offering-container
+{
+    grid-row: 1;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2%;
+}
+
+/* Box Seen in UI */
+#add-offering-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#add-offering-box input[type=text]
+{
+    margin-top: 5px;
+    border: 2px solid #00e08e;
+    padding: 5px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    text-indent: 3px;
+}
+
+#add-offering-course
+{
+    margin-left: 20px;
+    background: #00e08e;
+    color: #000000;
+    width: 14%;
+    cursor: pointer;
+    border: none;
+}
+
+#add-offering-course::placeholder
+{
+    font-family: Gotham Black;
+    font-size: 0.95em;
+    color: #ffffff;
+}
+
+#add-offering-course:focus
+{
+    border: 2px solid #00e08e;
+    cursor: text;
+}
+
+#add-offering-section
+{
+    margin-left: 10px;
+    width: 9%;
+    visibility: hidden;
+}
+
+#add-offering-box button
+{
+    margin-top: 5px;
+    border: none;
+}
+
+#add-offering-room
+{
+    margin-left: 10px;
+    padding: 8px;
+    background: #05386B;
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    color: #fff;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+#add-offering-submit
+{
+    float: right;
+    margin-right: 15px;
+    padding: 8px 10px 8px 10px;
+    background: #00e08e;
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    color: #fff;
+    cursor: pointer;
+    visibility: hidden;
+}

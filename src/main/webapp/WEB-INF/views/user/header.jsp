@@ -9,7 +9,6 @@
 <html>
     <div id = "header">
         <p id = "system_title"> ASSYSTX </p>
-
         <c:if test="${pageContext.request.userPrincipal.name != null}">
             <a onclick="document.forms['logoutForm'].submit()" id="user_icon">${loggedUser}</a>
             <form id="logoutForm" method="POST" action="${contextPath}/logout">

@@ -3,6 +3,10 @@ package org.dlsu.arrowsmith.services;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -699,5 +703,39 @@ public class OfferingService {
     public Long findUserOfferingWhereabouts(Long userId)
     {
         return modifyingCoursesRepository.findByUserId(userId).getOfferingId();
+    }
+
+    /*
+     *
+     *  ASSYSTX 2
+     *  OFFERING SERVICES
+     *
+     */
+
+    /* Retrieve 15 Course Offerings at a time */
+    public Page<CourseOffering> retrievePartialCourseOfferings(int startAY, int endAY, int term, PageRequest pageRequest)
+    {
+        //List<CourseOffering> allOfferings = courseOfferingRepository.findAll(pageRequest.first()).getContent();
+        Page<CourseOffering> allOfferings = courseOfferingRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term, pageRequest);
+        return allOfferings;
+    }
+
+    /* Retrieve a list of suggested courses */
+    public Iterator retrieveSuggestedCourses()
+    {
+        /* Get All courses */
+        Iterator allCourses = retrieveAllCourses();
+
+        /* Create List of Course Codes */
+        ArrayList<String> allCourseCodes = new ArrayList<>();
+        while(allCourses.hasNext())
+        {
+            allCourseCodes.add(((Course)allCourses.next()).getCourseCode());
+        }
+
+        /* Sort alphabetically */
+        Collections.sort(allCourseCodes);
+
+        return allCourseCodes.iterator();
     }
 }

@@ -31,7 +31,6 @@ public class OfferingController {   // This Controller is for the Course Schedul
     @Autowired
     private FacultyService facultyService;
 
-
     /*** Extra Stuff ***/
     private MessageSource messages;
 

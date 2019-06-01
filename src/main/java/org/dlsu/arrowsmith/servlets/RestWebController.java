@@ -328,7 +328,6 @@ public class RestWebController {
         }
         currOffering.setDaysSet(daysSet);
         for (Days d : daysSet) {
-            System.out.println("Days ID = " + d.getdaysId());
             offeringService.saveDays(d);
         }
 
@@ -713,8 +712,6 @@ public class RestWebController {
     /* Function to generally create a new Days object */
     private Days createNewDay(OfferingModifyDto offering, Room newRoom, CourseOffering currOffering, int dayNumber) {
         Days newDay = new Days();
-
-        System.out.println("Hello world i'm here in days");
 
         /* Letter Day */
         if (dayNumber == 1)

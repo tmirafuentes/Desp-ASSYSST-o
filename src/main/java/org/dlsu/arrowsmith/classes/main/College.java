@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -56,6 +57,7 @@ public class College {
     }
 
     @OneToMany(mappedBy = "college", cascade = CascadeType.ALL)
+    @JsonIgnore
     public Set<Department> getDepartments() {
         return departments;
     }
@@ -65,6 +67,7 @@ public class College {
     }
 
     @OneToMany(mappedBy = "college", cascade = CascadeType.ALL)
+    @JsonIgnore
     public Set<Course> getCourses() {
         return courses;
     }

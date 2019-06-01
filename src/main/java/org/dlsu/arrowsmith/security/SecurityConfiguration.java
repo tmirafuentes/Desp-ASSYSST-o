@@ -46,11 +46,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/css/**",
-                            "/js/**",
+                            "/scripts/**",
                             "/images/**",
-                            "/",
-                            "/signin").permitAll()
-                .antMatchers("/apo/**", "/apo/modify-offering").hasRole("APO")
+                            "/"
+                            //"/signin",
+                            //"/assystx2/**"
+                ).permitAll()
+                .antMatchers("/assystx2/apo/**").hasRole("APO")
                 .antMatchers("/cvc/**").hasRole("CVC")
                 .anyRequest().authenticated()
                 .and()

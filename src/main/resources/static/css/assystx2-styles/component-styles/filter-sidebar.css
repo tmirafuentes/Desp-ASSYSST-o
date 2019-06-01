@@ -1,0 +1,21 @@
+#filters-container
+{
+    grid-row: 1;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 6%;
+    padding-left: 15%;
+    //border: 1px solid #000;
+}
+
+/* Box Seen in UI */
+#filters-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}

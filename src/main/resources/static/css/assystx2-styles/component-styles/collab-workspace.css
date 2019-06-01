@@ -1,0 +1,139 @@
+#all-offerings-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+/* Box Seen in UI */
+#all-offerings-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+
+/* General Row */
+.all-offerings-row
+{
+    margin: 0;
+}
+
+.all-offerings-row li
+{
+    list-style-type: none;
+    display: inline;
+    float: left;
+    padding-bottom: 6px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.all-offerings-row li:nth-child(1) { width: 14%; }
+.all-offerings-row li:nth-child(2) { width: 13%; }
+.all-offerings-row li:nth-child(3) { width: 12%; }
+.all-offerings-row li:nth-child(4) { width: 16%; }
+.all-offerings-row li:nth-child(5) { width: 14%; }
+.all-offerings-row li:nth-child(6) { width: 22%; }
+.all-offerings-row li:nth-child(7) { width: 5%; }
+
+.all-offerings-row-border
+{
+    border: 1px solid #efefef;
+    width: 95%;
+}
+
+/* Popup Menu for Offerings */
+.all-offerings-row-img, .all-offerings-row-menu
+{
+    height: auto;
+    max-width: 45%;
+    cursor: pointer;
+}
+
+.all-offerings-row-popup
+{
+    position: relative;
+    display: inline-block;
+}
+
+.all-offerings-dropdown-menu
+{
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.all-offerings-dropdown-menu a
+{
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.all-offerings-dropdown-menu a:hover
+{
+    background-color: #00e08e;
+    color: #ffffff;
+}
+
+.all-offerings-row-popup:hover .all-offerings-dropdown-menu
+{
+    display: block;
+}
+
+/* Header Row */
+#all-offerings-header li
+{
+    display: inline;
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    padding-bottom: 8px;
+}
+
+#all-offerings-header-border
+{
+    clear: both;
+    border: 1px solid #00e08e;
+    width: 95%;
+}
+
+.all-offerings-sort
+{
+    width: 9px;
+    cursor: pointer;
+}
+
+/* Page Menu */
+#all-offerings-page-menu
+{
+    margin: 0;
+    padding: 5px 0px 30px 0px;
+}
+
+#all-offerings-page-menu li
+{
+    list-style-type: none;
+    display: inline;
+    float: left;
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    color: #00a864;
+    text-align: center;
+}
+
+#all-offerings-page-menu li:nth-child(1) { width:25%; cursor: pointer; text-decoration: underline; }
+#all-offerings-page-menu li:nth-child(2) { width:50%; }
+#all-offerings-page-menu li:nth-child(3) { width:25%; cursor: pointer; text-decoration: underline; }
+
+#all-offerings-page-menu li.unavailable-page { color: #666666; cursor:text; text-decoration: none; }

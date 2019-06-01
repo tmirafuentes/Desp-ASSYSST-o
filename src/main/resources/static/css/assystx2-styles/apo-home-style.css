@@ -1,0 +1,82 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/header.css";
+@import "component-styles/filter-sidebar.css";
+@import "component-styles/menu-sidebar.css";
+@import "component-styles/add-offering.css";
+@import "component-styles/collab-workspace.css";
+@import "component-styles/online-users.css";
+@import "component-styles/recent-changes.css";
+@import "component-styles/modal-styles.css";
+
+body
+{
+    top: 0;
+    left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #efefef;
+}
+
+#assystx-container
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 20% 55% 25%;
+    padding-bottom: 2.5%;
+}
+
+.section-header-text
+{
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    display: inline;
+    margin-left: 20px;
+}
+
+.section-header-border
+{
+    border: 1px solid #00e08e;
+    width: 95%;
+}
+
+/* WORKSPACE FILTERS AND MENU CONTAINER / LEFT PARTITION */
+#workspace-menu-filters
+{
+    grid-row: 2;
+    grid-column: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* COLLABORATIVE WORKSPACE CONTAINER */
+#collab-workspace
+{
+    grid-row: 2;
+    grid-column: 2;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* COLLABORATION SIDEBAR CONTAINER / RIGHT PARTITION */
+#collab-sidebar 
+{
+    grid-row: 2;
+    grid-column: 3;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}

@@ -1,0 +1,71 @@
+#online-users-container
+{
+    grid-row: 1;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-right: 15%;
+    padding-top: 4.5%;
+}
+
+#online-users-box
+{
+    box-sizing: border-box;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff; 
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#online-users-box p
+{
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    display: inline;
+    margin-left: 20px;
+}
+
+#online-users-header-border
+{
+    width: 90%;
+}
+
+/* General Online Users Row */
+.online-users-row
+{
+    margin: 0;
+    padding 0;
+}
+
+.online-users-row li
+{
+    list-style-type: none;
+    display: inline;
+    float: left;
+    padding-bottom: 8px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.online-users-row li:nth-child(1) { width: 15%; }
+.online-users-row li:nth-child(2) { width: 50%; }
+
+.online-users-row li:nth-child(1) div.online-users-colors
+{
+    float: left;
+    margin: 0;
+    padding: 0;
+    height: 20px;
+    width: 20px;
+    background: blue;
+    border-radius: 50%;
+}
+
+.online-users-row-border
+{
+    border: 0.5px solid #efefef;
+    width: 90%;   
+}

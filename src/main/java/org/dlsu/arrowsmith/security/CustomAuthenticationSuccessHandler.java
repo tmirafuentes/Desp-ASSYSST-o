@@ -62,7 +62,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (isCVC)
             return "/cvc";
         else if (isAPO)
-            return "/apo";
+            return "/assystx2/apo";
 
         return "/faculty";
     }

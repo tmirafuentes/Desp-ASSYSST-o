@@ -10,7 +10,7 @@
 
         <title>ASSYSTX</title>
 
-        <c:url value="/css/signin-style.css" var="signinStyle" />
+        <c:url value="/css/component-styles/signin-style.css" var="signinStyle" />
         <link rel="stylesheet" type="text/css" href="${signinStyle}" />
     </head>
     <body>
@@ -38,7 +38,7 @@
                     <input type="text" id="signin-error" name="error" value="${error}" disabled />
 
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <button type="submit" id="signin-submit-button">Signin to ASSYSTX</button>
+                    <button type="submit" id="signin-submit-button">Sign in to ASSYSTX</button>
                 </form>
             </div>
         </div>

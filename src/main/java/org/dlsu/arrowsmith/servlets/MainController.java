@@ -63,9 +63,6 @@ public class MainController {
         /* Load all Course Offerings, User, and other Stuff */
         model = loadAttributes(model);
 
-        /* Load Rooms for Room Assignment */
-        model.addAttribute("allRooms", offeringService.retrieveAllRooms());
-
         /* Load Dto for Modify Course Offering */
         model.addAttribute("offerModifyForm", new OfferingModifyDto());
 
@@ -74,7 +71,8 @@ public class MainController {
 
         model.addAttribute("userID", userService.retrieveUserID());
         model.addAttribute("allUsers", userService.findAllUsers());
-        return "/apo/apoHome";
+
+        return "/assystx2/apo-screens/apo-home";
     }
 
     /* Default Home Page - Chairs or Vice Chairs Screen */
