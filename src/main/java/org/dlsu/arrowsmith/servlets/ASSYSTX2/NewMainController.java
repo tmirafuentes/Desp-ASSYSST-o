@@ -32,7 +32,7 @@ public class NewMainController
      */
 
     /* Default Home Page - Login Screen */
-    @RequestMapping(value = {"/assystx2/index", "/assystx2/signin"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/signin", "/assystx2/signin"}, method = RequestMethod.GET)
     public String index(Model model, String expired, String error, String logout)
     {
         if(expired != null)
@@ -44,7 +44,7 @@ public class NewMainController
         if (logout != null)
             model.addAttribute("message", messages.getMessage("message.logoutSuccess", null, null));
 
-        return "user/signin";
+        return "assystx2/general-screens/signin";
     }
 
     /* Default Home Page - Academic Programming Officer Screen */

@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.dlsu.arrowsmith.classes.main.Building;
 import org.dlsu.arrowsmith.classes.main.Days;
 import org.hibernate.envers.Audited;
@@ -63,7 +64,7 @@ public class Room {
     }
 
     @ManyToOne
-    @JoinColumn(name = "buildingId")
+    @JoinColumn(name = "building_id")
     public Building getBuilding() {
         return building;
     }
@@ -73,6 +74,7 @@ public class Room {
     }
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @JsonIgnore
     public Set<Days> getDaysSet() {
         return daysSet;
     }

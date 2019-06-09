@@ -73,15 +73,20 @@
     z-index: 1;
 }
 
-.all-offerings-dropdown-menu a
+.all-offerings-dropdown-menu a, .all-offerings-dropdown-menu button
 {
+    width: 100%;
     color: black;
     padding: 10px;
     text-decoration: none;
     display: block;
+    cursor: pointer;
+    border: none;
+    background-color: #ffffff;
+    text-align: left;
 }
 
-.all-offerings-dropdown-menu a:hover
+.all-offerings-dropdown-menu a:hover, .all-offerings-dropdown-menu button:hover
 {
     background-color: #00e08e;
     color: #ffffff;

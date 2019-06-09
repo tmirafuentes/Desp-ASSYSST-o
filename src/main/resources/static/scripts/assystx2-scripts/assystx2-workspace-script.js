@@ -1,13 +1,13 @@
 /*
  *
- *  ASSYSTX2 MAIN SCRIPT
+ *  ASSYSTX2 SCRIPT
+ *  FOR COLLABORATIVE WORKSPACE
  *
- *  This script file includes AJAX functions
- *  for loading course offerings, displaying
- *  online users, and displaying recent changes.
- *
- *  A separate script file will be for enhancing
- *  the user experience of the system.
+ *  This script is for the collaborative workspace
+ *  pages of the ASSYSTX2 system. These includes
+ *  functions for course offering management, create
+ *  a new offering, concerns management, online users,
+ *  and revision history/recent changes.
  *
  */
 
@@ -20,7 +20,7 @@ $(function() {
     showPartialOfferings(0);
 
     /*
-     *
+     *  COURSE OFFERING MANAGEMENT
      *  EVENT LISTENERS
      *
      */
@@ -47,45 +47,28 @@ $(function() {
         showPartialOfferings(pageNum);
     });
 
-    /*  This event listener submits a form
-     *  which includes the course offering
-     *  and section to the database.
-    */
-    $("#add-offering-box").on('click', "#add-offering-submit", function()
-    {
-        /* Retrieve input from text fields */
-        var courseCode = $("#add-offering-course").val();
-        var section = $("#add-offering-section").val();
-
-        /* Check if it's not empty and then submit */
-        if (courseCode.length == 7 && section.length <= 3)
-        {
-            createNewOffering(courseCode, section);
-        }
-    });
-
     /*
-     *
+     *  COURSE OFFERING MANAGEMENT
      *  FUNCTION IMPLEMENTATIONS
      *
-     */
+    */
 
     /*  This function retrieves a partial list
-     *  of course offerings from the database
-     *  and displays it in the system.
-     */
+ *  of course offerings from the database
+ *  and displays it in the system.
+ */
     function showPartialOfferings(pageNum)
     {
         $.ajax({
             type : "GET",
             url : window.location + "/show-offerings?page=" + pageNum,
-            success : function (result)
+            success : function(result)
             {
                 if(result.status == "Done")
                 {
                     /* TODO?: Code for keeping track of the selected course offering */
 
-                    /* TODO?: Code for removing the currently displayed course offerings */
+                    /* Code for removing the currently displayed course offerings */
                     $(".all-offerings-row:not(:first-child)").remove();
                     $(".all-offerings-row-border").remove();
                     $("#all-offerings-page-menu").remove();
@@ -94,9 +77,12 @@ $(function() {
                     $.each(result.data.currPartialOfferings, function(i, offering)
                     {
                         /* Create individual list items */
+                        var startForm = "<form action='/assystx2/apo/assign-room' method='POST'>";
                         var startlist = "<ul class='all-offerings-row'>";
-                        var course = "<li class='cols-course'>" + offering.courseCode + "</li>";
-                        var section = "<li class='cols-section'>" + offering.section + "</li>";
+                        var course = "<li class='cols-course'>" + offering.courseCode +
+                                     "<input value='" + offering.courseCode + "' name='courseCode' hidden /> </li>";
+                        var section = "<li class='cols-section'>" + offering.section +
+                                      "<input value='" + offering.section + "' name='section' hidden /> </li>";
                         var days = "<li class='cols-days'>" + offering.day1 + " " + offering.day2 + "</li>";
                         var timeslot = "<li class='cols-timeslot'>" + offering.startTime + " - " + offering.endTime + "</li>";
                         var room = "<li class='cols-room'>" + offering.roomCode + "</li>";
@@ -105,15 +91,15 @@ $(function() {
                             "<div class='all-offerings-row-popup'>" +
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                             "<div class='all-offerings-dropdown-menu'>" +
-                            "<a href='assign-room.html'>Assign Room</a>" +
+                            "<button type='submit' class='offering-assign-room-button'>Assign Room</button>" +
                             "<a href='#'>Raise Concerns</a>" +
                             "<a href='#'>Edit Section</a>" +
                             "<a href='#'>View More Details</a>" +
                             "<a href='#'>Dissolve Offerings</a>" +
-                            "</div></div></li></ul>";
+                            "</div></div></li></ul></form>";
                         var border = "<hr class='all-offerings-row-border' />";
 
-                        var offering_row = startlist + course + section + days + timeslot + room + faculty + menu + border;
+                        var offering_row = startForm + startlist + course + section + days + timeslot + room + faculty + menu + border;
 
                         /* Insert after border */
                         $(offering_row).insertAfter("#all-offerings-header-border");
@@ -126,7 +112,7 @@ $(function() {
                     if (result.data.hasPrev == true)
                     {
                         prevPage = prevPage + "><a id='offerings-prev-page' data-page-num='" +
-                                   (result.data.currPageNum - 1) + "'> <- Prev </a> </li>";
+                            (result.data.currPageNum - 1) + "'> <- Prev </a> </li>";
                     }
                     else { prevPage = prevPage + "> <- Prev </li>"; }
                     var currPage = "<li>Page " + (result.data.currPageNum + 1) + " of " + result.data.totalPages + "</li>";
@@ -151,6 +137,97 @@ $(function() {
             }
         });
     }
+
+    /* Retrieve all course codes from the database */
+    function retrieveAllCourses()
+    {
+        /* Perform AJAX */
+        $.ajax({
+            type : "GET",
+            url : window.location +  "/autocomplete-course-code",
+            success : function(result)
+            {
+                if(result.status == "Done")
+                    returnAllCourses(result.data);
+            },
+            error : function(e)
+            {
+                console.log("Error = " + e);
+            }
+        });
+    }
+
+    function returnAllCourses(response)
+    {
+        $.each(response.suggestedCourses, function(i, courses)
+        {
+            allCourseCodes.push(courses);
+            console.log("I am filling up = " + allCourseCodes.length);
+        });
+    }
+
+    /*
+     *  CREATE NEW OFFERING
+     *  EVENT LISTENERS
+     *
+    */
+
+    /*  This event listener submits a form
+     *  which includes the course offering
+     *  and section to the database.
+    */
+    $("#add-offering-box").on('click', "#add-offering-submit", function()
+    {
+        /* Retrieve input from text fields */
+        var courseCode = $("#add-offering-course").val();
+        var section = $("#add-offering-section").val();
+
+        /* Check if it's not empty and then submit */
+        if (courseCode.length == 7 && section.length <= 3)
+        {
+            createNewOffering(courseCode, section);
+        }
+    });
+
+    /* TODO: Course Code field suggests possible
+     * courses from the typed input
+    */
+
+    /* Add Offering partition's front-end
+     * functionality of appearing and disappearing
+     * text fields
+    */
+    $("#add-offering-course").focusin(function(e)
+    {
+        /* Change color of course code */
+        $("#add-offering-course").css("background-color", "#ffffff");
+
+        /* Make the other fields appear */
+        $("#add-offering-section").css("visibility", "visible");
+        $("#add-offering-room").css("visibility", "visible");
+        $("#add-offering-submit").css("visibility", "visible");
+    });
+
+    $("#add-offering-course").focusout(function(e)
+    {
+        /* Make the other fields disappear unless there is content */
+        if ($("#add-offering-course").val() == "")
+        {
+            /* Change color of course code */
+            $("#add-offering-course").css("background-color", "#00e08e");
+
+            $("#add-offering-section").css("visibility", "hidden").fadeTo(2000);
+            $("#add-offering-section").val("");
+            $("#add-offering-room").css("visibility", "hidden").fadeTo(2000);
+            $("#add-offering-submit").css("visibility", "hidden");
+        }
+    });
+
+    /*
+     *  CREATE NEW OFFERING
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
 
     /*  This function creates a new offering
      *  through submitting the course code
@@ -180,6 +257,7 @@ $(function() {
                     $("#add-offering-course").val("");
                     $("#add-offering-section").val("");
 
+                    /* Feedback message */
                     console.log("Course Offering successfully added");
                 }
             },

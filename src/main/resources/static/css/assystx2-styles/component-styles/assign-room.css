@@ -1,7 +1,6 @@
 /*** ASSIGN ROOM HEADER/MENU ***/
 #assign-room-dropdowns-container
 {
-    position: sticky;
     height: auto;
     width: 100%;
     box-sizing: border-box;
@@ -30,7 +29,7 @@
     border-bottom: 2px solid #000000;
     font-family: Open Sans;
     font-size: 0.85em;
-    color: #0000000;
+    color: #000000;
     cursor: pointer;
     width: 90%;
 }
@@ -78,6 +77,7 @@
     color: #000000;
     border-bottom: 2px solid #efefef;
     padding: 5px;
+    width: 50%;
 }
 
 #assign-room-confirm-table tr td:nth-child(2)
@@ -86,6 +86,7 @@
     font-size: 0.80em;
     color: #000000;
     border-bottom: 2px solid #efefef;
+    width: 50%;
 }
 
 #assign-room-confirm-table tr:last-child td
@@ -153,7 +154,6 @@
     border-collapse: collapse;
     font-family: Open Sans;
     font-size: 0.80em;
-//font-weight: bold;
     color: #000000;
     width: 95%;
     border: 2px solid #000;
@@ -161,31 +161,48 @@
 
 #room-assign-table td
 {
-    height: 6px;
+    height: 10px;
     width: 100px;
     border-right: 2px solid black;
     border-bottom: 1px solid gray;
     background-color: #ffffff;
     text-align: center;
-    cursor: pointer;
 }
 
 #room-assign-table .room-table-header
 {
+    padding: 5px;
     border-bottom: 2px solid black;
 }
 
-#room-assign-table tr:first-child td
+#room-assign-table .room-table-hour
 {
-    padding: 5px;
+    padding: 3px;
 }
 
 #room-assign-table tr:first-child td:not(:nth-child(1))
 {
-    width: 25px;
+    width: 20px;
+}
+
+#room-assign-table .room-table-cells
+{
+    font-size: 0.70em;
+}
+
+#room-assign-table .room-table-available
+{
+    background-color: #ffffff;
+    cursor: pointer;
 }
 
 #room-assign-table .room-table-unavailable
 {
     background-color: #d3d3d3;
+}
+
+#room-assign-table .room-table-selected
+{
+    background-color: #00e08e;
+    cursor: pointer;
 }

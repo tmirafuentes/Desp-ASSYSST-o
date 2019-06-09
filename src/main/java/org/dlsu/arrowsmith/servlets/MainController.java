@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller
 public class MainController {
     /* All Services */
     @Autowired
@@ -41,7 +40,7 @@ public class MainController {
      *
      */
 
-    /* Default Home Page - Login Screen */
+    /* Default Home Page - Login Screen
     @RequestMapping(value = {"/", "/index", "/signin"}, method = RequestMethod.GET)
     public String index(Model model, String expired, String error, String logout) {
         if(expired != null)
@@ -53,8 +52,8 @@ public class MainController {
         if (logout != null)
             model.addAttribute("message", messages.getMessage("message.logoutSuccess", null, null));
 
-        return "user/signin";
-    }
+        return "assystx2/general-screens/signin";
+    } */
 
     /* Default Home Page - Academic Programming Officer Screen */
     @RequestMapping(value = {"/apo", "/apo/home"}, method = RequestMethod.GET)

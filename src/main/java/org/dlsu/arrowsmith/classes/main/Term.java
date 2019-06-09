@@ -1,6 +1,9 @@
 package org.dlsu.arrowsmith.classes.main;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Term
@@ -14,6 +17,8 @@ public class Term
     public Term() {
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getTermID() {
         return termID;
     }

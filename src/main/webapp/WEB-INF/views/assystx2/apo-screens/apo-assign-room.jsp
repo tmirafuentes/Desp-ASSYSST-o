@@ -25,16 +25,81 @@
         <c:url value="/css/assystx2-styles/assign-room-style.css" var="mainCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
-        <c:url value="/scripts/assystx2-scripts/assystx2-main-scripts.js" var="mainScript" />
-        <c:url value="/scripts/assystx2-scripts/assystx2-design-script.js" var="designScript" />
+        <c:url value="/scripts/assystx2-scripts/assystx2-assign-room-script.js" var="mainScript" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
         <link rel="stylesheet" type="text/css" href="${mainCss}">
     </head>
     <body>
-        <!-- Header -->
-        <%@include file="../general-screens/header-screen.jsp"%>
+        <div id="assystx-container">
+            <!-- General Header for ASSYSTX -->
+            <header id="workspace-header">
+                <img src="/images/dlsu-logo.png" id="workspace-logo-img" alt="DLSU Logo" />
+                <a href="#" id="workspace-menu-title-link">
+                    <h3 id="workspace-menu-title">APO Workspace</h3>
+                </a>
+                <div class="workspace-user">
+                    <img src="/images/white-icons/user-avatar.png" class="workspace-user-avatar workspace-user-icons" />
+                    <div class="logout-dropdown">
+                        <a href="#">Logout</a>
+                    </div>
+                    <img src="/images/white-icons/concerns-inbox.png" class="workspace-user-inbox workspace-user-icons" />
+                </div>
+            </header>
 
+            <!-- Assign Room Dropdowns Menu -->
+            <section id="assign-room-left-partition">
+                <!-- Building and Room Menu -->
+                <section id="assign-room-dropdowns-container">
+                    <div id="assign-room-dropdowns-box">
+                        <p class="section-header-text">Select Building and Room</p>
+                        <hr class="section-header-border" />
+                        <!-- Building Menu -->
+                        <select id="assign-room-building-menu">
+                            <option value="-" selected>Select building</option>
+                        </select>
+                        <!-- Room Menu -->
+                        <select id="assign-room-room-menu">
+                            <option value="-" selected>Select room</option>
+                        </select>
+                    </div>
+                </section>
+                <!-- Assigned Room Confirmation and Summary -->
+                <section id="assign-room-confirm-container">
+                    <div id="assign-room-confirm-box">
+                        <p class="section-header-text">Assigned Room and Timeslot</p>
+                        <hr class="section-header-border" />
 
+                        <table id="assign-room-confirm-table">
+                            <tr id="confirm-table-offering-row">
+                                <td>Course Offering</td>
+                                <td>${courseCode} ${section}</td>
+                            </tr>
+                            <tr id="confirm-table-button-row">
+                                <td colspan="2">
+                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-room-btns">Cancel</button>
+                                    <button id="assign-room-reset" type="reset" class="assign-room-btns">Reset</button>
+                                    <button id="assign-room-submit" type="submit" class="assign-room-btns">Assign Room</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Select Time Slots Table -->
+            <section id="assign-room-right-partition">
+                <section id="assign-room-table-container">
+                    <div id="assign-room-table-box">
+                        <p class="section-header-text">Select Day and Timeslot</p>
+                        <hr class="section-header-border" id="assign-room-table-border" />
+                    </div>
+                </section>
+            </section>
+        </div>
+
+        <script src="${minJquery}"></script>
+        <script src="${jqueryUI}"></script>
+        <script src="/scripts/assystx2-scripts/assystx2-assign-room-script.js"></script>
     </body>
 </html>

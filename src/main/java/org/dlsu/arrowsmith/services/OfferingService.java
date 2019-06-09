@@ -439,12 +439,18 @@ public class OfferingService {
 
         return true;
     }
+
     /**
      **
      ** BUILDING
      ** CRUD FUNCTIONS
      **
      */
+
+    public Building retrieveBuildingByBuildingCode(String buildingCode)
+    {
+        return buildingRepository.findBuildingByBldgCode(buildingCode);
+    }
 
     public Iterator retrieveAllBuildings() {
         ArrayList<Building> allBuildings = (ArrayList<Building>) buildingRepository.findAll();

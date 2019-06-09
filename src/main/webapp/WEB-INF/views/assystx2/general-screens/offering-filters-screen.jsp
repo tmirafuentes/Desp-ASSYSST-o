@@ -5,16 +5,16 @@
             <p class="section-header-text">Filter Offerings By</p>
             <hr class="section-header-border" />
             <ul class="filters-checkbox-row">
-                <li>No Room Assigned</li>
                 <li>
-                    <input type="checkbox" id="filters-no-room-assigned" />
+                    <input type="checkbox" id="filters-no-room-assigned" name="no-room-filter" />
+                    <label for="filters-no-room-assigned">No Room Assigned</label>
                 </li>
             </ul>
             <ul class="filters-checkbox-row">
-                <li>No Faculty Assigned</li>
                 <li>
                     <input type="checkbox" id="filters-no-faculty-assigned" />
                 </li>
+                <li><label for="filters-no-faculty-assigned">No Faculty Assigned</label></li>
             </ul>
             <ul class="filters-dropdown-row">
                 <li>

@@ -7,7 +7,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
     <head>
-        <title>ASSYSTX - APO Workspace</title>
+        <title>ASSYSTX - CVC Workspace</title>
 
         <meta name="_csrf" content="${_csrf.token}"/>
         <!-- default header name is X-CSRF-TOKEN -->
@@ -18,7 +18,6 @@
         <c:url value="/css/assystx2-styles/apo-home-style.css" var="mainCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
-        <c:url value="http://cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" var="lessJS" />
         <c:url value="/scripts/assystx2-scripts/assystx2-workspace-script.js" var="mainScript" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
@@ -60,6 +59,5 @@
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>
         <script src="${mainScript}"></script>
-        <script src="${lessJS}"></script>
     </body>
 </html>

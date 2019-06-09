@@ -1,5 +1,7 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -56,6 +58,7 @@ public class Building {
     }
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+    @JsonIgnore
     public Set<Room> getRooms() {
         return rooms;
     }
