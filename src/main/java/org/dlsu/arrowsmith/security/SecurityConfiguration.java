@@ -24,6 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
     @Qualifier("userDetailsServiceImp")
     @Autowired
     private UserDetailsService userDetailsService;
@@ -48,25 +51,44 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**",
                             "/scripts/**",
                             "/images/**",
-                            "/"
+                            "/signin"
                             //"/signin",
                             //"/assystx2/**"
                 ).permitAll()
-                .antMatchers("/assystx2/apo/**").hasRole("APO")
-                .antMatchers("/cvc/**").hasRole("CVC")
+                .antMatchers("/autocomplete-course-code",
+                             "/create-new-offering",
+                             "/update-offering-section",
+                             "/assign-room",
+                             "/update-offering-room"
+                ).hasRole("APO")
+                .antMatchers("/update-offering-faculty").hasRole("CVC")
+                .antMatchers("/",
+                             "/show-offerings",
+                             "/concerns",
+                             "/history",
+                             "/courses",
+                             "/faculty"
+                ).hasAnyRole("APO", "CVC", "Faculty")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/signin")
+                .defaultSuccessUrl("/")
+                .failureUrl("/signin?error=true")
                 .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
                 //.defaultSuccessUrl("/home")
                 .permitAll()
                 .and()
             .logout()
+                .logoutSuccessUrl("/signin")
                 .permitAll()
                 .and()
-            .csrf().disable();
-
+            .sessionManagement()
+                .sessionFixation().migrateSession()
+                .maximumSessions(2)
+                .expiredUrl("/signin?expired");
+        http.csrf().disable();
     }
 
     @Bean

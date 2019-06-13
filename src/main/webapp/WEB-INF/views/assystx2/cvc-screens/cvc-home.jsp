@@ -15,7 +15,7 @@
 
         <!-- Variables for Stylesheets and Scripts -->
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
-        <c:url value="/css/assystx2-styles/apo-home-style.css" var="mainCss" />
+        <c:url value="/css/assystx2-styles/workspace-home-style.css" var="mainCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
         <c:url value="/scripts/assystx2-scripts/assystx2-workspace-script.js" var="mainScript" />
@@ -30,17 +30,14 @@
 
             <!-- Left Partition -->
             <section id="workspace-menu-filters">
-                <!-- Course Offering Filters -->
-                <%@include file="../general-screens/offering-filters-screen.jsp" %>
-
                 <!-- ASSYSTX Menu -->
                 <%@include file="../general-screens/assystx-menu-screen.jsp" %>
             </section>
 
             <!-- Middle Partition -->
             <section id="collab-workspace">
-                <!-- Add Offering -->
-                <%@include file="add-offering-screen.jsp" %>
+                <!-- Course Offering Filters -->
+                <%@include file="../general-screens/offering-filters-screen.jsp" %>
 
                 <!-- All Offerings -->
                 <%@include file="../general-screens/all-offerings-screen.jsp" %>

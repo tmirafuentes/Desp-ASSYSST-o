@@ -2,8 +2,18 @@
 <html>
     <header id="workspace-header">
         <img src="/images/dlsu-logo.png" id="workspace-logo-img" alt="DLSU Logo" />
-        <a href="#" id="workspace-menu-title-link">
-            <h3 id="workspace-menu-title">APO Workspace</h3>
+        <a href="/" id="workspace-menu-title-link">
+            <h3 id="workspace-menu-title">
+                <c:choose>
+                    <c:when test="${userType == 'APO'}">
+                        APO
+                    </c:when>
+                    <c:when test="${userType == 'CVC'}">
+                        Chairs
+                    </c:when>
+                </c:choose>
+                Workspace
+            </h3>
         </a>
         <div class="workspace-search">
             <input type="text" placeholder="Search for a course offering..." class="workspace-search-textfield" name="workspace-search-textfield" />

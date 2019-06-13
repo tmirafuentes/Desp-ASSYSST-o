@@ -1,0 +1,28 @@
+.feedback-messages
+{
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #2b2b2b;
+    z-index: 100;
+    transform: translateX(-50%);
+    display: none;
+}
+
+#positive-feedback-message
+{
+    background-color: #00e08e;
+}
+
+#negative-feedback-message
+{
+    background-color: #ed1c24;
+}

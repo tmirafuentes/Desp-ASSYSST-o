@@ -1,32 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+    <!-- Filters Container -->
     <section id="filters-container">
         <div id="filters-box">
-            <p class="section-header-text">Filter Offerings By</p>
+            <p class="section-header-text">Filter Offerings</p>
             <hr class="section-header-border" />
-            <ul class="filters-checkbox-row">
+            <ul id="filters-list">
                 <li>
-                    <input type="checkbox" id="filters-no-room-assigned" name="no-room-filter" />
-                    <label for="filters-no-room-assigned">No Room Assigned</label>
+                    <div class="filter-checkboxes">
+                        <input type="checkbox" id="filters-no-room-assigned" />
+                        <label for="filters-no-room-assigned">No Room</label>
+                    </div>
                 </li>
-            </ul>
-            <ul class="filters-checkbox-row">
                 <li>
-                    <input type="checkbox" id="filters-no-faculty-assigned" />
+                    <div class="filter-checkboxes">
+                        <input type="checkbox" id="filters-no-faculty-assigned" />
+                        <label for="filters-no-faculty-assigned">No Faculty</label>
+                    </div>
                 </li>
-                <li><label for="filters-no-faculty-assigned">No Faculty Assigned</label></li>
-            </ul>
-            <ul class="filters-dropdown-row">
                 <li>
-                    <select id="filters-timeblock">
-                        <option value="-">By Timeblock</option>
+                    <select id="filters-course" class="filters-dropdowns">
+                        <option value="-">By Course</option>
                     </select>
                 </li>
-            </ul>
-            <ul class="filters-dropdown-row">
                 <li>
-                    <select id="filters-course">
-                        <option value="-">By Course</option>
+                    <select id="filters-timeblock" class="filters-dropdowns">
+                        <option value="-">By Time Slot</option>
+                    </select>
+                </li>
+                <li>
+                    <select id="filters-building" class="filters-dropdowns">
+                        <option value="-">By Building</option>
                     </select>
                 </li>
             </ul>

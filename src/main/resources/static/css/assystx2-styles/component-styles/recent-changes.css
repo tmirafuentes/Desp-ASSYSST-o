@@ -34,7 +34,7 @@
     list-style-type: none;
     display: inline;
     float: left;
-    padding-bottom: 8px;
+    padding-bottom: 6.5px;
     font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #000000;
@@ -45,7 +45,7 @@
     display: inline;
     float: left;
     padding: 0;
-    margin-top: 10px;
+    margin-top: 7.5px;
     height: 40px;
     width: 40px;
     background: blue;
@@ -57,9 +57,7 @@
 .recent-changes-row-details > li
 {
     list-style-type: none;
-    //display: inline;
-    //float: left;
-    padding-bottom: 3px;
+    padding-bottom: 2px;
     font-family: OpenSans-Regular;
     font-size: 0.95em;
     color: #000000;
@@ -67,18 +65,18 @@
 
 .recent-changes-row-details > li:nth-child(1) { font-family: Gotham-Black; font-size: 0.95em; }
 .recent-changes-row-details > li:nth-child(2) { font-weight: 0; }
-.recent-changes-row-details > li:nth-child(3) { text-decoration: underline; cursor: pointer; }
+.recent-changes-row-details > li:nth-child(3) {  }
 
 .recent-changes-row-border
 {
-    border: 0.5px solid #efefef;
+    border: 1px solid #efefef;
     width: 90%;   
 }
 
 #rev-history-link
 {
     font-family: Gotham-Black;
-    font-size: 0.85em;
+    font-size: 0.80em;
     color: #00a864;
     text-align: center;
     text-decoration: underline;

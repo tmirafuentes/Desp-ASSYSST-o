@@ -1,0 +1,13 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/general-page-style.css";
+@import "component-styles/header.css";
+@import "component-styles/menu-sidebar.css";
+@import "component-styles/collab-workspace.css";
+@import "component-styles/collab-sidebar.css";
+@import "component-styles/feedback-message.css";

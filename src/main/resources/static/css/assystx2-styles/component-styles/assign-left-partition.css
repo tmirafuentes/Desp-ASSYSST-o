@@ -1,0 +1,11 @@
+@import "assign-dropdown-menu.css";
+@import "assign-confirm-table.css";
+
+#assign-left-partition
+{
+    grid-row: 2;
+    grid-column: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}

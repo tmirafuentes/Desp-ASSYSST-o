@@ -28,14 +28,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     {
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
-
-        //UserDetails user = (UserDetails) authentication.getPrincipal();
-
-        //System.out.println("Username = " + user.getUsername() +
-        //        " Password = " + user.getPassword());
-
-        /* Autologin */
-        //securityService.autoLogin(user.getUsername(), user.getPassword());
     }
 
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException
@@ -50,7 +42,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         boolean isAPO = false;
         boolean isFaculty = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (GrantedAuthority grantedAuthority : authorities) {
+        for (GrantedAuthority grantedAuthority : authorities)
+        {
             if(grantedAuthority.getAuthority().equals("ROLE_CVC"))
                 isCVC = true;
             if (grantedAuthority.getAuthority().equals("ROLE_APO"))
@@ -59,12 +52,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 isFaculty = true;
         }
 
-        if (isCVC)
-            return "/cvc";
-        else if (isAPO)
-            return "/assystx2/apo";
-
-        return "/faculty";
+        return "/";
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request)

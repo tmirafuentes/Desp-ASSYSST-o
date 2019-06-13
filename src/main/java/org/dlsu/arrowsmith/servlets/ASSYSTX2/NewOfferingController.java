@@ -1,40 +1,80 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
 import org.dlsu.arrowsmith.classes.dro.Response;
-import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.AssignRoomDTO;
-import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.CreateOfferingDTO;
-import org.dlsu.arrowsmith.classes.main.CourseOffering;
-import org.dlsu.arrowsmith.classes.main.Days;
-import org.dlsu.arrowsmith.classes.main.Room;
+import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
+import org.dlsu.arrowsmith.classes.main.*;
+import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
+import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
-@Controller
-@RequestMapping({"/assystx2", "/assystx2/apo", "/assystx2/cvc"})
+/*
+ *  ASSYSTX2
+ *  WORKSPACE TASKS
+ *  FOR OFFERINGS CONTROLLER
+ *
+ *  Contents:
+ *  URL Mappings and REST Requests
+ *  for creating, modifying, retrieving,
+ *  and dissolving course offerings.
+ *  This also includes assigning a room
+ *  and faculty.
+ */
+
+@RestController
+@RequestMapping({"/"})
 public class NewOfferingController
 {
     @Autowired
     private OfferingService offeringService;
 
+    @Autowired
+    private FacultyService facultyService;
+
+    @Autowired
+    private UserService userService;
+
     /*
-     *
+     *  WEB PAGE REQUESTS
      *  URL MAPPING
      *
      */
 
     @PostMapping(value = "/assign-room")
-    public String AssignRoomPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
+    public ModelAndView AssignRoomPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
     {
-        model.addAttribute("courseCode", dto.getCourseCode());
-        model.addAttribute("section", dto.getSection());
+        /* Retrieve and display chosen course offering to modify */
+        ModelAndView modelAndView = new ModelAndView("/assystx2/apo-screens/apo-assign-room");
+        modelAndView.addObject("courseCode", dto.getCourseCode());
+        modelAndView.addObject("section", dto.getSection());
 
-        return "/assystx2/apo-screens/apo-assign-room";
+        return modelAndView;
     }
+
+    @PostMapping(value = "/assign-faculty")
+    public ModelAndView AssignFacultyPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
+    {
+        /* Retrieve and display chosen course offering to modify */
+        ModelAndView modelAndView = new ModelAndView("/assystx2/cvc-screens/cvc-assign-faculty");
+        modelAndView.addObject("courseCode", dto.getCourseCode());
+        modelAndView.addObject("section", dto.getSection());
+
+        return modelAndView;
+    }
+
+    /*
+     *  REST REQUESTS
+     *  URL MAPPING
+     */
 
     /* Update the selected course offering's room assignment */
     @PostMapping(value = "/update-offering-room")
@@ -47,68 +87,92 @@ public class NewOfferingController
         Room newRoom = offeringService.retrieveRoomByRoomCode(dto.getRoomCode());
 
         /* Update Days Object */
-        Set<Days> daysSet = selectedOffering.getDaysSet();
+        Iterator daysList = offeringService.retrieveAllDaysByOffering(selectedOffering);
 
-        boolean noConflicts = true;
-        if (daysSet == null)        /* No current class days and room for the offering */
+        /* No current class days and room for the offering */
+        if (daysList == null)
         {
-            // If Input Day 1 is not null or "-" in the form
-            if (!(dto.getDay1() == '-') && noConflicts)
-            {
-                /* Create a new Days object */
-                Days newDay1 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 1);
-                daysSet.add(newDay1);
-                offeringService.saveDays(newDay1);
-            }
+            /* Save First Day */
+            Days day1 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 1);
+            offeringService.saveDays(day1);
 
-            // If Day 2 is not null or "-" in the form
-            if (!(dto.getDay2() == '-'))
+            /* OPTIONAL - Save Second Day */
+            if (dto.getDay2() != '-')
             {
-                /* Create a new Days object */
-                Days newDay2 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 2);
-                daysSet.add(newDay2);
-                offeringService.saveDays(newDay2);
+                Days day2 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 2);
+                offeringService.saveDays(day2);
             }
         }
-        else                        /* There is already an assigned days for the offering */
+        /* There is already an assigned days for the offering */
+        else
         {
             boolean isDay1Done = false;
-            for (Days dayInstance : daysSet)
+            while(daysList.hasNext())
             {
+                Days dayInstance = (Days) daysList.next();
+
                 // If input Day 1 is not null or "-" in the form - update day instance
-                if (!(dto.getDay1() == '-') && dto.getDay1() != dayInstance.getclassDay() && !isDay1Done)
+                if (!isDay1Done)
                 {
                     updateDaysInstance(dayInstance, dto, newRoom, selectedOffering, 1);
                     isDay1Done = true;
                     continue;
                 }
-                // If input Day 1 is null or "-" in the form - delete day instance
-                else if (dto.getDay1() == '-' && !isDay1Done)
-                {
-                    daysSet.remove(dayInstance);
-                    offeringService.deleteSpecificDay(dayInstance);
-                    isDay1Done = true;
-                    continue;
-                }
 
-                // If Day 2 is not null or "-" in the form
-                if (!(dto.getDay2() == '-') && dto.getDay2() != dayInstance.getclassDay() && isDay1Done)
-                {
+                // If Day 2 is not null
+                if (dto.getDay2() != '-' && isDay1Done)
                     updateDaysInstance(dayInstance, dto, newRoom, selectedOffering, 2);
-                }
-                // If Day 2 is null or "-" in the form
+                // If Day 2 is null
                 else if (dto.getDay2() == '-' && isDay1Done)
-                {
-                    daysSet.remove(dayInstance);
                     offeringService.deleteSpecificDay(dayInstance);
-                }
             }
         }
 
-        selectedOffering.setDaysSet(daysSet);
-        for (Days d : daysSet) {
-            offeringService.saveDays(d);
-        }
+        return new Response("Done", null);
+    }
+
+    /* Update the selected course offering's faculty assignment */
+    @PostMapping(value = "/update-offering-faculty")
+    public Response updateCourseOfferingFaculty(@RequestBody AssignFacultyDTO dto)
+    {
+        /* Retrieve course offering from database */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
+
+        /* Retrieve faculty from database */
+        User selectedFaculty = userService.findUserByFirstNameLastName(dto.getFacultyName());
+
+        /* Assign Faculty to Course Offering */
+        selectedOffering.setFaculty(selectedFaculty);
+        offeringService.saveCourseOffering(selectedOffering);
+
+        /* TODO: Update Faculty Load of chosen faculty */
+
+        return new Response("Done", null);
+    }
+
+    /* Update the selected course offering's section */
+    @PostMapping(value = "/update-offering-section")
+    public Response updateCourseOfferingSection(@RequestBody EditSectionDTO dto)
+    {
+        /* Retrieve course offering from database */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
+
+        /* Update course offering's select */
+        selectedOffering.setSection(dto.getSection());
+        offeringService.saveCourseOffering(selectedOffering);
+
+        return new Response("Done", null);
+    }
+
+    @PostMapping(value = "/update-offering-type")
+    public Response updateCourseOfferingType(@RequestBody EditOfferingTypeDTO dto)
+    {
+        /* Retrieve course offering from database */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
+
+        /* Update course offering's select */
+        selectedOffering.setType(dto.getOfferingType());
+        offeringService.saveCourseOffering(selectedOffering);
 
         return new Response("Done", null);
     }
@@ -125,16 +189,22 @@ public class NewOfferingController
         Days newDay = new Days();
 
         /* Letter Day */
-        if (dayNum == 1)
-            newDay.setclassDay(dto.getDay1());
-        else
+        if (dayNum == 2)
             newDay.setclassDay(dto.getDay2());
+        else
+            newDay.setclassDay(dto.getDay1());
 
         /* Start Time */
-        newDay.setbeginTime(dto.getStartTime().replace(":", ""));
+        if (dayNum == 2)
+            newDay.setbeginTime(dto.getStartTimeDay2().replace(":", ""));
+        else
+            newDay.setbeginTime(dto.getStartTimeDay1().replace(":", ""));
 
         /* End Time */
-        newDay.setendTime(dto.getEndTime().replace(":", ""));
+        if (dayNum == 2)
+            newDay.setendTime(dto.getEndTimeDay2().replace(":", ""));
+        else
+            newDay.setendTime(dto.getEndTimeDay1().replace(":", ""));
 
         /* Room */
         newDay.setRoom(room);

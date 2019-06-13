@@ -1,9 +1,9 @@
 package org.dlsu.arrowsmith.classes.main;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Term
@@ -13,6 +13,9 @@ public class Term
     private int endAY;
     private int term;
     private boolean currTerm;
+    private Set<CourseOffering> courseOfferings;
+    private Set<FacultyLoad> facultyLoads;
+    private Set<DeloadInstance> deloadInstances;
 
     public Term() {
     }
@@ -57,5 +60,32 @@ public class Term
 
     public void setCurrTerm(boolean currTerm) {
         this.currTerm = currTerm;
+    }
+
+    @OneToMany(mappedBy = "term", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Set<CourseOffering> getCourseOfferings() {
+        return courseOfferings;
+    }
+
+    public void setCourseOfferings(Set<CourseOffering> courseOfferings) {
+        this.courseOfferings = courseOfferings;
+    }
+
+    @OneToMany(mappedBy = "term", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Set<FacultyLoad> getFacultyLoads() {
+        return facultyLoads;
+    }
+
+    public void setFacultyLoads(Set<FacultyLoad> facultyLoads) {
+        this.facultyLoads = facultyLoads;
+    }
+
+    @OneToMany(mappedBy = "term", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Set<DeloadInstance> getDeloadInstances() {
+        return deloadInstances;
+    }
+
+    public void setDeloadInstances(Set<DeloadInstance> deloadInstances) {
+        this.deloadInstances = deloadInstances;
     }
 }

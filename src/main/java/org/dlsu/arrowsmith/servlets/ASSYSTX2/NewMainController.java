@@ -1,17 +1,26 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
-import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
-import org.dlsu.arrowsmith.classes.main.Course;
+import org.dlsu.arrowsmith.classes.main.Term;
 import org.dlsu.arrowsmith.classes.main.User;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+
+/*
+ *  ASSYSTX2
+ *  MAIN CONTROLLER
+ *
+ *  Contents:
+ *  URL Mappings for the main web pages
+ *  of the ASSYSTX2 System: Workspace,
+ *  Concerns, History, Courses, Faculty.
+ */
 
 @Controller
 public class NewMainController
@@ -32,8 +41,8 @@ public class NewMainController
      */
 
     /* Default Home Page - Login Screen */
-    @RequestMapping(value = {"/", "/signin", "/assystx2/signin"}, method = RequestMethod.GET)
-    public String index(Model model, String expired, String error, String logout)
+    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    public String SignInPage(Model model, String expired, String error, String logout)
     {
         if(expired != null)
             model.addAttribute("error", messages.getMessage("message.sessionExpired", null, null));
@@ -47,56 +56,108 @@ public class NewMainController
         return "assystx2/general-screens/signin";
     }
 
-    /* Default Home Page - Academic Programming Officer Screen */
-    @RequestMapping(value = {"/assystx2/apo", "/assystx2/apo/home"}, method = RequestMethod.GET)
-    public String APOHomePage(Model model)
+    /* Workspace Page */
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    public String WorkspaceHomePage(Model model)
     {
         /* Retrieve Current User's Full Name */
         model = retrieveLoggedInUser(model);
 
-        /* Load 15 Course Offerings */
-        //model.addAttribute("course-offerings", offeringService.retrievePartialCourseOfferings(2016, 2017, 1));
+        /* Retrieve Current Term */
+        model = retrieveCurrentTerm(model);
 
-        /* Load Data Transfer Object for Create New Course Offering */
-        model.addAttribute("create-offering-dto", new Course());
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
 
-        return "/assystx2/apo-screens/apo-home";
-    }
+        /* Context Path */
+        model.addAttribute("context", "workspace");
 
-    /* Default Home Page - Chairs or Vice Chairs Screen */
-    @RequestMapping(value = {"/assystx2/cvc", "/assystx2/cvc/home"}, method = RequestMethod.GET)
-    public String CVCHomePage(Model model)
-    {
-        /* Retrieve Current User's Full Name */
-        model = retrieveLoggedInUser(model);
-
-        /* Load 15 Course Offerings */
-        //model.addAttribute("course-offerings", offeringService.retrievePartialCourseOfferings(2016, 2017, 1));
-
-        /* Load Data Transfer Object for Create New Course Offering */
-        model.addAttribute("create-offering-dto", new Course());
-
-        return "/assystx2/cvc-screens/cvc-home";
-    }
-
-    /* Default Home Page - Faculty Screen */
-    @RequestMapping(value = {"/assystx2/faculty", "/assystx2/faculty/home"}, method = RequestMethod.GET)
-    public String FacultyHomePage(Model model)
-    {
-        /* Retrieve Current User's Full Name */
-        model = retrieveLoggedInUser(model);
+        if (userType.equalsIgnoreCase("APO"))
+            return "/assystx2/apo-screens/apo-home";
+        else if (userType.equalsIgnoreCase("CVC"))
+            return "/assystx2/cvc-screens/cvc-home";
 
         return "/assystx2/general-screens/faculty-home";
     }
 
-    /* Default Revision History Page */
-    @RequestMapping(value = "/assystx2/revision-history", method = RequestMethod.GET)
+    @RequestMapping(value = "/concerns", method = RequestMethod.GET)
+    public String ConcernsHomePage(Model model)
+    {
+        /* Retrieve Current User's Full Name */
+        model = retrieveLoggedInUser(model);
+
+        /* Retrieve Current Term */
+        model = retrieveCurrentTerm(model);
+
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
+
+        /* Context Path */
+        model.addAttribute("context", "concerns");
+
+        return "/assystx2/general-screens/concerns";
+    }
+
+    /* Workspace History Page */
+    @RequestMapping(value = "/history", method = RequestMethod.GET)
     public String RevisionHistoryPage(Model model)
     {
         /* Retrieve Current User's Full Name */
         model = retrieveLoggedInUser(model);
 
-        return "/assystx2/general-screens/revision-history";
+        /* Retrieve Current Term */
+        model = retrieveCurrentTerm(model);
+
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
+
+        /* Context Path */
+        model.addAttribute("context", "history");
+
+        return "/assystx2/general-screens/history";
+    }
+
+    /* Course Management Page */
+    @RequestMapping(value = "/courses", method = RequestMethod.GET)
+    public String CourseManagementPage(Model model)
+    {
+        /* Retrieve Current User's Full Name */
+        model = retrieveLoggedInUser(model);
+
+        /* Retrieve Current Term */
+        model = retrieveCurrentTerm(model);
+
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
+
+        /* Context Path */
+        model.addAttribute("context", "courses");
+
+        return "/assystx2/general-screens/courses-page";
+    }
+
+    /* Workspace History Page */
+    @RequestMapping(value = "/faculty", method = RequestMethod.GET)
+    public String FacultyManagementPage(Model model)
+    {
+        /* Retrieve Current User's Full Name */
+        model = retrieveLoggedInUser(model);
+
+        /* Retrieve Current Term */
+        model = retrieveCurrentTerm(model);
+
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
+
+        /* Context Path */
+        model.addAttribute("context", "faculty");
+
+        return "/assystx2/general-screens/faculty-page";
     }
 
     /***
@@ -108,9 +169,44 @@ public class NewMainController
     /* Retrieve currently logged in user */
     private Model retrieveLoggedInUser(Model model)
     {
+        /* Retrieve logged in user */
         User currUser = userService.retrieveUser();
+
+        /* Retrieve name for display */
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
         model.addAttribute("current-user", userRealName);
+
+        return model;
+    }
+
+    /* Retrieve currently logged in user */
+    private String retrieveUserType()
+    {
+        /* Retrieve logged in user */
+        User currUser = userService.retrieveUser();
+
+        /* Retrieve name for display */
+        String userType = currUser.getUserType();
+        if (userType.equalsIgnoreCase("Academic Programming Officer"))
+            return "APO";
+        else if (userType.equalsIgnoreCase("Chair") ||
+                 userType.equalsIgnoreCase("Vice Chair"))
+            return "CVC";
+
+        return "FACULTY";
+    }
+
+    /* Retrieve current term */
+    private Model retrieveCurrentTerm(Model model)
+    {
+        /* Retrieve term */
+        Term currTerm = userService.retrieveCurrentTerm();
+
+        /* Format string */
+        String term = "A.Y. " + currTerm.getStartAY() + " - " + currTerm.getEndAY() + ": Term " + currTerm.getTerm();
+
+        /* Add to Model */
+        model.addAttribute("termString", term);
 
         return model;
     }

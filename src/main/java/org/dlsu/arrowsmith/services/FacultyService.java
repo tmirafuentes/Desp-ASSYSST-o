@@ -25,6 +25,7 @@ public class FacultyService {
     private UserRepository userRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
+
     /**
      **
      ** DELOADING
@@ -49,56 +50,235 @@ public class FacultyService {
         Deloading deloading = deloadingRepository.findDeloadingByDeloadCode(deloadCode);
         return deloading;
     }
-//    Retrieve all course offerings of a faculty given a term and school year, and checks if there is a conflict with time slots
-    public boolean checkFacultyloadingCourseOfferingsConflicts(User Faculty, int startAY, int endAY, int term, CourseOffering givenOffering)
+
+    /**
+     **
+     ** DELOAD INSTANCE
+     ** CRUD FUNCTIONS
+     **
+     */
+
+    /* Create/Update Deload Instance */
+    public void saveDeloadInstance(DeloadInstance deloadInstance) {
+        deloadInstanceRepository.save(deloadInstance);
+    }
+
+    /* Retrieve all Deload Instance per Term */
+    public Iterator retrieveAllDeloadInstanceByTerm(Term term) {
+        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByTerm(term);
+        return deloadInstances.iterator();
+    }
+
+    /* Retrieve all Deload Instance of a specific Faculty in a given term */
+    public Iterator retrieveAllDeloadInstanceByFaculty(Term term, User faculty) {
+        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByTermAndFaculty(term, faculty);
+        return deloadInstances.iterator();
+    }
+
+    /* Retrieve all Deload Instance per Deloading Type in a given time */
+    public Iterator retrieveAllDeloadInstanceByType(Term term, Deloading deloading) {
+        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByTermAndDeloading(term, deloading);
+        return deloadInstances.iterator();
+    }
+
+    /**
+     **
+     ** FACULTY LOAD
+     ** CRUD FUNCTIONS
+     **
+     */
+
+    /* Create/Update Faculty Load */
+    public void saveFacultyLoad(FacultyLoad facultyLoad) {
+        facultyLoadRepository.save(facultyLoad);
+    }
+
+    public Iterator retrieveAllFacultyLoadByFaculty(User faculty) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByFaculty(faculty);
+        return allLoads.iterator();
+    }
+
+    public Iterator retrieveAllFacultyLoad() {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAll();
+        return allLoads.iterator();
+    }
+
+    /* Retrieve All Load Per Term */
+    public Iterator retrieveAllFacultyLoadByTerm(Term term) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByTerm(term);
+        return allLoads.iterator();
+    }
+
+    /* Retrieve All Faculty Load Per Department */
+    public Iterator retrieveAllFacultyLoadByTerm(Term term, Department department) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByTermAndDepartment(term, department);
+        return allLoads.iterator();
+    }
+
+    public ArrayList<FacultyLoad> retrieveAllListFacultyLoadByTerm(Term term, Department department) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByTermAndDepartment(term, department);
+        return allLoads;
+    }
+
+    /* Retrieve All Faculty Load Per College */
+    public Iterator retrieveAllFacultyLoadByTerm(Term term, College college) {
+        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByTermAndCollege(term, college);
+        return allLoads.iterator();
+    }
+
+    /* Retrieve Faculty Load of a Faculty per Term */
+    public FacultyLoad retrieveFacultyLoadByFaculty(Term term, User faculty) {
+        FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByTermAndFaculty(term, faculty);
+        return facultyLoad;
+    }
+
+    /* Retrieve Faculty Load by ID*/
+    public FacultyLoad retrieveFacultyLoadByID(Long facultyID)
     {
-        boolean isConflict = false;
-        ArrayList<CourseOffering> courses = courseOfferingRepository.findAllByFacultyAndStartAYAndEndAYAndTerm(Faculty, startAY, endAY, term);
+        FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByLoadId(facultyID);
 
-        if(courses.size() > 0)//checking if may laman talaga yung list
-        {
-            for(CourseOffering co: courses)//for each course in the list of courses
+
+        return facultyLoad;
+    }
+
+    /**
+     **
+     ** SYSTEM FUNCTIONS
+     **
+     */
+
+    /* Summation of Faculty Load in a given Term */
+    public void addTotalFacultyLoad(Term term, User faculty) {
+        if(checkFacultyInDatabase(term, faculty)) {
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
+            double totalLoad = 0.0;
+            totalLoad += facultyLoad.getAdminLoad() + facultyLoad.getNonacadLoad() +
+                    facultyLoad.getResearchLoad() + facultyLoad.getTeachingLoad();
+        }
+    }
+
+    /* Set Faculty to Leave in a given Term */
+    public void setLeaveFaculty(Term term, User faculty, String leave_type) {
+        if(checkFacultyInDatabase(term, faculty)) {
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
+            facultyLoad.setOnLeave(true);
+            facultyLoad.setLeaveType(leave_type);
+        }
+    }
+
+    /* Assign Academic Load to a Faculty in a given Term */
+    public void assignAcademicLoadToFaculty(Term term, User faculty, CourseOffering courseOffering) {
+        /* Assign Faculty to Course Offering */
+        if(checkFacultyInDatabase(term, faculty)) {
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
+            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() + courseOffering.getCourse().getUnits());
+            facultyLoadRepository.save(facultyLoad);
+        }
+    }
+
+    /* Assign Deloading Load to a Faculty in a given Term */
+    public void assignDeloadToFaculty(Term term, User faculty, DeloadInstance deloadingInstance) {
+        if(checkFacultyInDatabase(term, faculty)) {
+            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
+            if(deloadingInstance.getDeloading().getDeloadType().equals("AL"))
             {
-                if(!isConflict)
+                if(!(deloadingInstance.getDeloading().getUnits() > facultyLoad.getAdminLoad()))
                 {
-                    for (Days currentList : co.getDaysSet())//for each day the courseofferings in the list has
-                    {
-                        for(Days givenList: givenOffering.getDaysSet())
-                        {
-                            if(currentList.getclassDay() == givenList.getclassDay() && !isConflict)//if they have the same class day
-                            {
-                                isConflict = !conflictsWith(Integer.parseInt(givenList.getbeginTime()),
-                                        Integer.parseInt(givenList.getendTime())
-                                        ,Integer.parseInt(currentList.getbeginTime()),
-                                        Integer.parseInt(currentList.getendTime()));
-                            }
-                        }
-
-                    }
+                    facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() - deloadingInstance.getDeloading().getUnits());
+                    facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
+                }
+            }
+            else if(deloadingInstance.getDeloading().getDeloadType().equals("RL")) {
+                if(!(deloadingInstance.getDeloading().getUnits() > facultyLoad.getResearchLoad())) {
+                    facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() - deloadingInstance.getDeloading().getUnits());
+                    facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
                 }
             }
         }
-        return isConflict;
     }
-    public boolean conflictsWith(int firstStart, int firstEnd, int secondStart, int secondEnd) {
-        if (firstEnd <= secondStart) {//no conflict
-            //System.out.println("No conflict1");
-            //System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
-            return false;
-        }
+    //    Retrieve All Deload Instances
+    public Iterator<DeloadInstance> retrieveFacultyDeloadings() {
+        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAll();
+        Collections.sort(deloadInstances, new Comparator<DeloadInstance>() {
+            public int compare(DeloadInstance s1, DeloadInstance s2) {
+                return s1.getDeloading().getDeloadType().compareTo(s2.getDeloading().getDeloadType());
+            }
+        });
+        return deloadInstances.iterator();
 
-        if (secondEnd <= firstStart) {//no conflict
-            //System.out.println("No conflict2");
-            //System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
-            return false;
-        }
+    }
 
-        System.out.println(firstEnd+ " <= " + secondStart + ":" + secondEnd + " <= " + firstStart );
-        //System.out.println("Conflicts");
+//      check if faculty loading is applicable
+
+    public boolean checkFacultyLoadDeload(User faculty, Term term)
+    {
+        FacultyLoad facultyload = retrieveFacultyLoadByFaculty(term, faculty);
+        if(facultyload.getTotalLoad() <= 0)
+            return false;
         return true;
     }
 
-    /* Find faculty that are available at these time slots*/
+    public boolean checkFacultyLoading(User faculty, Term term, String loadType)
+    {
+        FacultyLoad facultyload = retrieveFacultyLoadByFaculty(term, faculty);
+        if(facultyload.getTotalLoad() >= 12)
+            return false;
+        if(loadType.equals("AL") && facultyload.getAdminLoad() >= 6)
+            return false;
+        return true;
+    }
+    /**
+     **
+     ** OTHER FUNCTIONS
+     **
+     */
+
+    public boolean checkFacultyInDatabase(Term term, User faculty) {
+        if (retrieveFacultyLoadByFaculty(term, faculty) != null)
+            return true;
+        return false;
+    }
+
+
+    /* Generate All The types of faculty loads */
+    public ArrayList<String> generateFacultyLoadTypes() {
+        ArrayList<String> allFacultyLoadTypes = new ArrayList<String>();
+        allFacultyLoadTypes.add("Administrative");
+        allFacultyLoadTypes.add("Teaching");
+        allFacultyLoadTypes.add("Research");
+        return allFacultyLoadTypes;
+    }
+
+    public ArrayList<String> retrieveAllFacultyDepartments(){
+        ArrayList<String> allFacultyDepartments = new ArrayList<>();
+        ArrayList<Department> allDepartments = (ArrayList) departmentRepository.findAll();
+        for(Department d: allDepartments)
+            allFacultyDepartments.add(d.getDeptCode());
+        return allFacultyDepartments;
+    }
+    public Department retrieveDepartmentByCode(String code)
+    {
+        return departmentRepository.findDepartmentByDeptCode(code);
+    }
+
+    /* TODO: Revise deloading procedures */
+    public void undergoDeloading(User faculty, String deloadCode)
+    {
+        System.out.println("Deload Code: " + deloadCode);
+        Deloading deloadingToBeUsed = deloadingRepository.findDeloadingByDeloadCode(deloadCode);
+        DeloadInstance deloadInstance = new DeloadInstance();
+
+
+        deloadInstance.setDeloading(deloadingToBeUsed);
+        deloadInstance.setFaculty(faculty);
+        //deloadInstance.setTerm(1);
+        System.out.println("Deload Units " + deloadInstance.getDeloading().getUnits());
+        //this.assignDeloadToFaculty(term, faculty, deloadInstance);
+        this.saveDeloadInstance(deloadInstance);
+    }
+
+
+        /* Find faculty that are available at these time slots
     public ArrayList<FacultyLoad> facultyRuleChecking(char day1, char day2, String startTime, String endTime)
     {
         Iterator<FacultyLoad> allLoads = this.retrieveAllFacultyLoadByTerm(2016, 2017, 1);
@@ -107,7 +287,7 @@ public class FacultyService {
         ArrayList<FacultyLoad> evaluatedLoads = new ArrayList<>();
         //get all faculty loads for this term
         FacultyLoad currentLoad;
-        /* Checks course offerings that are free at this time slot*/
+        /* Checks course offerings that are free at this time slot
         while(allLoads.hasNext())//As long as there are faculty loads
         {
             currentLoad = allLoads.next();//Get the next element
@@ -157,248 +337,5 @@ public class FacultyService {
         }
         //process time slots
         return evaluatedLoads;
-
-    }
-
-    public int findFacultyLoad(ArrayList<FacultyLoad> list, Long userID)
-    {
-        int iter = 0;
-        int finalIter = -1;
-        boolean isFound = false;
-        for(FacultyLoad fl: list)
-        {
-            if(fl.getFaculty().getUserId() == userID)
-                finalIter = iter;
-
-            iter++;
-        }
-
-        return finalIter;
-    }
-    /**
-     **
-     ** DELOAD INSTANCE
-     ** CRUD FUNCTIONS
-     **
-     */
-
-    /* Create/Update Deload Instance */
-    public void saveDeloadInstance(DeloadInstance deloadInstance) {
-        deloadInstanceRepository.save(deloadInstance);
-    }
-
-    /* Retrieve all Deload Instance per Term */
-    public Iterator retrieveAllDeloadInstanceByTerm(int startAY, int endAY, int term) {
-        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term);
-        return deloadInstances.iterator();
-    }
-
-    /* Retrieve all Deload Instance of a specific Faculty in a given term */
-    public Iterator retrieveAllDeloadInstanceByFaculty(int startAY, int endAY, int term, User faculty) {
-        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByStartAYAndEndAYAndTermAndFaculty(startAY, endAY, term, faculty);
-        return deloadInstances.iterator();
-    }
-
-    /* Retrieve all Deload Instance per Deloading Type in a given time */
-    public Iterator retrieveAllDeloadInstanceByType(int startAY, int endAY, int term, Deloading deloading) {
-        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByStartAYAndEndAYAndTermAndDeloading(startAY, endAY, term, deloading);
-        return deloadInstances.iterator();
-    }
-
-    /**
-     **
-     ** FACULTY LOAD
-     ** CRUD FUNCTIONS
-     **
-     */
-
-    /* Create/Update Faculty Load */
-    public void saveFacultyLoad(FacultyLoad facultyLoad) {
-        facultyLoadRepository.save(facultyLoad);
-    }
-
-    public Iterator retrieveAllFacultyLoadByFaculty(User faculty) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByFaculty(faculty);
-        return allLoads.iterator();
-    }
-
-    public Iterator retrieveAllFacultyLoad() {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAll();
-        return allLoads.iterator();
-    }
-
-    /* Retrieve All Load Per Term */
-    public Iterator retrieveAllFacultyLoadByTerm(int startAY, int endAY, int term) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTerm(startAY, endAY, term);
-        return allLoads.iterator();
-    }
-
-    /* Retrieve All Faculty Load Per Department */
-    public Iterator retrieveAllFacultyLoadByTerm(int startAY, int endAY, int term, Department department) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTermAndDepartment(startAY, endAY, term, department);
-        return allLoads.iterator();
-    }
-
-    public ArrayList<FacultyLoad> retrieveAllListFacultyLoadByTerm(int startAY, int endAY, int term, Department department) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTermAndDepartment(startAY, endAY, term, department);
-        return allLoads;
-    }
-
-    /* Retrieve All Faculty Load Per College */
-    public Iterator retrieveAllFacultyLoadByTerm(int startAY, int endAY, int term, College college) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByStartAYAndEndAYAndTermAndCollege(startAY, endAY, term, college);
-        return allLoads.iterator();
-    }
-
-    /* Retrieve Faculty Load of a Faculty per Term */
-    public FacultyLoad retrieveFacultyLoadByFaculty(int startAY, int endAY, int term, User faculty) {
-        FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByStartAYAndEndAYAndTermAndFaculty(startAY, endAY, term, faculty);
-        return facultyLoad;
-    }
-
-    /* Retrieve Faculty Load by ID*/
-    public FacultyLoad retrieveFacultyLoadByID(Long facultyID)
-    {
-        FacultyLoad facultyLoad = (FacultyLoad) facultyLoadRepository.findFacultyLoadByLoadId(facultyID);
-
-
-        return facultyLoad;
-    }
-
-    /**
-     **
-     ** SYSTEM FUNCTIONS
-     **
-     */
-
-    /* Summation of Faculty Load in a given Term */
-    public void addTotalFacultyLoad(int startAY, int endAY, int term, User faculty) {
-        if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-            double totalLoad = 0.0;
-            totalLoad += facultyLoad.getAdminLoad() + facultyLoad.getNonacadLoad() +
-                    facultyLoad.getResearchLoad() + facultyLoad.getTeachingLoad();
-        }
-    }
-
-    /* Set Faculty to Leave in a given Term */
-    public void setLeaveFaculty(int startAY, int endAY, int term, User faculty, String leave_type) {
-        if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-            facultyLoad.setOnLeave(true);
-            facultyLoad.setLeaveType(leave_type);
-        }
-    }
-
-    /* Assign Academic Load to a Faculty in a given Term */
-    public void assignAcademicLoadToFaculty(int startAY, int endAY, int term, User faculty, CourseOffering courseOffering) {
-        /* Assign Faculty to Course Offering */
-        if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() + courseOffering.getCourse().getUnits());
-            facultyLoadRepository.save(facultyLoad);
-        }
-    }
-
-    /* Assign Deloading Load to a Faculty in a given Term */
-    public void assignDeloadToFaculty(int startAY, int endAY, int term, User faculty, DeloadInstance deloadingInstance) {
-        if(checkFacultyInDatabase(startAY, endAY, term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-            if(deloadingInstance.getDeloading().getDeloadType().equals("AL"))
-            {
-                if(!(deloadingInstance.getDeloading().getUnits() > facultyLoad.getAdminLoad()))
-                {
-                    facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() - deloadingInstance.getDeloading().getUnits());
-                    facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
-                }
-            }
-            else if(deloadingInstance.getDeloading().getDeloadType().equals("RL")) {
-                if(!(deloadingInstance.getDeloading().getUnits() > facultyLoad.getResearchLoad())) {
-                    facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() - deloadingInstance.getDeloading().getUnits());
-                    facultyLoad.setDeloadedLoad(facultyLoad.getDeloadedLoad() + deloadingInstance.getDeloading().getUnits());
-                }
-            }
-        }
-    }
-    //    Retrieve All Deload Instances
-    public Iterator<DeloadInstance> retrieveFacultyDeloadings() {
-        ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAll();
-        Collections.sort(deloadInstances, new Comparator<DeloadInstance>() {
-            public int compare(DeloadInstance s1, DeloadInstance s2) {
-                return s1.getDeloading().getDeloadType().compareTo(s2.getDeloading().getDeloadType());
-            }
-        });
-        return deloadInstances.iterator();
-
-    }
-
-//      check if faculty loading is applicable
-
-    public boolean checkFacultyLoadDeload(User faculty, int startAY, int endAY, int term)
-    {
-        FacultyLoad facultyload = retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-        if(facultyload.getTotalLoad() <= 0)
-            return false;
-        return true;
-    }
-
-    public boolean checkFacultyLoading(User faculty, int startAY, int endAY, int term, String loadType)
-    {
-        FacultyLoad facultyload = retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty);
-        if(facultyload.getTotalLoad() >= 12)
-            return false;
-        if(loadType.equals("AL") && facultyload.getAdminLoad() >= 6)
-            return false;
-        return true;
-    }
-    /**
-     **
-     ** OTHER FUNCTIONS
-     **
-     */
-
-    public boolean checkFacultyInDatabase(int startAY, int endAY, int term, User faculty) {
-        if (retrieveFacultyLoadByFaculty(startAY, endAY, term, faculty) != null)
-            return true;
-        return false;
-    }
-
-
-    /* Generate All The types of faculty loads */
-    public ArrayList<String> generateFacultyLoadTypes() {
-        ArrayList<String> allFacultyLoadTypes = new ArrayList<String>();
-        allFacultyLoadTypes.add("Administrative");
-        allFacultyLoadTypes.add("Teaching");
-        allFacultyLoadTypes.add("Research");
-        return allFacultyLoadTypes;
-    }
-
-    public ArrayList<String> retrieveAllFacultyDepartments(){
-        ArrayList<String> allFacultyDepartments = new ArrayList<>();
-        ArrayList<Department> allDepartments = (ArrayList) departmentRepository.findAll();
-        for(Department d: allDepartments)
-            allFacultyDepartments.add(d.getDeptCode());
-        return allFacultyDepartments;
-    }
-    public Department retrieveDepartmentByCode(String code)
-    {
-        return departmentRepository.findDepartmentByDeptCode(code);
-    }
-
-    public void undergoDeloading(User faculty, String deloadCode)
-    {
-        System.out.println("Deload Code: " + deloadCode);
-        Deloading deloadingToBeUsed = deloadingRepository.findDeloadingByDeloadCode(deloadCode);
-        DeloadInstance deloadInstance = new DeloadInstance();
-
-        deloadInstance.setDeloading(deloadingToBeUsed);
-        deloadInstance.setFaculty(faculty);
-        deloadInstance.setStartAY(2016);
-        deloadInstance.setEndAY(2017);
-        deloadInstance.setTerm(1);
-        System.out.println("Deload Units " + deloadInstance.getDeloading().getUnits());
-        this.assignDeloadToFaculty(2016, 2017, 1, faculty, deloadInstance);
-        this.saveDeloadInstance(deloadInstance);
-    }
-
+    } */
 }

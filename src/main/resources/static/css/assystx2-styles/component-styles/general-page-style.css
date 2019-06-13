@@ -1,0 +1,36 @@
+body
+{
+    top: 0;
+    left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #efefef;
+}
+
+#assystx-container
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 20% 55% 25%;
+    padding-bottom: 1.5%;
+}
+
+.section-header-text
+{
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    display: inline;
+    margin-left: 20px;
+}
+
+.section-header-border
+{
+    border: 1px solid #00e08e;
+    width: 95%;
+}

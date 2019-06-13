@@ -10,7 +10,7 @@
 
         <title>ASSYSTX</title>
 
-        <c:url value="/css/assystx2-styles/component-styles/signin-style.css" var="signinStyle" />
+        <c:url value="/css/assystx2-styles/signin-style.css" var="signinStyle" />
         <link rel="stylesheet" type="text/css" href="${signinStyle}" />
     </head>
     <body>

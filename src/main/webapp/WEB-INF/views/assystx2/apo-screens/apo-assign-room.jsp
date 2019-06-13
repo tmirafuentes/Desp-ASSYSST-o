@@ -50,8 +50,8 @@
             <!-- Assign Room Dropdowns Menu -->
             <section id="assign-room-left-partition">
                 <!-- Building and Room Menu -->
-                <section id="assign-room-dropdowns-container">
-                    <div id="assign-room-dropdowns-box">
+                <section id="assign-room-dropdowns-container" class="assign-dropdowns-container">
+                    <div id="assign-room-dropdowns-box" class="assign-dropdowns-box">
                         <p class="section-header-text">Select Building and Room</p>
                         <hr class="section-header-border" />
                         <!-- Building Menu -->
@@ -65,21 +65,21 @@
                     </div>
                 </section>
                 <!-- Assigned Room Confirmation and Summary -->
-                <section id="assign-room-confirm-container">
-                    <div id="assign-room-confirm-box">
+                <section id="assign-room-confirm-container" class="assign-confirm-container">
+                    <div id="assign-room-confirm-box" class="assign-confirm-box">
                         <p class="section-header-text">Assigned Room and Timeslot</p>
                         <hr class="section-header-border" />
 
-                        <table id="assign-room-confirm-table">
+                        <table id="assign-room-confirm-table" class="assign-confirm-table">
                             <tr id="confirm-table-offering-row">
                                 <td>Course Offering</td>
                                 <td>${courseCode} ${section}</td>
                             </tr>
                             <tr id="confirm-table-button-row">
                                 <td colspan="2">
-                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-room-btns">Cancel</button>
-                                    <button id="assign-room-reset" type="reset" class="assign-room-btns">Reset</button>
-                                    <button id="assign-room-submit" type="submit" class="assign-room-btns">Assign Room</button>
+                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-room-btn">Cancel</button>
+                                    <button id="assign-room-reset" type="reset" class="assign-confirm-btns assign-room-btn">Reset</button>
+                                    <button id="assign-room-submit" type="submit" class="assign-confirm-btns assign-room-btn">Assign Room</button>
                                 </td>
                             </tr>
                         </table>

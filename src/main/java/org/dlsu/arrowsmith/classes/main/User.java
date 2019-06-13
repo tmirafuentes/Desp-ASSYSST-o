@@ -16,6 +16,7 @@ public class User {
     private String lastName;
     private String userType;
     private String password;
+    private boolean isActive;
     private College college;
     private Set<Course> coursePreferences;
     private Set<CourseOffering> teachingLoads;
@@ -87,6 +88,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @ManyToOne

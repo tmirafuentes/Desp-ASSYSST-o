@@ -1,0 +1,11 @@
+@import "online-users.css";
+@import "recent-changes.css";
+
+#collab-sidebar 
+{
+    grid-row: 2;
+    grid-column: 3;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}

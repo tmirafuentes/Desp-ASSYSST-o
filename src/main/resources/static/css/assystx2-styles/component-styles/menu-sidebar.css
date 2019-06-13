@@ -1,20 +1,87 @@
+#workspace-menu
+{
+    grid-row: 2;
+    grid-column: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 #menu-container
 {
     grid-row: 2;
     box-sizing: border-box;
     height: auto;
     width: 100%;
-    padding-top: 5%;
-    padding-left: 15%;
+    padding-top: 6%;
+    padding-left: 19%;
 }
 
 /* Box Seen in UI */
 #menu-box
 {
+    position: sticky;
+    top: 0;
     margin: 0 auto;
     height: auto;
-    width: 100%;
-    background: #ffffff;
     padding-top: 10px;
     padding-bottom: 15px;
+}
+
+#menu-current-term
+{
+    font-size: 0.90em;
+}
+
+/* Menu Section */
+.menu-subset-list
+{
+    padding: 0;
+}
+
+.menu-subset-list li
+{
+    list-style-type: none;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 500;
+    color: #2b2b2b;
+    width: 78%;
+    margin-left: 20px;
+    padding: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.menu-subset-list a
+{
+    color: #2b2b2b;
+    text-decoration: none;
+}
+
+.menu-subset-list a li:not(.menu-subset-list-header):hover
+{
+    background-color: #00e08e;
+    //border: 0.5px solid #999999;
+    color: #ffffff;
+}
+
+.menu-subset-list a li.menu-selected-page
+{
+    font-weight: 750;
+    color: #00e08e;  
+}
+
+.menu-subset-list li.menu-subset-list-header
+{
+    font-size: 0.80em;
+    font-weight: 1000;
+    color: #2b2b2b;
+    cursor: text;
+}
+
+.menu-subset-list a li.menu-subset-list-item
+{
+    margin-left: 35px;
+    width: 70%;
 }

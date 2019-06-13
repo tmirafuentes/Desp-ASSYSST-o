@@ -6,8 +6,10 @@ public class AssignRoomDTO
     private String roomCode;
     private char day1;
     private char day2;
-    private String startTime;
-    private String endTime;
+    private String startTimeDay1;
+    private String endTimeDay1;
+    private String startTimeDay2;
+    private String endTimeDay2;
 
     public Long getOfferingID() {
         return offeringID;
@@ -41,19 +43,35 @@ public class AssignRoomDTO
         this.day2 = day2;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getStartTimeDay1() {
+        return startTimeDay1;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setStartTimeDay1(String startTimeDay1) {
+        this.startTimeDay1 = startTimeDay1;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getEndTimeDay1() {
+        return endTimeDay1;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setEndTimeDay1(String endTimeDay1) {
+        this.endTimeDay1 = endTimeDay1;
+    }
+
+    public String getStartTimeDay2() {
+        return startTimeDay2;
+    }
+
+    public void setStartTimeDay2(String startTimeDay2) {
+        this.startTimeDay2 = startTimeDay2;
+    }
+
+    public String getEndTimeDay2() {
+        return endTimeDay2;
+    }
+
+    public void setEndTimeDay2(String endTimeDay2) {
+        this.endTimeDay2 = endTimeDay2;
     }
 }

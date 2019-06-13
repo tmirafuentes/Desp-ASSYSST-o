@@ -8,6 +8,7 @@ import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping({"/assystx2", "/assystx2/apo", "/assystx2/cvc"})
+@RequestMapping({"/"})
 public class NewRestController
 {
     /*** Services ***/
@@ -37,6 +38,9 @@ public class NewRestController
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private MessageSource messages;
+
     /*
      *
      *  COURSE OFFERING MANAGEMENT
@@ -48,42 +52,36 @@ public class NewRestController
     @GetMapping(value = "/show-offerings")
     public Response retrievePartialOfferings(Model model, @RequestParam(value = "page", required = false) int pageNumber)
     {
+        /* Get current term */
+        Term term = userService.retrieveCurrentTerm();
+
         /* Retrieve a partial list of course offerings */
-        PageRequest pageRequest = PageRequest.of(pageNumber, 15);
-        Page partialOfferings = offeringService.retrievePartialCourseOfferings(2016, 2017, 1, pageRequest);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
+        Page partialOfferings = offeringService.retrievePartialCourseOfferings(term, pageRequest);
 
-        /* Convert partial list of course offerings into DTOs */
-        Iterator partialOfferingDTOs = transferListOfferingToDTO(partialOfferings.getContent().iterator());
+        /* Check if empty list or not */
+        if (partialOfferings.getTotalPages() == 0)
+        {
+            /* Return a response */
+            return new Response("Empty", messages.getMessage("message.noOfferings", null, null));
+        }
+        else
+        {
+            /* Convert partial list of course offerings into DTOs */
+            Iterator partialOfferingDTOs = transferListOfferingToDTO(partialOfferings.getContent().iterator());
 
-        /* Put other page details into DTO */
-        PageOfferingDTO pageOfferingDTO = new PageOfferingDTO();
-        pageOfferingDTO.setCurrPageNum(partialOfferings.getNumber());
-        pageOfferingDTO.setHasNext(partialOfferings.hasNext());
-        pageOfferingDTO.setHasPrev(partialOfferings.hasPrevious());
-        pageOfferingDTO.setTotalPages(partialOfferings.getTotalPages());
-        pageOfferingDTO.setPageSize(partialOfferings.getSize());
-        pageOfferingDTO.setCurrPartialOfferings(partialOfferingDTOs);
+            /* Put other page details into DTO */
+            PageOfferingDTO pageOfferingDTO = new PageOfferingDTO();
+            pageOfferingDTO.setCurrPageNum(partialOfferings.getNumber());
+            pageOfferingDTO.setHasNext(partialOfferings.hasNext());
+            pageOfferingDTO.setHasPrev(partialOfferings.hasPrevious());
+            pageOfferingDTO.setTotalPages(partialOfferings.getTotalPages());
+            pageOfferingDTO.setPageSize(partialOfferings.getSize());
+            pageOfferingDTO.setCurrPartialOfferings(partialOfferingDTOs);
 
-        /* Return a response */
-        return new Response("Done", pageOfferingDTO);
-    }
-
-    /* Update the selected course offering's section */
-    @PostMapping(value = "/update-offering-section")
-    public Response updateCourseOfferingSection(@RequestBody EditSectionDTO dto)
-    {
-        /* Retrieve course offering from database */
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
-
-        /* Update the course offering's section */
-        if (!selectedOffering.getSection().equals(dto.getSection()))
-            selectedOffering.setSection(dto.getSection());
-
-        /* Save updated course offering to database */
-        offeringService.saveCourseOffering(selectedOffering);
-
-        /* Return a response */
-        return new Response("Done", dto);
+            /* Return a response */
+            return new Response("Done", pageOfferingDTO);
+        }
     }
 
     /*
@@ -98,7 +96,7 @@ public class NewRestController
         DisplayOfferingDTO displayOfferingDTO = new DisplayOfferingDTO();
 
         /* Offering ID */
-        displayOfferingDTO.setOfferingID(offering.getofferingId());
+        displayOfferingDTO.setOfferingID(offering.getOfferingId());
 
         /* Course Code */
         displayOfferingDTO.setCourseCode(offering.getCourse().getCourseCode());
@@ -196,18 +194,14 @@ public class NewRestController
         CourseOffering newOffering = new CourseOffering();
         newOffering.setCourse(offeringService.retrieveCourseByCourseCode(dto.getCourseCode()));
         newOffering.setSection(dto.getSection());
-
-        /* Put other details */
-        newOffering.setStartAY(2016);
-        newOffering.setEndAY(2017);
-        newOffering.setTerm(1);
-        newOffering.setStatus("Regular");
+        newOffering.setTerm(userService.retrieveCurrentTerm());
+        newOffering.setType("Regular");
 
         /* Save Course Offering into the database */
         offeringService.saveCourseOffering(newOffering);
 
         /* Return response */
-        return new Response("Done", null);
+        return new Response("Done", messages.getMessage("message.addOffering", null, null));
     }
 
     /*
@@ -250,8 +244,11 @@ public class NewRestController
         /* Find equivalent room in database */
         Room selectedRoom = offeringService.retrieveRoomByRoomCode(roomCode);
 
+        /* Find latest term */
+        Term currentTerm = userService.retrieveCurrentTerm();
+
         /* Find all Days that occupy room */
-        Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoom(selectedRoom);
+        Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoomAndTerm(selectedRoom, currentTerm);
 
         /* Iterate list to filter out offerings not in the selected term */
         ArrayList<OccupyOfferingDTO> allOccupiers = new ArrayList<>();
@@ -260,23 +257,17 @@ public class NewRestController
             /* Retrieve Days object from the list */
             Days daysItem = (Days) allDaysOccupied.next();
 
-            /* Check offering's term and year */
-            if (daysItem.getCourseOffering().getStartAY() == 2016 &&
-                daysItem.getCourseOffering().getEndAY() == 2017 &&
-                daysItem.getCourseOffering().getTerm() == 1)
-            {
-                /* Transfer to DTO */
-                OccupyOfferingDTO dto = new OccupyOfferingDTO();
-                dto.setRoomCode(daysItem.getRoom().getRoomCode());
-                dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
-                dto.setSection(daysItem.getCourseOffering().getSection());
-                dto.setBeginTime(daysItem.getbeginTime());
-                dto.setEndTime(daysItem.getendTime());
-                dto.setDay(daysItem.getclassDay());
+            /* Transfer to DTO */
+            OccupyOfferingDTO dto = new OccupyOfferingDTO();
+            dto.setRoomCode(daysItem.getRoom().getRoomCode());
+            dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
+            dto.setSection(daysItem.getCourseOffering().getSection());
+            dto.setBeginTime(daysItem.getbeginTime());
+            dto.setEndTime(daysItem.getendTime());
+            dto.setDay(daysItem.getclassDay());
 
-                /* Add to new list */
-                allOccupiers.add(dto);
-            }
+            /* Add to new list */
+            allOccupiers.add(dto);
         }
 
         return new Response("Done", allOccupiers.iterator());

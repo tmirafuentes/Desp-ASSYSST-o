@@ -10,9 +10,6 @@ import javax.persistence.*;
 @Audited
 public class FacultyLoad {
     private Long loadId;
-    private int startAY;
-    private int endAY;
-    private int term;
     private double adminLoad;
     private double researchLoad;
     private double teachingLoad;
@@ -21,6 +18,7 @@ public class FacultyLoad {
     private double totalLoad;
     private boolean onLeave;
     private String leaveType;
+    private Term term;
     private College college;
     private Department department;
     private User faculty;
@@ -28,10 +26,8 @@ public class FacultyLoad {
     public FacultyLoad() {
     }
 
-    public FacultyLoad(Long loadId, int startAY, int endAY, int term, double adminLoad, double researchLoad, double teachingLoad, double nonacadLoad, double deloadedLoad, double totalLoad, boolean onLeave, String leaveType) {
-        this.loadId = loadId;
-        this.startAY = startAY;
-        this.endAY = endAY;
+    public FacultyLoad(Long loadId, Term term, double adminLoad, double researchLoad, double teachingLoad, double nonacadLoad, double deloadedLoad, double totalLoad, boolean onLeave, String leaveType) {
+        this.loadId = loadId;;
         this.term = term;
         this.adminLoad = adminLoad;
         this.researchLoad = researchLoad;
@@ -53,27 +49,14 @@ public class FacultyLoad {
         this.loadId = loadId;
     }
 
-    public int getStartAY() {
-        return startAY;
-    }
-
-    public void setStartAY(int startAY) {
-        this.startAY = startAY;
-    }
-
-    public int getEndAY() {
-        return endAY;
-    }
-
-    public void setEndAY(int endAY) {
-        this.endAY = endAY;
-    }
-
-    public int getTerm() {
+    @NotAudited
+    @ManyToOne
+    @JoinColumn(name = "termID")
+    public Term getTerm() {
         return term;
     }
 
-    public void setTerm(int term) {
+    public void setTerm(Term term) {
         this.term = term;
     }
 

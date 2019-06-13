@@ -1,0 +1,116 @@
+/*
+ *  IMPORTED GENERAL STYLES
+ */
+@import "component-styles/fonts.css";
+
+body
+{
+    background: #00ba72;
+    top: 0;
+    left: 0;
+}
+
+/*** Signin Containers ***/
+.signin-wrapper
+{
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    height: auto;
+    width: 60%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.signin-containers
+{
+    float: left;
+    height: auto;
+    width: 50%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*** Sign in Introduction ***/
+.signin-assystx-intro
+{
+}
+
+#signin-intro-title
+{
+    font-family: Gotham-Black;
+    font-size: 2.5em;
+    color: #ffffff;
+}
+
+#signin-intro-description
+{
+    font-family: OpenSans-Regular;
+    font-size: 1em;
+    color: #ffffff;
+    text-align: justify;
+    width: 90%;
+}
+
+/*** Sign in Form ***/
+.signin-assystx-login
+{
+    padding: 2.5%;
+    background: #ffffff;
+    box-shadow: 0px 1px 2px #666666;
+}
+
+label
+{
+    font-family: Gotham-Black;
+    font-size: 0.90em;
+    color: #000000;
+}
+
+input[type=text], input[type=password]
+{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 20px 0;
+    display: inline-block;
+    //border: none;
+    //border-bottom: 3px solid #b7f8de;
+    border: 1px solid #000000;
+    //background: #33333d;
+    font-family: OpenSans-Regular;
+    font-size: 0.95em;
+    color: #000000;
+    box-sizing: border-box;
+}
+
+input[type=text]:focus, input[type=password]:focus
+{
+    background-color: #ffffff;
+    outline: none;
+}
+
+#signin-error
+{
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: Open Sans;
+    font-size:0.90em;
+    font-weight: 500;
+    color: #e71d36;
+}
+
+button {
+    background-color: #00a864;
+    color: #ffffff;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 1;
+    font-family: Gotham-Black;
+    font-size: 1em;
+}

@@ -30,6 +30,8 @@ public class UserService {
     private RevisionHistoryRepository revisionHistoryRepository;
     @Autowired
     private ModifiedEntityTypeEntityRepository modifiedEntityTypeEntityRepository;
+    @Autowired
+    private TermRepository termRepository;
 
     /* Services */
     @Autowired
@@ -258,6 +260,11 @@ public class UserService {
     public ArrayList<ModifiedEntityTypeEntity> findMETEById(AuditedRevisionEntity are)
     {
         return (ArrayList<ModifiedEntityTypeEntity>) modifiedEntityTypeEntityRepository.findModifiedEntityTypeEntityByRevision(are);
+    }
+
+    public Term retrieveCurrentTerm()
+    {
+        return termRepository.findTermByCurrTermIsTrue();
     }
 
     /***

@@ -12,11 +12,9 @@ import java.util.Set;
 public class CourseOffering {
     private Long offeringId;
     private String section;
-    private int term;
-    private int startAY;
-    private int endAY;
     private int maxEnrolled;
-    private String status;
+    private String type;
+    private Term term;
     private Course course;
     private User faculty;
     private Set<Days> daysSet;
@@ -24,24 +22,22 @@ public class CourseOffering {
     public CourseOffering() {
     }
 
-    public CourseOffering(Long offeringId, String section, int term, int startAY, int endAY, int maxEnrolled, String status) {
+    public CourseOffering(Long offeringId, String section, Term term, int maxEnrolled, String type) {
         this.offeringId = offeringId;
         this.section = section;
         this.term = term;
-        this.startAY = startAY;
-        this.endAY = endAY;
         this.maxEnrolled = maxEnrolled;
-        this.status = status;
+        this.type = type;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Nullable
-    public Long getofferingId() {
+    public Long getOfferingId() {
         return offeringId;
     }
 
-    public void setofferingId(Long offeringId) {
+    public void setOfferingId(Long offeringId) {
         this.offeringId = offeringId;
     }
 
@@ -53,44 +49,31 @@ public class CourseOffering {
         this.section = section;
     }
 
-    public int getTerm() {
-        return term;
-    }
-
-    public void setTerm(int term) {
-        this.term = term;
-    }
-
-    public int getStartAY() {
-        return startAY;
-    }
-
-    public void setStartAY(int startAY) {
-        this.startAY = startAY;
-    }
-
-    public int getEndAY() {
-        return endAY;
-    }
-
-    public void setEndAY(int endAY) {
-        this.endAY = endAY;
-    }
-
-    public int getmaxEnrolled() {
+    public int getMaxEnrolled() {
         return maxEnrolled;
     }
 
-    public void setmaxEnrolled(int maxEnrolled) {
+    public void setMaxEnrolled(int maxEnrolled) {
         this.maxEnrolled = maxEnrolled;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @NotAudited
+    @ManyToOne
+    @JoinColumn(name = "termID")
+    public Term getTerm() {
+        return term;
+    }
+
+    public void setTerm(Term term) {
+        this.term = term;
     }
 
     @NotAudited

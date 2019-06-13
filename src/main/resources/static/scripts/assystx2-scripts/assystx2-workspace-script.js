@@ -61,23 +61,30 @@ $(function() {
     {
         $.ajax({
             type : "GET",
-            url : window.location + "/show-offerings?page=" + pageNum,
+            url : window.location + "show-offerings?page=" + pageNum,
             success : function(result)
             {
-                if(result.status == "Done")
+                /* Code for removing the currently displayed course offerings */
+                $("form .all-offerings-row").remove();
+                $(".all-offerings-row-border").remove();
+                $("#all-offerings-page-menu").remove();
+
+                if(result.status === "Empty")
                 {
-                    /* TODO?: Code for keeping track of the selected course offering */
-
-                    /* Code for removing the currently displayed course offerings */
-                    $(".all-offerings-row:not(:first-child)").remove();
-                    $(".all-offerings-row-border").remove();
-                    $("#all-offerings-page-menu").remove();
-
+                    var startPageList = "<ul id='all-offerings-page-menu'>" +
+                                        "<li class='unavailable-page'>&nbsp;</li>" +
+                                        "<li>" + result.data + "</li>" +
+                                        "<li class='unavailable-page'>&nbsp;</li>" +
+                                        "</ul>";
+                    $(startPageList).appendTo("#all-offerings-box");
+                }
+                else if(result.status === "Done")
+                {
                     /* Display each offering into the system */
                     $.each(result.data.currPartialOfferings, function(i, offering)
                     {
                         /* Create individual list items */
-                        var startForm = "<form action='/assystx2/apo/assign-room' method='POST'>";
+                        var startForm = "<form action='/assign-room' method='POST'>";
                         var startlist = "<ul class='all-offerings-row'>";
                         var course = "<li class='cols-course'>" + offering.courseCode +
                                      "<input value='" + offering.courseCode + "' name='courseCode' hidden /> </li>";
@@ -133,7 +140,12 @@ $(function() {
             },
             error : function(e)
             {
-                console.log("ERROR: ", e);
+                var startPageList = "<ul id='all-offerings-page-menu'>" +
+                    "<li class='unavailable-page'>&nbsp;</li>" +
+                    "<li>" + "There is an error loading the course offerings." + "</li>" +
+                    "<li class='unavailable-page'>&nbsp;</li>" +
+                    "</ul>";
+                $(startPageList).appendTo("#all-offerings-box");
             }
         });
     }
@@ -246,7 +258,7 @@ $(function() {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : window.location + "/create-new-offering",
+            url : window.location + "create-new-offering",
             data : JSON.stringify(formData),
             dataType : "json",
             success : function(result)
@@ -257,12 +269,37 @@ $(function() {
                     $("#add-offering-course").val("");
                     $("#add-offering-section").val("");
 
-                    /* Feedback message */
-                    console.log("Course Offering successfully added");
+                    /* Update course offerings */
+                    showPartialOfferings(0);
+
+                    /* Put message */
+                    $("#positive-feedback-message").text(result.data);
+
+                    /* Show feedback message */
+                    $("#positive-feedback-message").slideDown(500, function()
+                    {
+                        setTimeout(function()
+                            {
+                                $("#positive-feedback-message").slideUp(500);
+                            },
+                            5000);
+                    });
                 }
             },
             error : function(e)
             {
+                /* Put message */
+                $("#negative-feedback-message").text("An error occurred while creating a new offering.");
+
+                /* Show feedback message */
+                $("#negative-feedback-message").slideDown(500, function()
+                {
+                    setTimeout(function()
+                    {
+                        $("#negative-feedback-message").slideUp(500);
+                    },
+                    5000);
+                });
                 console.log("Error: " + e);
             }
         })

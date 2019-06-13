@@ -6,13 +6,18 @@
 
 #workspace-header
 {
-    grid-column: 1 / 4;
+    grid-row: 1;
+    grid-column: 1 / 5;
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     height: auto;
     background: #00ba72;
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 3% 3.15% 15% 40% 14% 21% 5%;
+    z-index: 5;
 }
 
 /* DLSU Logo and Title */
@@ -25,7 +30,7 @@
     margin-top: 20%;
 }
 
-#workspace-menu-title
+#workspace-menu-title 
 {
     grid-column: 3;
     font-family: Gotham-Black;
@@ -35,7 +40,7 @@
     text-indent: 4%;
 }
 
-#workspace-menu-title:hover
+#workspace-menu-title:hover 
 {
     text-decoration: underline;
 }
@@ -82,7 +87,7 @@
     float: left;
     height: auto;
     width: 15%;
-//padding: 3%;
+    //padding: 3%;
     padding: 8px 6px 6px 6px;
     margin-top: 2.5%;
     border: none;

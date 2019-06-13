@@ -4,10 +4,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<%--
+  Created by IntelliJ IDEA.
+  User: Troy Mirafuentes
+  Date: 6/10/2019
+  Time: 7:18 PM
+  To change this template use File | Settings | File Templates.
+--%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <html>
     <head>
-        <title>ASSYSTX - APO Workspace</title>
+        <title>ASSYSTX - Workspace History</title>
 
         <meta name="_csrf" content="${_csrf.token}"/>
         <!-- default header name is X-CSRF-TOKEN -->
@@ -15,7 +23,7 @@
 
         <!-- Variables for Stylesheets and Scripts -->
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
-        <c:url value="/css/assystx2-styles/workspace-home-style.css" var="mainCss" />
+        <c:url value="/css/assystx2-styles/history-page-style.css" var="mainCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
         <c:url value="/scripts/assystx2-scripts/assystx2-workspace-script.js" var="mainScript" />
@@ -26,42 +34,28 @@
     <body>
         <div id="assystx-container">
             <!-- Header -->
-            <%@include file="../general-screens/header-screen.jsp"%>
+            <%@include file="header-screen.jsp"%>
 
             <!-- Left Partition -->
-            <section id="workspace-menu">
+            <section id="workspace-menu-filters">
                 <!-- ASSYSTX Menu -->
                 <%@include file="../general-screens/assystx-menu-screen.jsp" %>
             </section>
 
             <!-- Middle Partition -->
-            <section id="collab-workspace">
-                <!-- Add Offering -->
-                <%@include file="add-offering-screen.jsp" %>
+            <section id="workspace-history">
+                <section id="workspace-history-container">
+                    <div id="workspace-history-box">
 
-                <!-- Filter Offerings -->
-                <%@include file="../general-screens/offering-filters-screen.jsp" %>
-
-                <!-- All Offerings -->
-                <%@include file="../general-screens/all-offerings-screen.jsp" %>
+                    </div>
+                </section>
             </section>
 
             <!-- Right Partition -->
             <section id="collab-sidebar">
-                <!-- Online Users -->
-                <%@include file="../general-screens/online-users-screen.jsp" %>
-
                 <!-- Recent Changes -->
                 <%@include file="../general-screens/recent-changes-screen.jsp" %>
             </section>
         </div>
-
-        <!-- Feedback Messages -->
-        <div class="feedback-messages" id="positive-feedback-message">Hello World</div>
-        <div class="feedback-messages" id="negative-feedback-message">Fuck you world</div>
-
-        <script src="${minJquery}"></script>
-        <script src="${jqueryUI}"></script>
-        <script src="${mainScript}"></script>
     </body>
 </html>
