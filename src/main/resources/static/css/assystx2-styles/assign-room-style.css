@@ -8,6 +8,7 @@
 @import "component-styles/header.css";
 @import "component-styles/general-task-style.css";
 @import "component-styles/assign-left-partition.css";
+@import "component-styles/assign-room.css";
 
 #assign-room-right-partition
 {

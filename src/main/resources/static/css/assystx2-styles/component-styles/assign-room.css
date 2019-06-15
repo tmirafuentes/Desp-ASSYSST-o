@@ -199,6 +199,7 @@
 #room-assign-table .room-table-unavailable
 {
     background-color: #d3d3d3;
+    cursor: text;
 }
 
 #room-assign-table .room-table-selected

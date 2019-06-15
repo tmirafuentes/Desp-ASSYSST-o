@@ -16,6 +16,6 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     CourseOffering findCourseOfferingByOfferingId(Long offering_id);
     CourseOffering findCourseOfferingByCourse_CourseCodeAndSectionAndTerm(String course_code, String section, Term term);
     ArrayList<CourseOffering> findAllByTerm(Term term);
-    Page<CourseOffering> findAllByTerm(Term term, Pageable pageable);
+    Page<CourseOffering> findAllByTermOrderByOfferingIdAsc(Term term, Pageable pageable);
     ArrayList<CourseOffering> findAllByCourseCourseCode(String courseCode);
 }

@@ -23,29 +23,21 @@
         <!-- Variables for Stylesheets and Scripts -->
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
         <c:url value="/css/assystx2-styles/assign-room-style.css" var="mainCss" />
+        <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
         <c:url value="/scripts/assystx2-scripts/assystx2-assign-room-script.js" var="mainScript" />
+        <c:url value="/scripts/assystx2-scripts/assystx2-header-user-script.js" var="userScript" />
+        <c:url value="/scripts/assystx2-scripts/jquery-shorten.min.js" var="shortenExt" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
+        <link rel="stylesheet" type="text/css" href="${shortenCss}">
         <link rel="stylesheet" type="text/css" href="${mainCss}">
     </head>
     <body>
         <div id="assystx-container">
-            <!-- General Header for ASSYSTX -->
-            <header id="workspace-header">
-                <img src="/images/dlsu-logo.png" id="workspace-logo-img" alt="DLSU Logo" />
-                <a href="#" id="workspace-menu-title-link">
-                    <h3 id="workspace-menu-title">APO Workspace</h3>
-                </a>
-                <div class="workspace-user">
-                    <img src="/images/white-icons/user-avatar.png" class="workspace-user-avatar workspace-user-icons" />
-                    <div class="logout-dropdown">
-                        <a href="#">Logout</a>
-                    </div>
-                    <img src="/images/white-icons/concerns-inbox.png" class="workspace-user-inbox workspace-user-icons" />
-                </div>
-            </header>
+            <!-- Header -->
+            <%@include file="../general-screens/header-screen.jsp"%>
 
             <!-- Assign Room Dropdowns Menu -->
             <section id="assign-room-left-partition">
@@ -77,9 +69,9 @@
                             </tr>
                             <tr id="confirm-table-button-row">
                                 <td colspan="2">
-                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-room-btn">Cancel</button>
+                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-cancel-btn">Cancel</button>
                                     <button id="assign-room-reset" type="reset" class="assign-confirm-btns assign-room-btn">Reset</button>
-                                    <button id="assign-room-submit" type="submit" class="assign-confirm-btns assign-room-btn">Assign Room</button>
+                                    <button id="assign-room-submit" type="submit" class="assign-confirm-btns assign-submit-btn">Assign Room</button>
                                 </td>
                             </tr>
                         </table>
@@ -100,6 +92,8 @@
 
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>
-        <script src="/scripts/assystx2-scripts/assystx2-assign-room-script.js"></script>
+        <script src="${shortenExt}"></script>
+        <script src="${userScript}"></script>
+        <script src="${mainScript}"></script>
     </body>
 </html>

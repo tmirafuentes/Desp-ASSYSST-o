@@ -18,6 +18,8 @@ $(function() {
      *
      */
     showPartialOfferings(0);
+    var courseCodes = [];
+    retrieveAllCourses();
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -84,7 +86,7 @@ $(function() {
                     $.each(result.data.currPartialOfferings, function(i, offering)
                     {
                         /* Create individual list items */
-                        var startForm = "<form action='/assign-room' method='POST'>";
+                        var startForm = "<form action='/assign-room' method='POST' class='assign-room-form'>";
                         var startlist = "<ul class='all-offerings-row'>";
                         var course = "<li class='cols-course'>" + offering.courseCode +
                                      "<input value='" + offering.courseCode + "' name='courseCode' hidden /> </li>";
@@ -99,10 +101,11 @@ $(function() {
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                             "<div class='all-offerings-dropdown-menu'>" +
                             "<button type='submit' class='offering-assign-room-button'>Assign Room</button>" +
-                            "<a href='#'>Raise Concerns</a>" +
-                            "<a href='#'>Edit Section</a>" +
-                            "<a href='#'>View More Details</a>" +
-                            "<a href='#'>Dissolve Offerings</a>" +
+                            "<button type='button' class='offering-raise-concerns-button'>Raise Concerns</button>" +
+                            "<button type='button' class='offering-edit-section-button'>Edit Section</button>" +
+                            "<button type='button' class='offering-view-details-button'>View More Details</button>" +
+                            "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
+                            "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
                             "</div></div></li></ul></form>";
                         var border = "<hr class='all-offerings-row-border' />";
 
@@ -150,39 +153,20 @@ $(function() {
         });
     }
 
-    /* Retrieve all course codes from the database */
-    function retrieveAllCourses()
-    {
-        /* Perform AJAX */
-        $.ajax({
-            type : "GET",
-            url : window.location +  "/autocomplete-course-code",
-            success : function(result)
-            {
-                if(result.status == "Done")
-                    returnAllCourses(result.data);
-            },
-            error : function(e)
-            {
-                console.log("Error = " + e);
-            }
-        });
-    }
-
-    function returnAllCourses(response)
-    {
-        $.each(response.suggestedCourses, function(i, courses)
-        {
-            allCourseCodes.push(courses);
-            console.log("I am filling up = " + allCourseCodes.length);
-        });
-    }
-
     /*
      *  CREATE NEW OFFERING
      *  EVENT LISTENERS
      *
     */
+
+    /* This event listener retrieves
+     * the list of courses to guide
+     * the APO in creating an offering.
+    */
+    $("#add-offering-course").autocomplete({
+        minLength : 3,
+        source : courseCodes
+    });
 
     /*  This event listener submits a form
      *  which includes the course offering
@@ -195,15 +179,33 @@ $(function() {
         var section = $("#add-offering-section").val();
 
         /* Check if it's not empty and then submit */
-        if (courseCode.length == 7 && section.length <= 3)
+        if (courseCode.length == 7 && section.length <= 4 && section.length > 0)
+        {
+            createNewOffering(courseCode, section);
+        }
+        else
+        {
+            displayNegativeMessage("Invalid input for create new offering!");
+        }
+    });
+
+    /*  This event listener submits a form
+     *  which includes the course offering
+     *  and section to the database and goes
+     *  to the assign room page.
+    */
+    $("#add-offering-box").on('submit', "#add-offering-room", function()
+    {
+        /* Retrieve input from text fields */
+        var courseCode = $("#add-offering-course").val();
+        var section = $("#add-offering-section").val();
+
+        /* Check if it's not empty and then submit */
+        if (courseCode.length == 7 && section.length <= 4)
         {
             createNewOffering(courseCode, section);
         }
     });
-
-    /* TODO: Course Code field suggests possible
-     * courses from the typed input
-    */
 
     /* Add Offering partition's front-end
      * functionality of appearing and disappearing
@@ -215,9 +217,9 @@ $(function() {
         $("#add-offering-course").css("background-color", "#ffffff");
 
         /* Make the other fields appear */
-        $("#add-offering-section").css("visibility", "visible");
-        $("#add-offering-room").css("visibility", "visible");
-        $("#add-offering-submit").css("visibility", "visible");
+        $("#add-offering-section").fadeIn(500);
+        $("#add-offering-room").fadeIn(500);
+        $("#add-offering-submit").fadeIn(500);
     });
 
     $("#add-offering-course").focusout(function(e)
@@ -228,10 +230,10 @@ $(function() {
             /* Change color of course code */
             $("#add-offering-course").css("background-color", "#00e08e");
 
-            $("#add-offering-section").css("visibility", "hidden").fadeTo(2000);
             $("#add-offering-section").val("");
-            $("#add-offering-room").css("visibility", "hidden").fadeTo(2000);
-            $("#add-offering-submit").css("visibility", "hidden");
+            $("#add-offering-section").fadeOut(500);
+            $("#add-offering-room").fadeOut(500);
+            $("#add-offering-submit").fadeOut(500);
         }
     });
 
@@ -240,6 +242,32 @@ $(function() {
      *  FUNCTION IMPLEMENTATIONS
      *
     */
+
+    /*  This function retrieves all
+     *  course codes in the database.
+    */
+    function retrieveAllCourses()
+    {
+        /* Perform AJAX */
+        $.ajax({
+            type : "GET",
+            url : window.location +  "autocomplete-course-code",
+            success : function(result)
+            {
+                if(result.status == "Done")
+                {
+                    $.each(result.data, function(i, cc)
+                    {
+                        courseCodes.push(cc);
+                    });
+                }
+            },
+            error : function(e)
+            {
+                console.log("Error = " + e);
+            }
+        });
+    }
 
     /*  This function creates a new offering
      *  through submitting the course code
@@ -272,36 +300,101 @@ $(function() {
                     /* Update course offerings */
                     showPartialOfferings(0);
 
-                    /* Put message */
-                    $("#positive-feedback-message").text(result.data);
-
-                    /* Show feedback message */
-                    $("#positive-feedback-message").slideDown(500, function()
-                    {
-                        setTimeout(function()
-                            {
-                                $("#positive-feedback-message").slideUp(500);
-                            },
-                            5000);
-                    });
+                    /* Display Message */
+                    displayPositiveMessage(result.data);
                 }
             },
             error : function(e)
             {
-                /* Put message */
-                $("#negative-feedback-message").text("An error occurred while creating a new offering.");
-
-                /* Show feedback message */
-                $("#negative-feedback-message").slideDown(500, function()
-                {
-                    setTimeout(function()
-                    {
-                        $("#negative-feedback-message").slideUp(500);
-                    },
-                    5000);
-                });
-                console.log("Error: " + e);
+                displayNegativeMessage("An error occurred while creating a new offering.");
             }
-        })
+        });
+    }
+
+    /*
+     *  FILTER OFFERINGS
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
+
+    /* Load Courses Available For Dropdown Filter */
+    function retrieveFilterCourses()
+    {
+        $.ajax({
+            type : "GET",
+            url : window.location + "retrieve-filter-courses",
+            success : function(result)
+            {
+
+            }
+        });
+    }
+
+    /* Load Time Slots Available For Dropdown Filter */
+    function retrieveFilterTimeslots()
+    {
+        $.ajax({
+            type : "GET",
+            url : window.location + "retrieve-filter-timeslots",
+            success : function(result)
+            {
+
+            }
+        });
+    }
+
+    /* Load Buildings Available For Dropdown Filter */
+    function retrieveFilterBuildings()
+    {
+        $.ajax({
+            type : "GET",
+            url : window.location + "retrieve-filter-buildings",
+            success : function(result)
+            {
+
+            }
+        });
+    }
+
+
+    /*
+     *  FEEDBACK MESSAGES
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
+
+    /*  This function creates a feedback
+     *  message and displays it in the system.
+     */
+    function displayPositiveMessage(message)
+    {
+        /* Put message */
+        $("#positive-feedback-message").text(message);
+
+        /* Show feedback message */
+        $("#positive-feedback-message").slideDown(500, function()
+        {
+            setTimeout(function()
+                {
+                    $("#positive-feedback-message").slideUp(500);
+                },
+                5000);
+        });
+    }
+
+    function displayNegativeMessage(message)
+    {
+        /* Put message */
+        $("#negative-feedback-message").text(message);
+
+        /* Show feedback message */
+        $("#negative-feedback-message").slideDown(500, function()
+        {
+            setTimeout(function()
+                {
+                    $("#negative-feedback-message").slideUp(500);
+                },
+                5000);
+        });
     }
 });

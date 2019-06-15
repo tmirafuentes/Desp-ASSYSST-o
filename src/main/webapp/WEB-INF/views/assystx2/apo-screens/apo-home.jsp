@@ -15,12 +15,16 @@
 
         <!-- Variables for Stylesheets and Scripts -->
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
+        <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
         <c:url value="/css/assystx2-styles/workspace-home-style.css" var="mainCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
         <c:url value="/scripts/assystx2-scripts/assystx2-workspace-script.js" var="mainScript" />
+        <c:url value="/scripts/assystx2-scripts/assystx2-header-user-script.js" var="userScript" />
+        <c:url value="/scripts/assystx2-scripts/jquery-shorten.min.js" var="shortenExt" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
+        <link rel="stylesheet" type="text/css" href="${shortenCss}">
         <link rel="stylesheet" type="text/css" href="${mainCss}">
     </head>
     <body>
@@ -57,11 +61,12 @@
         </div>
 
         <!-- Feedback Messages -->
-        <div class="feedback-messages" id="positive-feedback-message">Hello World</div>
-        <div class="feedback-messages" id="negative-feedback-message">Fuck you world</div>
+        <%@include file="../general-screens/feedback-message-screen.jsp" %>
 
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>
+        <script src="${shortenExt}"></script>
+        <script src="${userScript}"></script>
         <script src="${mainScript}"></script>
     </body>
 </html>

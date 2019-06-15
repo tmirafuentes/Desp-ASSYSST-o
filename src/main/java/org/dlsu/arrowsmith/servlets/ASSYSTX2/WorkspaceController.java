@@ -2,8 +2,9 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
 import org.dlsu.arrowsmith.classes.dro.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
-import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
-import org.dlsu.arrowsmith.classes.main.*;
+import org.dlsu.arrowsmith.classes.main.CourseOffering;
+import org.dlsu.arrowsmith.classes.main.Days;
+import org.dlsu.arrowsmith.classes.main.Term;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
@@ -13,37 +14,102 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Optional;
-import java.util.Set;
+
+/*
+ *  ASSYSTX2
+ *  WORKSPACE CONTROLLER
+ *
+ *  Contents:
+ *  URL Mappings and REST Requests
+ *  for creating, modifying, retrieving,
+ *  and dissolving course offerings.
+ *  This also includes assigning a room
+ *  and faculty.
+ */
 
 @RestController
 @RequestMapping({"/"})
-public class NewRestController
+public class WorkspaceController
 {
-    /*** Services ***/
+    /*
+     *  SERVICES
+     *
+     */
+
     @Autowired
     private OfferingService offeringService;
+
+    @Autowired
+    private FacultyService facultyService;
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private FacultyService facultyService;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
     private MessageSource messages;
 
     /*
+     *  CREATE NEW OFFERING
+     *  URL MAPPING
      *
-     *  COURSE OFFERING MANAGEMENT
+     */
+
+    /* Retrieve a list of possible courses from the input for add course offering */
+    @GetMapping(value = "/autocomplete-course-code")
+    public Response retrieveSuggestedCourses()
+    {
+        Iterator suggestedCourses = offeringService.retrieveSuggestedCourses();
+
+        return new Response("Done", suggestedCourses);
+    }
+
+    /* Create a new course offering through the course code and section */
+    @PostMapping(value = "/create-new-offering")
+    public Response createNewOffering(@RequestBody CreateOfferingDTO dto)
+    {
+        try
+        {
+            /* Convert DTO to Course Offering */
+            CourseOffering newOffering = new CourseOffering();
+            newOffering.setCourse(offeringService.retrieveCourseByCourseCode(dto.getCourseCode()));
+            newOffering.setSection(dto.getSection());
+            newOffering.setTerm(userService.retrieveCurrentTerm());
+            newOffering.setType("Regular");
+
+            /* Save Course Offering into the database */
+            offeringService.saveCourseOffering(newOffering);
+        }
+        catch(Exception e) {e.printStackTrace();}
+        finally
+        {
+            /* Return response */
+            return new Response("Done", messages.getMessage("message.addOffering", null, null));
+        }
+    }
+
+    /*
+     *  FILTER OFFERINGS
+     *  URL MAPPING
+     *
+     */
+
+    /* Retrieve courses offered for a specific term */
+    @GetMapping(value = "/retrieve-filter-courses")
+    public Response retrieveFilterCourses(Model model)
+    {
+        /* Get current term */
+        Term term = userService.retrieveCurrentTerm();
+
+        /* Retrieve unique courses from offerings */
+
+    }
+
+    /*
+     *  DISPLAY OFFERINGS
      *  URL MAPPING
      *
      */
@@ -85,7 +151,7 @@ public class NewRestController
     }
 
     /*
-     *  COURSE OFFERING MANAGEMENT
+     *  DISPLAY OFFERINGS
      *  FUNCTION IMPLEMENTATIONS
      *
      */
@@ -171,105 +237,36 @@ public class NewRestController
     }
 
     /*
-     *
-     *  CREATE NEW OFFERING
+     *  MODIFY OFFERINGS
      *  URL MAPPING
      *
      */
 
-    /* Retrieve a list of possible courses from the input for add course offering */
-    @GetMapping(value = "/autocomplete-course-code")
-    public Response retrieveSuggestedCourses()
+    /* Update the selected course offering's section */
+    @PostMapping(value = "/update-offering-section")
+    public Response updateCourseOfferingSection(@RequestBody EditSectionDTO dto)
     {
-        Iterator suggestedCourses = offeringService.retrieveSuggestedCourses();
+        /* Retrieve course offering from database */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
 
-        return new Response("Done", suggestedCourses);
+        /* Update course offering's select */
+        selectedOffering.setSection(dto.getSection());
+        offeringService.saveCourseOffering(selectedOffering);
+
+        return new Response("Done", null);
     }
 
-    /* Create a new course offering through the course code and section */
-    @PostMapping(value = "/create-new-offering")
-    public Response createNewOffering(@RequestBody CreateOfferingDTO dto)
+    /* Update the selected course offering's type */
+    @PostMapping(value = "/update-offering-type")
+    public Response updateCourseOfferingType(@RequestBody EditOfferingTypeDTO dto)
     {
-        /* Convert DTO to Course Offering */
-        CourseOffering newOffering = new CourseOffering();
-        newOffering.setCourse(offeringService.retrieveCourseByCourseCode(dto.getCourseCode()));
-        newOffering.setSection(dto.getSection());
-        newOffering.setTerm(userService.retrieveCurrentTerm());
-        newOffering.setType("Regular");
+        /* Retrieve course offering from database */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
 
-        /* Save Course Offering into the database */
-        offeringService.saveCourseOffering(newOffering);
+        /* Update course offering's select */
+        selectedOffering.setType(dto.getOfferingType());
+        offeringService.saveCourseOffering(selectedOffering);
 
-        /* Return response */
-        return new Response("Done", messages.getMessage("message.addOffering", null, null));
-    }
-
-    /*
-     *
-     *  ASSIGN ROOM
-     *  URL MAPPING
-     *
-     */
-
-    /* Retrieve all building names from the database. */
-    @GetMapping(value = "/assign-room/retrieve-building-names")
-    public Response retrieveBuildingNames()
-    {
-        Iterator allBuildings = offeringService.retrieveAllBuildings();
-
-        return new Response("Done", allBuildings);
-    }
-
-    /* Retrieve all room names based on the building selected. */
-    @PostMapping(value = "/assign-room/retrieve-room-names")
-    public Response retrieveRoomNames(@RequestBody String buildingCode)
-    {
-        buildingCode = buildingCode.substring(0, buildingCode.length() - 1);
-
-        /* Get Building selected */
-        Building selectedBuilding = offeringService.retrieveBuildingByBuildingCode(buildingCode);
-
-        /* Get all rooms of that building */
-        Iterator allRooms = offeringService.retrieveAllRoomsByBuilding(selectedBuilding);
-
-        return new Response("Done", allRooms);
-    }
-
-    @PostMapping(value = "/assign-room/retrieve-occupying-offerings")
-    public Response retrieveOccupyingOfferings(@RequestBody String roomCode)
-    {
-        /* Clean input Room Code */
-        roomCode = roomCode.substring(0, roomCode.length() - 1);
-
-        /* Find equivalent room in database */
-        Room selectedRoom = offeringService.retrieveRoomByRoomCode(roomCode);
-
-        /* Find latest term */
-        Term currentTerm = userService.retrieveCurrentTerm();
-
-        /* Find all Days that occupy room */
-        Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoomAndTerm(selectedRoom, currentTerm);
-
-        /* Iterate list to filter out offerings not in the selected term */
-        ArrayList<OccupyOfferingDTO> allOccupiers = new ArrayList<>();
-        while(allDaysOccupied.hasNext())
-        {
-            /* Retrieve Days object from the list */
-            Days daysItem = (Days) allDaysOccupied.next();
-
-            /* Transfer to DTO */
-            OccupyOfferingDTO dto = new OccupyOfferingDTO();
-            dto.setRoomCode(daysItem.getRoom().getRoomCode());
-            dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
-            dto.setSection(daysItem.getCourseOffering().getSection());
-            dto.setBeginTime(daysItem.getbeginTime());
-            dto.setEndTime(daysItem.getendTime());
-            dto.setDay(daysItem.getclassDay());
-
-            /* Add to new list */
-            allOccupiers.add(dto);
-        }
-
-        return new Response("Done", allOccupiers.iterator());
+        return new Response("Done", null);
     }
 }

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 
 @Controller
-public class NewMainController
+public class MainController
 {
     @Autowired
     private UserService userService;
@@ -174,7 +174,7 @@ public class NewMainController
 
         /* Retrieve name for display */
         String userRealName = currUser.getLastName() + ", " + currUser.getFirstName();
-        model.addAttribute("current-user", userRealName);
+        model.addAttribute("currentUser", userRealName);
 
         return model;
     }

@@ -121,6 +121,17 @@
     cursor: pointer;
 }
 
+#all-offerings-refresh
+{
+    cursor: pointer;
+    transition: transform .5s ease-in;
+}
+
+#all-offerings-refresh:hover
+{
+    transform: rotate(360deg);
+}
+
 /* Page Menu */
 #all-offerings-page-menu
 {

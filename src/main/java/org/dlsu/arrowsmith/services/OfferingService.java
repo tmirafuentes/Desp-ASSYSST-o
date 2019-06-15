@@ -401,7 +401,7 @@ public class OfferingService {
     public Page<CourseOffering> retrievePartialCourseOfferings(Term term, PageRequest pageRequest)
     {
         //List<CourseOffering> allOfferings = courseOfferingRepository.findAll(pageRequest.first()).getContent();
-        Page<CourseOffering> allOfferings = courseOfferingRepository.findAllByTerm(term, pageRequest);
+        Page<CourseOffering> allOfferings = courseOfferingRepository.findAllByTermOrderByOfferingIdAsc(term, pageRequest);
         return allOfferings;
     }
 
@@ -431,4 +431,7 @@ public class OfferingService {
         Term currTerm = userService.retrieveCurrentTerm();
         return courseOfferingRepository.findCourseOfferingByCourse_CourseCodeAndSectionAndTerm(course_code, section, currTerm);
     }
+
+    /* Retrieve Offered Courses in a term */
+    
 }

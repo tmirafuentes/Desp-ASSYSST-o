@@ -11,7 +11,7 @@
                 <li>Timeslot <img src="${sortArrow}" class="all-offerings-sort" /></li>
                 <li>Room <img src="${sortArrow}" class="all-offerings-sort" /></li>
                 <li>Faculty <img src="${sortArrow}" class="all-offerings-sort" /></li>
-                <li>&nbsp;</li>
+                <li><img src="/images/green-icons/refresh-button.png" class="all-offerings-row-img" id="all-offerings-refresh" /></li>
             </ul>
             <hr id="all-offerings-header-border" class="section-header-border" />
         </div>

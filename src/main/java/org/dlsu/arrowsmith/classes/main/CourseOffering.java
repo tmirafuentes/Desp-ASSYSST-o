@@ -32,7 +32,6 @@ public class CourseOffering {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Nullable
     public Long getOfferingId() {
         return offeringId;
     }

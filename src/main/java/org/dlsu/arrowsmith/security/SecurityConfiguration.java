@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/autocomplete-course-code",
                              "/create-new-offering",
                              "/update-offering-section",
-                             "/assign-room",
+                             "/assign-room/**",
                              "/update-offering-room"
                 ).hasRole("APO")
                 .antMatchers("/update-offering-faculty").hasRole("CVC")

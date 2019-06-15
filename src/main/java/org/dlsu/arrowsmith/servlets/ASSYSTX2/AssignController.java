@@ -2,46 +2,45 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
 import org.dlsu.arrowsmith.classes.dro.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
+import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
-
-/*
- *  ASSYSTX2
- *  WORKSPACE TASKS
- *  FOR OFFERINGS CONTROLLER
- *
- *  Contents:
- *  URL Mappings and REST Requests
- *  for creating, modifying, retrieving,
- *  and dissolving course offerings.
- *  This also includes assigning a room
- *  and faculty.
- */
 
 @RestController
 @RequestMapping({"/"})
-public class NewOfferingController
+public class AssignController
 {
+    /*** Services ***/
     @Autowired
     private OfferingService offeringService;
 
     @Autowired
-    private FacultyService facultyService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private FacultyService facultyService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private MessageSource messages;
 
     /*
      *  WEB PAGE REQUESTS
@@ -72,9 +71,72 @@ public class NewOfferingController
     }
 
     /*
-     *  REST REQUESTS
+     *  ASSIGN ROOM
      *  URL MAPPING
+     *
      */
+
+    /* Retrieve all building names from the database. */
+    @GetMapping(value = "/assign-room/retrieve-building-names")
+    public Response retrieveBuildingNames()
+    {
+        Iterator allBuildings = offeringService.retrieveAllBuildings();
+
+        return new Response("Done", allBuildings);
+    }
+
+    /* Retrieve all room names based on the building selected. */
+    @PostMapping(value = "/assign-room/retrieve-room-names")
+    public Response retrieveRoomNames(@RequestBody String buildingCode)
+    {
+        buildingCode = buildingCode.substring(0, buildingCode.length() - 1);
+
+        /* Get Building selected */
+        Building selectedBuilding = offeringService.retrieveBuildingByBuildingCode(buildingCode);
+
+        /* Get all rooms of that building */
+        Iterator allRooms = offeringService.retrieveAllRoomsByBuilding(selectedBuilding);
+
+        return new Response("Done", allRooms);
+    }
+
+    @PostMapping(value = "/assign-room/retrieve-occupying-offerings")
+    public Response retrieveOccupyingOfferings(@RequestBody String roomCode)
+    {
+        /* Clean input Room Code */
+        roomCode = roomCode.substring(0, roomCode.length() - 1);
+
+        /* Find equivalent room in database */
+        Room selectedRoom = offeringService.retrieveRoomByRoomCode(roomCode);
+
+        /* Find latest term */
+        Term currentTerm = userService.retrieveCurrentTerm();
+
+        /* Find all Days that occupy room */
+        Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoomAndTerm(selectedRoom, currentTerm);
+
+        /* Iterate list to filter out offerings not in the selected term */
+        ArrayList<OccupyOfferingDTO> allOccupiers = new ArrayList<>();
+        while(allDaysOccupied.hasNext())
+        {
+            /* Retrieve Days object from the list */
+            Days daysItem = (Days) allDaysOccupied.next();
+
+            /* Transfer to DTO */
+            OccupyOfferingDTO dto = new OccupyOfferingDTO();
+            dto.setRoomCode(daysItem.getRoom().getRoomCode());
+            dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
+            dto.setSection(daysItem.getCourseOffering().getSection());
+            dto.setBeginTime(daysItem.getbeginTime());
+            dto.setEndTime(daysItem.getendTime());
+            dto.setDay(daysItem.getclassDay());
+
+            /* Add to new list */
+            allOccupiers.add(dto);
+        }
+
+        return new Response("Done", allOccupiers.iterator());
+    }
 
     /* Update the selected course offering's room assignment */
     @PostMapping(value = "/update-offering-room")
@@ -122,7 +184,7 @@ public class NewOfferingController
                 // If Day 2 is not null
                 if (dto.getDay2() != '-' && isDay1Done)
                     updateDaysInstance(dayInstance, dto, newRoom, selectedOffering, 2);
-                // If Day 2 is null
+                    // If Day 2 is null
                 else if (dto.getDay2() == '-' && isDay1Done)
                     offeringService.deleteSpecificDay(dayInstance);
             }
@@ -131,55 +193,9 @@ public class NewOfferingController
         return new Response("Done", null);
     }
 
-    /* Update the selected course offering's faculty assignment */
-    @PostMapping(value = "/update-offering-faculty")
-    public Response updateCourseOfferingFaculty(@RequestBody AssignFacultyDTO dto)
-    {
-        /* Retrieve course offering from database */
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
-
-        /* Retrieve faculty from database */
-        User selectedFaculty = userService.findUserByFirstNameLastName(dto.getFacultyName());
-
-        /* Assign Faculty to Course Offering */
-        selectedOffering.setFaculty(selectedFaculty);
-        offeringService.saveCourseOffering(selectedOffering);
-
-        /* TODO: Update Faculty Load of chosen faculty */
-
-        return new Response("Done", null);
-    }
-
-    /* Update the selected course offering's section */
-    @PostMapping(value = "/update-offering-section")
-    public Response updateCourseOfferingSection(@RequestBody EditSectionDTO dto)
-    {
-        /* Retrieve course offering from database */
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
-
-        /* Update course offering's select */
-        selectedOffering.setSection(dto.getSection());
-        offeringService.saveCourseOffering(selectedOffering);
-
-        return new Response("Done", null);
-    }
-
-    @PostMapping(value = "/update-offering-type")
-    public Response updateCourseOfferingType(@RequestBody EditOfferingTypeDTO dto)
-    {
-        /* Retrieve course offering from database */
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
-
-        /* Update course offering's select */
-        selectedOffering.setType(dto.getOfferingType());
-        offeringService.saveCourseOffering(selectedOffering);
-
-        return new Response("Done", null);
-    }
-
     /*
-     *
-     *  FUNCTIONS
+     *  ASSIGN ROOM
+     *  FUNCTION IMPLEMENTATIONS
      *
      */
 
@@ -222,4 +238,30 @@ public class NewOfferingController
         dayInstance.setdaysId(daysId);
         offeringService.saveDays(dayInstance);
     }
+
+    /*
+     *  ASSIGN FACULTY
+     *  URL MAPPING
+     *
+     */
+
+    /* Update the selected course offering's faculty assignment */
+    @PostMapping(value = "/update-offering-faculty")
+    public Response updateCourseOfferingFaculty(@RequestBody AssignFacultyDTO dto)
+    {
+        /* Retrieve course offering from database */
+        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
+
+        /* Retrieve faculty from database */
+        User selectedFaculty = userService.findUserByFirstNameLastName(dto.getFacultyName());
+
+        /* Assign Faculty to Course Offering */
+        selectedOffering.setFaculty(selectedFaculty);
+        offeringService.saveCourseOffering(selectedOffering);
+
+        /* TODO: Update Faculty Load of chosen faculty */
+
+        return new Response("Done", null);
+    }
+
 }
