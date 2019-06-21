@@ -101,11 +101,24 @@ public class WorkspaceController
     @GetMapping(value = "/retrieve-filter-courses")
     public Response retrieveFilterCourses(Model model)
     {
-        /* Get current term */
-        Term term = userService.retrieveCurrentTerm();
-
         /* Retrieve unique courses from offerings */
+        return new Response("Done", offeringService.retrieveOfferedCoursesByTerm());
+    }
 
+    /* Retrieve courses offered for a specific term */
+    @GetMapping(value = "/retrieve-filter-timeslots")
+    public Response retrieveFilterTimeslots(Model model)
+    {
+        /* Retrieve unique courses from offerings */
+        return new Response("Done", offeringService.retrieveOfferedTimeslotsByTerm());
+    }
+
+    /* Retrieve courses offered for a specific term */
+    @GetMapping(value = "/retrieve-filter-rooms")
+    public Response retrieveFilterRooms(Model model)
+    {
+        /* Retrieve unique courses from offerings */
+        return new Response("Done", offeringService.retrieveUsedRoomsByTerm());
     }
 
     /*
@@ -267,6 +280,12 @@ public class WorkspaceController
         selectedOffering.setType(dto.getOfferingType());
         offeringService.saveCourseOffering(selectedOffering);
 
-        return new Response("Done", null);
+        /* Send different messages */
+        if(dto.getOfferingType().equals("Regular"))
+            return new Response("Done", messages.getMessage("message.markRegularOffering", null, null));
+        else if(dto.getOfferingType().equals("Special"))
+            return new Response("Done", messages.getMessage("message.markSpecialClass", null, null));
+
+        return new Response("Done", messages.getMessage("message.DissolvedOffering", null, null));
     }
 }

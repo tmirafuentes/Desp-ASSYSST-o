@@ -1,5 +1,8 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
+import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.CreateOfferingDTO;
+import org.dlsu.arrowsmith.classes.main.CourseOffering;
+import org.dlsu.arrowsmith.classes.main.Days;
 import org.dlsu.arrowsmith.classes.main.Term;
 import org.dlsu.arrowsmith.classes.main.User;
 import org.dlsu.arrowsmith.services.OfferingService;
@@ -8,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Iterator;
 
 
 /*
@@ -53,7 +61,7 @@ public class MainController
         if (logout != null)
             model.addAttribute("message", messages.getMessage("message.logoutSuccess", null, null));
 
-        return "assystx2/general-screens/signin";
+        return "signin-page";
     }
 
     /* Workspace Page */
@@ -74,11 +82,11 @@ public class MainController
         model.addAttribute("context", "workspace");
 
         if (userType.equalsIgnoreCase("APO"))
-            return "/assystx2/apo-screens/apo-home";
+            return "apo-home-page";
         else if (userType.equalsIgnoreCase("CVC"))
-            return "/assystx2/cvc-screens/cvc-home";
+            return "cvc-home-page";
 
-        return "/assystx2/general-screens/faculty-home";
+        return "faculty-home-page";
     }
 
     @RequestMapping(value = "/concerns", method = RequestMethod.GET)
@@ -97,7 +105,7 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "concerns");
 
-        return "/assystx2/general-screens/concerns";
+        return "concerns-page";
     }
 
     /* Workspace History Page */
@@ -117,7 +125,7 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "history");
 
-        return "/assystx2/general-screens/history";
+        return "workspace-history-page";
     }
 
     /* Course Management Page */
@@ -137,7 +145,7 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "courses");
 
-        return "/assystx2/general-screens/courses-page";
+        return "courses-page";
     }
 
     /* Workspace History Page */
@@ -157,8 +165,61 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "faculty");
 
-        return "/assystx2/general-screens/faculty-page";
+        return "faculty-page";
     }
+
+    /* Assign Room Page */
+    @PostMapping(value = "/assign-room")
+    public ModelAndView AssignRoomPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
+    {
+        /* Retrieve Current User's Full Name */
+        model = retrieveLoggedInUser(model);
+
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
+
+        /* Retrieve and display chosen course offering to modify */
+        ModelAndView modelAndView = new ModelAndView("assign-room-page");
+        modelAndView.addObject("courseCode", dto.getCourseCode());
+        modelAndView.addObject("section", dto.getSection());
+
+        /* OPTIONAL - If it has current days and room assigned, retrieve as well */
+        CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), dto.getSection());
+        Iterator offeringDays = offeringService.retrieveAllDaysByOffering(selectedOffering);
+        int dayCtr = 1;
+        while(offeringDays.hasNext())
+        {
+            Days selDays = (Days) offeringDays.next();
+            String formatDays = selDays.getRoom().getRoomCode() + " " +
+                                selDays.getclassDay() + " " +
+                                selDays.getbeginTime() + " - " +
+                                selDays.getendTime();
+            modelAndView.addObject("day" + dayCtr, formatDays);
+        }
+
+        return modelAndView;
+    }
+
+    /* Assign Faculty Page */
+    @PostMapping(value = "/assign-faculty")
+    public ModelAndView AssignFacultyPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
+    {
+        /* Retrieve Current User's Full Name */
+        model = retrieveLoggedInUser(model);
+
+        /* Retrieve User Type */
+        String userType = retrieveUserType();
+        model.addAttribute("userType", userType);
+
+        /* Retrieve and display chosen course offering to modify */
+        ModelAndView modelAndView = new ModelAndView("assign-faculty-page");
+        modelAndView.addObject("courseCode", dto.getCourseCode());
+        modelAndView.addObject("section", dto.getSection());
+
+        return modelAndView;
+    }
+
 
     /***
      *
@@ -167,7 +228,7 @@ public class MainController
      */
 
     /* Retrieve currently logged in user */
-    private Model retrieveLoggedInUser(Model model)
+    protected Model retrieveLoggedInUser(Model model)
     {
         /* Retrieve logged in user */
         User currUser = userService.retrieveUser();
@@ -180,7 +241,7 @@ public class MainController
     }
 
     /* Retrieve currently logged in user */
-    private String retrieveUserType()
+    protected String retrieveUserType()
     {
         /* Retrieve logged in user */
         User currUser = userService.retrieveUser();
@@ -197,7 +258,7 @@ public class MainController
     }
 
     /* Retrieve current term */
-    private Model retrieveCurrentTerm(Model model)
+    protected Model retrieveCurrentTerm(Model model)
     {
         /* Retrieve term */
         Term currTerm = userService.retrieveCurrentTerm();

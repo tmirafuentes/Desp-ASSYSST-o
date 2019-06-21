@@ -42,15 +42,106 @@
 
 #concerns-inbox-box select
 {
-    float: right;
     display: block;
-    margin-right: 3%;
-    margin-bottom: 15px;
+    margin-left: 2.5%;
+    margin-bottom: 10px;
     border: none;
     border-bottom: 2px solid #000000;
     font-family: Open Sans;
     font-size: 0.80em;
     color: #0000000;
     cursor: pointer;
-    width: 15%;
+    width: 10%;
+}
+
+#concerns-list-accordion
+{
+    margin: 0 auto;
+    margin-top: 1%;
+    width: 95%;
+}
+
+#concerns-list-accordion span.ui-accordion-header-icon
+{
+    float: right;
+}
+
+#concerns-list-accordion h3
+{
+    box-sizing: border-box;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #efefef;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+#concerns-list-accordion h3:first-child
+{
+    border-top: 1px solid #efefef;
+}
+
+#concerns-list-accordion h3:hover
+{
+    box-shadow: 0px 0px 25px #efefef;
+    //background-color: #00e08e;
+    //color: #ffffff;
+}
+
+#concerns-list-accordion h3[aria-selected="true"]
+{
+    border: none;
+    background-color: #00e08e;
+    color: #ffffff;
+}
+
+#concerns-list-accordion h3 span.concerns-list-sender
+{
+    display: inline-block;
+    margin-left: 1.5%;
+    width: 25%;
+}
+
+#concerns-list-accordion h3 span.concerns-list-subject
+{
+    display: inline-block;
+    margin-left: 0;
+    width: auto;
+}
+
+#concerns-list-accordion h3 span.concerns-list-message
+{
+    display: inline-block;
+    margin-left: 0;
+    width: 45%;
+}
+
+#concerns-list-accordion h3 span.concerns-list-timestamp
+{
+    display: inline-block;
+    margin-left: 2.5%;
+    width: 8%;
+}
+
+#concerns-list-accordion h3.concerns-unacknowledged span
+{
+    font-weight: 650;
+}
+
+#concerns-list-accordion div.concerns-list-accordion-div
+{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #00e08e;
+    border-top: none;
+}
+
+#concerns-list-accordion p.concerns-list-accordion-content
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    width: 95%;
+    padding-left: 2.5%;
 }

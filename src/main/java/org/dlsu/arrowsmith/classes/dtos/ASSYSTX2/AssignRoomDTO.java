@@ -3,6 +3,8 @@ package org.dlsu.arrowsmith.classes.dtos.ASSYSTX2;
 public class AssignRoomDTO
 {
     private Long offeringID;
+    private String courseCode;
+    private String section;
     private String roomCode;
     private char day1;
     private char day2;
@@ -73,5 +75,21 @@ public class AssignRoomDTO
 
     public void setEndTimeDay2(String endTimeDay2) {
         this.endTimeDay2 = endTimeDay2;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

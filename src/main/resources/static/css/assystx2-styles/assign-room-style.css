@@ -9,6 +9,7 @@
 @import "component-styles/general-task-style.css";
 @import "component-styles/assign-left-partition.css";
 @import "component-styles/assign-room.css";
+@import "component-styles/feedback-message.css";
 
 #assign-room-right-partition
 {
@@ -62,7 +63,7 @@
 
 #room-assign-table td 
 {
-    height: 6px;
+    height: 8px;
     width: 100px;
     border-right: 2px solid black;
     border-bottom: 1px solid gray;

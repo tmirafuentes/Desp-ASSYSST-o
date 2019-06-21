@@ -433,5 +433,70 @@ public class OfferingService {
     }
 
     /* Retrieve Offered Courses in a term */
-    
+    public Iterator retrieveOfferedCoursesByTerm()
+    {
+        /* Retrieve current term */
+        Term currTerm = userService.retrieveCurrentTerm();
+
+        /* Retrieve all offerings for the term */
+        ArrayList<CourseOffering> allOfferings = courseOfferingRepository.findAllByTerm(currTerm);
+
+        /* Retrieve all unique courses */
+        ArrayList<String> allOfferedCourses = new ArrayList<>();
+        for(CourseOffering co : allOfferings)
+        {
+            if(!allOfferedCourses.contains(co.getCourse().getCourseCode()))
+                allOfferedCourses.add(co.getCourse().getCourseCode());
+        }
+
+        /* Sort Courses */
+        Collections.sort(allOfferedCourses);
+
+        return allOfferedCourses.iterator();
+    }
+
+    /* Retrieve Offered Timeslots in a term */
+    public Iterator retrieveOfferedTimeslotsByTerm()
+    {
+        /* Retrieve current term */
+        Term currTerm = userService.retrieveCurrentTerm();
+
+        /* Retrieve all days for the term */
+        ArrayList<Days> allDays = daysRepository.findAllByCourseOffering_Term(currTerm);
+
+        /* Retrieve all unique timeslots */
+        ArrayList<String> allOfferedTimeslots = new ArrayList<>();
+        for(Days d : allDays)
+        {
+            String timeslot = d.getbeginTime() + " - " + d.getendTime();
+            if(!allOfferedTimeslots.contains(timeslot))
+                allOfferedTimeslots.add(timeslot);
+        }
+
+        Collections.sort(allOfferedTimeslots);
+
+        return allOfferedTimeslots.iterator();
+    }
+
+    /* Retrieve Used Rooms in a term */
+    public Iterator retrieveUsedRoomsByTerm()
+    {
+        /* Retrieve current term */
+        Term currTerm = userService.retrieveCurrentTerm();
+
+        /* Retrieve all days for the term */
+        ArrayList<Days> allDays = daysRepository.findAllByCourseOffering_Term(currTerm);
+
+        /* Retrieve all unique buildings */
+        ArrayList<String> allUsedBuildings = new ArrayList<>();
+        for(Days d : allDays)
+        {
+            if(!allUsedBuildings.contains(d.getRoom().getRoomCode()))
+                allUsedBuildings.add(d.getRoom().getRoomCode());
+        }
+
+        Collections.sort(allUsedBuildings);
+
+        return allUsedBuildings.iterator();
+    }
 }

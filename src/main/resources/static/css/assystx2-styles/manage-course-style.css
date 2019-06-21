@@ -1,0 +1,522 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/general-page-style.css";
+@import "component-styles/header.css";
+@import "component-styles/menu-sidebar.css";
+
+/* FACULTY PROFILES */
+#course-profiles-list
+{
+    grid-column: 2;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+}
+
+/* CREATE FACULTY */
+#add-course-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2% 2% 0 2%;
+}
+
+#add-course-box
+{
+    margin: 0 auto;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 10px 0 15px 0;
+    background-color: #ffffff;
+}
+
+#add-course-box input
+{
+    margin-top: 3px;
+    padding: 3px 5px 3px 5px;
+    border: 2px solid #00e08e;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+}
+
+#add-course-code
+{
+    margin-left: 2.5%;
+    width: 95px;
+    background-color: #00e08e;
+    cursor: pointer;
+}
+
+#add-course-code::placeholder
+{
+    font-family: Gotham Black;
+    font-size: 1em;
+    color: #ffffff;
+    text-align: center;
+}
+
+#add-course-name
+{
+    margin-left: 1%;
+    width: 300px;
+    background-color: #ffffff;
+    border: #00e08e;
+    cursor: text;
+}
+
+#add-course-units
+{
+    margin-left: 1%;
+    width: 50px;
+    cursor: text;
+}
+
+#add-course-description
+{
+    margin-top: 1.5%;
+    margin-left: 2.5%;
+    border: 2px solid #00e08e;
+    height: 50px;
+    width: 500px;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    text-indent: 1%;
+    cursor: text;
+}
+
+#add-course-description:focus
+{
+    cursor: text;
+}
+
+#add-course-submit
+{
+    
+    float: right;
+    margin-top: 6%;
+    margin-right: 2.5%;
+    padding: 8px;
+    background-color: #00e08e;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.75em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* FACULTY PROFILES LIST */
+#course-profiles-list-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2%;
+}
+
+#course-profiles-list-box
+{
+    margin: 0 auto;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    background-color: #ffffff;
+}
+
+#course-list-table-filter
+{
+    //float: right;
+    margin-top: -12.5%;
+    margin-left: 89%;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 1em;
+    font-weight: 500;
+    color: #000000;
+    cursor: pointer;
+}
+
+/* COURSE LIST ACCORDION */
+#course-list-header
+{
+    display: inline-block;
+    margin: 0 auto;
+    margin-top: 2%;
+    padding: 0;
+    width: 95%;
+}
+
+#course-list-header li
+{
+    list-style-type: none;
+    float: left;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+    padding: 0;
+}
+
+#course-list-header li:nth-child(1) { margin-left: 4%; }
+#course-list-header li:nth-child(2) { margin-left: 14%; }
+#course-list-header li:nth-child(3) { margin-left: 33.5%; }
+#course-list-header li:nth-child(4) { margin-left: 0; }
+
+#course-list-header-border
+{
+    width: 95%;
+    border: 1px solid #00e08e;
+    padding: 0;
+    margin: 0 auto;
+    margin-top: 0.5%;
+}
+
+#course-list-accordion
+{
+    margin: 0 auto;
+    margin-top: 1%;
+    width: 95%;
+}
+
+#course-list-accordion span.ui-accordion-header-icon
+{
+    float: right;
+}
+
+#course-list-accordion h3
+{
+    box-sizing: border-box;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #efefef;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+#course-list-accordion h3:hover
+{
+    box-shadow: 0px 0px 25px #efefef;
+}
+
+#course-list-accordion h3[aria-selected="true"]
+{
+    border: none;
+    background-color: #00e08e;
+    color: #ffffff;
+}
+
+#course-list-accordion h3 span.course-list-code
+{
+    display: inline-block;
+    margin-left: 0;
+    width: 13%;
+    font-weight: 500;
+}
+
+#course-list-accordion h3 span.course-list-title
+{
+    display: inline-block;
+    margin-left: 6%;
+    width: 40%;
+}
+
+#course-list-accordion h3 span.course-list-units
+{
+    margin-left: 0%;
+}
+
+#course-list-accordion div.course-list-accordion-div
+{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #00e08e;
+    border-top: none;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+#course-list-accordion div.course-list-desc
+{
+    box-sizing: border-box;
+    padding: 1.5%;
+    width: 54.5%;
+    float: left;
+}
+
+#course-list-accordion div.course-list-desc span
+{
+    font-family: Open Sans;
+    font-size: 1em;
+    font-weight: 700;
+    color: #000000;
+}
+
+#course-list-accordion div.course-list-desc p
+{
+    margin: 0;
+    margin-top: 2.5%;
+    margin-left: 2.5%;
+    padding: 0;
+    font-family: Open Sans;
+    font-size: 1em;
+    color: #000000;
+    text-align: justify;
+}
+
+#course-list-accordion div.course-list-type
+{
+    box-sizing: border-box;
+    padding: 1.5%;
+    width: 30%;
+    float: left;
+}
+
+#course-list-accordion div.course-list-type ul
+{
+    margin: 0;
+    padding: 0;
+    padding-left: 15%;
+    list-style-type: none;
+}
+
+#course-list-accordion div.course-list-type li.course-list-type-list-header
+{
+    font-family: Open Sans;
+    font-size: 1em;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 3.5%;
+}
+
+#course-list-accordion div.course-list-type li.course-list-type-list-content
+{
+    font-family: Open Sans;
+    font-size: 1em;
+    color: #000000;
+    margin-left: 5%;
+    margin-bottom: 5%;
+}
+
+/* COURSE PROFILE LIST TABLE */
+#course-profile-table
+{
+    margin: 0 auto;
+    margin-top: 15px;
+    width: 95%;
+    border-collapse: collapse;
+    border: 2px solid #000000;
+}
+
+#course-profile-table tr
+{
+    height: auto;
+}
+
+#course-profile-table td
+{
+    width: 20%;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+.course-profile-img
+{
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10%;
+    padding: 0;
+}
+
+.course-profile-name
+{
+    //margin-top: 25px;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    text-align: center;
+}
+
+.course-profile-details
+{
+    margin-top: -10px;
+    font-family: Open Sans;
+    font-size: 0.70em;
+    text-align: center;
+}
+
+/* SELECTED FACULTY PROFILE */
+#selected-course
+{
+    grid-column: 3;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+}
+
+#selected-course-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    //padding: 4.5% 15% 0 0;
+    padding: 38% 15% 0 0;
+}
+
+#selected-course-box
+{
+    box-sizing: border-box;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff; 
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.selected-course-tables
+{
+    margin: 0 auto;
+    margin-top: 5%;
+    height: auto;
+    width: 90%;
+    border-collapse: collapse;
+    //border: 1px solid #000;
+}
+
+.selected-course-border
+{
+    width: 100%;
+    border: 1px solid #00e08e;
+}
+
+#selected-course-img
+{
+    margin: 0 auto;
+    display: block;
+    height: auto;
+    width: 50px;
+}
+
+#selected-course-name
+{
+    font-family: Gotham Black;
+    font-size: 1.0em;
+    color: #000000;
+    line-height: 30px;
+    text-indent: 5px;
+}
+
+.selected-course-info-header td
+{
+    width: 33.34%;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+    text-align: center;
+}
+
+.selected-course-info-row td
+{
+    padding-top: 3px;
+    width: 33.34%;
+    font-family: Open Sans;
+    font-size: 0.75em;
+    color: #666666;
+    text-align: center;
+}
+
+#selected-course-active
+{
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.selected-course-info-row td.active-course
+{
+    color: #00e08e;
+}
+
+.selected-course-info-row td.inactive-course
+{
+    color: #e71d36;
+}
+
+#selected-course-load-table td:nth-child(2)
+{
+    width: 15%;
+    text-align: center;
+}
+
+.course-load-header-row td
+{
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.course-load-header-row td:nth-child(1)
+{
+    text-indent: 5%;
+}
+
+.course-load-row td
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.course-load-row td:first-child
+{
+    text-indent: 10%;
+}
+
+.course-load-row td:nth-child(2)
+{
+    color: #666666;
+}
+
+.course-load-footer-row td:first-child button
+{
+    margin: 0;
+    padding: 5px;
+    background-color: #00e08e;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.course-load-footer-row td:first-child span
+{
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+    float: right;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.course-load-footer-row td:nth-child(2)
+{
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #00e08e;
+    text-align: center;
+}

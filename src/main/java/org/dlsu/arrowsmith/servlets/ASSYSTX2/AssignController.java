@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping({"/"})
+@RequestMapping({"/", "/assign-room", "/assign-faculty"})
 public class AssignController
 {
     /*** Services ***/
@@ -41,34 +41,6 @@ public class AssignController
 
     @Autowired
     private MessageSource messages;
-
-    /*
-     *  WEB PAGE REQUESTS
-     *  URL MAPPING
-     *
-     */
-
-    @PostMapping(value = "/assign-room")
-    public ModelAndView AssignRoomPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
-    {
-        /* Retrieve and display chosen course offering to modify */
-        ModelAndView modelAndView = new ModelAndView("/assystx2/apo-screens/apo-assign-room");
-        modelAndView.addObject("courseCode", dto.getCourseCode());
-        modelAndView.addObject("section", dto.getSection());
-
-        return modelAndView;
-    }
-
-    @PostMapping(value = "/assign-faculty")
-    public ModelAndView AssignFacultyPage(Model model, @ModelAttribute("CourseDetails") CreateOfferingDTO dto)
-    {
-        /* Retrieve and display chosen course offering to modify */
-        ModelAndView modelAndView = new ModelAndView("/assystx2/cvc-screens/cvc-assign-faculty");
-        modelAndView.addObject("courseCode", dto.getCourseCode());
-        modelAndView.addObject("section", dto.getSection());
-
-        return modelAndView;
-    }
 
     /*
      *  ASSIGN ROOM
@@ -143,7 +115,7 @@ public class AssignController
     public Response updateCourseOfferingRoom(@RequestBody AssignRoomDTO dto)
     {
         /* Retrieve course offering from database */
-        CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
+        CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), dto.getSection());
 
         /* Find Room Object */
         Room newRoom = offeringService.retrieveRoomByRoomCode(dto.getRoomCode());
@@ -151,46 +123,28 @@ public class AssignController
         /* Update Days Object */
         Iterator daysList = offeringService.retrieveAllDaysByOffering(selectedOffering);
 
-        /* No current class days and room for the offering */
-        if (daysList == null)
+        /* Has currently assigned days */
+        if (daysList.hasNext())
         {
-            /* Save First Day */
-            Days day1 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 1);
-            offeringService.saveDays(day1);
-
-            /* OPTIONAL - Save Second Day */
-            if (dto.getDay2() != '-')
-            {
-                Days day2 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 2);
-                offeringService.saveDays(day2);
-            }
-        }
-        /* There is already an assigned days for the offering */
-        else
-        {
-            boolean isDay1Done = false;
-            while(daysList.hasNext())
-            {
+            /* Delete Previous Days and replace with new ones */
+            while (daysList.hasNext()) {
                 Days dayInstance = (Days) daysList.next();
-
-                // If input Day 1 is not null or "-" in the form - update day instance
-                if (!isDay1Done)
-                {
-                    updateDaysInstance(dayInstance, dto, newRoom, selectedOffering, 1);
-                    isDay1Done = true;
-                    continue;
-                }
-
-                // If Day 2 is not null
-                if (dto.getDay2() != '-' && isDay1Done)
-                    updateDaysInstance(dayInstance, dto, newRoom, selectedOffering, 2);
-                    // If Day 2 is null
-                else if (dto.getDay2() == '-' && isDay1Done)
-                    offeringService.deleteSpecificDay(dayInstance);
+                offeringService.deleteSpecificDay(dayInstance);
             }
         }
 
-        return new Response("Done", null);
+        /* Save First Day */
+        Days day1 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 1);
+        offeringService.saveDays(day1);
+
+        /* OPTIONAL - Save Second Day */
+        if (dto.getDay2() != '-')
+        {
+            Days day2 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 2);
+            offeringService.saveDays(day2);
+        }
+
+        return new Response("Done", messages.getMessage("message.assignRoom", null, null));
     }
 
     /*
