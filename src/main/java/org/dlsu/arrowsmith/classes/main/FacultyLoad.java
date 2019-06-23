@@ -14,8 +14,8 @@ public class FacultyLoad {
     private double researchLoad;
     private double teachingLoad;
     private double nonacadLoad;
-    private double deloadedLoad;
     private double totalLoad;
+    private int preparations;
     private boolean onLeave;
     private String leaveType;
     private Term term;
@@ -26,17 +26,12 @@ public class FacultyLoad {
     public FacultyLoad() {
     }
 
-    public FacultyLoad(Long loadId, Term term, double adminLoad, double researchLoad, double teachingLoad, double nonacadLoad, double deloadedLoad, double totalLoad, boolean onLeave, String leaveType) {
-        this.loadId = loadId;;
-        this.term = term;
-        this.adminLoad = adminLoad;
-        this.researchLoad = researchLoad;
-        this.teachingLoad = teachingLoad;
-        this.nonacadLoad = nonacadLoad;
-        this.deloadedLoad = deloadedLoad;
-        this.totalLoad = totalLoad;
-        this.onLeave = onLeave;
-        this.leaveType = leaveType;
+    public int getPreparations() {
+        return preparations;
+    }
+
+    public void setPreparations(int preparations) {
+        this.preparations = preparations;
     }
 
     @Id
@@ -90,14 +85,6 @@ public class FacultyLoad {
 
     public void setNonacadLoad(double nonacadLoad) {
         this.nonacadLoad = nonacadLoad;
-    }
-
-    public double getDeloadedLoad() {
-        return deloadedLoad;
-    }
-
-    public void setDeloadedLoad(double deloadedLoad) {
-        this.deloadedLoad = deloadedLoad;
     }
 
     public double getTotalLoad() {

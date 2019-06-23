@@ -1,10 +1,8 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.CreateOfferingDTO;
-import org.dlsu.arrowsmith.classes.main.CourseOffering;
-import org.dlsu.arrowsmith.classes.main.Days;
-import org.dlsu.arrowsmith.classes.main.Term;
-import org.dlsu.arrowsmith.classes.main.User;
+import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.SelectDeptDTO;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-
 
 /*
  *  ASSYSTX2
@@ -144,6 +142,22 @@ public class MainController
 
         /* Context Path */
         model.addAttribute("context", "courses");
+
+        /* Retrieve List of Departments */
+        Iterator allDepartments = offeringService.retrieveAllDepartmentsByCollege(userService.retrieveUser().getCollege());
+
+        ArrayList<SelectDeptDTO> listDepts = new ArrayList<>();
+        while(allDepartments.hasNext())
+        {
+            Department department = (Department) allDepartments.next();
+
+            SelectDeptDTO dto = new SelectDeptDTO();
+            dto.setDeptCode(department.getDeptCode());
+            dto.setDeptName(department.getDeptName());
+
+            listDepts.add(dto);
+        }
+        model.addAttribute("selectDept", listDepts.iterator());
 
         return "courses-page";
     }

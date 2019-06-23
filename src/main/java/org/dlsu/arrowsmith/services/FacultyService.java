@@ -167,13 +167,12 @@ public class FacultyService {
     }
 
     /* Assign Academic Load to a Faculty in a given Term */
-    public void assignAcademicLoadToFaculty(Term term, User faculty, CourseOffering courseOffering) {
+    public void assignAcademicLoadToFaculty(Term term, User faculty, double units)
+    {
         /* Assign Faculty to Course Offering */
-        if(checkFacultyInDatabase(term, faculty)) {
-            FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
-            facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() + courseOffering.getCourse().getUnits());
-            facultyLoadRepository.save(facultyLoad);
-        }
+        FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
+        facultyLoad.setTeachingLoad(facultyLoad.getTeachingLoad() + units);
+        facultyLoadRepository.save(facultyLoad);
     }
 
     /* Assign Deloading Load to a Faculty in a given Term */

@@ -218,6 +218,18 @@ public class OfferingService {
         return allDepartments.iterator();
     }
 
+    /* Retrieve All Departments by College */
+    public Iterator retrieveAllDepartmentsByCollege(College college)
+    {
+        return departmentRepository.findAllByCollege(college).iterator();
+    }
+
+    /* Retrieve a Department through its code */
+    public Department retrieveDepartmentByDeptCode(String deptCode)
+    {
+        return departmentRepository.findDepartmentByDeptCode(deptCode);
+    }
+
     /**
      **
      ** ROOM

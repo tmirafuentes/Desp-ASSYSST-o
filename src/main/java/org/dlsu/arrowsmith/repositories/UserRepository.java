@@ -12,4 +12,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByFirstNameContainsAndLastNameContains(String firstName, String lastName);
     ArrayList<User> findAllByCollege(College college);
     ArrayList<User> findAllByUserType(String user_type);
+    ArrayList<User> findAllByUserTypeAndActive(String user_type, boolean active);
 }

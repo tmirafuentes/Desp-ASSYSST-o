@@ -127,6 +127,24 @@ public class UserService {
         return allUsers.iterator();
     }
 
+    /* Retrieve all Faculty */
+    public Iterator retrieveAllFaculty()
+    {
+        return userRepository.findAllByUserType("Faculty").iterator();
+    }
+
+    /* Retrieve All Faculty that are active */
+    public Iterator retrieveAllActiveFaculty()
+    {
+        return userRepository.findAllByUserTypeAndActive("Faculty", true).iterator();
+    }
+
+    /* Retrieve All Faculty that are inactive */
+    public Iterator retrieveAllInactiveFaculty()
+    {
+        return userRepository.findAllByUserTypeAndActive("Faculty", false).iterator();
+    }
+
     /*** Update Password of User ***/
     public void updateUserPassword(User user, String newPassword) {
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
