@@ -62,80 +62,15 @@
                             <li>Units</li>
                             <li>
                                 <select id="course-list-table-filter">
-                                    <option value="All">All Courses</option>
-                                    <option value="ST" selected>ST Department</option>
-                                    <option value="CT">CT Department</option>
-                                    <option value="IT">IT Department</option>
+                                    <option value="ALL" selected>All Courses</option>
+                                    <c:forEach items="${selectDept}" var="dept">
+                                        <option value="${dept.deptCode}">${dept.deptName}</option>
+                                    </c:forEach>
                                 </select>
                             </li>
                         </ul>
                         <hr id="course-list-header-border" />
                         <div id="course-list-accordion">
-                            <h3>
-                                    <span class="course-list-code">
-                                        COMPRO1
-                                    </span>
-                                <span class="course-list-title">
-                                        Basic C Progamming
-                                    </span>
-                                <span class="course-list-units">
-                                        3.0
-                                    </span>
-                            </h3>
-                            <div class="course-list-accordion-div">
-                                <div class="course-list-desc">
-                                    <span class="course-list-desc-title">Description</span>
-                                    <p class="course-list-desc-content">
-                                        Hotter than a Tokyo summer.
-                                        In-ring we colder than a Sapporo winter.
-                                        That dude that produced the Vice bringing a gift
-                                        from Roppongi that's bigger than ever. Roppongi 3K!
-                                    </p>
-                                </div>
-                                <div class="course-list-type">
-                                    <ul class="course-list-type-list">
-                                        <li class="course-list-type-list-header">
-                                            Room Type
-                                        </li>
-                                        <li class="course-list-type-list-content">
-                                            Laboratory
-                                        </li>
-                                        <li class="course-list-type-list-header">
-                                            No. of Hours
-                                        </li>
-                                        <li class="course-list-type-list-content">
-                                            3 Hours
-                                        </li>
-                                        <li class="course-list-type-list-header">
-                                            Status
-                                        </li>
-                                        <li class="course-list-type-list-content">
-                                            Active
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="course-list-buttons">
-
-                                </div>
-                            </div>
-                            <h3>
-                                    <span class="course-list-code">
-                                        DASALGO
-                                    </span>
-                                <span class="course-list-title">Design and Analysis of Algorithms
-                                    </span>
-                                <span class="course-list-units">
-                                        3.0
-                                    </span>
-                            </h3>
-                            <div class="course-list-accordion-div">
-                                <p>
-                                    Hotter than a Tokyo summer.
-                                    In-ring we colder than a Sapporo winter.
-                                    That dude that produced the Vice bringing a gift
-                                    from Roppongi that's bigger than ever.
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -147,14 +82,6 @@
 
         <script src="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js"></script>
         <script src="/scripts/extension-scripts/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $("#course-list-accordion").accordion({
-                    collapsible: true,
-                    heightStyle: "content",
-                    active: false
-                });
-            });
-        </script>
+        <script src="/scripts/main-scripts/courses-page-script.js"></script>
     </body>
 </html>

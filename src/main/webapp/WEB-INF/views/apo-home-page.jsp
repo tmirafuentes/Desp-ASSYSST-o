@@ -16,6 +16,7 @@
         <!-- Variables for Stylesheets and Scripts -->
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
         <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
+        <c:url value="/css/assystx2-styles/component-styles/datatables.css" var="dataTablesCss" />
         <c:url value="/css/assystx2-styles/workspace-home-style.css" var="mainCss" />
         <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
@@ -26,6 +27,7 @@
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
         <link rel="stylesheet" type="text/css" href="${shortenCss}">
         <link rel="stylesheet" type="text/css" href="${mainCss}">
+        <link rel="stylesheet" type="text/css" href="${dataTablesCss}">
     </head>
     <body>
         <div id="assystx-container">
@@ -66,6 +68,8 @@
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>
         <script src="${shortenExt}"></script>
+        <!-- jQuery Datatables -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         <script src="${userScript}"></script>
         <script src="${mainScript}"></script>
     </body>

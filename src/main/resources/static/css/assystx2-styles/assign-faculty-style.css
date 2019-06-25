@@ -8,6 +8,7 @@
 @import "component-styles/header.css";
 @import "component-styles/general-task-style.css";
 @import "component-styles/assign-left-partition.css";
+@import "component-styles/feedback-message.css";
 
 /*** ASSIGN FACULTY TABLE ***/
 #assign-faculty-table-container
@@ -71,7 +72,6 @@
 
 .faculty-assign-name
 {
-//margin-top: 25px;
     font-family: Gotham Black;
     font-size: 0.80em;
     text-align: center;
@@ -81,6 +81,13 @@
 {
     margin-top: -10px;
     font-family: Open Sans;
-    font-size: 0.70em;
+    font-size: 0.75em;
     text-align: center;
+    padding-bottom: 15px;
+}
+
+.faculty-table-selected
+{
+    background: #00e08e;
+    color: #ffffff;
 }

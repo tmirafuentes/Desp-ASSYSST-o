@@ -24,11 +24,11 @@
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
         <c:url value="/css/assystx2-styles/assign-faculty-style.css" var="mainCss" />
         <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
-        <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
-        <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
-        <c:url value="/scripts/assystx2-scripts/assign-faculty-script.js" var="mainScript" />
-        <c:url value="/scripts/assystx2-scripts/header-user-script.js" var="userScript" />
-        <c:url value="/scripts/assystx2-scripts/jquery-shorten.min.js" var="shortenExt" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
+        <c:url value="/scripts/main-scripts/assign-faculty-script.js" var="mainScript" />
+        <c:url value="/scripts/main-scripts/header-user-script.js" var="userScript" />
+        <c:url value="/scripts/extension-scripts/jquery-shorten.min.js" var="shortenExt" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
         <link rel="stylesheet" type="text/css" href="${shortenCss}">
@@ -62,23 +62,21 @@
 
                         <!-- Confirm Table -->
                         <table id="assign-faculty-confirm-table" class="assign-confirm-table">
-                            <tr>
+                            <tr id="confirm-table-offering-row">
                                 <td>Course Offering</td>
-                                <td>CCPROG1 S17</td>
+                                <td>${courseCode} ${section}</td>
                             </tr>
-                            <tr>
-                                <td>Teaching Units</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>Faculty</td>
-                                <td>Deja, Jordan</td>
-                            </tr>
+                            <c:if test="${not empty assignedFaculty}">
+                                <tr id="confirm-table-assigned-row">
+                                    <td>Current Faculty</td>
+                                    <td>${assignedFaculty}</td>
+                                </tr>
+                            </c:if>
                             <tr>
                                 <td colspan="2">
                                     <button id="assign-faculty-cancel" class="assign-confirm-btns assign-cancel-btn">Cancel</button>
                                     <button id="assign-faculty-reset" class="assign-confirm-btns assign-reset-btn">Reset</button>
-                                    <button id="assign-faculty-submit" class="assign-confirm-btns assign-submit-btn">Assign Room</button>
+                                    <button id="assign-faculty-submit" class="assign-confirm-btns assign-submit-btn">Assign Faculty</button>
                                 </td>
                             </tr>
                         </table>
@@ -95,87 +93,6 @@
 
                         <!-- Faculty Assignment Table -->
                         <table id="faculty-assign-table">
-                            <tr>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-assign-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-assign-name">AZCARRAGA, ARNULFO</p>
-                                    <p class="faculty-assign-details">Full Time<br>Units Remaining: 6</p>
-                                </td>
-                            </tr>
                         </table>
                     </div>
                 </section>
@@ -185,5 +102,10 @@
         <!-- Feedback Messages -->
         <%@include file="screens/feedback-message-screen.jsp" %>
 
+        <script src="${minJquery}"></script>
+        <script src="${jqueryUI}"></script>
+        <script src="${shortenExt}"></script>
+        <script src="${userScript}"></script>
+        <script src="${mainScript}"></script>
     </body>
 </html>

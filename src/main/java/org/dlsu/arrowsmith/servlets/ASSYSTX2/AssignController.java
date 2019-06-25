@@ -11,16 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping({"/", "/assign-room", "/assign-faculty"})
@@ -220,7 +218,7 @@ public class AssignController
             /* Retrieve current load */
             FacultyLoad facultyLoad = (FacultyLoad) facultyLoads.next();
 
-            if(!facultyLoad.isOnLeave())
+            if(!facultyLoad.isOnLeave() && facultyLoad.getFaculty().getUserType().equals("Faculty"))
             {
                 dtos.add(transferFacultyLoadToFacultyOptionDTO(facultyLoad));
             }
@@ -300,11 +298,9 @@ public class AssignController
         /* Retrieve faculty from database */
         User selectedFaculty = userService.findUserByFirstNameLastName(dto.getFacultyName());
 
-        /* Assign Faculty to Course Offering */
-        selectedOffering.setFaculty(selectedFaculty);
-        offeringService.saveCourseOffering(selectedOffering);
-
-        /* TODO: Update Faculty Load of chosen faculty */
+        /* Check if same faculty as the one selected */
+        if(selectedOffering.getFaculty() == selectedFaculty)
+            return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
 
         /* Retrieve the days */
         Iterator days = offeringService.retrieveAllDaysByOffering(selectedOffering);
@@ -332,10 +328,25 @@ public class AssignController
         /* Retrieve current term */
         Term currentTerm = userService.retrieveCurrentTerm();
 
-        /* Retrieve Faculty Load */
-        facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, totalUnits);
+        /* Check if super overload */
+        FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByFaculty(currentTerm, selectedFaculty);
+        if(facultyLoad.getTotalLoad() + totalUnits <= 16.0 &&
+           facultyLoad.getPreparations() <= 3)
+        {
+            /* Assign Academic Load to Faculty */
+            facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, totalUnits);
 
-        return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
+            /* Assign Faculty to Course Offering */
+            selectedOffering.setFaculty(selectedFaculty);
+            offeringService.saveCourseOffering(selectedOffering);
+
+            /* Check preparations */
+            int numPreparations = facultyService.retrieveFacultyPreparations(currentTerm, selectedFaculty);
+
+            return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
+        }
+
+        return new Response("Overload", "This faculty has reached the maximum of 16 units or 3 preparations. Please select another one.");
     }
 
     /*

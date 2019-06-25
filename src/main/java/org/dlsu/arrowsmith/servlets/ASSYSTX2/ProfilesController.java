@@ -52,8 +52,10 @@ public class ProfilesController
     @PostMapping(value = "/retrieve-course-list")
     public Response retrieveCourseList(@RequestBody String deptCode)
     {
+        deptCode = deptCode.substring(0, deptCode.length() - 1);
+
         /* Initialize iterator */
-        Iterator allCourses = null;
+        Iterator allCourses;
 
         if(deptCode.equalsIgnoreCase("ALL"))
             allCourses = offeringService.retrieveAllCourses();
@@ -61,6 +63,8 @@ public class ProfilesController
         {
             /* Retrieve Department */
             Department department = offeringService.retrieveDepartmentByDeptCode(deptCode);
+
+            System.out.println("Department: " + department.getDeptCode());
 
             allCourses = offeringService.retrieveAllCoursesByDepartment(department);
         }
@@ -81,6 +85,8 @@ public class ProfilesController
 
             dtos.add(dto);
         }
+
+        System.out.println("Size = " + dtos.size());
 
         /* Check if empty */
         if(dtos.size() == 0)

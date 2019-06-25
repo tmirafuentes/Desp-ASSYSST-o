@@ -8,7 +8,8 @@
  *
  */
 
-$(function() {
+$(function()
+{
    /*
     *
     *   ONLOAD FUNCTIONS
@@ -312,7 +313,7 @@ $(function() {
             url : window.location + "/retrieve-building-names",
             success : function(result)
             {
-                if(result.status == "Done")
+                if(result.status === "Done")
                 {
                     $.each(result.data, function(i, building)
                     {

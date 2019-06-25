@@ -231,6 +231,15 @@ public class MainController
         modelAndView.addObject("courseCode", dto.getCourseCode());
         modelAndView.addObject("section", dto.getSection());
 
+        /* OPTIONAL - If it has current faculty assigned, retrieve as well */
+        CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), dto.getSection());
+        User assignedFaculty = selectedOffering.getFaculty();
+        if(assignedFaculty != null)
+        {
+            String facultyName = assignedFaculty.getLastName() + ", " + assignedFaculty.getFirstName();
+            modelAndView.addObject("assignedFaculty", facultyName);
+        }
+
         return modelAndView;
     }
 

@@ -154,6 +154,8 @@ public class FacultyService {
             double totalLoad = 0.0;
             totalLoad += facultyLoad.getAdminLoad() + facultyLoad.getNonacadLoad() +
                     facultyLoad.getResearchLoad() + facultyLoad.getTeachingLoad();
+            facultyLoad.setTotalLoad(totalLoad);
+            facultyLoadRepository.save(facultyLoad);
         }
     }
 
@@ -175,7 +177,30 @@ public class FacultyService {
         facultyLoadRepository.save(facultyLoad);
     }
 
-    /* Assign Deloading Load to a Faculty in a given Term */
+    /* Get unique number of courses taught by Faculty in a given Term */
+    public int retrieveFacultyPreparations(Term term, User faculty)
+    {
+        /* Retrieve offerings assigned to faculty */
+        ArrayList<CourseOffering> offerings = courseOfferingRepository.findAllByFacultyAndTerm(faculty, term);
+
+        /* Traverse through each offering */
+        ArrayList<String> uniqueOfferings = new ArrayList<>();
+        for(CourseOffering o : offerings)
+        {
+            if(!uniqueOfferings.contains(o.getCourse().getCourseCode()))
+                uniqueOfferings.add(o.getCourse().getCourseCode());
+        }
+
+        /* Update faculty load */
+        FacultyLoad facultyLoad = retrieveFacultyLoadByFaculty(term, faculty);
+        facultyLoad.setPreparations(uniqueOfferings.size());
+        facultyLoadRepository.save(facultyLoad);
+
+        /* Return value */
+        return uniqueOfferings.size();
+    }
+
+    /* Assign Deloading Load to a Faculty in a given Term
     public void assignDeloadToFaculty(Term term, User faculty, DeloadInstance deloadingInstance) {
         if(checkFacultyInDatabase(term, faculty)) {
             FacultyLoad facultyLoad = (FacultyLoad) retrieveFacultyLoadByFaculty(term, faculty);
@@ -194,7 +219,7 @@ public class FacultyService {
                 }
             }
         }
-    }
+    } */
     //    Retrieve All Deload Instances
     public Iterator<DeloadInstance> retrieveFacultyDeloadings() {
         ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAll();

@@ -60,13 +60,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                              "/update-offering-section",
                              "/assign-room/**"
                 ).hasRole("APO")
-                .antMatchers("/update-offering-faculty").hasRole("CVC")
+                .antMatchers("/update-offering-faculty",
+                             "/assign-faculty/**"
+                ).hasRole("CVC")
                 .antMatchers("/",
                              "/show-offerings",
-                             "/concerns",
-                             "/history",
-                             "/courses",
-                             "/faculty"
+                             "/concerns/**",
+                             "/history/**",
+                             "/courses/**",
+                             "/faculty/**"
                 ).hasAnyRole("APO", "CVC", "Faculty")
                 .anyRequest().authenticated()
                 .and()

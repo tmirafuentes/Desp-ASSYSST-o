@@ -15,6 +15,7 @@ public class User {
     private String lastName;
     private String userType;
     private String userPosition;
+    private String username;
     private String password;
     private boolean isActive;
     private College college;
@@ -78,6 +79,14 @@ public class User {
 
     public void setUserPosition(String userPosition) {
         this.userPosition = userPosition;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

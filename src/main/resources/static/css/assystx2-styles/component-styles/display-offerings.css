@@ -155,3 +155,56 @@
 #all-offerings-page-menu li:nth-child(3) { width:25%; cursor: pointer; text-decoration: underline; }
 
 #all-offerings-page-menu li.unavailable-page { color: #666666; cursor:text; text-decoration: none; }
+
+/*
+ *
+ *  ALL OFFERINGS TABLE
+ *
+ */
+
+#all-offerings-table
+{
+    margin: 0 auto;
+    width: 95%;
+}
+
+#all-offerings-table thead th
+{
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+#all-offerings-table tbody td
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+}
+
+#all-offerings-table tbody td:nth-child(1) { width: 14%; }
+#all-offerings-table tbody td:nth-child(2) { width: 10%; }
+#all-offerings-table tbody td:nth-child(3) { width: 10%; }
+#all-offerings-table tbody td:nth-child(4) { width: 16%; }
+#all-offerings-table tbody td:nth-child(5) { width: 12%; }
+#all-offerings-table tbody td:nth-child(6) { width: 20%; }
+#all-offerings-table tbody td:nth-child(7) { width: 8%; }
+
+#all-offerings-table thead th:nth-child(7) img,
+#all-offerings-table tbody td:nth-child(7) img
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 3px;
+    height: auto;
+    max-width: 20%;
+    cursor: pointer;
+}
+
+.dataTables_info
+{
+    margin-left: 2.5%;
+    padding-bottom: 15px;
+}

@@ -197,6 +197,8 @@ $(function() {
                 $(".all-offerings-row-border").remove();
                 $("#all-offerings-page-menu").remove();
 
+                console.log("Success");
+
                 if(result.status === "Empty")
                 {
                     var startPageList = "<ul id='all-offerings-page-menu'>" +
@@ -208,9 +210,34 @@ $(function() {
                 }
                 else if(result.status === "Done")
                 {
-                    /* Display each offering into the system */
+
                     $.each(result.data.currPartialOfferings, function(i, offering)
                     {
+                        /* Create row */
+                        var row =   "<tr>" +
+                                    "<td>" + offering.courseCode + "</td>" +
+                                    "<td>" + offering.section + "</td>" +
+                                    "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
+                                    "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
+                                    "<td>" + offering.roomCode + "</td>" +
+                                    "<td>" + offering.facultyName + "</td><td></td></tr>";
+
+                        var menus =  "<td>" +
+                                    "<div class='all-offerings-row-popup'>" +
+                                    "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
+                                    "<div class='all-offerings-dropdown-menu'>" +
+                                    "<button type='submit' class='offering-assign-room-button'>Assign Room</button>" +
+                                    "<button type='button' class='offering-raise-concerns-button'>Raise Concerns</button>" +
+                                    "<button type='button' class='offering-edit-section-button'>Edit Section</button>" +
+                                    "<button type='button' class='offering-view-details-button'>View More Details</button>" +
+                                    "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
+                                    "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
+                                    "</div></div></td></tr>";
+
+                        var offeringRow = row + menus;
+
+                        $(row).append("#all-offerings-table tbody");
+
                         /* Create individual list items */
                         var startForm = "<form action='/assign-room' method='POST' class='assign-room-form'>";
                         var startlist = "<ul class='all-offerings-row' data-offering-id='" + offering.offeringID + "'>";
@@ -223,7 +250,6 @@ $(function() {
                         var room = "<li class='cols-room'>" + offering.roomCode + "</li>";
                         var faculty = "<li class='cols-faculty'>" + offering.facultyName + "</li>";
 
-                        /*TODO: Manipulate Menu depending on user */
                         var menu = "<li>" +
                             "<div class='all-offerings-row-popup'>" +
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
@@ -239,8 +265,8 @@ $(function() {
 
                         var offering_row = startForm + startlist + course + section + days + timeslot + room + faculty + menu + border;
 
-                        /* Insert after border */
-                        $(offering_row).insertAfter("#all-offerings-header-border");
+                        /* Insert after border*/
+                        $(offering_row).insertAfter("#all-offerings-box");
                     });
 
                     /* Add Pagination Features into the system */
@@ -277,6 +303,7 @@ $(function() {
                     "<li class='unavailable-page'>&nbsp;</li>" +
                     "</ul>";
                 $(startPageList).appendTo("#all-offerings-box");
+                console.log("Hi");
             }
         });
     }
