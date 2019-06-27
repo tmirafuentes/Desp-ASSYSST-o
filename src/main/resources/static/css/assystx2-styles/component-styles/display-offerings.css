@@ -74,7 +74,7 @@
     z-index: 1;
 }
 
-.all-offerings-dropdown-menu a, .all-offerings-dropdown-menu button
+.all-offerings-dropdown-menu button
 {
     width: 100%;
     color: black;
@@ -85,6 +85,17 @@
     border: none;
     background-color: #ffffff;
     text-align: left;
+}
+
+.all-offerings-dropdown-menu a
+{
+    text-decoration: none;
+}
+
+.all-offerings-dropdown-menu form
+{
+    padding: 0;
+    margin: 0;
 }
 
 .all-offerings-dropdown-menu a:hover, .all-offerings-dropdown-menu button:hover
@@ -197,9 +208,8 @@
 {
     display: block;
     margin: 0 auto;
-    margin-top: 3px;
     height: auto;
-    max-width: 20%;
+    max-width: 35%;
     cursor: pointer;
 }
 

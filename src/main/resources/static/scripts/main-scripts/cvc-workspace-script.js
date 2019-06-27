@@ -25,7 +25,7 @@ $(function() {
     retrieveFilterCourses();
     retrieveFilterTimeslots();
     retrieveFilterBuildings(); */
-    retrieveFilterFaculty();
+    //retrieveFilterFaculty();
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -132,60 +132,48 @@ $(function() {
                     /* Display each offering into the system */
                     $.each(result.data.currPartialOfferings, function(i, offering)
                     {
-                        /* Create individual list items */
-                        var startForm = "<form action='/assign-faculty' method='POST' class='assign-faculty-form'>";
-                        var startlist = "<ul class='all-offerings-row' data-offering-id='" + offering.offeringID + "'>";
-                        var course = "<li class='cols-course'>" + offering.courseCode +
-                                     "<input value='" + offering.courseCode + "' name='courseCode' hidden /> </li>";
-                        var section = "<li class='cols-section'>" + offering.section +
-                                      "<input value='" + offering.section + "' name='section' hidden /> </li>";
-                        var days = "<li class='cols-days'>" + offering.day1 + " " + offering.day2 + "</li>";
-                        var timeslot = "<li class='cols-timeslot'>" + offering.startTime + " - " + offering.endTime + "</li>";
-                        var room = "<li class='cols-room'>" + offering.roomCode + "</li>";
-                        var faculty = "<li class='cols-faculty'>" + offering.facultyName + "</li>";
+                        /* Create row */
+                        var row =   "<tr>" +
+                            "<td>" + offering.courseCode + "</td>" +
+                            "<td>" + offering.section + "</td>" +
+                            "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
+                            "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
+                            "<td>" + offering.roomCode + "</td>" +
+                            "<td>" + offering.facultyName + "</td>";
 
-                        /*TODO: Manipulate Menu depending on user */
-                        var menu = "<li>" +
+                        var menus = "<td>" +
                             "<div class='all-offerings-row-popup'>" +
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                             "<div class='all-offerings-dropdown-menu'>" +
-                            "<button type='submit' class='offering-assign-faculty-button'>Assign Faculty</button>" +
-                            "<button type='button' class='offering-raise-concerns-button'>Raise Concerns</button>" +
+                            "<form action='/assign-faculty' method='POST'>" +
+                            "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
+                            "<input value='" + offering.section + "' name='section' hidden />" +
+                            "<button type='submit' class='offering-assign-room-button'>Assign Faculty</button></form>" +
+                            "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
                             "<button type='button' class='offering-view-details-button'>View More Details</button>" +
                             "<button type='button' class='offering-special-class-button'>Mark as Service Course</button>" +
-                            "</div></div></li></ul></form>";
-                        var border = "<hr class='all-offerings-row-border' />";
+                            "</div></div></td></tr>";
 
-                        var offering_row = startForm + startlist + course + section + days + timeslot + room + faculty + menu + border;
+                        var offeringRow = row + menus;
 
-                        /* Insert after border */
-                        $(offering_row).insertAfter("#all-offerings-header-border");
+                        $(offeringRow).appendTo("#all-offerings-table tbody");
                     });
 
-                    /* Add Pagination Features into the system */
-                    var startPageList = "<ul id='all-offerings-page-menu'>";
-                    var prevPage = "<li ";
-                    if (result.data.hasPrev == false) { prevPage = prevPage + "class='unavailable-page'"; }
-                    if (result.data.hasPrev == true)
-                    {
-                        prevPage = prevPage + "><a id='offerings-prev-page' data-page-num='" +
-                            (result.data.currPageNum - 1) + "'> <- Prev </a> </li>";
-                    }
-                    else { prevPage = prevPage + "> <- Prev </li>"; }
-                    var currPage = "<li>Page " + (result.data.currPageNum + 1) + " of " + result.data.totalPages + "</li>";
-                    var nextPage = "<li ";
-                    if (result.data.hasNext == false) { nextPage = nextPage + "class='unavailable-page'"; }
-                    if (result.data.hasNext == true)
-                    {
-                        nextPage = nextPage + "><a id='offerings-next-page' data-page-num='" +
-                            (result.data.currPageNum + 1) + "'> Next -> </a> </li>";
-                    }
-                    else { nextPage = nextPage + "> Next -> </li>"; }
-                    var endPageList = "</ul>";
-
-                    var pageList = startPageList + prevPage + currPage + nextPage + endPageList;
-
-                    $(pageList).appendTo("#all-offerings-box");
+                    $("#all-offerings-table").DataTable({
+                        stateSave : true,
+                        lengthChange : false,
+                        searching: false,
+                        "language" : {
+                            "info" : "Displaying _MAX_ of _TOTAL_ offerings",
+                            "infoEmpty" : "There are currently no course offerings."
+                        },
+                        "columnDefs" : [
+                            {
+                                "orderable" : false,
+                                "targets" : 6
+                            }
+                        ]
+                    });
                 }
             },
             error : function(e)
@@ -259,6 +247,47 @@ $(function() {
             }
         });
     }
+
+    /*
+     *  CONCERNS
+     *  EVENT LISTENERS
+     *
+    */
+    $("#all-offerings-table").on('click', ".offering-raise-concerns-button", function(){
+        /* Find course offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(1)").text();
+        var section = $(this).closest("tr").find("td:nth-child(2)").text();
+
+        /* Get Receiver */
+        $.ajax({
+            method : "POST",
+            url : "/retrieve-concerns-receiver",
+            data : courseCode,
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    console.log("What");
+
+                    /* Assign Receiver */
+                    $("#raise-concerns-receiver").val(result.data);
+
+                    /* Assign Course Offering */
+                    $("#raise-concerns-offering").val(courseCode + " " + section);
+                }
+            },
+            error : function(e)
+            {
+                console.log("Error: " + e);
+            }
+        });
+    });
+
+    /*
+     *  CONCERNS
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
 
     /*
      *  FEEDBACK MESSAGES

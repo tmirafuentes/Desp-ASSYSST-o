@@ -1,0 +1,115 @@
+/*
+ *
+ *  EDIT SECTION MODAL
+ *
+ */
+
+#edit-section-modal
+{
+    padding: 0;
+    padding: 1% 1% 1.5% 1%;
+    width: 200px;
+}
+
+#edit-section-offering
+{
+    margin: 0 auto;
+    margin-bottom: 10px;
+    display: block;
+    width: 85%;
+    background-color: none;
+    border: none;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    color: #666666;
+}
+
+#edit-section-input
+{
+    margin-left: 10%;
+    width: 80px;
+    padding: 1%;
+    border: 1px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    text-indent: 3px;
+}
+
+#edit-section-submit
+{
+    background-color: #00e08e;
+    border: none;
+    padding: 2.5% 4% 2.5% 4%;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/*
+ *
+ *  RAISE CONCERNS MODAL
+ *
+ */
+
+#raise-concerns-modal
+{
+    width: 400px;
+}
+
+#raise-concerns-modal label
+{
+    display: inline-block;
+    margin-left: 3%;
+    margin-bottom: 10px;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 650;
+    color: #000000;
+}
+
+#raise-concerns-modal input[type="text"]
+{
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 20%;
+    padding-bottom: 1px;
+    background-color: #ffffff;
+    border: none;
+    border-bottom: 1.5px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    text-indent: 3px;
+    width: 125px;
+}
+
+#raise-concerns-modal #raise-concerns-content
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 100px;
+    width: 92.5%;
+    border: 1.5px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+#raise-concerns-submit
+{
+    display: block;
+    float: right;
+    padding: 2%;
+    margin-right: 2.5%;
+    background-color: #00e08e;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #ffffff;
+    cursor: pointer;
+}

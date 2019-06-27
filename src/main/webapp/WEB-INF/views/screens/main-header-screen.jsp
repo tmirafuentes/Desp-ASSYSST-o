@@ -38,8 +38,9 @@
             <div id="header-dropdown-concerns" class="header-dropdown-content">
                 <div class="header-dropdown-arrow" id="dropdown-arrow-concerns"></div>
                 <ul class="header-dropdown-content-list">
-                    <li>Recent Concerns</li>
-                    <hr />
+                    <li id="concerns-dropdown-header">Recent Concerns</li>
+                    <hr id="concerns-dropdown-header-border" />
+                    <!--
                     <li class="concerns-dropdown-unmarked">
                         <p class="dropdown-concerns-header">CCPROG1 S17</p>
                         <p class="dropdown-concerns-time">8:50 PM</p>
@@ -69,7 +70,7 @@
                         <p class="dropdown-concerns-time">8:50 PM</p>
                         <p class="dropdown-concerns-content">Hello, I have a concern for your Miss Hazel. When I was...</p>
                     </li>
-                    <hr />
+                    <hr />-->
                     <a href="#" id="dropdown-concerns-mark-all"><li>Mark All as Acknowledged</li></a>
                     <hr />
                 </ul>

@@ -18,14 +18,18 @@
         <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
         <c:url value="/css/assystx2-styles/component-styles/datatables.css" var="dataTablesCss" />
         <c:url value="/css/assystx2-styles/workspace-home-style.css" var="mainCss" />
-        <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
-        <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
-        <c:url value="/scripts/assystx2-scripts/apo-workspace-script.js" var="mainScript" />
-        <c:url value="/scripts/assystx2-scripts/header-user-script.js" var="userScript" />
-        <c:url value="/scripts/assystx2-scripts/jquery-shorten.min.js" var="shortenExt" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
+        <c:url value="/scripts/extension-scripts/jquery-shorten.min.js" var="shortenExt" />
+        <c:url value="/scripts/main-scripts/apo-workspace-script.js" var="mainScript" />
+        <c:url value="/scripts/main-scripts/header-user-script.js" var="userScript" />
+        <c:url value="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js" var="dataTablesExt" />
+        <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js" var="modalScriptExt" />
+        <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" var="modalCssExt" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
         <link rel="stylesheet" type="text/css" href="${shortenCss}">
+        <link rel="stylesheet" type="text/css" href="${modalCssExt}">
         <link rel="stylesheet" type="text/css" href="${mainCss}">
         <link rel="stylesheet" type="text/css" href="${dataTablesCss}">
     </head>
@@ -65,11 +69,14 @@
         <!-- Feedback Messages -->
         <%@include file="screens/feedback-message-screen.jsp" %>
 
+        <!-- Modals -->
+        <%@include file="screens/modals-screen.jsp" %>
+
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>
         <script src="${shortenExt}"></script>
-        <!-- jQuery Datatables -->
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+        <script src="${modalScriptExt}"></script>
+        <script src="${dataTablesExt}"></script>
         <script src="${userScript}"></script>
         <script src="${mainScript}"></script>
     </body>

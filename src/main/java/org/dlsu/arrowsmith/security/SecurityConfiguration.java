@@ -65,6 +65,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 ).hasRole("CVC")
                 .antMatchers("/",
                              "/show-offerings",
+                             "/send-concern",
+                             "/retrieve-recent-concerns",
+                             "/retrieve-concerns-receiver",
                              "/concerns/**",
                              "/history/**",
                              "/courses/**",

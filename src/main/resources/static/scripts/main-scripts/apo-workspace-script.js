@@ -19,7 +19,7 @@ $(function() {
      */
 
     /* Show Partial Offerings */
-    showPartialOfferings(0);
+    showOfferings();
 
     /* Retrieve Course Codes for Create New Offering */
     var courseCodes = [];
@@ -36,26 +36,12 @@ $(function() {
      *
      */
 
-    /*  This event listener retrieves the
-     *  previous page of a partial list of
-     *  course offerings and displays it in
-     *  the system.
+    /*  This event listener refreshes
+     *  the course offerings table.
      */
-    $("#all-offerings-box").on('click', '#offerings-prev-page', function()
+    $("#all-offerings-refresh").on('click', function()
     {
-        var pageNum = $("#offerings-prev-page").data("page-num");
-        showPartialOfferings(pageNum);
-    });
-
-    /*  This event listener retrieves the
-     *  next page of a partial list of
-     *  course offerings and displays it in
-     *  the system.
-    */
-    $("#all-offerings-box").on('click', '#offerings-next-page', function()
-    {
-        var pageNum = $("#offerings-next-page").data("page-num");
-        showPartialOfferings(pageNum);
+        showOfferings();
     });
 
     /*  This event listener marks the
@@ -182,22 +168,18 @@ $(function() {
     */
 
     /*  This function retrieves a partial list
- *  of course offerings from the database
- *  and displays it in the system.
- */
-    function showPartialOfferings(pageNum)
+     *  of course offerings from the database
+     *  and displays it in the system.
+     */
+    function showOfferings()
     {
         $.ajax({
             type : "GET",
-            url : window.location + "show-offerings?page=" + pageNum,
+            url : window.location + "show-offerings",
             success : function(result)
             {
                 /* Code for removing the currently displayed course offerings */
-                $("form .all-offerings-row").remove();
-                $(".all-offerings-row-border").remove();
-                $("#all-offerings-page-menu").remove();
-
-                console.log("Success");
+                $("#all-offerings-table tbody tr").remove();
 
                 if(result.status === "Empty")
                 {
@@ -210,7 +192,6 @@ $(function() {
                 }
                 else if(result.status === "Done")
                 {
-
                     $.each(result.data.currPartialOfferings, function(i, offering)
                     {
                         /* Create row */
@@ -220,15 +201,18 @@ $(function() {
                                     "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
                                     "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
                                     "<td>" + offering.roomCode + "</td>" +
-                                    "<td>" + offering.facultyName + "</td><td></td></tr>";
+                                    "<td>" + offering.facultyName + "</td>";
 
-                        var menus =  "<td>" +
+                        var menus = "<td>" +
                                     "<div class='all-offerings-row-popup'>" +
                                     "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                                     "<div class='all-offerings-dropdown-menu'>" +
-                                    "<button type='submit' class='offering-assign-room-button'>Assign Room</button>" +
-                                    "<button type='button' class='offering-raise-concerns-button'>Raise Concerns</button>" +
-                                    "<button type='button' class='offering-edit-section-button'>Edit Section</button>" +
+                                    "<form action='/assign-room' method='POST'>" +
+                                    "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
+                                    "<input value='" + offering.section + "' name='section' hidden />" +
+                                    "<button type='submit' class='offering-assign-room-button'>Assign Room</button></form>" +
+                                    "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
+                                    "<a href='#edit-section-modal' rel='modal:open'><button type='button' class='offering-edit-section-button'>Edit Section</button></a>" +
                                     "<button type='button' class='offering-view-details-button'>View More Details</button>" +
                                     "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
                                     "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
@@ -236,9 +220,9 @@ $(function() {
 
                         var offeringRow = row + menus;
 
-                        $(row).append("#all-offerings-table tbody");
+                        $(offeringRow).appendTo("#all-offerings-table tbody");
 
-                        /* Create individual list items */
+                        /* Create individual list items
                         var startForm = "<form action='/assign-room' method='POST' class='assign-room-form'>";
                         var startlist = "<ul class='all-offerings-row' data-offering-id='" + offering.offeringID + "'>";
                         var course = "<li class='cols-course'>" + offering.courseCode +
@@ -255,7 +239,7 @@ $(function() {
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                             "<div class='all-offerings-dropdown-menu'>" +
                             "<button type='submit' class='offering-assign-room-button'>Assign Room</button>" +
-                            "<button type='button' class='offering-raise-concerns-button'>Raise Concerns</button>" +
+                            "<a href='#raise-concerns-modal' rel='modal:open'>Raise Concerns</a>" +
                             "<button type='button' class='offering-edit-section-button'>Edit Section</button>" +
                             "<button type='button' class='offering-view-details-button'>View More Details</button>" +
                             "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
@@ -265,34 +249,27 @@ $(function() {
 
                         var offering_row = startForm + startlist + course + section + days + timeslot + room + faculty + menu + border;
 
-                        /* Insert after border*/
-                        $(offering_row).insertAfter("#all-offerings-box");
+                        console.log(menu);
+
+                        /* Insert after border
+                        $(offering_row).insertAfter("#all-offerings-box"); */
                     });
 
-                    /* Add Pagination Features into the system */
-                    var startPageList = "<ul id='all-offerings-page-menu'>";
-                    var prevPage = "<li ";
-                    if (result.data.hasPrev == false) { prevPage = prevPage + "class='unavailable-page'"; }
-                    if (result.data.hasPrev == true)
-                    {
-                        prevPage = prevPage + "><a id='offerings-prev-page' data-page-num='" +
-                            (result.data.currPageNum - 1) + "'> <- Prev </a> </li>";
-                    }
-                    else { prevPage = prevPage + "> <- Prev </li>"; }
-                    var currPage = "<li>Page " + (result.data.currPageNum + 1) + " of " + result.data.totalPages + "</li>";
-                    var nextPage = "<li ";
-                    if (result.data.hasNext == false) { nextPage = nextPage + "class='unavailable-page'"; }
-                    if (result.data.hasNext == true)
-                    {
-                        nextPage = nextPage + "><a id='offerings-next-page' data-page-num='" +
-                            (result.data.currPageNum + 1) + "'> Next -> </a> </li>";
-                    }
-                    else { nextPage = nextPage + "> Next -> </li>"; }
-                    var endPageList = "</ul>";
-
-                    var pageList = startPageList + prevPage + currPage + nextPage + endPageList;
-
-                    $(pageList).appendTo("#all-offerings-box");
+                    $("#all-offerings-table").DataTable({
+                        stateSave : true,
+                        lengthChange : false,
+                        searching: false,
+                        "language" : {
+                            "info" : "Displaying _MAX_ of _TOTAL_ offerings",
+                            "infoEmpty" : "There are currently no course offerings."
+                        },
+                        "columnDefs" : [
+                            {
+                                "orderable" : false,
+                                "targets" : 6
+                            }
+                        ]
+                    });
                 }
             },
             error : function(e)
@@ -303,7 +280,6 @@ $(function() {
                     "<li class='unavailable-page'>&nbsp;</li>" +
                     "</ul>";
                 $(startPageList).appendTo("#all-offerings-box");
-                console.log("Hi");
             }
         });
     }
@@ -509,15 +485,12 @@ $(function() {
     }
 
     /* Load Buildings Available For Dropdown Filter */
-    function retrieveFilterBuildings()
-    {
+    function retrieveFilterBuildings() {
         $.ajax({
-            type : "GET",
-            url : window.location + "retrieve-filter-rooms",
-            success : function(result)
-            {
-                $.each(result.data, function(i, roomCode)
-                {
+            type: "GET",
+            url: window.location + "retrieve-filter-rooms",
+            success: function (result) {
+                $.each(result.data, function (i, roomCode) {
                     roomOption = "<option value='" + roomCode + "'>" +
                         roomCode + "</option>";
                     $("#filters-room").append(roomOption);

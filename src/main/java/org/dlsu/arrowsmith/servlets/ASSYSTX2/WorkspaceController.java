@@ -129,17 +129,16 @@ public class WorkspaceController
 
     /* Retrieve an initial partial list of course offerings */
     @GetMapping(value = "/show-offerings")
-    public Response retrievePartialOfferings(Model model, @RequestParam(value = "page", required = false) int pageNumber)
+    public Response retrievePartialOfferings(Model model)
     {
         /* Get current term */
         Term term = userService.retrieveCurrentTerm();
 
         /* Retrieve a partial list of course offerings */
-        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
-        Page partialOfferings = offeringService.retrievePartialCourseOfferings(term, pageRequest);
+        Iterator allOfferings = offeringService.retrieveAllOfferingsByTerm(term);
 
         /* Check if empty list or not */
-        if (partialOfferings.getTotalPages() == 0)
+        if (!allOfferings.hasNext())
         {
             /* Return a response */
             return new Response("Empty", messages.getMessage("message.noOfferings", null, null));
@@ -147,15 +146,10 @@ public class WorkspaceController
         else
         {
             /* Convert partial list of course offerings into DTOs */
-            Iterator partialOfferingDTOs = transferListOfferingToDTO(partialOfferings.getContent().iterator());
+            Iterator partialOfferingDTOs = transferListOfferingToDTO(allOfferings);
 
             /* Put other page details into DTO */
             PageOfferingDTO pageOfferingDTO = new PageOfferingDTO();
-            pageOfferingDTO.setCurrPageNum(partialOfferings.getNumber());
-            pageOfferingDTO.setHasNext(partialOfferings.hasNext());
-            pageOfferingDTO.setHasPrev(partialOfferings.hasPrevious());
-            pageOfferingDTO.setTotalPages(partialOfferings.getTotalPages());
-            pageOfferingDTO.setPageSize(partialOfferings.getSize());
             pageOfferingDTO.setCurrPartialOfferings(partialOfferingDTOs);
 
             /* Return a response */

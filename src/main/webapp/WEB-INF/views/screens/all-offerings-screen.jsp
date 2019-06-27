@@ -4,7 +4,6 @@
     <!-- All Offerings Container -->
     <section id="all-offerings-container">
         <div id="all-offerings-box">
-            <!--
             <table id="all-offerings-table" class="hover row-border order-column">
                 <thead>
                     <tr>
@@ -21,7 +20,7 @@
 
                 </tbody>
             </table>
-            -->
+            <!--
             <ul id="all-offerings-header" class="all-offerings-row">
                 <li>Course <img src="${sortArrow}" class="all-offerings-sort" /></li>
                 <li>Section <img src="${sortArrow}" class="all-offerings-sort" /></li>
@@ -31,7 +30,7 @@
                 <li>Faculty <img src="${sortArrow}" class="all-offerings-sort" /></li>
                 <li><img src="/images/green-icons/refresh-button.png" class="all-offerings-row-img" id="all-offerings-refresh" /></li>
             </ul>
-            <hr id="all-offerings-header-border" class="section-header-border" />
+            <hr id="all-offerings-header-border" class="section-header-border" /> -->
         </div>
     </section>
 </html>

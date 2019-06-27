@@ -11,6 +11,10 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -190,6 +194,24 @@ public class UserService {
     public Iterator retrieveAllConcernsByUser(User sender, User receiver) {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrReceiver(sender, receiver);
         return concerns.iterator();
+    }
+
+    /* Retrieve Department Head through department */
+    public User retrieveDepartmentHead(Department department, String userType)
+    {
+        return userRepository.findUserByDepartmentAndUserType(department, userType);
+    }
+
+    /* Retrieve Department Head through department */
+    public User retrieveAcadAssistant(College college)
+    {
+        return userRepository.findUserByCollegeAndUserType(college, "Academic Programming Officer");
+    }
+
+    public Iterator retrievePartialConcernsByReceiver(User receiver)
+    {
+        ArrayList<Concern> partialConcerns = concernRepository.findAllByReceiverOrderByDateTimeCommittedAsc(receiver);
+        return partialConcerns.iterator();
     }
 
     /**
