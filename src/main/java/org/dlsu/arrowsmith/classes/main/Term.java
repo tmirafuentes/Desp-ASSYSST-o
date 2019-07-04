@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.classes.main;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class Term
     private Set<CourseOffering> courseOfferings;
     private Set<FacultyLoad> facultyLoads;
     private Set<DeloadInstance> deloadInstances;
+    private Set<AuditedRevisionEntity> auditedRevisionEntities;
 
     public Term() {
     }

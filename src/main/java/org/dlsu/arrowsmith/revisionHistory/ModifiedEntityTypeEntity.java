@@ -17,13 +17,16 @@ public class ModifiedEntityTypeEntity
 
     private String entityClassName;
 
+    private Long entityID;
+
     public ModifiedEntityTypeEntity() {
     }
 
-    public ModifiedEntityTypeEntity(AuditedRevisionEntity revision, String entityClassName)
+    public ModifiedEntityTypeEntity(AuditedRevisionEntity revision, String entityClassName, Long entityID)
     {
         this.revision = revision;
         this.entityClassName = entityClassName;
+        this.entityID = entityID;
     }
 
     public Integer getId() {
@@ -48,5 +51,13 @@ public class ModifiedEntityTypeEntity
 
     public void setEntityClassName(String entityClassName) {
         this.entityClassName = entityClassName;
+    }
+
+    public Long getEntityID() {
+        return entityID;
+    }
+
+    public void setEntityID(Long entityID) {
+        this.entityID = entityID;
     }
 }

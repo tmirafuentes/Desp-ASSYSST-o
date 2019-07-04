@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.repositories;
 
+import org.dlsu.arrowsmith.classes.main.Term;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
 import org.springframework.data.repository.CrudRepository;
 

@@ -16,8 +16,8 @@
                         </li>
                         <li>
                             <div class="filter-checkboxes">
-                                <input type="checkbox" id="filters-no-faculty-assigned" />
-                                <label for="filters-no-faculty-assigned">No Faculty</label>
+                                <input type="checkbox" id="filters-dissolved-offerings" />
+                                <label for="filters-dissolved-offerings">Dissolved</label>
                             </div>
                         </li>
                         <li>
@@ -26,14 +26,12 @@
                             </select>
                         </li>
                         <li>
-                            <select id="filters-timeslot" class="filters-dropdowns">
-                                <option value="-">By Time Slot</option>
-                            </select>
-                        </li>
-                        <li>
                             <select id="filters-room" class="filters-dropdowns">
                                 <option value="-">By Room</option>
                             </select>
+                        </li>
+                        <li>
+                            <input type="text" id="filters-search-offering" placeholder="Search Offering..." />
                         </li>
                 </c:when>
                 <c:when test="${userType == 'CVC'}">

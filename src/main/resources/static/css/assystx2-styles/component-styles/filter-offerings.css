@@ -94,7 +94,7 @@ ul.filters-checkbox-row li, ul.filters-dropdown-row li
 
 .filter-checkboxes label::before
 {
-    top: 0.5px;
+    top: 1px;
     left: -23px;
 }
 
@@ -126,18 +126,28 @@ ul.filters-checkbox-row li, ul.filters-dropdown-row li
 .filters-dropdowns
 {
     display: block;
-    //margin-left: 9%;
+    margin-top: 1px;
+    padding-bottom: 1.5%;
     border: none;
-    border-bottom: 2px solid #00e08e;
+    border-bottom: 1px solid #00e08e;
     font-family: Open Sans;
     font-size: 0.80em;
-    color: #000000;
+    color: #2b2b2b;
     cursor: pointer;
     width: 85%;
-    //padding-bottom: 3px;
 }
 
 .filters-dropdowns option
 {
     padding: 2.5%;
+}
+
+#filters-search-offering
+{
+    padding: 2%;
+    width: 87.5%;
+    border: 1px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.75em;
+    color: #2b2b2b;
 }

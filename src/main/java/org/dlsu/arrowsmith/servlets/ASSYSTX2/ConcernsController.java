@@ -1,6 +1,6 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
-import org.dlsu.arrowsmith.classes.dro.Response;
+import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.SendConcernDTO;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.FacultyService;
@@ -11,11 +11,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 @RestController
-@RequestMapping({"/", "/concerns"})
+@RequestMapping({"/", "/concerns", "/history", "/courses", "/faculty", "/assign-room", "/assign-faculty"})
 public class ConcernsController
 {
     /*** Services ***/
@@ -42,8 +43,6 @@ public class ConcernsController
 
         /* Retrieve course */
         Course selectedCourse = offeringService.retrieveCourseByCourseCode(courseCode);
-
-        System.out.println("User Type = " + currentUser.getUserType());
 
         /* If sender is APO, he/she must send to a chair */
         if(currentUser.getUserType().equals("Academic Programming Officer"))
@@ -104,10 +103,17 @@ public class ConcernsController
         {
             /* Get concern */
             Concern concern = (Concern) partialConcerns.next();
-            String sender = concern.getSender().getLastName() + ", " + concern.getSender().getFirstName();
-            String timestamp = concern.getDateTimeCommitted().toString();
 
+            /* Get sender */
+            String sender = concern.getSender().getLastName() + ", " + concern.getSender().getFirstName();
+
+            /* Get timestamp */
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
+            String timestamp = concern.getDateTimeCommitted().format(formatter);
+
+            /* Form DTO */
             SendConcernDTO dto = new SendConcernDTO();
+            dto.setId(concern.getconcernId());
             dto.setContent(concern.getMessage());
             dto.setSender(sender);
             dto.setSubject(concern.getSubject());
@@ -121,4 +127,86 @@ public class ConcernsController
 
         return new Response("Done", dtos.iterator());
     }
+
+    @GetMapping(value = "/mark-all-recent-concerns")
+    public Response markAllRecentConcerns()
+    {
+        /* Retrieve current user */
+        User currentUser = userService.retrieveUser();
+
+        /* Retrieve partial concerns */
+        Iterator partialConcerns = userService.retrievePartialConcernsByReceiver(currentUser);
+
+        /* Mark all partial concerns as acknowledged */
+        while(partialConcerns.hasNext())
+        {
+            Concern selectedConcern = (Concern) partialConcerns.next();
+
+            selectedConcern.setAcknowledged(true);
+            userService.saveConcern(selectedConcern);
+        }
+
+        return new Response("Done", null);
+    }
+
+    @PostMapping(value = "/retrieve-concerns-list")
+    public Response retrieveConcernsList(@RequestBody String type)
+    {
+        /* Get type */
+        type = type.substring(0, type.length() - 1);
+
+        /* Get User */
+        User currentUser = userService.retrieveUser();
+
+        Iterator allConcerns = null;
+
+        /* Received Concerns */
+        if(type.equals("inbox"))
+            allConcerns = userService.retrieveAllConcernsByReceiver(currentUser);
+        else if(type.equals("sent"))
+            allConcerns = userService.retrieveAllConcernsBySender(currentUser);
+
+        /* Transfer to DTO */
+        ArrayList<SendConcernDTO> dtos = new ArrayList<>();
+        while(allConcerns.hasNext())
+        {
+            Concern concern = (Concern) allConcerns.next();
+
+            String sender = "";
+            if(type.equals("inbox"))
+                sender += concern.getSender().getLastName() + ", " + concern.getSender().getFirstName();
+            else
+                sender += "To: " + concern.getReceiver().getLastName() + ", " + concern.getReceiver().getFirstName();
+
+            /* Get timestamp */
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
+            String timestamp = concern.getDateTimeCommitted().format(formatter);
+
+            /* Form DTO */
+            SendConcernDTO dto = new SendConcernDTO();
+            dto.setId(concern.getconcernId());
+            dto.setContent(concern.getMessage());
+            dto.setSender(sender);
+            dto.setSubject(concern.getSubject());
+            dto.setAcknowledged(concern.isAcknowledged());
+            dto.setTimestamp(timestamp);
+
+            dtos.add(dto);
+        }
+
+        return new Response("Done", dtos.iterator());
+    }
+
+    @PostMapping(value = "/mark-acknowledged-concern")
+    public Response markAcknowledgedConcern(@RequestBody String id)
+    {
+        id = id.substring(0, id.length() - 1);
+
+        Concern concern = userService.findConcernByConcernId(Long.parseLong(id));
+        concern.setAcknowledged(true);
+        userService.saveConcern(concern);
+
+        return new Response("Done", null);
+    }
 }
+

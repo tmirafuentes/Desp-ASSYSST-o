@@ -1,4 +1,4 @@
-package org.dlsu.arrowsmith.classes.dro;
+package org.dlsu.arrowsmith.classes.main;
 
 public class Response {
     private String status;

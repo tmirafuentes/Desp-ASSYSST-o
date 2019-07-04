@@ -1,22 +1,33 @@
 package org.dlsu.arrowsmith.revisionHistory;
 
+import org.dlsu.arrowsmith.classes.main.Term;
+import org.dlsu.arrowsmith.services.UserService;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.EntityTrackingRevisionListener;
 import org.hibernate.envers.RevisionType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@Component
 public class EntityRevisionTrackerListener implements EntityTrackingRevisionListener
 {
+    @Autowired
+    private UserService userService;
+
     @Override
     public void entityChanged(Class entityClass, String s,
                               Serializable serializable,
                               RevisionType revisionType, Object revisionEntity)
     {
+        System.out.println("String s: " + s + " Serial: " + serializable.toString());
+
         String entityName = entityClass.getName().replace("org.dlsu.arrowsmith.classes.main.", "");
-        ((AuditedRevisionEntity)revisionEntity).addModifiedEntityType(entityName);
+        ((AuditedRevisionEntity)revisionEntity).addModifiedEntityType(entityName, serializable);
     }
 
     @Override
@@ -38,7 +49,7 @@ public class EntityRevisionTrackerListener implements EntityTrackingRevisionList
             e.printStackTrace();
         }
 
-        revEntity.setFullName(username);
+        revEntity.setUserID(username);
         revEntity.setDateModified(new Date());
     }
 }

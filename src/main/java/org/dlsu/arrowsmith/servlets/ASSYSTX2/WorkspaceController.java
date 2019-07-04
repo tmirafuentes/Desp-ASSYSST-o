@@ -1,6 +1,6 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
-import org.dlsu.arrowsmith.classes.dro.Response;
+import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
 import org.dlsu.arrowsmith.classes.main.CourseOffering;
 import org.dlsu.arrowsmith.classes.main.Days;
@@ -10,11 +10,8 @@ import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Iterator;

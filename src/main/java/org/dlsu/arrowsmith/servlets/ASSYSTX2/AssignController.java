@@ -1,20 +1,14 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
-import org.dlsu.arrowsmith.classes.dro.Response;
+import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
-import org.dlsu.arrowsmith.classes.dtos.OfferingModifyDto;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.parameters.P;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -333,6 +327,10 @@ public class AssignController
         if(facultyLoad.getTotalLoad() + totalUnits <= 16.0 &&
            facultyLoad.getPreparations() <= 3)
         {
+            /* Remove Load from previous faculty if ever */
+            if(selectedOffering.getFaculty() != null)
+                facultyService.assignAcademicLoadToFaculty(currentTerm, selectedOffering.getFaculty(), totalUnits * -1);
+
             /* Assign Academic Load to Faculty */
             facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, totalUnits);
 
@@ -346,7 +344,7 @@ public class AssignController
             return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
         }
 
-        return new Response("Overload", "This faculty has reached the maximum of 16 units or 3 preparations. Please select another one.");
+        return new Response("Overload", "This faculty has reached the maximum of 16 units or 3 preparations. Please select another faculty.");
     }
 
     /*

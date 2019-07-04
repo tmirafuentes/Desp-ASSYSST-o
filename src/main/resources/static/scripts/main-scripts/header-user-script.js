@@ -11,30 +11,15 @@
 $(function()
 {
     retrieveRecentConcerns();
+    setInterval(function() {
+        retrieveRecentConcerns();
+    }, 5000);
 
     /*
-     *
+     *  MENU
      *  EVENT LISTENERS
      *
      */
-    // Shorten concerns dropdown text
-    $(".dropdown-concerns-content").shorten({
-        chars: 40,
-        more: "See More",
-        less: "See Less",
-        ellipses: '.....'
-    });
-
-    // Mark as acknowledged
-    $(".dropdown-concerns-content").on("shorten::expand", function(e){
-        e.preventDefault();
-        $(this).parent("li").removeClass("concerns-dropdown-unmarked");
-    });
-
-    /* Mark all as acknowledged */
-    $("#dropdown-concerns-mark-all").click(function(){
-        $("#header-dropdown-concerns li.concerns-dropdown-unmarked").removeClass("concerns-dropdown-unmarked");
-    });
 
     // Toggles for dropdowns
     $(".workspace-user-avatar").click(function(){
@@ -55,6 +40,8 @@ $(function()
         $("#header-dropdown-user").toggle();
     });
     $(".workspace-user-inbox").click(function(){
+        $(".header-concerns-notif").hide();
+
         if ($("#header-dropdown-user").is(":visible"))
         {
             $(".workspace-user-avatar").attr("src", "/images/black-icons/user-avatar.png");
@@ -82,12 +69,63 @@ $(function()
         }
     }
 
-
     /*
      *  CONCERNS
      *  EVENT LISTENERS
      *
     */
+
+    // Mark as acknowledged
+    $(".header-dropdown-content-list").on("click", "li:not(:nth-child(1))", function(e)
+    {
+        e.preventDefault();
+
+        /* TODO: FIX CONCERNS DROPDOWN ACKNOWLEDGE */
+        if ($(this).hasClass("concerns-dropdown-unmarked"))
+        {
+            /* Get Concern Number */
+            var id = "" + $(this).data('concern-num');
+
+            console.log("ID Num = " + id);
+
+            /*
+            $.ajax({
+                method : "POST",
+                data : id,
+                url : window.location + "/mark-acknowledged-concern",
+                success : function(result)
+                {
+                    if (result.status === "Done")
+                    {
+                        $(this).removeClass("concerns-unacknowledged");
+                    }
+                },
+                error : function(e)
+                {
+                    console.log("Error: " + e);
+                }
+            });*/
+        }
+
+        //$(this).parent("li").removeClass("concerns-dropdown-unmarked");
+    });
+
+    /* Mark all as acknowledged */
+    $("#dropdown-concerns-mark-all").click(function()
+    {
+        var location = window.location.href;
+        var url = (location.substr(location.length - 1) === "/") ? "mark-all-recent-concerns" : "/mark-all-recent-concerns";
+
+        $.ajax({
+            method : "GET",
+            url : window.location + url,
+            success : function(result)
+            {
+                if (result.status === "Done")
+                    $("#header-dropdown-concerns li.concerns-dropdown-unmarked").removeClass("concerns-dropdown-unmarked");
+            }
+        });
+    });
 
     /*  This event listener opens the concerns modal
      *  with the appropriate receiver.
@@ -100,14 +138,12 @@ $(function()
         /* Get Receiver */
         $.ajax({
             method : "POST",
-            url : "/retrieve-concerns-receiver",
+            url : window.location + "retrieve-concerns-receiver",
             data : courseCode,
             success : function(result)
             {
                 if(result.status === "Done")
                 {
-                    console.log("What");
-
                     /* Assign Receiver */
                     $("#raise-concerns-receiver").val(result.data);
 
@@ -130,8 +166,6 @@ $(function()
             content : $("#raise-concerns-content").val()
         };
 
-        console.log(formData);
-
         $.ajax({
             method : "POST",
             contentType : "application/json",
@@ -142,8 +176,8 @@ $(function()
             {
                 if(result.status === "Done")
                 {
-                    console.log("Hi vlog");
                     displayPositiveMessage(result.data);
+                    $("#raise-concerns-modal").modal('close');
                 }
             },
             error : function(e)
@@ -164,27 +198,54 @@ $(function()
      */
     function retrieveRecentConcerns()
     {
+        var location = window.location.href;
+        var url = (location.substr(location.length - 1) === "/") ? "retrieve-recent-concerns" : "/retrieve-recent-concerns";
+
         $.ajax({
             method : "GET",
-            url : window.location + "retrieve-recent-concerns",
+            url : window.location + url,
             success : function(result)
             {
                 if(result.status === "Done")
                 {
+                    $(".header-dropdown-content-list li:not(:nth-child(1))").remove();
+                    $(".header-dropdown-content-list hr.dropdown-concerns-border").remove();
+
+                    var unreadCtr = 0;
                     $.each(result.data, function(i, concern)
                     {
+                        var senderUpperCase = concern.sender;
+                        senderUpperCase = senderUpperCase.toUpperCase() + ": ";
                         var concernText = "<li";
-                                        if(concern.acknowledged == false)
+                                        if(concern.acknowledged === false)
+                                        {
                                             concernText += " class='concerns-dropdown-unmarked'";
+                                            unreadCtr++;
+                                        }
                             concernText += ">" +
-                                      "<p class='dropdown-concerns-header'>" + concern.subject + "</p>" +
-                                      "<p class='dropdowns-concerns-time'>8:57 PM</p>" +
-                                      "<p class='dropdown-concerns-content'>" + concern.content + "</p>" +
+                                      "<p class='dropdown-concerns-header'>" + senderUpperCase + concern.subject + "</p>" +
+                                      "<p class='dropdown-concerns-time'>" + concern.timestamp + "</p>" +
+                                      "<p class='dropdown-concerns-content' data-concern-num='" + concern.id + "'>" + concern.content + "</p>" +
                                       "</li>" +
-                                      "<hr />";
+                                      "<hr class='dropdown-concerns-border' />";
 
                         $(concernText).insertAfter("#concerns-dropdown-header-border");
                     });
+
+                    // Shorten concerns dropdown text
+                    $(".dropdown-concerns-content").shorten({
+                        chars: 40,
+                        more: "See More",
+                        less: "See Less",
+                        ellipses: '...'
+                    });
+
+                    /* Appear notif if ever */
+                    if(unreadCtr > 0)
+                    {
+                        $(".workspace-user-inbox").attr('src', '/images/white-icons/concerns-inbox.png');
+                        $(".header-concerns-notif").show();
+                    }
                 }
             }
         });

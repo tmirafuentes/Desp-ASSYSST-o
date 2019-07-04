@@ -23,12 +23,16 @@
 
         <!-- Variables for Stylesheets and Scripts -->
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
+        <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
         <c:url value="/css/assystx2-styles/concerns-page-style.css" var="mainCss" />
-        <c:url value="/scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
-        <c:url value="/scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
-        <c:url value="/scripts/assystx2-scripts/assystx2-workspace-script.js" var="mainScript" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
+        <c:url value="/scripts/extension-scripts/jquery-shorten.min.js" var="shortenExt" />
+        <c:url value="/scripts/main-scripts/header-user-script.js" var="userScript" />
+        <c:url value="/scripts/main-scripts/concerns-page-script.js" var="mainScript" />
 
         <link rel="stylesheet" type="text/css" href="${jqueryCss}">
+        <link rel="stylesheet" type="text/css" href="${shortenCss}">
         <link rel="stylesheet" type="text/css" href="${mainCss}">
     </head>
     <body>
@@ -49,57 +53,29 @@
                         <p class="section-header-text">Concerns</p>
                         <hr class="section-header-border" />
 
-                        <select id="concerns-inbox-filter-dropdown">
-                            <option value="ALL">All Concerns</option>
-                            <option value="RECEIVED">Received</option>
-                            <option value="SENT">Sent</option>
-                        </select>
-                        <!-- Concerns Table -->
-                        <table id="concerns-table">
+                        <table id="concerns-filter-table">
                             <tr>
-                                <td>
-                                    <img class="concerns-checked-button" src="/images/check-green.png" alt="Mark as acknowledged" />
-                                    <h3 class="concerns-course-header">CCPROG1 S12</h3>
-                                    <p class="concerns-sender-details">Sent by Hazel Ventura at 12:08 PM</p>
-                                    <p class="concerns-sender-body">Hello ST Chair, kailangan ko pa po ba gumawa ng course offerings for CCPROG1? Mauubusan na po kasi ng slots sa room. This is a filler sentence so that I can see the height.</p>
+                                <td class="concerns-filter-selected">
+                                    <a href="#inbox" id="concerns-filter-inbox">Inbox</a>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td>
-                                    <img class="concerns-checked-button" src="/images/check-green.png" alt="Mark as acknowledged" />
-                                    <h3 class="concerns-course-header">CCPROG1 S12</h3>
-                                    <p class="concerns-sender-details">Sent by Hazel Ventura at 12:08 PM</p>
-                                    <p class="concerns-sender-body">Hello ST Chair, kailangan ko pa po ba gumawa ng course offerings for CCPROG1? Mauubusan na po kasi ng slots sa room. This is a filler sentence so that I can see the height.</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="concerns-checked-button" src="/images/check-green.png" alt="Mark as acknowledged" />
-                                    <h3 class="concerns-course-header">CCPROG1 S12</h3>
-                                    <p class="concerns-sender-details">Sent by Hazel Ventura at 12:08 PM</p>
-                                    <p class="concerns-sender-body">Hello ST Chair, kailangan ko pa po ba gumawa ng course offerings for CCPROG1? Mauubusan na po kasi ng slots sa room. This is a filler sentence so that I can see the height.</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="concerns-checked-button" src="/images/check-green.png" alt="Mark as acknowledged" />
-                                    <h3 class="concerns-course-header">CCPROG1 S12</h3>
-                                    <p class="concerns-sender-details">Sent by Hazel Ventura at 12:08 PM</p>
-                                    <p class="concerns-sender-body">Hello ST Chair, kailangan ko pa po ba gumawa ng course offerings for CCPROG1? Mauubusan na po kasi ng slots sa room. This is a filler sentence so that I can see the height.</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="concerns-checked-button" src="/images/check-green.png" alt="Mark as acknowledged" />
-                                    <h3 class="concerns-course-header">CCPROG1 S12</h3>
-                                    <p class="concerns-sender-details">Sent by Hazel Ventura at 12:08 PM</p>
-                                    <p class="concerns-sender-body">Hello ST Chair, kailangan ko pa po ba gumawa ng course offerings for CCPROG1? Mauubusan na po kasi ng slots sa room. This is a filler sentence so that I can see the height.</p>
+                                    <a href="#sent" id="concerns-filter-sent">Sent</a>
                                 </td>
                             </tr>
                         </table>
+
+                        <!-- Concerns Table -->
+                        <div id="concerns-list-accordion">
+                        </div>
                     </div>
                 </section>
             </section>
         </div>
+
+        <script src="${minJquery}"></script>
+        <script src="${jqueryUI}"></script>
+        <script src="${shortenExt}"></script>
+        <script src="${userScript}"></script>
+        <script src="${mainScript}"></script>
     </body>
 </html>

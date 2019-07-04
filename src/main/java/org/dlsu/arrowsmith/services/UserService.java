@@ -172,15 +172,21 @@ public class UserService {
         concernRepository.save(concern);
     }
 
+    /* Retrieve Individual Concern */
+    public Concern findConcernByConcernId(Long concernId)
+    {
+        return concernRepository.findConcernByConcernId(concernId);
+    }
+
     /* Retrieve All Concerns By Sender */
     public Iterator retrieveAllConcernsBySender(User user) {
-        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySender(user);
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrderByDateTimeCommittedAsc(user);
         return concerns.iterator();
     }
 
     /* Retrieve All Concerns By Receiver */
     public Iterator retrieveAllConcernsByReceiver(User user) {
-        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiver(user);
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiverOrderByDateTimeCommittedAsc(user);
         return concerns.iterator();
     }
 
@@ -264,7 +270,7 @@ public class UserService {
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
         for(AuditedRevisionEntity are : revisionEntities)
         {
-            /* Query Course Offering Entities or Days */
+            /* Query Course Offering, Days, Faculty Load, Deloading Entities */
             AuditQuery courseOfferingQuery = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, true)
                                                                         .add(AuditEntity.revisionNumber().eq(are.getId()));
             AuditQuery daysQuery = auditReader.createQuery().forRevisionsOfEntity(Days.class, true, true)
@@ -280,7 +286,7 @@ public class UserService {
                 temp.setTimestamp(are.getDateModified());
 
                 /* Assign User */
-                User revUser = findUserByIDNumber(Long.parseLong(are.getFullName()));
+                User revUser = findUserByIDNumber(Long.parseLong(are.getUserID()));
                 temp.setFullname(revUser.getFirstName() + " " + revUser.getLastName());
 
                 /* Assign Position */

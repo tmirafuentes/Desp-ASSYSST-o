@@ -429,7 +429,7 @@ $(function() {
                     $("#add-offering-section").val("");
 
                     /* Update course offerings */
-                    showPartialOfferings(0);
+                    showOfferings();
 
                     /* Display Message */
                     displayPositiveMessage(result.data);

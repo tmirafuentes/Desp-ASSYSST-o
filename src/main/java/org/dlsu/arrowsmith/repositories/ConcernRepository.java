@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public interface ConcernRepository extends CrudRepository<Concern, Long> {
+    Concern findConcernByConcernId(Long id);
     ArrayList<Concern> findAllBySender(User user);
     ArrayList<Concern> findAllByReceiver(User user);
     ArrayList<Concern> findAllBySenderOrReceiver(User sender, User receiver);
     ArrayList<Concern> findAllByReceiverAndAcknowledged(User receiver, boolean acknowledged);
     ArrayList<Concern> findAllByReceiverOrderByDateTimeCommittedAsc(User receiver);
+    ArrayList<Concern> findAllBySenderOrderByDateTimeCommittedAsc(User sender);
 }

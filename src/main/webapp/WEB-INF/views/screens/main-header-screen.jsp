@@ -35,44 +35,13 @@
                 </ul>
             </div>
             <img src="/images/black-icons/concerns-inbox.png" class="workspace-user-inbox workspace-user-icons" />
+            <div class="header-concerns-notif">1</div>
             <div id="header-dropdown-concerns" class="header-dropdown-content">
                 <div class="header-dropdown-arrow" id="dropdown-arrow-concerns"></div>
                 <ul class="header-dropdown-content-list">
                     <li id="concerns-dropdown-header">Recent Concerns</li>
                     <hr id="concerns-dropdown-header-border" />
-                    <!--
-                    <li class="concerns-dropdown-unmarked">
-                        <p class="dropdown-concerns-header">CCPROG1 S17</p>
-                        <p class="dropdown-concerns-time">8:50 PM</p>
-                        <p class="dropdown-concerns-content">When I was a boy, I love Kazuchika Okada with all my heart and with all my soul. But Naito will always be my stardust. </p>
-                    </li>
-                    <hr />
-                    <li>
-                        <p class="dropdown-concerns-header">CCPROG1 S17</p>
-                        <p class="dropdown-concerns-time">8:50 PM</p>
-                        <p class="dropdown-concerns-content">Hello, I have a concern for your Miss Hazel. When I was...</p>
-                    </li>
-                    <hr />
-                    <li class="concerns-dropdown-unmarked">
-                        <p class="dropdown-concerns-header">CCPROG1 S17</p>
-                        <p class="dropdown-concerns-time">8:50 PM</p>
-                        <p class="dropdown-concerns-content">Hello, I have a concern for your Miss Hazel. When I was...</p>
-                    </li>
-                    <hr />
-                    <li>
-                        <p class="dropdown-concerns-header">CCPROG1 S17</p>
-                        <p class="dropdown-concerns-time">8:50 PM</p>
-                        <p class="dropdown-concerns-content">Hello, I have a concern for your Miss Hazel. When I was...</p>
-                    </li>
-                    <hr />
-                    <li>
-                        <p class="dropdown-concerns-header">CCPROG1 S17</p>
-                        <p class="dropdown-concerns-time">8:50 PM</p>
-                        <p class="dropdown-concerns-content">Hello, I have a concern for your Miss Hazel. When I was...</p>
-                    </li>
-                    <hr />-->
-                    <a href="#" id="dropdown-concerns-mark-all"><li>Mark All as Acknowledged</li></a>
-                    <hr />
+                    <a id="dropdown-concerns-mark-all"><li>Mark All as Acknowledged</li></a>
                 </ul>
             </div>
         </div>

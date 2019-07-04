@@ -249,47 +249,6 @@ $(function() {
     }
 
     /*
-     *  CONCERNS
-     *  EVENT LISTENERS
-     *
-    */
-    $("#all-offerings-table").on('click', ".offering-raise-concerns-button", function(){
-        /* Find course offering */
-        var courseCode = $(this).closest("tr").find("td:nth-child(1)").text();
-        var section = $(this).closest("tr").find("td:nth-child(2)").text();
-
-        /* Get Receiver */
-        $.ajax({
-            method : "POST",
-            url : "/retrieve-concerns-receiver",
-            data : courseCode,
-            success : function(result)
-            {
-                if(result.status === "Done")
-                {
-                    console.log("What");
-
-                    /* Assign Receiver */
-                    $("#raise-concerns-receiver").val(result.data);
-
-                    /* Assign Course Offering */
-                    $("#raise-concerns-offering").val(courseCode + " " + section);
-                }
-            },
-            error : function(e)
-            {
-                console.log("Error: " + e);
-            }
-        });
-    });
-
-    /*
-     *  CONCERNS
-     *  FUNCTION IMPLEMENTATIONS
-     *
-    */
-
-    /*
      *  FEEDBACK MESSAGES
      *  FUNCTION IMPLEMENTATIONS
      *

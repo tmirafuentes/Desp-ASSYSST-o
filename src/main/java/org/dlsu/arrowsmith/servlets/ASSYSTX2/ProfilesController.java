@@ -9,8 +9,7 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
  *  faculty profiles of the ASSYSTX system.
  */
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
-import org.dlsu.arrowsmith.classes.dro.Response;
+import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.ManageCourseDTO;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.ManageFacultyDTO;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.ManageFacultyLoadListDTO;

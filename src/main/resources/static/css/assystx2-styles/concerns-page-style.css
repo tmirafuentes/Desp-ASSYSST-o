@@ -33,25 +33,45 @@
 {
     margin: 0 auto;
     height: auto;
-    width: 100%;
+    width: 80%;
     background: #ffffff;
     box-sizing: border-box;
     padding-top: 10px;
     padding-bottom: 15px;
 }
 
-#concerns-inbox-box select
+#concerns-filter-table
 {
-    display: block;
-    margin-left: 2.5%;
+    margin: 0 auto;
+    margin-top: 10px;
     margin-bottom: 10px;
-    border: none;
-    border-bottom: 2px solid #000000;
+    background-color: #ffffff;
+    border-collapse: collapse;
+}
+
+#concerns-filter-table td
+{
+    border: 1px solid #00e08e;
+    padding: 3px 10px 3px 10px;
+}
+
+#concerns-filter-table td a
+{
     font-family: Open Sans;
     font-size: 0.80em;
-    color: #0000000;
-    cursor: pointer;
-    width: 10%;
+    font-weight: 600;
+    color: #000000;
+    text-decoration: none;
+}
+
+.concerns-filter-selected
+{
+    background-color: #00e08e;
+}
+
+.concerns-filter-selected a
+{
+    color: #ffffff;
 }
 
 #concerns-list-accordion
@@ -114,19 +134,19 @@
 {
     display: inline-block;
     margin-left: 0;
-    width: 45%;
+    width: 38%;
 }
 
 #concerns-list-accordion h3 span.concerns-list-timestamp
 {
     display: inline-block;
-    margin-left: 2.5%;
-    width: 8%;
+    margin-left: 30%;
+    width: 20%;
 }
 
 #concerns-list-accordion h3.concerns-unacknowledged span
 {
-    font-weight: 650;
+    font-weight: 600;
 }
 
 #concerns-list-accordion div.concerns-list-accordion-div
