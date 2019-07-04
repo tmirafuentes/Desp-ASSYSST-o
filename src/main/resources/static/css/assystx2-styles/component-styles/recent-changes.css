@@ -13,7 +13,7 @@
     margin: 0 auto;
     height: auto;
     width: 100%;
-    background: #ffffff;  
+    background: #ffffff;
     padding-top: 10px;
     padding-bottom: 15px;
 }
@@ -27,14 +27,14 @@
 .recent-changes-row, .recent-changes-row-details
 {
     margin: 0;
+    padding: 0;
+    padding-left: 7.5%;
 }
 
 .recent-changes-row > li
 {
     list-style-type: none;
-    display: inline;
-    float: left;
-    padding-bottom: 6.5px;
+    padding-bottom: 5px;
     font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #000000;
@@ -52,25 +52,23 @@
     border-radius: 50%;
 }
 
-.recent-changes-row > li:nth-child(1) {width: 7.5%;}
-
-.recent-changes-row-details > li
+.recent-changes-row > li
 {
     list-style-type: none;
     padding-bottom: 2px;
     font-family: OpenSans-Regular;
-    font-size: 0.95em;
+    font-size: 0.80em;
     color: #000000;
 }
 
-.recent-changes-row-details > li:nth-child(1) { font-family: Gotham-Black; font-size: 0.95em; }
-.recent-changes-row-details > li:nth-child(2) { font-weight: 0; }
-.recent-changes-row-details > li:nth-child(3) {  }
+.recent-changes-row > li:nth-child(1) { font-family: Open Sans; font-weight: 700; font-size: 0.80em; }
+.recent-changes-row > li:nth-child(2) { font-size: 0.75em; color: #2b2b2b;  }
+.recent-changes-row > li:nth-child(3) { font-size: 0.75em; }
 
 .recent-changes-row-border
 {
     border: 1px solid #efefef;
-    width: 90%;   
+    width: 90%;
 }
 
 #rev-history-link

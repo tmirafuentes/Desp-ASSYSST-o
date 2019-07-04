@@ -164,6 +164,11 @@ public class OfferingService {
         daysRepository.save(days);
     }
 
+    public Days retrieveSpecificDaysByID(Long id)
+    {
+        return daysRepository.findByDaysId(id);
+    }
+
     /* Retrieve All Days Per Offering */
     public Iterator retrieveAllDaysByOffering(CourseOffering offering) {
         ArrayList<Days> allDays = daysRepository.findAllByCourseOffering(offering);

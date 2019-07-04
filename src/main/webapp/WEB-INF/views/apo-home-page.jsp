@@ -58,9 +58,6 @@
 
             <!-- Right Partition -->
             <section id="collab-sidebar">
-                <!-- Online Users -->
-                <%@include file="screens/online-users-screen.jsp" %>
-
                 <!-- Recent Changes -->
                 <%@include file="screens/recent-changes-screen.jsp" %>
             </section>

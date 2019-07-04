@@ -63,6 +63,11 @@ public class FacultyService {
         deloadInstanceRepository.save(deloadInstance);
     }
 
+    public DeloadInstance retrieveDeloadInstanceByID(Long id)
+    {
+        return deloadInstanceRepository.findByDeloadInId(id);
+    }
+
     /* Retrieve all Deload Instance per Term */
     public Iterator retrieveAllDeloadInstanceByTerm(Term term) {
         ArrayList<DeloadInstance> deloadInstances = (ArrayList<DeloadInstance>) deloadInstanceRepository.findAllByTerm(term);

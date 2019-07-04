@@ -24,8 +24,6 @@ public class EntityRevisionTrackerListener implements EntityTrackingRevisionList
                               Serializable serializable,
                               RevisionType revisionType, Object revisionEntity)
     {
-        System.out.println("String s: " + s + " Serial: " + serializable.toString());
-
         String entityName = entityClass.getName().replace("org.dlsu.arrowsmith.classes.main.", "");
         ((AuditedRevisionEntity)revisionEntity).addModifiedEntityType(entityName, serializable);
     }

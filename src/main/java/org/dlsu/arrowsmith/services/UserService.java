@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.services;
 
+import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.RecentChangesDTO;
 import org.dlsu.arrowsmith.classes.dtos.RevHistoryLinkDto;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.*;
@@ -38,6 +39,12 @@ public class UserService {
     private TermRepository termRepository;
 
     /* Services */
+    @Autowired
+    private FacultyService facultyService;
+
+    @Autowired
+    private OfferingService offeringService;
+
     @Autowired
     private SecurityService securityService;
 
@@ -252,50 +259,104 @@ public class UserService {
     }
 
     /* Retrieve Most Recent Entry */
-    public RevHistoryLinkDto findLatestRevisionEntity()
+    public RecentChangesDTO findLatestRevisionEntity()
     {
-        return (RevHistoryLinkDto) retrieveRevHistoryOfferings().next();
+        return (RecentChangesDTO) retrieveWorkspaceHistory().next();
     }
 
     /* Retrieve All Revision History for Course Offering and Days and sort by most recent */
-    public Iterator retrieveRevHistoryOfferings()
+    public Iterator retrieveWorkspaceHistory()
     {
         /* Get all entities */
         ArrayList<AuditedRevisionEntity> revisionEntities = (ArrayList<AuditedRevisionEntity>)revisionHistoryRepository.findAll();
 
         /* Create DTO ArrayList */
-        ArrayList<RevHistoryLinkDto> allRevisions = new ArrayList<>();
+        ArrayList<RecentChangesDTO> allRevisions = new ArrayList<>();
 
         /* Loop through entries and modify it for DTO */
-        AuditReader auditReader = AuditReaderFactory.get(entityManager);
+        CourseOffering prevOffering = null;
+        boolean filledPrevOffering = false;
         for(AuditedRevisionEntity are : revisionEntities)
         {
-            /* Query Course Offering, Days, Faculty Load, Deloading Entities */
+            if (are.getId() < 60)
+                continue;
+
+            /* Query Course Offering, Days, Faculty Load, Deloading Entities
             AuditQuery courseOfferingQuery = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, true)
                                                                         .add(AuditEntity.revisionNumber().eq(are.getId()));
-            AuditQuery daysQuery = auditReader.createQuery().forRevisionsOfEntity(Days.class, true, true)
-                                                                        .add(AuditEntity.revisionNumber().eq(are.getId()));
+                                                                        */
 
-            /* Only include Course Offering and Days revisions */
-            if(courseOfferingQuery.getResultList().size() > 0 || daysQuery.getResultList().size() > 0)
+            /* Create DTO */
+            RecentChangesDTO dto = new RecentChangesDTO();
+
+            /* Assign Name */
+            User revUser = findUserByIDNumber(Long.parseLong(are.getUserID()));
+            dto.setFullName(revUser.getLastName() + ", " + revUser.getFirstName());
+
+            /* Assign Timestamp */
+            dto.setTimestamp(are.getDateModified());
+
+            /* Assign Position */
+            dto.setPosition(revUser.getUserType());
+
+            /* Assign Revision ID */
+            dto.setRevNumber(are.getId());
+
+            /* Determine the subject by the entities updated */
+            boolean hasOffering = false, hasUser = false, hasDays = false, hasDeloading = false;
+            CourseOffering offering = null;
+            DeloadInstance deloadInstance = null;
+            Iterator entityTypes = are.getModifiedEntityTypes().iterator();
+
+            while(entityTypes.hasNext())
             {
-                /* Create Temp Object */
-                RevHistoryLinkDto temp = new RevHistoryLinkDto();
+                ModifiedEntityTypeEntity entity = (ModifiedEntityTypeEntity) entityTypes.next();
+                if (entity.getEntityClassName().equals("CourseOffering"))
+                {
+                    hasOffering = true;
+                    offering = offeringService.retrieveCourseOffering(entity.getEntityID());
+                }
+                else if (entity.getEntityClassName().equals("Days"))
+                {
+                    hasDays = true;
+                }
+                else if (entity.getEntityClassName().equals("User"))
+                    hasUser = true;
+                else if (entity.getEntityClassName().equals("DeloadInstance"))
+                {
+                    hasDeloading = true;
+                    deloadInstance = facultyService.retrieveDeloadInstanceByID(entity.getEntityID());
+                }
+            }
 
-                /* Assign Timestamp */
-                temp.setTimestamp(are.getDateModified());
+            try {
+                boolean isADuplicate = false;
 
-                /* Assign User */
-                User revUser = findUserByIDNumber(Long.parseLong(are.getUserID()));
-                temp.setFullname(revUser.getFirstName() + " " + revUser.getLastName());
+                String selectedOffering = offering.getCourse().getCourseCode() + " " + offering.getSection();
 
-                /* Assign Position */
-                temp.setPosition(revUser.getUserType());
-
-                /* Assign Rev ID */
-                temp.setRevNumber(are.getId());
-
-                allRevisions.add(0, temp);
+                /* Room assignment */
+                if(hasOffering && hasDays)
+                    dto.setSubject("Room assigned to " + selectedOffering);
+                    /* Faculty assignment */
+                else if(hasOffering && hasUser)
+                    dto.setSubject("Faculty assigned to " + selectedOffering);
+                    /* Dissolved OFfering */
+                else if(hasOffering && !hasDays && !hasUser &&
+                        offering.getType().equals("Dissolved"))
+                    dto.setSubject(selectedOffering + " is dissolved");
+                    /* Faculty deloading */
+                else if(hasDeloading)
+                    dto.setSubject("Faculty is deloaded");
+                    /* Modified Offering */
+                else
+                    dto.setSubject(selectedOffering + " is modified");
+            } catch(Exception e) { }
+            finally
+            {
+                /* Save if current term */
+                if (offering != null && offering.getTerm() == retrieveCurrentTerm() ||
+                    deloadInstance != null && deloadInstance.getTerm() == retrieveCurrentTerm())
+                    allRevisions.add(dto);
             }
         }
 

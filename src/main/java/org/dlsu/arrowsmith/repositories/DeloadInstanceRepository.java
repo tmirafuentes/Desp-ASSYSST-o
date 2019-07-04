@@ -12,4 +12,5 @@ public interface DeloadInstanceRepository extends CrudRepository<DeloadInstance,
     ArrayList<DeloadInstance> findAllByTerm(Term term);
     ArrayList<DeloadInstance> findAllByTermAndFaculty(Term term, User faculty);
     ArrayList<DeloadInstance> findAllByTermAndDeloading(Term term, Deloading deloading);
+    DeloadInstance findByDeloadInId(Long id);
 }

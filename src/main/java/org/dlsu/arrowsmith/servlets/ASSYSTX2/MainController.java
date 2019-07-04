@@ -79,6 +79,9 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "workspace");
 
+        /* Revision History Test */
+        //model.addAttribute("history", userService.findLatestRevisionEntity());
+
         if (userType.equalsIgnoreCase("APO"))
             return "apo-home-page";
         else if (userType.equalsIgnoreCase("CVC"))
