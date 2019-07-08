@@ -1,10 +1,7 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
-import org.dlsu.arrowsmith.classes.main.Response;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
-import org.dlsu.arrowsmith.classes.main.CourseOffering;
-import org.dlsu.arrowsmith.classes.main.Days;
-import org.dlsu.arrowsmith.classes.main.Term;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
@@ -68,24 +65,30 @@ public class WorkspaceController
     @PostMapping(value = "/create-new-offering")
     public Response createNewOffering(@RequestBody CreateOfferingDTO dto)
     {
-        try
-        {
-            /* Convert DTO to Course Offering */
-            CourseOffering newOffering = new CourseOffering();
-            newOffering.setCourse(offeringService.retrieveCourseByCourseCode(dto.getCourseCode()));
-            newOffering.setSection(dto.getSection());
-            newOffering.setTerm(userService.retrieveCurrentTerm());
-            newOffering.setType("Regular");
+        /* Create DTO */
+        CourseOffering newOffering = new CourseOffering();
 
-            /* Save Course Offering into the database */
-            offeringService.saveCourseOffering(newOffering);
-        }
-        catch(Exception e) {e.printStackTrace();}
-        finally
-        {
-            /* Return response */
-            return new Response("Done", messages.getMessage("message.addOffering", null, null));
-        }
+        /* Check if Course exists */
+        Course selectedCourse = offeringService.retrieveCourseByCourseCode(dto.getCourseCode());
+        if(offeringService.retrieveCourseByCourseCode(dto.getCourseCode()) == null)
+            return new Response("Error", messages.getMessage("message.noCourseExists", null, null));
+        newOffering.setCourse(selectedCourse);
+
+        /* Check if section is taken */
+        String assignedSection = dto.getSection();
+        if(offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), assignedSection) != null)
+            return new Response("Error", messages.getMessage("message.assignSectionTaken", null, null));
+        newOffering.setSection(assignedSection);
+
+        /* Add other basic information */
+        newOffering.setTerm(userService.retrieveCurrentTerm());
+        newOffering.setType("Regular");
+
+        /* Save Course Offering into the database */
+        offeringService.saveCourseOffering(newOffering);
+
+        /* Return response */
+        return new Response("Done", messages.getMessage("message.addOffering", null, null));
     }
 
     /*

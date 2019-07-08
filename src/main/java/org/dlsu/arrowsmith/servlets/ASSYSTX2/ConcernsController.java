@@ -50,7 +50,7 @@ public class ConcernsController
             /* Retrieve department */
             Department department = selectedCourse.getDepartment();
 
-            User deptHead = userService.retrieveDepartmentHead(department, "Chair");
+            User deptHead = userService.retrieveDepartmentHead(department, "Vice-Chair");
 
             return new Response("Done", deptHead.getLastName() + ", " + deptHead.getFirstName());
         }

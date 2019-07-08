@@ -1,15 +1,14 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.RecentChangesDTO;
+import org.dlsu.arrowsmith.classes.main.CourseOffering;
 import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,5 +45,20 @@ public class HistoryController
         }
 
         return new Response("Done", mostRecent.iterator());
+    }
+
+    @PostMapping("/retrieve-offering-history")
+    public Response retrieveOfferingHistory(@RequestBody String courseOffering)
+    {
+        /* Clean String */
+        courseOffering = courseOffering.substring(0, courseOffering.length() - 1);
+        String[] offeringString = courseOffering.split("\\+");
+
+        /* Find Course Offering */
+        CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(offeringString[0], offeringString[1]);
+
+        Iterator offeringHistory = userService.retrieveOfferingHistory(selectedOffering);
+
+        return new Response("Done", offeringHistory);
     }
 }

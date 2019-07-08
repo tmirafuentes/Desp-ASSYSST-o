@@ -286,7 +286,7 @@ $(function()
                         setTimeout(function()
                         {
                             window.location.href = "../../../../..";
-                        }, 3000);
+                        }, 1500);
                     }
                 },
                 error : function(e)

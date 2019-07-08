@@ -46,18 +46,12 @@
 
             <!-- Middle Partition -->
             <section id="collab-workspace">
-                <!-- Course Offering Filters -->
-                <%@include file="screens/offering-filters-screen.jsp" %>
-
                 <!-- All Offerings -->
                 <%@include file="screens/all-offerings-screen.jsp" %>
             </section>
 
             <!-- Right Partition -->
             <section id="collab-sidebar">
-                <!-- Online Users -->
-                <%@include file="screens/online-users-screen.jsp" %>
-
                 <!-- Recent Changes -->
                 <%@include file="screens/recent-changes-screen.jsp" %>
             </section>

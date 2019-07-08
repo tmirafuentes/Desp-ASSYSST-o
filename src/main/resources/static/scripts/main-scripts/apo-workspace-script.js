@@ -17,11 +17,10 @@ $(function() {
      *  ONLOAD FUNCTIONS
      *
      */
-
     loadMostRecentChanges();
     setInterval(loadMostRecentChanges, 15000);
 
-    /* Show Partial Offerings */
+    /* Show Offerings */
     showOfferings();
 
     /* Retrieve Course Codes for Create New Offering */
@@ -41,11 +40,11 @@ $(function() {
 
     /*  This event listener refreshes
      *  the course offerings table.
-     */
+
     $("#all-offerings-refresh").on('click', function()
     {
         showOfferings();
-    });
+    });*/
 
     /*  This event listener marks the
      *  selected course offering as
@@ -213,10 +212,10 @@ $(function() {
                                     "<form action='/assign-room' method='POST'>" +
                                     "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
                                     "<input value='" + offering.section + "' name='section' hidden />" +
-                                    "<button type='submit' class='offering-assign-room-button'>Assign Room</button></form>" +
+                                    "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
                                     "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
                                     "<a href='#edit-section-modal' rel='modal:open'><button type='button' class='offering-edit-section-button'>Edit Section</button></a>" +
-                                    "<button type='button' class='offering-view-details-button'>View More Details</button>" +
+                                    "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
                                     "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
                                     "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
                                     "</div></div></td></tr>";
@@ -224,38 +223,6 @@ $(function() {
                         var offeringRow = row + menus;
 
                         $(offeringRow).appendTo("#all-offerings-table tbody");
-
-                        /* Create individual list items
-                        var startForm = "<form action='/assign-room' method='POST' class='assign-room-form'>";
-                        var startlist = "<ul class='all-offerings-row' data-offering-id='" + offering.offeringID + "'>";
-                        var course = "<li class='cols-course'>" + offering.courseCode +
-                                     "<input value='" + offering.courseCode + "' name='courseCode' hidden /> </li>";
-                        var section = "<li class='cols-section'>" + offering.section +
-                                      "<input value='" + offering.section + "' name='section' hidden /> </li>";
-                        var days = "<li class='cols-days'>" + offering.day1 + " " + offering.day2 + "</li>";
-                        var timeslot = "<li class='cols-timeslot'>" + offering.startTime + " - " + offering.endTime + "</li>";
-                        var room = "<li class='cols-room'>" + offering.roomCode + "</li>";
-                        var faculty = "<li class='cols-faculty'>" + offering.facultyName + "</li>";
-
-                        var menu = "<li>" +
-                            "<div class='all-offerings-row-popup'>" +
-                            "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
-                            "<div class='all-offerings-dropdown-menu'>" +
-                            "<button type='submit' class='offering-assign-room-button'>Assign Room</button>" +
-                            "<a href='#raise-concerns-modal' rel='modal:open'>Raise Concerns</a>" +
-                            "<button type='button' class='offering-edit-section-button'>Edit Section</button>" +
-                            "<button type='button' class='offering-view-details-button'>View More Details</button>" +
-                            "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
-                            "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
-                            "</div></div></li></ul></form>";
-                        var border = "<hr class='all-offerings-row-border' />";
-
-                        var offering_row = startForm + startlist + course + section + days + timeslot + room + faculty + menu + border;
-
-                        console.log(menu);
-
-                        /* Insert after border
-                        $(offering_row).insertAfter("#all-offerings-box"); */
                     });
 
                     $("#all-offerings-table").DataTable({
@@ -335,7 +302,7 @@ $(function() {
         var section = $("#add-offering-section").val();
 
         /* Check if it's not empty and then submit */
-        if (courseCode.length == 7 && section.length <= 4)
+        if (courseCode.length === 7 && section.length <= 4)
         {
             createNewOffering(courseCode, section);
         }
@@ -425,7 +392,7 @@ $(function() {
             dataType : "json",
             success : function(result)
             {
-                if(result.status == "Done")
+                if(result.status === "Done")
                 {
                     /* Reset text fields */
                     $("#add-offering-course").val("");
@@ -436,6 +403,11 @@ $(function() {
 
                     /* Display Message */
                     displayPositiveMessage(result.data);
+                }
+                else if(result.status === "Error")
+                {
+                    /* Dispaly Message */
+                    displayNegativeMessage(result.data);
                 }
             },
             error : function(e)
@@ -527,6 +499,96 @@ $(function() {
 
     /*
      *  WORKSPACE HISTORY
+     *  EVENT LISTENERS
+     *
+    */
+
+    /*  Event listener for
+     *  View Offering History.
+     */
+    $("#all-offerings-table").on("click", ".offering-view-history-button", function()
+    {
+        /* Find course offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(1)").text();
+        var section = $(this).closest("tr").find("td:nth-child(2)").text();
+
+        var courseSection = courseCode + " " + section;
+
+        /* Get Receiver */
+        $.ajax({
+            method : "POST",
+            url : window.location + "retrieve-offering-history",
+            data : courseSection,
+            beforeSend : function()
+            {
+                /* Remove previous history */
+                $(".view-history-row").remove();
+                $(".view-history-row-border").remove();
+
+                $("#view-history-modal .section-header-text").text(courseSection + " History");
+            },
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    $.each(result.data, function(i, changes)
+                    {
+                        var list_row = "<ul class='view-history-row'>" +
+                                       "<li>" + changes.subject + "</li>" +
+                                       "<li>by " + changes.fullName + " ";
+
+                        /* Format Timestamp representation */
+                        /* Get Times */
+                        var revisionDate = new Date(changes.timestamp).getTime();
+                        var currDate = new Date().getTime();
+
+                        /* Get Difference */
+                        var timeDifference = currDate - revisionDate;
+
+                        /* Get appropriate string for time */
+                        if (timeDifference < 60000) // Less than a minute
+                        {
+                            list_row += "a few seconds ago ";
+                        } else if (timeDifference >= 60000 && timeDifference < 3600000) // Less than an hour
+                        {
+                            var tempTime = Math.floor(timeDifference / 60000);
+                            list_row += tempTime + " minute";
+                            if (tempTime > 1)
+                                list_row += "s";
+                            list_row += " ago ";
+                        } else if (timeDifference >= 3600000 && timeDifference < 86400000) // Less than a day
+                        {
+                            var tempTime = Math.floor(timeDifference / 3600000);
+                            list_row += tempTime + " hour";
+                            if (tempTime > 1)
+                                list_row += "s";
+                            list_row += " ago ";
+                        } else if (timeDifference >= 86400000 && timeDifference < 2678400000) // Less than a month or 30 days
+                        {
+                            var tempTime = Math.floor(timeDifference / 86400000);
+                            list_row += tempTime + " day";
+                            if (tempTime > 1)
+                                list_row += "s";
+                            list_row += " ago ";
+                        } else
+                        {
+                            var revDateAgain = new Date(result.data.timestamp);
+                            list_row += "at " + revDateAgain.toLocaleDateString() + " ";
+                        }
+
+                        var end_list_row = "</li></ul>";
+                        var row_border = "<hr class='view-history-row-border' />";
+                        var whole_row = list_row + end_list_row + row_border;
+
+                        $(whole_row).insertAfter("#view-history-header-border");
+                    });
+                }
+            }
+        });
+    });
+
+    /*
+     *  WORKSPACE HISTORY
      *  FUNCTION IMPLEMENTATIONS
      *
     */
@@ -592,7 +654,7 @@ $(function() {
                     var endList = "</ul><hr class='recent-changes-row-border' />";
                     var entryChange = startList + subject + revision + endList;
 
-                    $(entryChange).insertAfter("#recent-changes-header-border")
+                    $(entryChange).insertAfter("#recent-changes-header-border");
                 });
             }
         })

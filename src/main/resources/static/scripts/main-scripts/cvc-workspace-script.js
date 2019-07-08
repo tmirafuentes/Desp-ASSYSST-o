@@ -18,8 +18,11 @@ $(function() {
      *
      */
 
-    /* Show Partial Offerings */
-    showPartialOfferings(0);
+    loadMostRecentChanges();
+    setInterval(loadMostRecentChanges, 15000);
+
+    /* Show Offerings */
+    showOfferings();
 
     /* Retrieve Options for Filters
     retrieveFilterCourses();
@@ -33,27 +36,13 @@ $(function() {
      *
      */
 
-    /*  This event listener retrieves the
-     *  previous page of a partial list of
-     *  course offerings and displays it in
-     *  the system.
-     */
-    $("#all-offerings-box").on('click', '#offerings-prev-page', function()
-    {
-        var pageNum = $("#offerings-prev-page").data("page-num");
-        showPartialOfferings(pageNum);
-    });
+    /*  This event listener refreshes
+     *  the course offerings table.
 
-    /*  This event listener retrieves the
-     *  next page of a partial list of
-     *  course offerings and displays it in
-     *  the system.
-    */
-    $("#all-offerings-box").on('click', '#offerings-next-page', function()
+    $("#all-offerings-refresh").on('click', function()
     {
-        var pageNum = $("#offerings-next-page").data("page-num");
-        showPartialOfferings(pageNum);
-    });
+        showOfferings();
+    }); */
 
     /*  This event listener marks the
      *  selected course offering as
@@ -106,17 +95,15 @@ $(function() {
      *  of course offerings from the database
      *  and displays it in the system.
      */
-    function showPartialOfferings(pageNum)
+    function showOfferings()
     {
         $.ajax({
             type : "GET",
-            url : window.location + "show-offerings?page=" + pageNum,
+            url : window.location + "show-offerings",
             success : function(result)
             {
                 /* Code for removing the currently displayed course offerings */
-                $("form .all-offerings-row").remove();
-                $(".all-offerings-row-border").remove();
-                $("#all-offerings-page-menu").remove();
+                $("#all-offerings-table tbody tr").remove();
 
                 if(result.status === "Empty")
                 {
@@ -134,12 +121,12 @@ $(function() {
                     {
                         /* Create row */
                         var row =   "<tr>" +
-                            "<td>" + offering.courseCode + "</td>" +
-                            "<td>" + offering.section + "</td>" +
-                            "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
-                            "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
-                            "<td>" + offering.roomCode + "</td>" +
-                            "<td>" + offering.facultyName + "</td>";
+                                    "<td>" + offering.courseCode + "</td>" +
+                                    "<td>" + offering.section + "</td>" +
+                                    "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
+                                    "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
+                                    "<td>" + offering.roomCode + "</td>" +
+                                    "<td>" + offering.facultyName + "</td>";
 
                         var menus = "<td>" +
                             "<div class='all-offerings-row-popup'>" +
@@ -150,7 +137,7 @@ $(function() {
                             "<input value='" + offering.section + "' name='section' hidden />" +
                             "<button type='submit' class='offering-assign-room-button'>Assign Faculty</button></form>" +
                             "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
-                            "<button type='button' class='offering-view-details-button'>View More Details</button>" +
+                            "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
                             "<button type='button' class='offering-special-class-button'>Mark as Service Course</button>" +
                             "</div></div></td></tr>";
 
@@ -246,6 +233,79 @@ $(function() {
                 });
             }
         });
+    }
+
+    /*
+     *  WORKSPACE HISTORY
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
+
+    /* Load most recent changes */
+    function loadMostRecentChanges()
+    {
+        $.ajax({
+            type : "GET",
+            url : window.location + "retrieve-recent-changes",
+            success : function(result)
+            {
+                /* Remove past changes */
+                $(".recent-changes-row").remove();
+                $(".recent-changes-row-border").remove();
+
+                $.each(result.data, function(i, change)
+                {
+                    var startList = "<ul class='recent-changes-row'>";
+                    var subject = "<li>" + change.subject + "</li>";
+                    var revision = "<li>by " + change.fullName + " ";
+
+                    /* Format Timestamp representation */
+
+                    /* Get Times */
+                    var revisionDate = new Date(change.timestamp).getTime();
+                    var currDate = new Date().getTime();
+
+                    /* Get Difference */
+                    var timeDifference = currDate - revisionDate;
+
+                    /* Get appropriate string for time */
+                    if (timeDifference < 60000) // Less than a minute
+                    {
+                        revision += "a few seconds ago ";
+                    } else if (timeDifference >= 60000 && timeDifference < 3600000) // Less than an hour
+                    {
+                        var tempTime = Math.floor(timeDifference / 60000);
+                        revision += tempTime + " minute";
+                        if (tempTime > 1)
+                            revision += "s";
+                        revision += " ago ";
+                    } else if (timeDifference >= 3600000 && timeDifference < 86400000) // Less than a day
+                    {
+                        var tempTime = Math.floor(timeDifference / 3600000);
+                        revision += tempTime + " hour";
+                        if (tempTime > 1)
+                            revision += "s";
+                        revision += " ago ";
+                    } else if (timeDifference >= 86400000 && timeDifference < 2678400000) // Less than a month or 30 days
+                    {
+                        var tempTime = Math.floor(timeDifference / 86400000);
+                        revision += tempTime + " day";
+                        if (tempTime > 1)
+                            revision += "s";
+                        revision += " ago ";
+                    } else
+                    {
+                        var revDateAgain = new Date(result.data.timestamp);
+                        revision += "at " + revDateAgain.toLocaleDateString() + " ";
+                    }
+
+                    var endList = "</ul><hr class='recent-changes-row-border' />";
+                    var entryChange = startList + subject + revision + endList;
+
+                    $(entryChange).insertAfter("#recent-changes-header-border")
+                });
+            }
+        })
     }
 
     /*

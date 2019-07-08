@@ -19,7 +19,7 @@
             <!-- Actions Menu -->
             <ul class="menu-subset-list" id="menu-list-actions">
                 <li class="menu-subset-list-header">User Actions</li>
-                <a href="#"><li class="menu-subset-list-item">Start New Term</li></a>
+                <!--<a href="#"><li class="menu-subset-list-item">Start New Term</li></a>-->
             </ul>
         </div>
     </section>

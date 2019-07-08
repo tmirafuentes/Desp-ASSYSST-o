@@ -6,7 +6,6 @@
 
 #edit-section-modal
 {
-    padding: 0;
     padding: 1% 1% 1.5% 1%;
     width: 200px;
 }
@@ -112,4 +111,62 @@
     font-size: 0.80em;
     color: #ffffff;
     cursor: pointer;
+}
+
+/*
+ *
+ *  VIEW HISTORY MODAL
+ *
+ */
+
+#view-history-modal
+{
+    padding: 1% 1% 1% 1%;
+    height: auto;
+    width: 800px;
+}
+
+.view-history-row
+{
+    margin: 0 auto;
+    padding: 0;
+    width: 95%;
+}
+
+.view-history-row > li
+{
+    //display: inline;
+    list-style-type: none;
+//padding-bottom: 5px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.view-history-row > li:nth-child(1)
+{
+    font-family: Open Sans;
+    font-weight: 700;
+    font-size: 0.80em;
+    padding-left: 2%;
+}
+
+.view-history-row > li:nth-child(2)
+{
+    font-weight: 500;
+    font-size: 0.75em;
+    color: #2b2b2b;
+    padding-left: 2%;
+}
+
+.view-history-row > li:nth-child(3)
+{
+    font-size: 0.75em;
+    color: #2b2b2b;
+}
+
+.view-history-row-border
+{
+    border: 1px solid #efefef;
+    width: 95%;
 }

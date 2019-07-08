@@ -26,6 +26,12 @@
     font-family: OpenSans-Regular;
     font-size: 0.80em;
     text-indent: 3px;
+    text-transform: uppercase;
+}
+
+#add-offering-box input[type=text]::placeholder
+{
+    text-transform: none;
 }
 
 #add-offering-course
@@ -33,7 +39,7 @@
     margin-left: 20px;
     background: #00e08e;
     color: #000000;
-    width: 14%;
+    width: 100px;
     cursor: pointer;
 }
 
@@ -53,7 +59,7 @@
 #add-offering-section
 {
     margin-left: 10px;
-    width: 9%;
+    width: 65px;
     display: none;
 }
 
@@ -68,7 +74,7 @@
     margin-left: 10px;
     padding: 9px;
     background: #05386B;
-    font-family: Gotham-Black;
+    font-family: Gotham Black;
     font-size: 0.75em;
     color: #fff;
     cursor: pointer;

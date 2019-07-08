@@ -9,6 +9,7 @@ import org.dlsu.arrowsmith.revisionHistory.ModifiedEntityTypeEntity;
 import org.dlsu.arrowsmith.security.SecurityService;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
+import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -264,6 +265,72 @@ public class UserService {
         return (RecentChangesDTO) retrieveWorkspaceHistory().next();
     }
 
+    /* Retrieve Course Offering History */
+    public Iterator retrieveOfferingHistory(CourseOffering selectedOffering)
+    {
+        AuditReader auditReader = AuditReaderFactory.get(entityManager);
+
+        /* Create query for courseOffering */
+        AuditQuery courseOfferingQuery = auditReader.createQuery()
+                .forRevisionsOfEntity(CourseOffering.class, false, true)
+                .add(AuditEntity.id().eq(selectedOffering.getOfferingId()));
+
+        /* Get result list */
+        List<Object[]> audit = courseOfferingQuery.getResultList();
+
+        /* Create DTO list */
+        ArrayList<RecentChangesDTO> history = new ArrayList<>();
+
+        /* Traverse each item on the list */
+        Date prevDate = null;
+        for (Object[] a : audit)
+        {
+            /* Course Offering */
+            CourseOffering tempOffering = (CourseOffering) a[0];
+
+            /* Audited Revision Entity */
+            AuditedRevisionEntity tempARE = (AuditedRevisionEntity) a[1];
+
+            /* Revision Type */
+            RevisionType revType = (RevisionType) a[2];
+
+            /* Check Revised Entities */
+            Set<ModifiedEntityTypeEntity> mete = tempARE.getModifiedEntityTypes();
+            Iterator meteIterator = mete.iterator();
+            boolean hasRoom = false, hasUser = false, hasDays = false;
+            while(meteIterator.hasNext())
+            {
+                ModifiedEntityTypeEntity tempMETE = (ModifiedEntityTypeEntity) meteIterator.next();
+                if(tempMETE.getEntityClassName().equals("Room"))
+                    hasRoom = true;
+                else if(tempMETE.getEntityClassName().equals("Days"))
+                    hasDays = true;
+                else if(tempMETE.getEntityClassName().equals("User"))
+                    hasUser = true;
+                else if(tempMETE.getEntityClassName().equals("CourseOffering"))
+                    tempOffering = offeringService.retrieveCourseOffering(tempMETE.getEntityID());
+            }
+
+            /* Create Recent History DTO */
+            RecentChangesDTO dto = createNewChangesDTO(tempARE);
+
+            /* Check Date */
+            if(prevDate != null && prevDate.equals(tempARE.getDateModified()))
+                continue;
+
+            /* Create Subject */
+            String dtoSubject = determineRecentChangesSubject(true, hasRoom, hasUser, hasDays, tempOffering, revType);
+            dto.setSubject(dtoSubject);
+
+            /* Add to list */
+            history.add(dto);
+
+            prevDate = tempARE.getDateModified();
+        }
+
+        return history.iterator();
+    }
+
     /* Retrieve All Revision History for Course Offering and Days and sort by most recent */
     public Iterator retrieveWorkspaceHistory()
     {
@@ -276,6 +343,7 @@ public class UserService {
         /* Loop through entries and modify it for DTO */
         CourseOffering prevOffering = null;
         boolean filledPrevOffering = false;
+        Date prevDate = null;
         for(AuditedRevisionEntity are : revisionEntities)
         {
             if (are.getId() < 60)
@@ -287,20 +355,11 @@ public class UserService {
                                                                         */
 
             /* Create DTO */
-            RecentChangesDTO dto = new RecentChangesDTO();
+            RecentChangesDTO dto = createNewChangesDTO(are);
 
-            /* Assign Name */
-            User revUser = findUserByIDNumber(Long.parseLong(are.getUserID()));
-            dto.setFullName(revUser.getLastName() + ", " + revUser.getFirstName());
-
-            /* Assign Timestamp */
-            dto.setTimestamp(are.getDateModified());
-
-            /* Assign Position */
-            dto.setPosition(revUser.getUserType());
-
-            /* Assign Revision ID */
-            dto.setRevNumber(are.getId());
+            /* Check Date */
+            if(prevDate != null && prevDate.equals(are.getDateModified()))
+                continue;
 
             /* Determine the subject by the entities updated */
             boolean hasOffering = false, hasUser = false, hasDays = false, hasDeloading = false;
@@ -358,9 +417,64 @@ public class UserService {
                     deloadInstance != null && deloadInstance.getTerm() == retrieveCurrentTerm())
                     allRevisions.add(dto);
             }
+
+            prevDate = are.getDateModified();
         }
 
         return allRevisions.iterator();
+    }
+
+    /* Create a template RecentChangesDTO */
+    public RecentChangesDTO createNewChangesDTO(AuditedRevisionEntity are)
+    {
+        RecentChangesDTO dto = new RecentChangesDTO();
+
+        /* Assign Name */
+        User revUser = findUserByIDNumber(Long.parseLong(are.getUserID()));
+        dto.setFullName(revUser.getLastName() + ", " + revUser.getFirstName());
+
+        /* Assign Timestamp */
+        dto.setTimestamp(are.getDateModified());
+
+        /* Assign Position */
+        dto.setPosition(revUser.getUserType());
+
+        /* Assign Revision ID */
+        dto.setRevNumber(are.getId());
+
+        return dto;
+    }
+
+    public String determineRecentChangesSubject(boolean hasOffering, boolean hasRoom, boolean hasUser, boolean hasDays,
+                                                CourseOffering offering, RevisionType revisionType)
+    {
+        if (!hasOffering)
+            return "";
+
+        String offeringName = offering.getCourse().getCourseCode() + " " + offering.getSection();
+
+        /* Created new offering */
+        if(revisionType.name().equals("ADD"))
+            return offeringName + " is created";
+        /* Timeslot and Room assigned/modified */
+        else if(hasRoom && hasDays && revisionType.name().equals("MOD"))
+            return "Timeslot and Room assigned to " + offeringName;
+        /* Timeslot assigned/modified */
+        else if(hasDays && revisionType.name().equals("MOD"))
+            return "Timeslot assigned to " + offeringName;
+        /* Faculty assigned/modified */
+        else if(hasUser && revisionType.name().equals("MOD") && offering.getFaculty() != null)
+            return "Faculty assigned to " + offeringName;
+        /* Faculty unassigned/deloaded */
+        else if(hasUser && revisionType.name().equals("MOD") && offering.getFaculty() == null)
+            return "Faculty unassigned from " + offeringName;
+        /* Section edited */
+        else if(!hasDays && !hasRoom && !hasUser && revisionType.name().equals("MOD"))
+            return offeringName + " is modified";
+        else if(revisionType.name().equals("MOD") && offering.getType().equals("Dissolved"))
+            return offeringName + " is dissolved";
+
+        return "";
     }
 
     /* Retrieve Specific Modified Entity Type Entity */

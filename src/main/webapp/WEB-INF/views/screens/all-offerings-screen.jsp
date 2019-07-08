@@ -13,7 +13,7 @@
                         <th>Timeslot</th>
                         <th>Room</th>
                         <th>Faculty</th>
-                        <th><img src="/images/green-icons/refresh-button.png" id="all-offerings-refresh" /></th>
+                        <th><!--<img src="/images/green-icons/refresh-button.png" id="all-offerings-refresh" />--></th>
                     </tr>
                 </thead>
                 <tbody>

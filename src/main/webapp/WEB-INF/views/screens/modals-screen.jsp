@@ -29,5 +29,11 @@
             <textarea id="raise-concerns-content" placeholder="Raise Concerns Here..."></textarea>
             <button type="button" id="raise-concerns-submit">Send Concern</button>
         </div>
+
+        <!-- View More Details Modal -->
+        <div id="view-history-modal" class="modal">
+            <p class="section-header-text">Offering History</p>
+            <hr class="section-header-border" id="view-history-header-border" />
+        </div>
     </div>
 </html>

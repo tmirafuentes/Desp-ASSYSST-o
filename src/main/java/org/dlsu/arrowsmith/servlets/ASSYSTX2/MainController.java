@@ -72,6 +72,9 @@ public class MainController
         /* Retrieve Current Term */
         model = retrieveCurrentTerm(model);
 
+        /* Test History */
+        //userService.retrieveOfferingHistory(offeringService.retrieveCourseOffering(Long.valueOf(241)));
+
         /* Retrieve User Type */
         String userType = retrieveUserType();
         model.addAttribute("userType", userType);
@@ -277,7 +280,7 @@ public class MainController
         if (userType.equalsIgnoreCase("Academic Programming Officer"))
             return "APO";
         else if (userType.equalsIgnoreCase("Chair") ||
-                 userType.equalsIgnoreCase("Vice Chair"))
+                 userType.equalsIgnoreCase("Vice-Chair"))
             return "CVC";
 
         return "FACULTY";
