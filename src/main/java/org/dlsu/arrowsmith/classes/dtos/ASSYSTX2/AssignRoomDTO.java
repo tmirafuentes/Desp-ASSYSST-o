@@ -5,7 +5,8 @@ public class AssignRoomDTO
     private Long offeringID;
     private String courseCode;
     private String section;
-    private String roomCode;
+    private String roomCode1;
+    private String roomCode2;
     private char day1;
     private char day2;
     private String startTimeDay1;
@@ -21,12 +22,20 @@ public class AssignRoomDTO
         this.offeringID = offeringID;
     }
 
-    public String getRoomCode() {
-        return roomCode;
+    public String getRoomCode1() {
+        return roomCode1;
     }
 
-    public void setRoomCode(String roomCode) {
-        this.roomCode = roomCode;
+    public void setRoomCode1(String roomCode1) {
+        this.roomCode1 = roomCode1;
+    }
+
+    public String getRoomCode2() {
+        return roomCode2;
+    }
+
+    public void setRoomCode2(String roomCode2) {
+        this.roomCode2 = roomCode2;
     }
 
     public char getDay1() {

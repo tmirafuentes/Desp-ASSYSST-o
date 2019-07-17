@@ -1,7 +1,6 @@
 package org.dlsu.arrowsmith.services;
 
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.RecentChangesDTO;
-import org.dlsu.arrowsmith.classes.dtos.RevHistoryLinkDto;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.*;
 import org.dlsu.arrowsmith.revisionHistory.AuditedRevisionEntity;
@@ -13,10 +12,6 @@ import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

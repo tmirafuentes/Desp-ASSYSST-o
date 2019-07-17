@@ -50,9 +50,31 @@
                         <select id="assign-room-building-menu">
                             <option value="-" selected>Select building</option>
                         </select>
-                        <!-- Room Menu -->
-                        <select id="assign-room-room-menu">
-                            <option value="-" selected>Select room</option>
+                        <!-- Timeslot Menu -->
+                        <select id="assign-room-timeslot-menu">
+                            <option value="-" selected>Select timeslot</option>
+                            <optgroup label="1.5 Hours">
+                                <option value="730-900">0730 - 0900</option>
+                                <option value="915-1045">0915 - 1045</option>
+                                <option value="1100-1230">1100 - 1230</option>
+                                <option value="1245-1415">1245 - 1415</option>
+                                <option value="1430-1600">1430 - 1600</option>
+                                <option value="1615-1745">1615 - 1745</option>
+                                <option value="1800-1930">1800 - 1930</option>
+                                <option value="1945-2115">1945 - 2115</option>
+                            </optgroup>
+                            <optgroup label="2.0 Hours">
+                                <option value="730-930">0730 - 0930</option>
+                                <option value="1000-1200">1000 - 1200</option>
+                                <option value="1100-1300">1100 - 1300</option>
+                                <option value="1300-1500">1300 - 1500</option>
+                                <option value="1530-1730">1530 - 1730</option>
+                            </optgroup>
+                            <optgroup label="3.0 Hours">
+                                <option value="900-1200">0900 - 1200</option>
+                                <option value="1300-1600">1300 - 1600</option>
+                                <option value="1800-2100">1800 - 2100</option>
+                            </optgroup>
                         </select>
                     </div>
                 </section>
@@ -81,8 +103,8 @@
                             </c:if>
                             <tr id="confirm-table-button-row">
                                 <td colspan="2">
-                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-cancel-btn">Cancel</button>
-                                    <button id="assign-room-reset" type="reset" class="assign-confirm-btns assign-room-btn">Reset</button>
+                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-cancel-btn">Go Back</button>
+                                    <!--<button id="assign-room-reset" type="reset" class="assign-confirm-btns assign-room-btn">Reset</button>-->
                                     <button id="assign-room-submit" type="submit" class="assign-confirm-btns assign-submit-btn">Assign Room</button>
                                 </td>
                             </tr>

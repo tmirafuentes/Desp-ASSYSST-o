@@ -148,12 +148,8 @@ public class WorkspaceController
             /* Convert partial list of course offerings into DTOs */
             Iterator partialOfferingDTOs = transferListOfferingToDTO(allOfferings);
 
-            /* Put other page details into DTO */
-            PageOfferingDTO pageOfferingDTO = new PageOfferingDTO();
-            pageOfferingDTO.setCurrPartialOfferings(partialOfferingDTOs);
-
             /* Return a response */
-            return new Response("Done", pageOfferingDTO);
+            return new Response("Done", partialOfferingDTOs);
         }
     }
 
@@ -196,35 +192,60 @@ public class WorkspaceController
                 displayOfferingDTO.setDay2(day.getclassDay());
 
             /* Room */
-            if (day.getRoom() != null)
+            if (day.getRoom() != null && !day1Done)
                 displayOfferingDTO.setRoomCode(day.getRoom().getRoomCode());
+            else if (day.getRoom() != null && day1Done &&
+                     !day.getRoom().getRoomCode().equals(displayOfferingDTO.getRoomCode()))
+                displayOfferingDTO.setRoomCode(displayOfferingDTO.getRoomCode() + "/" + day.getRoom().getRoomCode());
             else if (day.getRoom() == null || day.getRoom().getRoomId() == 11111111)
                 displayOfferingDTO.setRoomCode("Unassigned");
 
             /* Timeslot */
-            if (!day.getbeginTime().equals("") && !day.getendTime().equals("")) {
-                if (day.getbeginTime().length() == 3) {
+            if (!day.getbeginTime().equals("") && !day.getendTime().equals(""))
+            {
+                if (day.getbeginTime().length() == 3)
+                {
                     displayOfferingDTO.setStartTime("0" + day.getbeginTime().charAt(0) + ":" + day.getbeginTime().substring(1, 3));
                 } else if (day.getbeginTime().length() == 4) {
                     displayOfferingDTO.setStartTime(day.getbeginTime().substring(0, 2) + ":" + day.getbeginTime().substring(2, 4));
                 }
-                if (day.getendTime().length() == 3) {
+                if (day.getendTime().length() == 3)
+                {
                     displayOfferingDTO.setEndTime("0" + day.getendTime().charAt(0) + ":" + day.getendTime().substring(1, 3));
                 } else if (day.getendTime().length() == 4) {
                     displayOfferingDTO.setEndTime(day.getendTime().substring(0, 2) + ":" + day.getendTime().substring(2, 4));
                 }
-            } else {
+            }
+            else
+            {
                 displayOfferingDTO.setStartTime("00:00");
                 displayOfferingDTO.setEndTime("00:00");
             }
             day1Done = true;
         }
-        if (displayOfferingDTO.getDay1() == '\0') {
+        if (displayOfferingDTO.getDay1() == '\0')
+        {
             displayOfferingDTO.setDay1('-');
             displayOfferingDTO.setRoomCode("Unassigned");
             displayOfferingDTO.setStartTime("00:00");
             displayOfferingDTO.setEndTime("00:00");
             displayOfferingDTO.setDay2('-');
+        }
+        if (displayOfferingDTO.getDay1() != '\0' &&
+            displayOfferingDTO.getDay2() != '\0')
+        {
+            char tempDay1 = displayOfferingDTO.getDay1();
+            char tempDay2 = displayOfferingDTO.getDay2();
+
+            if((tempDay1 == 'W' && tempDay2 == 'M') || (tempDay1 == 'H' && tempDay2 == 'T'))
+            {
+                char temp = tempDay1;
+                tempDay1 = tempDay2;
+                tempDay2 = temp;
+            }
+
+            displayOfferingDTO.setDay1(tempDay1);
+            displayOfferingDTO.setDay2(tempDay2);
         }
 
         return displayOfferingDTO;

@@ -194,7 +194,7 @@ $(function() {
                 }
                 else if(result.status === "Done")
                 {
-                    $.each(result.data.currPartialOfferings, function(i, offering)
+                    $.each(result.data, function(i, offering)
                     {
                         /* Create row */
                         var row =   "<tr>" +
@@ -225,12 +225,13 @@ $(function() {
                         $(offeringRow).appendTo("#all-offerings-table tbody");
                     });
 
+                    /* Initialize DataTables */
                     $("#all-offerings-table").DataTable({
-                        stateSave : true,
-                        lengthChange : false,
-                        searching: false,
+                        "stateSave" : true,
+                        "lengthChange" : false,
+                        "searching" : false,
                         "language" : {
-                            "info" : "Displaying _MAX_ of _TOTAL_ offerings",
+                            "info" : "Displaying _START_ to _END_ of _TOTAL_ offerings",
                             "infoEmpty" : "There are currently no course offerings."
                         },
                         "columnDefs" : [

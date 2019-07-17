@@ -85,8 +85,6 @@ public class ProfilesController
             dtos.add(dto);
         }
 
-        System.out.println("Size = " + dtos.size());
-
         /* Check if empty */
         if(dtos.size() == 0)
             return new Response("Empty", null);
@@ -127,22 +125,20 @@ public class ProfilesController
      */
 
     /* Retrieve all faculty based on department or other constraints */
-    @PostMapping(value = "/retrieve-faculty-list")
-    public Response retrieveFacultyList(@RequestBody String facultyType)
+    @GetMapping(value = "/retrieve-faculty-list")
+    public Response retrieveFacultyList()
     {
         /* Initialize iterator */
-        Iterator allFaculty = null;
+        Iterator allFaculty = userService.retrieveAllFaculty();
 
-        /* Check the constraint */
+        /* Check the constraint
         if(facultyType.equalsIgnoreCase("ALL"))
             allFaculty = userService.retrieveAllFaculty();
         else if(facultyType.equalsIgnoreCase("ACTIVE"))
-        {
             allFaculty = userService.retrieveAllActiveFaculty();
-        }
         else if(facultyType.equalsIgnoreCase("LEAVE"))
         {
-            /* Retrieve all faculty load */
+            /* Retrieve all faculty load
             Iterator allFacultyLoad = facultyService.retrieveAllFacultyLoadByTerm(userService.retrieveCurrentTerm());
 
             ArrayList<User> onLeaveFaculty = new ArrayList<>();
@@ -156,21 +152,40 @@ public class ProfilesController
             allFaculty = onLeaveFaculty.iterator();
         }
         else if(facultyType.equalsIgnoreCase("INACTIVE"))
-        {
-            allFaculty = userService.retrieveAllInactiveFaculty();
-        }
+            allFaculty = userService.retrieveAllInactiveFaculty();*/
 
-        /* Retrieve the names */
-        ArrayList<String> facultyNames = new ArrayList<>();
+        /* Retrieve the faculty */
+        ArrayList<ManageFacultyDTO> dtos = new ArrayList<>();
         while(allFaculty.hasNext())
         {
             User faculty = (User) allFaculty.next();
-            facultyNames.add(faculty.getLastName() + ", " + faculty.getFirstName());
+
+            ManageFacultyDTO dto = new ManageFacultyDTO();
+            dto.setFacultyName(faculty.getLastName() + ", " + faculty.getFirstName());
+            dto.setFacultyType(faculty.getUserPosition());
+            dto.setDepartment(faculty.getDepartment().getDeptName());
+
+            /* Set Faculty Status and Total Units */
+            FacultyLoad load = facultyService.retrieveFacultyLoadByFaculty(userService.retrieveCurrentTerm(), faculty);
+            if(faculty.isActive() && load.isOnLeave())
+                dto.setActive("On Leave");
+            else if(faculty.isActive() && !load.isOnLeave())
+                dto.setActive("Active");
+            else if(!faculty.isActive())
+                dto.setActive("Inactive");
+
+            if(load == null)
+                dto.setTotalUnits(0);
+            else
+                dto.setTotalUnits(load.getTotalLoad());
+
+            dtos.add(dto);
         }
 
-        if(facultyNames.size() == 0)
+        if(dtos.size() == 0)
             return new Response("Empty", null);
-        return new Response("Done", facultyNames.iterator());
+
+        return new Response("Done", dtos.iterator());
     }
 
     /* Retrieve specific faculty profile */

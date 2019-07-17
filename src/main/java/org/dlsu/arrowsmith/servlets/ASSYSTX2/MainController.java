@@ -216,6 +216,7 @@ public class MainController
                                 selDays.getbeginTime() + " - " +
                                 selDays.getendTime();
             modelAndView.addObject("day" + dayCtr, formatDays);
+            dayCtr++;
         }
 
         return modelAndView;

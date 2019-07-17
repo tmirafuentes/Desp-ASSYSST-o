@@ -193,6 +193,36 @@ public class OfferingService {
         return allDays.iterator();
     }
 
+    /* Retrieve All Days Per Building and Time Slot */
+    public Iterator retrieveAllDaysByBuildingAndTimeslot(Building building, String beginTime, String endTime, Term term)
+    {
+        /* Transform into integers */
+        int begin_time = Integer.parseInt(beginTime);
+        int end_time = Integer.parseInt(endTime);
+
+        /* Retrieve List of all Days in the term */
+        ArrayList<Days> allDays = daysRepository.findAllByRoomBuildingAndCourseOfferingTerm(building, term);
+
+        /* Traverse and create a new list */
+        ArrayList<Days> filteredList = new ArrayList<>();
+        for(Days day : allDays)
+        {
+            /* Transform days' times into integers */
+            int dayBeginTime = Integer.parseInt(day.getbeginTime());
+            int dayEndTime = Integer.parseInt(day.getendTime());
+
+            /* Check if dayBeginTime is between begin and end time.
+             * If so, include the day in the list.
+             */
+            if(begin_time >= dayBeginTime && begin_time < dayEndTime)
+                filteredList.add(day);
+            else if(end_time > dayBeginTime && end_time < dayEndTime)
+                filteredList.add(day);
+        }
+
+        return filteredList.iterator();
+    }
+
     /* Delete Days Per Course Offering */
     public void deleteDaysPerCourseOffering(CourseOffering offering) {
         ArrayList<Days> allDays = (ArrayList<Days>) retrieveAllDaysByOffering(offering);

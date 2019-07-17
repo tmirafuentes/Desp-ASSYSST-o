@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
 import org.dlsu.arrowsmith.classes.main.*;
@@ -64,42 +65,118 @@ public class AssignController
         return new Response("Done", allRooms);
     }
 
-    @PostMapping(value = "/retrieve-occupying-offerings")
-    public Response retrieveOccupyingOfferings(@RequestBody String roomCode)
+    @PostMapping(value = "/retrieve-occupied-rooms")
+    public Response retrieveOccupyingOfferings(@RequestBody ObjectNode request)
     {
-        /* Clean input Room Code */
-        roomCode = roomCode.substring(0, roomCode.length() - 1);
+        /* Get timeslot and building code from request */
+        String timeslot = request.get("timeslot").asText();
+        String[] timeSplit = timeslot.split("-");
+        String bldgCode = request.get("bldgCode").asText();
+        String testString = timeSplit[0] + " - " + timeSplit[1] + ": " + bldgCode;
 
-        /* Find equivalent room in database */
-        Room selectedRoom = offeringService.retrieveRoomByRoomCode(roomCode);
+        /* Retrieve building from building code */
+        Building building = offeringService.retrieveBuildingByBuildingCode(bldgCode);
 
-        /* Find latest term */
-        Term currentTerm = userService.retrieveCurrentTerm();
+        /* Retrieve current term */
+        Term currTerm = userService.retrieveCurrentTerm();
 
-        /* Find all Days that occupy room */
-        Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoomAndTerm(selectedRoom, currentTerm);
+        /* Retrieve All Days from building */
+        Iterator allDays = offeringService.retrieveAllDaysByBuildingAndTimeslot(building, timeSplit[0], timeSplit[1], currTerm);
 
-        /* Iterate list to filter out offerings not in the selected term */
-        ArrayList<OccupyOfferingDTO> allOccupiers = new ArrayList<>();
-        while(allDaysOccupied.hasNext())
+        /* Retrieve All Rooms from building */
+        Iterator allRooms = offeringService.retrieveAllRoomsByBuilding(building);
+
+        /* Create list of OccupiedRoomDTOs */
+        ArrayList<OccupiedRoomDTO> dtos = new ArrayList<>();
+        while(allRooms.hasNext())
         {
-            /* Retrieve Days object from the list */
-            Days daysItem = (Days) allDaysOccupied.next();
+            Room currRoom = (Room) allRooms.next();
 
-            /* Transfer to DTO */
-            OccupyOfferingDTO dto = new OccupyOfferingDTO();
-            dto.setRoomCode(daysItem.getRoom().getRoomCode());
-            dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
-            dto.setSection(daysItem.getCourseOffering().getSection());
-            dto.setBeginTime(daysItem.getbeginTime());
-            dto.setEndTime(daysItem.getendTime());
-            dto.setDay(daysItem.getclassDay());
-
-            /* Add to new list */
-            allOccupiers.add(dto);
+            OccupiedRoomDTO dto = new OccupiedRoomDTO(currRoom.getRoomCode());
+            dtos.add(dto);
         }
 
-        return new Response("Done", allOccupiers.iterator());
+        /* Modify DTOs to accommodate occupied rooms */
+        while(allDays.hasNext())
+        {
+            Days currDay = (Days) allDays.next();
+
+            /* Check if matched room code */
+            OccupiedRoomDTO occupiedRoom = null;
+            for(OccupiedRoomDTO dto : dtos)
+            {
+                if(dto.getRoomCode().equals(currDay.getRoom().getRoomCode()))
+                {
+                    occupiedRoom = dto;
+                    break;
+                }
+            }
+
+            /* Mark availability of room */
+            if(currDay.getclassDay() == 'M')
+            {
+                occupiedRoom.setAvailDay1(false);
+                occupiedRoom.setOffDay1(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+            }
+            else if(currDay.getclassDay() == 'T')
+            {
+                occupiedRoom.setAvailDay2(false);
+                occupiedRoom.setOffDay2(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+            }
+            else if(currDay.getclassDay() == 'W')
+            {
+                occupiedRoom.setAvailDay3(false);
+                occupiedRoom.setOffDay3(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+            }
+            else if(currDay.getclassDay() == 'H')
+            {
+                occupiedRoom.setAvailDay4(false);
+                occupiedRoom.setOffDay4(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+            }
+            else if(currDay.getclassDay() == 'F')
+            {
+                occupiedRoom.setAvailDay5(false);
+                occupiedRoom.setOffDay5(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+            }
+            else if(currDay.getclassDay() == 'S')
+            {
+                occupiedRoom.setAvailDay6(false);
+                occupiedRoom.setOffDay6(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+            }
+        }
+
+        return new Response("Done", dtos.iterator());
+
+        /* Find equivalent room in database */
+        //Room selectedRoom = offeringService.retrieveRoomByRoomCode(bldgCode);
+
+        /* Find latest term */
+        //Term currentTerm = userService.retrieveCurrentTerm();
+
+        /* Find all Days that occupy room */
+        //Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoomAndTerm(selectedRoom, currentTerm);
+
+        /* Iterate list to filter out offerings not in the selected term */
+        //ArrayList<OccupiedRoomDTO> allOccupiers = new ArrayList<>();
+        //while(allDaysOccupied.hasNext())
+        //{
+            /* Retrieve Days object from the list */
+            //Days daysItem = (Days) allDaysOccupied.next();
+
+            /* Transfer to DTO */
+            //OccupiedRoomDTO dto = new OccupiedRoomDTO();
+            //dto.setRoomCode(daysItem.getRoom().getRoomCode());
+            //dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
+            //dto.setSection(daysItem.getCourseOffering().getSection());
+            //dto.setBeginTime(daysItem.getbeginTime());
+            //dto.setEndTime(daysItem.getendTime());
+            //dto.setDay(daysItem.getclassDay());
+
+            /* Add to new list */
+            //allOccupiers.add(dto);
+        //}
+
+        //return new Response("Done", allOccupiers.iterator());
     }
 
     /* Update the selected course offering's room assignment */
@@ -108,9 +185,6 @@ public class AssignController
     {
         /* Retrieve course offering from database */
         CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), dto.getSection());
-
-        /* Find Room Object */
-        Room newRoom = offeringService.retrieveRoomByRoomCode(dto.getRoomCode());
 
         /* Update Days Object */
         Iterator daysList = offeringService.retrieveAllDaysByOffering(selectedOffering);
@@ -126,13 +200,15 @@ public class AssignController
         }
 
         /* Save First Day */
-        Days day1 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 1);
+        Room room1 = offeringService.retrieveRoomByRoomCode(dto.getRoomCode1());
+        Days day1 = transferAssignRoomDTOToDays(dto, room1, selectedOffering, 1);
         offeringService.saveDays(day1);
 
         /* OPTIONAL - Save Second Day */
         if (dto.getDay2() != '-')
         {
-            Days day2 = transferAssignRoomDTOToDays(dto, newRoom, selectedOffering, 2);
+            Room room2 = offeringService.retrieveRoomByRoomCode(dto.getRoomCode2());
+            Days day2 = transferAssignRoomDTOToDays(dto, room2, selectedOffering, 2);
             offeringService.saveDays(day2);
         }
 

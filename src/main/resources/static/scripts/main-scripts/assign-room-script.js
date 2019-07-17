@@ -17,7 +17,7 @@ $(function()
     *
     */
     retrieveBuildingNames();
-    createTimeslotTable();
+    //createRoomTable();
 
     /* Day Number */
     var dayNumber = 1;
@@ -35,85 +35,83 @@ $(function()
     $("#assign-room-building-menu").on('change', function()
     {
         /* Check if it isn't null value */
-        if(this.value != "-")
-        {
+        if(this.value != "-") {
             /* Remove previous options */
-            $("#assign-room-room-menu option").slice(1).remove();
+            //$("#assign-room-room-menu option").slice(1).remove();
 
             /* Remove existing confirm table rows */
-            $(".confirm-table-row").remove();
+            //$(".confirm-table-row").remove();
 
             /* Retrieve room names based on selected building */
             retrieveRoomNames(this.value);
 
-            /* Create Room row for confirm table */
-            var roomRow = createConfirmTableRow("Room", "No Room Selected", "confirm-table-room-row");
-            if($("#confirm-table-assigned-row").length)
-                $(roomRow).insertAfter("#confirm-table-assigned-row");
-            else
-                $(roomRow).insertAfter("#confirm-table-offering-row");
+            /* Check if timeslot has been selected */
+            if ($("#assign-room-timeslot-menu").val() !== "-")
+            {
+                var bldgCode = this.value;
+                displayOccupiedSlotsTable($("#assign-room-timeslot-menu").val(), bldgCode);
+            }
         }
         else
         {
             /* Reset room menu */
-            $("#assign-room-room-menu option").slice(1).remove();
+            //$("#assign-room-room-menu option").slice(1).remove();
 
             /* Remove room row in confirm table */
             $(".confirm-table-row").remove();
 
-            /* Make every cell considered unavailable */
-            $(".room-table-cells").text("");
-            $(".room-table-cells").removeClass("room-table-available", "room-table-selected");
-            $(".room-table-cells").addClass("room-table-unavailable");
+            /* Remove assign room table */
+            $("#room-assign-table").remove();
         }
     });
 
     /*  This event listener retrieves
-     *  the rooms of each building when
-     *  a building is selected.
+     *  the available rooms when a
+     *  timeslot is selected.
     */
-    $("#assign-room-room-menu").on('change', function()
+    $("#assign-room-timeslot-menu").on('change', function()
     {
        /* Check if it isn't null value */
        if(this.value != "-")
        {
            /* Remove existing confirm table rows */
-           $(".confirm-table-row").remove();
+           //$(".confirm-table-row").remove();
 
-           var roomColLabel = "Room";
-           if ($("#confirm-table-assigned-row").length)
-               roomColLabel = "New " + roomColLabel;
+           //var roomColLabel = "Room";
+           //if ($("#confirm-table-assigned-row").length)
+               //roomColLabel = "New " + roomColLabel;
 
            /* Reflect changes in the confirm table */
-           var roomRow = createConfirmTableRow(roomColLabel, this.value, "confirm-table-room-row");
-           if($("#confirm-table-assigned-row").length)
-                $(roomRow).insertAfter("#confirm-table-assigned-row");
-           else
-                $(roomRow).insertAfter("#confirm-table-offering-row");
+           //var roomRow = createConfirmTableRow(roomColLabel, this.value, "confirm-table-room-row");
+           //if($("#confirm-table-assigned-row").length)
+                //$(roomRow).insertAfter("#confirm-table-assigned-row");
+           //else
+                //$(roomRow).insertAfter("#confirm-table-offering-row");
 
            /* Make every cell considered available */
-           $(".room-table-cells").text("");
-           $(".room-table-cells").removeClass("room-table-unavailable", "room-table-selected");
-           $(".room-table-cells").addClass("room-table-available");
+           //$(".room-table-cells").text("");
+           //$(".room-table-cells").removeClass("room-table-unavailable", "room-table-selected");
+           //$(".room-table-cells").addClass("room-table-available");
 
-           /* TODO: Retrieve All Days per Room and reflect it in the table */
-           displayOccupiedSlotsTable(this.value);
+           /* Retrieve All Days per Room and reflect it in the table */
+           var bldgCode = $("#assign-room-building-menu").val();
+           displayOccupiedSlotsTable(this.value, bldgCode);
        }
        else
        {
            /* Remove existing confirm table rows */
-           $(".confirm-table-row").remove();
+           //$(".confirm-table-row").remove();
 
-           var roomColLabel = "Room";
-           if ($("#confirm-table-assigned-row").length)
-               roomColLabel = "New " + roomColLabel;
+           //var roomColLabel = "Room";
+           //if ($("#confirm-table-assigned-row").length)
+               //roomColLabel = "New " + roomColLabel;
 
            /* Update Room row in confirm table */
-           var roomRow = createConfirmTableRow(roomColLabel, "No Room Selected", "confirm-table-room-row");
-           if($("#confirm-table-assigned-row").length)
-               $(roomRow).insertAfter("#confirm-table-assigned-row");
-           else
-               $(roomRow).insertAfter("#confirm-table-offering-row");
+           //var roomRow = createConfirmTableRow(roomColLabel, "No Room Selected", "confirm-table-room-row");
+           //if($("#confirm-table-assigned-row").length)
+               //$(roomRow).insertAfter("#confirm-table-assigned-row");
+          //else
+               //$(roomRow).insertAfter("#confirm-table-offering-row");
 
            /* Make every cell considered unavailable */
            $(".room-table-cells").text("");
@@ -138,40 +136,14 @@ $(function()
             $(this).removeClass('room-table-selected');
 
             /* Retrieve the time and day values from the cell */
-            var cell_begin_time = $(this).data('cell-start-min');
-            var cell_end_time = $(this).data('cell-end-min');
-            var cell_day = $(this).data('cell-day');
+            var room = $(this).closest("tr").data('room-code');
+            var cell_day = $(this).data('day-letter');
 
-            if ($(".confirm-table-row[data-cell-day='" + cell_day + "']").length)
+            if ($(".confirm-table-row[data-cell-room='" + room + "'][data-cell-day='" + cell_day + "']").length)
             {
-                /* There are still selected cells for that day */
-                if ($(".room-table-selected[data-cell-day='" + cell_day + "']").length)
-                {
-                    /* Get Minimum Begin Time and Maximum End Time */
-                    var min = Number.MAX_VALUE, max = Number.MIN_VALUE;
-                    $(".room-table-selected[data-cell-day='" + cell_day + "']").each(function()
-                    {
-                        cell_start = $(this).data("cell-start-min");
-                        cell_end = $(this).data("cell-end-min");
-
-                        /* Get Minimum Begin Time */
-                        if (cell_start < min)
-                            min = cell_start;
-
-                        if (cell_end > max)
-                            max = cell_end;
-                    });
-
-                    /* Update Confirm Table */
-                    timeslot = cell_day + " " + min + " - " + max;
-                    $(".confirm-table-row[data-cell-day='" + cell_day + "'] td:nth-child(2)").text(timeslot);
-                }
                 /* There are no more selected cells */
-                else
-                {
-                    $(".confirm-table-row[data-cell-day='" + cell_day + "']").remove();
-                    dayNumber--;
-                }
+                $(".confirm-table-row[data-cell-room='" + room + "'][data-cell-day='" + cell_day + "']").remove();
+                dayNumber--;
             }
         }
         else
@@ -180,43 +152,18 @@ $(function()
             $(this).addClass('room-table-selected');
 
             /* Retrieve the time and day values from the cell */
-            var cell_begin_time = $(this).data('cell-start-min');
-            var cell_end_time = $(this).data('cell-end-min');
-            var cell_day = $(this).data('cell-day');
+            var timeslot = $("#assign-room-timeslot-menu").val();
+            var day = $(this).data('day-letter');
+            var room = $(this).closest("tr").data('room-code');
 
-            /* Check if there is a row in the confirm table */
-            if ($(".confirm-table-row[data-cell-day='" + cell_day + "']").length)
-            {
-                /* Get Minimum Begin Time and Maximum End Time */
-                var min = Number.MAX_VALUE, max = Number.MIN_VALUE;
-                $(".room-table-selected[data-cell-day='" + cell_day + "']").each(function()
-                {
-                    cell_start = $(this).data("cell-start-min");
-                    cell_end = $(this).data("cell-end-min");
-
-                    /* Get Minimum Begin Time */
-                    if (cell_start < min)
-                        min = cell_start;
-
-                    if (cell_end > max)
-                        max = cell_end;
-                });
-
-                /* Update Confirm Table */
-                timeslot = cell_day + " " + min + " - " + max;
-                $(".confirm-table-row[data-cell-day='" + cell_day + "'] td:nth-child(2)").text(timeslot);
-            }
-            else
-            {
-                /* Update confirm table */
-                var timeslot = cell_day + " " + cell_begin_time + " - " + cell_end_time;
-                var colLabel = "Day " + dayNumber;
-                if($("#confirm-table-assigned-row").length)
-                    colLabel = "New " + colLabel;
-                dayNumber++;
-                var dayRow = createConfirmTableRow(colLabel, timeslot, "confirm-table-day-row", cell_day);
-                $(dayRow).insertBefore("#confirm-table-button-row");
-            }
+            /* Update confirm table */
+            var assignedSlot = room + " " + day + " " + timeslot;
+            var colLabel = "Day " + dayNumber;
+            if($("#confirm-table-assigned-row").length)
+                colLabel = "New " + colLabel;
+            dayNumber++;
+            var dayRow = createConfirmTableRow(colLabel, assignedSlot, "confirm-table-day-row", day, room);
+            $(dayRow).insertBefore("#confirm-table-button-row");
         }
     });
 
@@ -236,11 +183,13 @@ $(function()
                 /* Parse String */
                 var codeStr = $(this).children(":nth-child(2)").text();
                 var codeStrArray = codeStr.split(" ");
+                var timeslot = codeStrArray[2].split("-");
 
                 /* Put into Form Data */
-                formData["day" + numDays] = codeStrArray[0];
-                formData["startTimeDay" + numDays] = codeStrArray[1];
-                formData["endTimeDay" + numDays] = codeStrArray[3];
+                formData["roomCode" + numDays] = codeStrArray[0];
+                formData["day" + numDays] = codeStrArray[1];
+                formData["startTimeDay" + numDays] = timeslot[0];
+                formData["endTimeDay" + numDays] = timeslot[1];
 
                 numDays++;
             });
@@ -253,10 +202,6 @@ $(function()
                 formData["endTimeDay" + numDays] = null;
             }
 
-            /* Get room */
-            var roomCode = $("#confirm-table-room-row td:nth-child(2)").text();
-            formData["roomCode"] = roomCode;
-
             /* Get course code and section */
             var offering = $("#confirm-table-offering-row td:nth-child(2)").text();
             var offeringArray = offering.split(" ");
@@ -264,8 +209,6 @@ $(function()
             /* Put into Form data */
             formData["courseCode"] = offeringArray[0];
             formData["section"] = offeringArray[1];
-
-            console.log(formData);
 
             /* Submit Form */
             $.ajax({
@@ -276,11 +219,8 @@ $(function()
                 dataType : "json",
                 success : function(result)
                 {
-                    console.log(result.status);
                     if(result.status == "Done")
                     {
-                        createTimeslotTable();
-                        displayOccupiedSlotsTable(roomCode);
                         displayPositiveMessage(result.data);
 
                         setTimeout(function()
@@ -342,65 +282,59 @@ $(function()
             {
                 if(result.status == "Done")
                 {
-                    $.each(result.data, function(i, room)
-                    {
-                        var roomOption = "<option value='" +
-                            room.roomCode +
-                            "'>" + room.roomCode +
-                            "</option>";
-                        $("#assign-room-room-menu").append(roomOption);
-                    });
+                    /* If result is successful, go to room table */
+                    createRoomTable(result.data);
                 }
             }
         });
     }
 
-    /*  This function retrieves all the offerings
-     *  occupying the room in a given term.
+    /*  This function retrieves all the occupied
+     *  rooms within a given timeslot.
     */
-    function displayOccupiedSlotsTable(roomCode)
+    function displayOccupiedSlotsTable(timeslot, bldgCode)
     {
+        /* Process data */
+        var data = {
+            timeslot : timeslot,
+            bldgCode : bldgCode
+        };
+
         $.ajax({
             type : "POST",
-            data : roomCode,
-            url : window.location + "/retrieve-occupying-offerings",
+            contentType : "application/json",
+            data : JSON.stringify(data),
+            dataType : "json",
+            url : window.location + "/retrieve-occupied-rooms",
             success : function(result)
             {
-                if (result.status == "Done")
+                if (result.status === "Done")
                 {
-                    $.each(result.data, function(i, offering)
+                    $.each(result.data, function(i, room)
                     {
-                        /* Get Offering's Day, Start Time, and End Time */
-                        var day = offering.day;
-                        var begin_time = offering.beginTime;
-                        var end_time = offering.endTime;
-                        var temp_begin_time = begin_time;
+                        var roomCode = room.roomCode;
 
-                        /* Retrieve Selected Offering */
-                        var selOffering = $("#confirm-table-offering-row td:nth-child(2)").text();
+                        /* Find row with room code and fill with info */
+                        $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(2)").text(room.offDay1).removeClass("room-table-available").addClass("room-table-unavailable");
+                        $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(3)").text(room.offDay2).removeClass("room-table-available").addClass("room-table-unavailable");
+                        $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(4)").text(room.offDay3).removeClass("room-table-available").addClass("room-table-unavailable");
+                        $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(5)").text(room.offDay4).removeClass("room-table-available").addClass("room-table-unavailable");
+                        $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(6)").text(room.offDay5).removeClass("room-table-available").addClass("room-table-unavailable");
+                        $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(7)").text(room.offDay6).removeClass("room-table-available").addClass("room-table-unavailable");
 
-                        /* Iteratively find cells that satisfy the day and time */
-                        while(temp_begin_time < end_time)
-                        {
-                            /* Find cell that satisfy the day and time */
-                            var currCell = $("#assign-room-table-box").find("[data-cell-day='" + day + "'][data-cell-start-min='" + temp_begin_time + "']");
-
-                            /* If Selected Offering is assigned in the room, it's allowed to be selected */
-                            var currOffering = offering.courseCode + " " + offering.section;
-                            if(selOffering !== currOffering)
-                            {
-                                /* Make it unavailable */
-                                currCell.addClass("room-table-unavailable");
-                                currCell.css("background-color", "#d3d3d3");
-                                currCell.removeClass("room-table-available");
-
-                                /* Display occupying offering */
-                                currCell.text(offering.courseCode + " " + offering.section);
-                            }
-
-                            /* Make the cell's end time as the new begin time */
-                            temp_begin_time = currCell.data('cell-end-min');
-                        }
+                        /* Design appropriately the cells */
+                        if(room.availDay1)
+                            $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(2)").removeClass("room-table-unavailable").addClass("room-table-available");
+                        if(room.availDay2)
+                            $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(3)").removeClass("room-table-unavailable").addClass("room-table-available");
+                        if(room.availDay3)
+                            $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(4)").removeClass("room-table-unavailable").addClass("room-table-available");
+                        if(room.availDay4)
+                            $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(5)").removeClass("room-table-unavailable").addClass("room-table-available");
+                        if(room.availDay5)
+                            $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(6)").removeClass("room-table-unavailable").addClass("room-table-available");
+                        if(room.availDay6)
+                            $(".room-table-row[data-room-code='" + roomCode + "'] td:nth-child(7)").removeClass("room-table-unavailable").addClass("room-table-available");
                     });
                 }
             },
@@ -412,9 +346,10 @@ $(function()
     }
 
     /* Create Confirm Table Rows */
-    function createConfirmTableRow(firstColLabel, secondColLabel, idName, dataDay)
+    function createConfirmTableRow(firstColLabel, secondColLabel, idName, dataDay, dataRoom)
     {
-        var newRow = "<tr data-cell-day= '" + dataDay +
+        var newRow = "<tr data-cell-day='" + dataDay +
+                     "' data-cell-room='" + dataRoom +
                      "' class='confirm-table-row' id='" +
                      idName + "'>" +
                      "<td>" + firstColLabel + "</td>" +
@@ -424,14 +359,14 @@ $(function()
         return newRow;
     }
 
-    /* Create the assign room timeslot table. */
-    function createTimeslotTable()
+    /* Create the assign room table. */
+    function createRoomTable(roomList)
     {
         /* Remove table if there is existing */
         if ($("#room-assign-table").length)
             $("#room-assign-table").remove();
 
-        var hourCells = "<table id='room-assign-table'>" +
+        var roomTable = "<table id='room-assign-table'>" +
                         "<tr>" +
                         "<td class='room-table-header'></td>" +
                         "<td class='room-table-header'>MON</td>" +
@@ -442,37 +377,24 @@ $(function()
                         "<td class='room-table-header'>SAT</td>" +
                         "</tr>";
 
-        // Add hour cell and first partition
-        for(var i=7;i<22;i++)
+        /* Add Rooms based on building */
+        $.each(roomList, function(i, room)
         {
-            hourCells += "<tr data-ref-hour=" + i + ">";
-            hourCells += "<td rowspan='4' class='room-table-hour room-table-header'>" +
-                         timeFormatter(i, "00", true) + " - " +
-                         timeFormatter(i+1, "00", true) +
-                         "</td>";
-            hourCells = assignRoomTableDayTime(hourCells, i, "00", i, 15);
-            hourCells += "</tr>";
+            roomTable += "<tr class='room-table-row' data-room-code='" + room.roomCode + "'>" +
+                         "<td class='room-table-header'>" + room.roomCode + "</td>" +
+                         "<td class='room-table-cells' data-day-letter='M'></td>" +
+                         "<td class='room-table-cells' data-day-letter='T'></td>" +
+                         "<td class='room-table-cells' data-day-letter='W'></td>" +
+                         "<td class='room-table-cells' data-day-letter='H'></td>" +
+                         "<td class='room-table-cells' data-day-letter='F'></td>" +
+                         "<td class='room-table-cells' data-day-letter='S'></td>" +
+                         "</tr>";
+        });
 
-            // Add second partition
-            hourCells += "<tr>";
-            hourCells = assignRoomTableDayTime(hourCells, i, 15, i, 30);
-            hourCells += "</tr>";
+        /* Close the room assignment table */
+        roomTable += "</table>";
 
-            // Add third partition
-            hourCells += "<tr>";
-            hourCells = assignRoomTableDayTime(hourCells, i, 30, i, 45);
-            hourCells += "</tr>";
-
-            // Add fourth partition
-            hourCells += "<tr class='room-table-header'>";
-            hourCells = assignRoomTableDayTime(hourCells, i, 45, i+1, "00");
-            hourCells += "</tr>";
-        }
-
-        // Close the timeslot table
-        hourCells += "</table>";
-
-        $(hourCells).insertAfter("#assign-room-table-border");
+        $(roomTable).insertAfter("#assign-room-table-border");
         $(".room-table-cells").addClass("room-table-unavailable");
     }
 
@@ -505,10 +427,10 @@ $(function()
     }
 
     /*
- *  FEEDBACK MESSAGES
- *  FUNCTION IMPLEMENTATIONS
- *
-*/
+     *  FEEDBACK MESSAGES
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
 
     /*  This function creates a feedback
      *  message and displays it in the system.

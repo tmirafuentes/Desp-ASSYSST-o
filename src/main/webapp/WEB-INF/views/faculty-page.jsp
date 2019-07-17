@@ -15,8 +15,25 @@
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-        <link rel="stylesheet" type="text/css" href="/css/assystx2-styles/manage-faculty-style.css" />
-        <link rel="stylesheet" type="text/css" href="/css/jquery/jquery-ui.css" />
+        <!-- Variables for Stylesheets and Scripts -->
+        <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
+        <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
+        <c:url value="/css/assystx2-styles/component-styles/datatables.css" var="dataTablesCss" />
+        <c:url value="/css/assystx2-styles/manage-faculty-style.css" var="mainCss" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
+        <c:url value="/scripts/extension-scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
+        <c:url value="/scripts/extension-scripts/jquery-shorten.min.js" var="shortenExt" />
+        <c:url value="/scripts/main-scripts/faculty-page-script.js" var="mainScript" />
+        <c:url value="/scripts/main-scripts/header-user-script.js" var="userScript" />
+        <c:url value="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js" var="dataTablesExt" />
+        <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js" var="modalScriptExt" />
+        <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" var="modalCssExt" />
+
+        <link rel="stylesheet" type="text/css" href="${jqueryCss}" />
+        <link rel="stylesheet" type="text/css" href="${dataTablesCss}">
+        <link rel="stylesheet" type="text/css" href="${shortenCss}">
+        <link rel="stylesheet" type="text/css" href="${modalCssExt}">
+        <link rel="stylesheet" type="text/css" href="${mainCss}">
     </head>
     <body>
         <div id="assystx-container">
@@ -53,6 +70,7 @@
                 <!-- Faculty Profiles List -->
                 <section id="faculty-profiles-list-container">
                     <div id="faculty-profiles-list-box">
+                        <!--
                         <p class="section-header-text">Faculty List</p>
                         <hr class="section-header-border" />
 
@@ -61,114 +79,24 @@
                             <option value="Active" selected>Active Faculty</option>
                             <option value="Leave">Faculty On Leave</option>
                             <option value="Inactive">Inactive Faculty</option>
-                        </select>
+                        </select> -->
 
                         <!-- Faculty Profiles Table -->
-                        <table id="faculty-profile-table">
-                            <tr>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
+                        <table id="faculty-list-table" class="hover row-border order-column">
+                            <thead>
+                                <tr>
+                                    <th>Faculty Name</th>
+                                    <th>Type</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                    <th>Total Load</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-                                </td>
-                                <td>
-                                    <img class="faculty-profile-img" src="images/black-icons/user-avatar.png" alt="This is a picture of a faculty." />
-                                    <p class="faculty-profile-name">AZCARRAGA, ARNULFO</p>
-                                </td>
-                            </tr>
+                            </tbody>
                         </table>
+
                     </div>
                 </section>
             </section>
@@ -270,5 +198,12 @@
         <!-- Feedback Messages -->
         <%@include file="screens/feedback-message-screen.jsp" %>
 
+        <script src="${minJquery}"></script>
+        <script src="${jqueryUI}"></script>
+        <script src="${shortenExt}"></script>
+        <script src="${modalScriptExt}"></script>
+        <script src="${dataTablesExt}"></script>
+        <script src="${userScript}"></script>
+        <script src="${mainScript}"></script>
     </body>
 </html>

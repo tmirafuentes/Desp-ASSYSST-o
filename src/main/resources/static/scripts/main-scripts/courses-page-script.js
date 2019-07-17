@@ -58,32 +58,47 @@ $(function()
             url : window.location + "/retrieve-course-list",
             success : function(result)
             {
-                 if(result.status == "Done")
+                 if(result.status === "Done")
                  {
                      /* Load all course profiles */
                      $.each(result.data, function(i, course)
                      {
-                         var courseHeader = "<h3>" +
-                                            "<span class='course-list-code'>" + course.courseCode + "</span>" +
-                                            "<span class='course-list-title'>" + course.courseName + "</span>" +
-                                            "<span class='course-list-units'>" + course.courseUnits + "</span>" +
-                                            "</h3>";
-                         var courseDiv = "<div class='course-list-accordion-div'>" +
-                                         "<div class='course-list-desc'>" +
-                                         "<span class='course-list-desc-title'>Description</span>" +
-                                         "<p class='course-list-desc-content'>" + course.courseDesc + "</p>" +
-                                         "</div></div>";
+                         /* Create row */
+                         var row =  "<tr>" +
+                                    "<td>" + course.courseCode + "</td>" +
+                                    "<td>" + course.courseName + "</td>" +
+                                    "<td>" + course.courseUnits + "</td>" +
+                                    "</tr>";
 
-                         var courseProfile = courseHeader + courseDiv;
-                         $("#course-list-accordion").append(courseProfile);
+                         $(row).appendTo("#course-list-table tbody");
                      });
 
-                     /* Initialize accordion */
+                     /* Initialize DataTables */
+                     $("#course-list-table").DataTable({
+                         "stateSave" : true,
+                         "lengthChange" : false,
+                         "searching" : true,
+                         "pageLength" : 15,
+                         "pagingType" : "numbers",
+                         "language" : {
+                             "info" : "Displaying _START_ to _END_ of _TOTAL_ course profiles",
+                             "infoEmpty" : "There are currently no course profiles.",
+                             "infoFiltered" : "(Filtered from _MAX_ courses)",
+                             "search" : "Search course: ",
+                             "zeroRecords":    "No matching courses found",
+                             "paginate": {
+                                 "next":       "Next",
+                                 "previous":   "Prev"
+                             },
+                         }
+                     });
+
+                     /* Initialize accordion
                      $("#course-list-accordion").accordion({
                          collapsible: true,
                          heightStyle: "content",
                          active: false
-                     });
+                     }); */
                  }
             },
             error : function(e)
