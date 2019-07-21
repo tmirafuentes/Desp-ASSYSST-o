@@ -27,8 +27,8 @@ $(function() {
     /* Retrieve Options for Filters
     retrieveFilterCourses();
     retrieveFilterTimeslots();
-    retrieveFilterBuildings(); */
-    //retrieveFilterFaculty();
+    retrieveFilterBuildings();
+    */
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -43,47 +43,6 @@ $(function() {
     {
         showOfferings();
     }); */
-
-    /*  This event listener marks the
-     *  selected course offering as
-     *  a special class.
-     */
-    $("#all-offerings-box").on('click', ".offering-special-class-button", function()
-    {
-        /* Change UI of specific offering */
-        $(this).closest("ul").css("background-color", "blue");
-        //$(".all-offerings-row").contains(this).css("background-color", "blue");
-
-        /* Retrieve Course Offering ID */
-        var currOffering = $(this).closest("ul").data("offering-id");
-        //var currOffering = $(".all-offerings-row").contains(this).data("offering-id");
-
-        /* Perform AJAX */
-        var formData = {
-            offeringID : currOffering,
-            offeringType : "Special"
-        };
-
-        $.ajax({
-            method : "POST",
-            contentType : "application/json",
-            url : window.location + "update-offering-type",
-            data : JSON.stringify(formData),
-            dataType : "json",
-            success : function(result)
-            {
-                if(result.status === "Done")
-                {
-                    displayPositiveMessage(result.data);
-
-                    /* Remove Change Special Class Option to Regular */
-                    $(this).addClass("offering-regular-offering-button");
-                    $(this).removeClass("offering-special-class-button");
-                    $(this).text("Mark as Regular Offering");
-                }
-            }
-        });
-    });
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -117,7 +76,7 @@ $(function() {
                 else if(result.status === "Done")
                 {
                     /* Display each offering into the system */
-                    $.each(result.data.currPartialOfferings, function(i, offering)
+                    $.each(result.data, function(i, offering)
                     {
                         /* Create row */
                         var row =   "<tr>" +

@@ -61,7 +61,7 @@ public class ProfilesController
         else
         {
             /* Retrieve Department */
-            Department department = offeringService.retrieveDepartmentByDeptCode(deptCode);
+            Department department = facultyService.retrieveDepartmentByDeptCode(deptCode);
 
             System.out.println("Department: " + department.getDeptCode());
 

@@ -17,9 +17,35 @@ $(function() {
      *  ONLOAD FUNCTIONS
      *
      */
+
     loadMostRecentChanges();
     setInterval(loadMostRecentChanges, 15000);
 
+    /* Initialize DataTables */
+    var offeringsTable = $("#all-offerings-table").DataTable({
+        "stateSave" : true,
+        "lengthChange" : false,
+        "searching" : true,
+        "pageLength" : 10,
+        "pagingType" : "numbers",
+        "language" : {
+            "info" : "Displaying _START_ to _END_ of _TOTAL_ offerings",
+            "infoEmpty" : "There are currently no course offerings.",
+            "infoFiltered" : "(Filtered from _MAX_ offerings)",
+            "search" : "Search offering: ",
+            "zeroRecords":    "No matching course offerings found",
+            "paginate": {
+                "next":       "Next",
+                "previous":   "Prev"
+            },
+        },
+        "columnDefs" : [
+            {
+                "orderable" : false,
+                "targets" : 6
+            }
+        ]
+    });
     /* Show Offerings */
     showOfferings();
 
@@ -27,10 +53,11 @@ $(function() {
     var courseCodes = [];
     retrieveAllCourses();
 
-    /* Retrieve Options for Filters */
+    /* Retrieve Options for Filters
     retrieveFilterCourses();
     retrieveFilterTimeslots();
     retrieveFilterBuildings();
+    */
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -196,50 +223,31 @@ $(function() {
                 {
                     $.each(result.data, function(i, offering)
                     {
-                        /* Create row */
-                        var row =   "<tr>" +
-                                    "<td>" + offering.courseCode + "</td>" +
-                                    "<td>" + offering.section + "</td>" +
-                                    "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
-                                    "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
-                                    "<td>" + offering.roomCode + "</td>" +
-                                    "<td>" + offering.facultyName + "</td>";
+                        var menus = "<div class='all-offerings-row-popup'>" +
+                            "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
+                            "<div class='all-offerings-dropdown-menu'>" +
+                            "<form action='/assign-room' method='POST'>" +
+                            "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
+                            "<input value='" + offering.section + "' name='section' hidden />" +
+                            "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
+                            "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
+                            "<a href='#edit-section-modal' rel='modal:open'><button type='button' class='offering-edit-section-button'>Edit Section</button></a>" +
+                            "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
+                            "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
+                            "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
+                            "</div></div>";
 
-                        var menus = "<td>" +
-                                    "<div class='all-offerings-row-popup'>" +
-                                    "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
-                                    "<div class='all-offerings-dropdown-menu'>" +
-                                    "<form action='/assign-room' method='POST'>" +
-                                    "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
-                                    "<input value='" + offering.section + "' name='section' hidden />" +
-                                    "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
-                                    "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
-                                    "<a href='#edit-section-modal' rel='modal:open'><button type='button' class='offering-edit-section-button'>Edit Section</button></a>" +
-                                    "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
-                                    "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
-                                    "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
-                                    "</div></div></td></tr>";
+                        /* Create row array */
+                        var tempRowArr = [offering.courseCode,
+                                          offering.section,
+                                          offering.day1 + " " + offering.day2,
+                                          offering.startTime + " - " + offering.endTime,
+                                          offering.roomCode,
+                                          offering.facultyName];
+                        tempRowArr.push(menus);
 
-                        var offeringRow = row + menus;
-
-                        $(offeringRow).appendTo("#all-offerings-table tbody");
-                    });
-
-                    /* Initialize DataTables */
-                    $("#all-offerings-table").DataTable({
-                        "stateSave" : true,
-                        "lengthChange" : false,
-                        "searching" : false,
-                        "language" : {
-                            "info" : "Displaying _START_ to _END_ of _TOTAL_ offerings",
-                            "infoEmpty" : "There are currently no course offerings."
-                        },
-                        "columnDefs" : [
-                            {
-                                "orderable" : false,
-                                "targets" : 6
-                            }
-                        ]
+                        /* Add to Row */
+                        offeringsTable.row.add(tempRowArr).draw(true);
                     });
                 }
             },
@@ -281,31 +289,13 @@ $(function() {
         var section = $("#add-offering-section").val();
 
         /* Check if it's not empty and then submit */
-        if (courseCode.length == 7 && section.length <= 4 && section.length > 0)
+        if (courseCode.length === 7 && section.length <= 4 && section.length > 0)
         {
             createNewOffering(courseCode, section);
         }
         else
         {
             displayNegativeMessage("Invalid input for create new offering!");
-        }
-    });
-
-    /*  This event listener submits a form
-     *  which includes the course offering
-     *  and section to the database and goes
-     *  to the assign room page.
-    */
-    $("#add-offering-box").on('submit', "#add-offering-room", function()
-    {
-        /* Retrieve input from text fields */
-        var courseCode = $("#add-offering-course").val();
-        var section = $("#add-offering-section").val();
-
-        /* Check if it's not empty and then submit */
-        if (courseCode.length === 7 && section.length <= 4)
-        {
-            createNewOffering(courseCode, section);
         }
     });
 
@@ -399,7 +389,7 @@ $(function() {
                     $("#add-offering-course").val("");
                     $("#add-offering-section").val("");
 
-                    /* Update course offerings */
+                    /* TODO: Input new row to datatable; Update course offerings */
                     showOfferings();
 
                     /* Display Message */
@@ -407,7 +397,7 @@ $(function() {
                 }
                 else if(result.status === "Error")
                 {
-                    /* Dispaly Message */
+                    /* Display Message */
                     displayNegativeMessage(result.data);
                 }
             },
@@ -426,18 +416,14 @@ $(function() {
     $("#filters-no-room-assigned").click(function() {
         if($(this).prop("checked") === true)
         {
-            console.log("Hello world");
-
-            var table = $("#all-offerings-table").DataTable();
-
-            table
+            offeringsTable
                 .column(4)
-                .search("Unassigned")
-                .draw();
-        }
-        else
-        {
-            console.log("Hi World");
+                .data()
+                .filter(function(value, index)
+                {
+                    return value === "Unassigned" ? true : false;
+                })
+                .draw(true);
         }
     });
 
@@ -504,9 +490,7 @@ $(function() {
      *
     */
 
-    /*  Event listener for
-     *  View Offering History.
-     */
+    /* Event listener for View Offering History. */
     $("#all-offerings-table").on("click", ".offering-view-history-button", function()
     {
         /* Find course offering */

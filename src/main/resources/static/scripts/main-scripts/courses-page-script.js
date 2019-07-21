@@ -78,7 +78,7 @@ $(function()
                          "stateSave" : true,
                          "lengthChange" : false,
                          "searching" : true,
-                         "pageLength" : 15,
+                         "pageLength" : 10,
                          "pagingType" : "numbers",
                          "language" : {
                              "info" : "Displaying _START_ to _END_ of _TOTAL_ course profiles",

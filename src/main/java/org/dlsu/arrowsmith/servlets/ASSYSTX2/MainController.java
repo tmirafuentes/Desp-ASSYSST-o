@@ -3,6 +3,7 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.CreateOfferingDTO;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.SelectDeptDTO;
 import org.dlsu.arrowsmith.classes.main.*;
+import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class MainController
 
     @Autowired
     private OfferingService offeringService;
+
+    @Autowired
+    private FacultyService facultyService;
 
     @Autowired
     private MessageSource messages;
@@ -150,7 +154,7 @@ public class MainController
         model.addAttribute("context", "courses");
 
         /* Retrieve List of Departments */
-        Iterator allDepartments = offeringService.retrieveAllDepartmentsByCollege(userService.retrieveUser().getCollege());
+        Iterator allDepartments = facultyService.retrieveAllDepartmentsByCollege(userService.retrieveUser().getCollege());
 
         ArrayList<SelectDeptDTO> listDepts = new ArrayList<>();
         while(allDepartments.hasNext())

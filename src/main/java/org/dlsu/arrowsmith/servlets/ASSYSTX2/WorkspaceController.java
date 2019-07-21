@@ -92,36 +92,6 @@ public class WorkspaceController
     }
 
     /*
-     *  FILTER OFFERINGS
-     *  URL MAPPING
-     *
-     */
-
-    /* Retrieve courses offered for a specific term */
-    @GetMapping(value = "/retrieve-filter-courses")
-    public Response retrieveFilterCourses(Model model)
-    {
-        /* Retrieve unique courses from offerings */
-        return new Response("Done", offeringService.retrieveOfferedCoursesByTerm());
-    }
-
-    /* Retrieve courses offered for a specific term */
-    @GetMapping(value = "/retrieve-filter-timeslots")
-    public Response retrieveFilterTimeslots(Model model)
-    {
-        /* Retrieve unique courses from offerings */
-        return new Response("Done", offeringService.retrieveOfferedTimeslotsByTerm());
-    }
-
-    /* Retrieve courses offered for a specific term */
-    @GetMapping(value = "/retrieve-filter-rooms")
-    public Response retrieveFilterRooms(Model model)
-    {
-        /* Retrieve unique courses from offerings */
-        return new Response("Done", offeringService.retrieveUsedRoomsByTerm());
-    }
-
-    /*
      *  DISPLAY OFFERINGS
      *  URL MAPPING
      *

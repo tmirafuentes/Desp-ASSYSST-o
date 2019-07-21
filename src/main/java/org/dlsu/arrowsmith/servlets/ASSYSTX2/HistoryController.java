@@ -4,6 +4,7 @@ import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.RecentChangesDTO;
 import org.dlsu.arrowsmith.classes.main.CourseOffering;
 import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.services.FacultyService;
+import org.dlsu.arrowsmith.services.HistoryService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class HistoryController
     private UserService userService;
 
     @Autowired
-    private FacultyService facultyService;
+    private HistoryService historyService;
 
     @Autowired
     private MessageSource messages;
@@ -34,7 +35,7 @@ public class HistoryController
     public Response retrieveMostRecentChanges()
     {
         /* Retrieve all changes */
-        Iterator workspaceHistory = userService.retrieveWorkspaceHistory();
+        Iterator workspaceHistory = historyService.retrieveWorkspaceHistory();
 
         /* Transfer to new list */
         ArrayList<RecentChangesDTO> mostRecent = new ArrayList<>();
@@ -57,7 +58,7 @@ public class HistoryController
         /* Find Course Offering */
         CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(offeringString[0], offeringString[1]);
 
-        Iterator offeringHistory = userService.retrieveOfferingHistory(selectedOffering);
+        Iterator offeringHistory = historyService.retrieveOfferingHistory(selectedOffering);
 
         return new Response("Done", offeringHistory);
     }

@@ -39,6 +39,7 @@ $(function()
         /* Show User Dropdown */
         $("#header-dropdown-user").toggle();
     });
+
     $(".workspace-user-inbox").click(function(){
         $(".header-concerns-notif").hide();
 
@@ -130,7 +131,8 @@ $(function()
     /*  This event listener opens the concerns modal
      *  with the appropriate receiver.
      */
-    $("#all-offerings-table").on('click', ".offering-raise-concerns-button", function(){
+    $("#all-offerings-table").on('click', ".offering-raise-concerns-button", function()
+    {
         /* Find course offering */
         var courseCode = $(this).closest("tr").find("td:nth-child(1)").text();
         var section = $(this).closest("tr").find("td:nth-child(2)").text();
@@ -149,6 +151,8 @@ $(function()
 
                     /* Assign Course Offering */
                     $("#raise-concerns-offering").val(courseCode + " " + section);
+
+                    $("#raise-concerns-content").text("Hello! I have a concern. ");
                 }
             },
             error : function(e)
@@ -159,7 +163,8 @@ $(function()
     });
 
     /* This event listener sends a concern from the modal */
-    $("#raise-concerns-submit").on('click', function(){
+    $("#raise-concerns-submit").on('click', function()
+    {
         var formData = {
             receiver : $("#raise-concerns-receiver").val(),
             subject : $("#raise-concerns-offering").val(),

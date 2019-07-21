@@ -3,6 +3,7 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.SendConcernDTO;
 import org.dlsu.arrowsmith.classes.main.*;
+import org.dlsu.arrowsmith.services.ConcernsService;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
@@ -25,6 +26,9 @@ public class ConcernsController
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ConcernsService concernsService;
 
     @Autowired
     private FacultyService facultyService;
@@ -50,7 +54,7 @@ public class ConcernsController
             /* Retrieve department */
             Department department = selectedCourse.getDepartment();
 
-            User deptHead = userService.retrieveDepartmentHead(department, "Vice-Chair");
+            User deptHead = concernsService.retrieveDepartmentHead(department, "Vice-Chair");
 
             return new Response("Done", deptHead.getLastName() + ", " + deptHead.getFirstName());
         }
@@ -59,7 +63,7 @@ public class ConcernsController
             /* Retrieve college */
             College college = selectedCourse.getCollege();
 
-            User acadAssistant = userService.retrieveAcadAssistant(college);
+            User acadAssistant = concernsService.retrieveAcadAssistant(college);
 
             return new Response("Done", acadAssistant.getLastName() + ", " + acadAssistant.getFirstName());
         }
@@ -82,7 +86,7 @@ public class ConcernsController
         newConcern.setDateTimeCommitted(LocalDateTime.now());
 
         /* Send Concern */
-        userService.saveConcern(newConcern);
+        concernsService.saveConcern(newConcern);
 
         return new Response("Done", messages.getMessage("message.sendConcern", null, null));
     }
@@ -94,7 +98,7 @@ public class ConcernsController
         User currentUser = userService.retrieveUser();
 
         /* Retrieve partial concerns */
-        Iterator partialConcerns = userService.retrievePartialConcernsByReceiver(currentUser);
+        Iterator partialConcerns = concernsService.retrievePartialConcernsByReceiver(currentUser);
 
         /* Convert to DTO */
         ArrayList<SendConcernDTO> dtos = new ArrayList<>();
@@ -107,20 +111,7 @@ public class ConcernsController
             /* Get sender */
             String sender = concern.getSender().getLastName() + ", " + concern.getSender().getFirstName();
 
-            /* Get timestamp */
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
-            String timestamp = concern.getDateTimeCommitted().format(formatter);
-
-            /* Form DTO */
-            SendConcernDTO dto = new SendConcernDTO();
-            dto.setId(concern.getconcernId());
-            dto.setContent(concern.getMessage());
-            dto.setSender(sender);
-            dto.setSubject(concern.getSubject());
-            dto.setAcknowledged(concern.isAcknowledged());
-            dto.setTimestamp(timestamp);
-
-            dtos.add(dto);
+            dtos.add(createSendConcernDTO(concern, sender));
 
             ctr++;
         }
@@ -135,7 +126,7 @@ public class ConcernsController
         User currentUser = userService.retrieveUser();
 
         /* Retrieve partial concerns */
-        Iterator partialConcerns = userService.retrievePartialConcernsByReceiver(currentUser);
+        Iterator partialConcerns = concernsService.retrievePartialConcernsByReceiver(currentUser);
 
         /* Mark all partial concerns as acknowledged */
         while(partialConcerns.hasNext())
@@ -143,7 +134,7 @@ public class ConcernsController
             Concern selectedConcern = (Concern) partialConcerns.next();
 
             selectedConcern.setAcknowledged(true);
-            userService.saveConcern(selectedConcern);
+            concernsService.saveConcern(selectedConcern);
         }
 
         return new Response("Done", null);
@@ -162,9 +153,9 @@ public class ConcernsController
 
         /* Received Concerns */
         if(type.equals("inbox"))
-            allConcerns = userService.retrieveAllConcernsByReceiver(currentUser);
+            allConcerns = concernsService.retrieveAllConcernsByReceiver(currentUser);
         else if(type.equals("sent"))
-            allConcerns = userService.retrieveAllConcernsBySender(currentUser);
+            allConcerns = concernsService.retrieveAllConcernsBySender(currentUser);
 
         /* Transfer to DTO */
         ArrayList<SendConcernDTO> dtos = new ArrayList<>();
@@ -178,20 +169,7 @@ public class ConcernsController
             else
                 sender += "To: " + concern.getReceiver().getLastName() + ", " + concern.getReceiver().getFirstName();
 
-            /* Get timestamp */
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
-            String timestamp = concern.getDateTimeCommitted().format(formatter);
-
-            /* Form DTO */
-            SendConcernDTO dto = new SendConcernDTO();
-            dto.setId(concern.getconcernId());
-            dto.setContent(concern.getMessage());
-            dto.setSender(sender);
-            dto.setSubject(concern.getSubject());
-            dto.setAcknowledged(concern.isAcknowledged());
-            dto.setTimestamp(timestamp);
-
-            dtos.add(dto);
+            dtos.add(createSendConcernDTO(concern, sender));
         }
 
         return new Response("Done", dtos.iterator());
@@ -202,11 +180,29 @@ public class ConcernsController
     {
         id = id.substring(0, id.length() - 1);
 
-        Concern concern = userService.findConcernByConcernId(Long.parseLong(id));
+        Concern concern = concernsService.findConcernByConcernId(Long.parseLong(id));
         concern.setAcknowledged(true);
-        userService.saveConcern(concern);
+        concernsService.saveConcern(concern);
 
         return new Response("Done", null);
+    }
+
+    private SendConcernDTO createSendConcernDTO(Concern concern, String sender)
+    {
+        /* Get timestamp */
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
+        String timestamp = concern.getDateTimeCommitted().format(formatter);
+
+        /* Form DTO */
+        SendConcernDTO dto = new SendConcernDTO();
+        dto.setId(concern.getconcernId());
+        dto.setContent(concern.getMessage());
+        dto.setSender(sender);
+        dto.setSubject(concern.getSubject());
+        dto.setAcknowledged(concern.isAcknowledged());
+        dto.setTimestamp(timestamp);
+
+        return dto;
     }
 }
 

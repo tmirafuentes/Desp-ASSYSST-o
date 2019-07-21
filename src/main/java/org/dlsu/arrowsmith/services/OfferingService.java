@@ -17,41 +17,16 @@ public class OfferingService {
     @Autowired
     private BuildingRepository buildingRepository;
     @Autowired
-    private CollegeRepository collegeRepository;
-    @Autowired
     private CourseRepository courseRepository;
     @Autowired
     private CourseOfferingRepository courseOfferingRepository;
     @Autowired
     private DaysRepository daysRepository;
     @Autowired
-    private DepartmentRepository departmentRepository;
-    @Autowired
     private RoomRepository roomRepository;
-    @Autowired
-    private DegreeProgramRepository degreeProgramRepository;
-    @Autowired
-    private OnlineUsersRepository onlineUsersRepository;
 
     @Autowired
     private UserService userService;
-
-    /**
-     **
-     ** COLLEGE
-     ** CRUD FUNCTIONS
-     **
-     */
-
-    /* Create/Update New College */
-    public void saveCollege(College college) {
-        collegeRepository.save(college);
-    }
-
-    /* Retrieve All Colleges */
-    public Iterator retrieveAllColleges() {
-        return ((ArrayList<College>) collegeRepository.findAll()).iterator();
-    }
 
     /**
      **
@@ -78,18 +53,30 @@ public class OfferingService {
     }
 
     /* Retrieve All Courses By Department */
-    public Iterator retrieveAllCoursesByDepartment(Department department) {
-        ArrayList<Course> allCourses = (ArrayList<Course>) courseRepository.findAllByDepartment(department);
-        return allCourses.iterator();
-    }
+    public Iterator retrieveAllCoursesByDepartment(Department department) { return courseRepository.findAllByDepartment(department).iterator(); }
 
     /* Retrieve Specific Course By Course Code */
     public Course retrieveCourseByCourseCode(String course_code) { return courseRepository.findCourseByCourseCode(course_code); }
 
-    /* Delete Course */
-    public void deleteCourse(Course course) {
-        courseRepository.delete(course);
+    /* Retrieve a list of suggested courses */
+    public Iterator retrieveSuggestedCourses()
+    {
+        /* Get All courses */
+        Iterator allCourses = retrieveAllCourses();
+
+        /* Create List of Course Codes */
+        ArrayList<String> allCourseCodes = new ArrayList<>();
+        while(allCourses.hasNext())
+            allCourseCodes.add(((Course)allCourses.next()).getCourseCode());
+
+        /* Sort alphabetically */
+        Collections.sort(allCourseCodes);
+
+        return allCourseCodes.iterator();
     }
+
+    /* Delete Course */
+    public void deleteCourse(Course course) { courseRepository.delete(course); }
 
     /**
      **
@@ -103,8 +90,16 @@ public class OfferingService {
         courseOfferingRepository.save(courseOffering);
     }
 
-    /* Retrieve All Course Offerings */
-    public Iterator retrieveAllOfferings() { return courseOfferingRepository.findAll().iterator(); }
+    /* Retrieve Specific Offering By ID */
+    public CourseOffering retrieveCourseOffering(Long offering_id) { return courseOfferingRepository.findCourseOfferingByOfferingId(offering_id); }
+
+    /* Retrieve Selected Offering through Course Code and Section */
+    public CourseOffering retrieveOfferingByCourseCodeAndSection(String course_code, String section)
+    {
+        /* Retrieve current term */
+        Term currTerm = userService.retrieveCurrentTerm();
+        return courseOfferingRepository.findCourseOfferingByCourse_CourseCodeAndSectionAndTerm(course_code, section, currTerm);
+    }
 
     /* Retrieve All Course Offerings Per Term */
     public Iterator retrieveAllOfferingsByTerm(Term term) {
@@ -114,13 +109,7 @@ public class OfferingService {
 
     /* Retrieve All Course Offerings Per Faculty Per Term */
     public Iterator retrieveAllOfferingsByFaculty(User faculty, Term term) {
-        ArrayList<CourseOffering> courseOfferings = (ArrayList<CourseOffering>) courseOfferingRepository.findAllByFacultyAndTerm(faculty, term);
-        return courseOfferings.iterator();
-    }
-
-    /* Retrieve All Course Offerings Per Course Per Term */
-    public Iterator retrieveAllOfferingsByCourse(Course course, Term term) {
-        ArrayList<CourseOffering> courseOfferings = courseOfferingRepository.findAllByCourseAndTerm(course, term);
+        ArrayList<CourseOffering> courseOfferings = courseOfferingRepository.findAllByFacultyAndTerm(faculty, term);
         return courseOfferings.iterator();
     }
 
@@ -130,21 +119,12 @@ public class OfferingService {
         return courseOfferings.iterator();
     }
 
-    /* Retrieve all Offerings by Faculty */
-    public Iterator retrieveAllOfferingsByFaculty(User faculty) {
-        ArrayList<CourseOffering> allOfferings = courseOfferingRepository.findAllByFaculty(faculty);
-        return allOfferings.iterator();
-    }
-
-    /* Retrieve all Offerings by Status */
-    public Iterator retrieveAllOfferingsByStatus(Term term, String status) {
-        ArrayList<CourseOffering> allOfferings = courseOfferingRepository.findAllByTypeAndTerm(status, term);
-        return allOfferings.iterator();
-    }
-
-    /* Retrieve Specific Offering By ID */
-    public CourseOffering retrieveCourseOffering(Long offering_id) {
-        return courseOfferingRepository.findCourseOfferingByOfferingId(offering_id);
+    /* Retrieve 15 Course Offerings at a time */
+    public Page<CourseOffering> retrievePartialCourseOfferings(Term term, PageRequest pageRequest)
+    {
+        //List<CourseOffering> allOfferings = courseOfferingRepository.findAll(pageRequest.first()).getContent();
+        Page<CourseOffering> allOfferings = courseOfferingRepository.findAllByTermOrderByOfferingIdAsc(term, pageRequest);
+        return allOfferings;
     }
 
     /* Delete Specific Offering by ID */
@@ -164,10 +144,7 @@ public class OfferingService {
         daysRepository.save(days);
     }
 
-    public Days retrieveSpecificDaysByID(Long id)
-    {
-        return daysRepository.findByDaysId(id);
-    }
+    public Days retrieveSpecificDaysByID(Long id) { return daysRepository.findByDaysId(id); }
 
     /* Retrieve All Days Per Offering */
     public Iterator retrieveAllDaysByOffering(CourseOffering offering) {
@@ -178,18 +155,6 @@ public class OfferingService {
     /* Retrieve All Days Per Room and Term */
     public Iterator retrieveAllDaysByRoomAndTerm(Room room, Term term) {
         ArrayList<Days> allDays = daysRepository.findAllByRoomAndCourseOffering_Term(room, term);
-        return allDays.iterator();
-    }
-
-    /* Retrieve All Days Per Time Slot */
-    public Iterator retrieveAllDaysByTimeslot(String beginTime, String endTime) {
-        ArrayList<Days> allDays = daysRepository.findAllByBeginTimeAndEndTime(beginTime, endTime);
-        return allDays.iterator();
-    }
-
-    /* Retrieve All Days Per Room and Time Slot */
-    public Iterator retrieveAllDaysByRoomAndTimeslot(Room room, String beginTime, String endTime) {
-        ArrayList<Days> allDays = daysRepository.findAllByRoomAndBeginTimeAndEndTime(room, beginTime, endTime);
         return allDays.iterator();
     }
 
@@ -223,46 +188,9 @@ public class OfferingService {
         return filteredList.iterator();
     }
 
-    /* Delete Days Per Course Offering */
-    public void deleteDaysPerCourseOffering(CourseOffering offering) {
-        ArrayList<Days> allDays = (ArrayList<Days>) retrieveAllDaysByOffering(offering);
-        for (Days day : allDays)
-            daysRepository.delete(day);
-    }
-
     /* Delete Specific Day */
     public void deleteSpecificDay(Days dayInstance) {
         daysRepository.delete(dayInstance);
-    }
-
-    /**
-     **
-     ** DEPARTMENT
-     ** CRUD FUNCTIONS
-     **
-     */
-
-    /* Create/Update Department */
-    public void saveDepartment(Department department) {
-        departmentRepository.save(department);
-    }
-
-    /* Retrieve All Departments */
-    public Iterator retrieveAllDepartments() {
-        ArrayList<Department> allDepartments = (ArrayList<Department>) departmentRepository.findAll();
-        return allDepartments.iterator();
-    }
-
-    /* Retrieve All Departments by College */
-    public Iterator retrieveAllDepartmentsByCollege(College college)
-    {
-        return departmentRepository.findAllByCollege(college).iterator();
-    }
-
-    /* Retrieve a Department through its code */
-    public Department retrieveDepartmentByDeptCode(String deptCode)
-    {
-        return departmentRepository.findDepartmentByDeptCode(deptCode);
     }
 
     /**
@@ -284,85 +212,12 @@ public class OfferingService {
     }
 
     /* Retrieve All Rooms By Building */
-    public Iterator retrieveAllRoomsByBuilding(Building building) {
-        ArrayList<Room> allRooms = (ArrayList<Room>) roomRepository.findAllByBuilding(building);
-        return allRooms.iterator();
-    }
+    public Iterator retrieveAllRoomsByBuilding(Building building) { return roomRepository.findAllByBuilding(building).iterator(); }
 
     /* Retrieve Room by Room Code */
     public Room retrieveRoomByRoomCode(String roomCode) {
         return roomRepository.findRoomByRoomCode(roomCode);
     }
-
-    /* Room Rule Checking
-    public ArrayList<Room> roomRuleChecking(char day1, char day2, String startTime, String endTime)
-    {
-        if(!startTime.equals("") && !endTime.equals(""))
-        {
-            Iterator<CourseOffering> allCourses = this.retrieveAllOfferingsByTerm(2016, 2017, 1);
-            ArrayList<CourseOffering> evaluatedCourses = new ArrayList<>();//List of courses that are "Safe"
-            HashSet<String> listofCourseRooms = new HashSet<>();
-            ArrayList<Room> finalRoomList = new ArrayList<>();
-
-            CourseOffering currentCourse;
-            /* Checks course offerings that are free at this time slot
-            while(allCourses.hasNext())//As long as there are courses in the Iterator: Fill up courses that do not have room conflicts with this timeslot
-            {
-                currentCourse = allCourses.next();//Get the next element
-                for (Days s : currentCourse.getDaysSet()) {//for each day that the course is in
-                    if(s.getclassDay() == day1 || s.getclassDay() == day2)//if equal ng day
-                    { System.out.println("First Start time and End time: " + Integer.parseInt(startTime) + " " + Integer.parseInt(endTime));
-                      System.out.println("Second Start time and End time: " + s.getbeginTime().replace(":", "") + " " + s.getendTime().replace(":", ""));
-                        if(!s.getbeginTime().equals(":") && !s.getendTime().equals(":") && !s.getbeginTime().equals("") && !s.getendTime().equals(""))
-                        {
-                            if(!conflictsWith(Integer.parseInt(startTime), Integer.parseInt(endTime),
-                                    Integer.parseInt(s.getbeginTime().replace(":", "")), Integer.parseInt(s.getendTime().replace(":", ""))))
-                                evaluatedCourses.add(currentCourse);
-                            else
-                                continue;
-                        }
-                    }
-                    else
-                        evaluatedCourses.add(currentCourse);
-                }
-            }
-            /* For each course offering that do not conflict with the sched, get the room code (also deletes duplicates)
-            for(CourseOffering s: evaluatedCourses)
-                for (Days x : s.getDaysSet())
-                    listofCourseRooms.add(x.getRoom().getRoomCode());
-
-            /* Search for list of rooms and add it in the final Room List
-            for(String room: listofCourseRooms)
-            {
-                if(!room.equals("No Room"))
-                    finalRoomList.add(retrieveRoomByRoomCode(room));
-            }
-
-            for(Room rum: finalRoomList)
-                System.out.println("Room: "+ rum.getRoomCode());
-
-            return finalRoomList;
-        }
-        else{
-           ArrayList<Room> rooms = (ArrayList) roomRepository.findAll();
-           return rooms;
-        }
-
-    }
-
-    /* To be used in conjunction with the Room Checking function
-    public boolean conflictsWith(int firstStart, int firstEnd, int secondStart, int secondEnd) {
-        if (firstEnd <= secondStart) {//no conflict
-            return false;
-        }
-
-        if (secondEnd <= firstStart) {//no conflict
-            return false;
-        }
-
-        return true;
-    }
-    */
 
     /**
      **
@@ -371,10 +226,7 @@ public class OfferingService {
      **
      */
 
-    public Building retrieveBuildingByBuildingCode(String buildingCode)
-    {
-        return buildingRepository.findBuildingByBldgCode(buildingCode);
-    }
+    public Building retrieveBuildingByBuildingCode(String buildingCode) { return buildingRepository.findBuildingByBldgCode(buildingCode); }
 
     public Iterator retrieveAllBuildings() {
         ArrayList<Building> allBuildings = (ArrayList<Building>) buildingRepository.findAll();
@@ -386,164 +238,4 @@ public class OfferingService {
      ** SYSTEM FUNCTIONS
      **
      */
-
-    /* Room Allocation */
-    public void assignRoomToAllDaysPerOffering(CourseOffering offering, Room room, char[] class_day, String beginTime, String endTime) {
-        Iterator allDays = retrieveAllDaysByOffering(offering);
-        int dayCtr = 0;
-        while(allDays.hasNext()) {
-            Days currDay = (Days) allDays.next();
-            currDay.setRoom(room);
-            currDay.setbeginTime(beginTime);
-            currDay.setendTime(endTime);
-            currDay.setclassDay(class_day[dayCtr]);
-
-            daysRepository.save(currDay);
-        }
-    }
-
-    /**
-     **
-     ** OTHER FUNCTIONS
-     **
-     */
-
-    /* Generate All The Corresponding Letters for Days */
-    public ArrayList<String> generateLetterDays() {
-        ArrayList<String> allLetterDays = new ArrayList<String>();
-        allLetterDays.add("M");
-        allLetterDays.add("T");
-        allLetterDays.add("W");
-        allLetterDays.add("H");
-        allLetterDays.add("F");
-        allLetterDays.add("S");
-        return allLetterDays;
-    }
-
-    public ArrayList<String> generateClassType() {
-        ArrayList<String> allClassTypes = new ArrayList<String>();
-        allClassTypes.add("Regular");
-        allClassTypes.add("Elective");
-        allClassTypes.add("Special");
-        allClassTypes.add("Dissolved");
-        return allClassTypes;
-    }
-
-    /* Generate All Room Types */
-    public Iterator generateRoomType() {
-        ArrayList<String> allRoomTypes = new ArrayList<String>();
-        allRoomTypes.add("Lecture");
-        allRoomTypes.add("Computer Laboratory");
-        return allRoomTypes.iterator();
-    }
-
-    /*
-     *
-     *  ASSYSTX 2
-     *  OFFERING SERVICES
-     *
-     */
-
-    /* Retrieve 15 Course Offerings at a time */
-    public Page<CourseOffering> retrievePartialCourseOfferings(Term term, PageRequest pageRequest)
-    {
-        //List<CourseOffering> allOfferings = courseOfferingRepository.findAll(pageRequest.first()).getContent();
-        Page<CourseOffering> allOfferings = courseOfferingRepository.findAllByTermOrderByOfferingIdAsc(term, pageRequest);
-        return allOfferings;
-    }
-
-    /* Retrieve a list of suggested courses */
-    public Iterator retrieveSuggestedCourses()
-    {
-        /* Get All courses */
-        Iterator allCourses = retrieveAllCourses();
-
-        /* Create List of Course Codes */
-        ArrayList<String> allCourseCodes = new ArrayList<>();
-        while(allCourses.hasNext())
-        {
-            allCourseCodes.add(((Course)allCourses.next()).getCourseCode());
-        }
-
-        /* Sort alphabetically */
-        Collections.sort(allCourseCodes);
-
-        return allCourseCodes.iterator();
-    }
-
-    /* Retrieve Selected Offering through Course Code and Section */
-    public CourseOffering retrieveOfferingByCourseCodeAndSection(String course_code, String section)
-    {
-        /* Retrieve current term */
-        Term currTerm = userService.retrieveCurrentTerm();
-        return courseOfferingRepository.findCourseOfferingByCourse_CourseCodeAndSectionAndTerm(course_code, section, currTerm);
-    }
-
-    /* Retrieve Offered Courses in a term */
-    public Iterator retrieveOfferedCoursesByTerm()
-    {
-        /* Retrieve current term */
-        Term currTerm = userService.retrieveCurrentTerm();
-
-        /* Retrieve all offerings for the term */
-        ArrayList<CourseOffering> allOfferings = courseOfferingRepository.findAllByTerm(currTerm);
-
-        /* Retrieve all unique courses */
-        ArrayList<String> allOfferedCourses = new ArrayList<>();
-        for(CourseOffering co : allOfferings)
-        {
-            if(!allOfferedCourses.contains(co.getCourse().getCourseCode()))
-                allOfferedCourses.add(co.getCourse().getCourseCode());
-        }
-
-        /* Sort Courses */
-        Collections.sort(allOfferedCourses);
-
-        return allOfferedCourses.iterator();
-    }
-
-    /* Retrieve Offered Timeslots in a term */
-    public Iterator retrieveOfferedTimeslotsByTerm()
-    {
-        /* Retrieve current term */
-        Term currTerm = userService.retrieveCurrentTerm();
-
-        /* Retrieve all days for the term */
-        ArrayList<Days> allDays = daysRepository.findAllByCourseOffering_Term(currTerm);
-
-        /* Retrieve all unique timeslots */
-        ArrayList<String> allOfferedTimeslots = new ArrayList<>();
-        for(Days d : allDays)
-        {
-            String timeslot = d.getbeginTime() + " - " + d.getendTime();
-            if(!allOfferedTimeslots.contains(timeslot))
-                allOfferedTimeslots.add(timeslot);
-        }
-
-        Collections.sort(allOfferedTimeslots);
-
-        return allOfferedTimeslots.iterator();
-    }
-
-    /* Retrieve Used Rooms in a term */
-    public Iterator retrieveUsedRoomsByTerm()
-    {
-        /* Retrieve current term */
-        Term currTerm = userService.retrieveCurrentTerm();
-
-        /* Retrieve all days for the term */
-        ArrayList<Days> allDays = daysRepository.findAllByCourseOffering_Term(currTerm);
-
-        /* Retrieve all unique buildings */
-        ArrayList<String> allUsedBuildings = new ArrayList<>();
-        for(Days d : allDays)
-        {
-            if(!allUsedBuildings.contains(d.getRoom().getRoomCode()))
-                allUsedBuildings.add(d.getRoom().getRoomCode());
-        }
-
-        Collections.sort(allUsedBuildings);
-
-        return allUsedBuildings.iterator();
-    }
 }

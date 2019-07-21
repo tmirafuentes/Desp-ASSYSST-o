@@ -363,7 +363,6 @@ public class AssignController
     {
         /* Retrieve course offering from database */
         CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), dto.getSection());
-        //CourseOffering selectedOffering = offeringService.retrieveCourseOffering(dto.getOfferingID());
 
         /* Retrieve faculty from database */
         User selectedFaculty = userService.findUserByFirstNameLastName(dto.getFacultyName());
@@ -372,21 +371,19 @@ public class AssignController
         if(selectedOffering.getFaculty() == selectedFaculty)
             return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
 
-        /* Retrieve the days */
+        /* Retrieve the days
         Iterator days = offeringService.retrieveAllDaysByOffering(selectedOffering);
-
-        /* Calculate total hours of the course */
         double totalUnits = 0;
         while(days.hasNext())
         {
-            /* Retrieve an instance */
+            /* Retrieve an instance
             Days dayInstance = (Days) days.next();
 
-            /* Retrieve start and end time */
+            /* Retrieve start and end time
             int startTime = Integer.parseInt(dayInstance.getbeginTime());
             int endTime = Integer.parseInt(dayInstance.getendTime());
 
-            /* Calculate */
+            /* Calculate
             double quotient = (endTime - startTime) / 100.0;
             double remainder = quotient - (int) quotient;
 
@@ -394,28 +391,36 @@ public class AssignController
             if (remainder > 0.0)
                 totalUnits += 0.5;
         }
+        */
+
+        /* Get units */
+        double loadUnits = selectedOffering.getCourse().getUnits();
 
         /* Retrieve current term */
         Term currentTerm = userService.retrieveCurrentTerm();
 
         /* Check if super overload */
         FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByFaculty(currentTerm, selectedFaculty);
-        if(facultyLoad.getTotalLoad() + totalUnits <= 16.0 &&
+        if(facultyLoad.getTotalLoad() + loadUnits <= 16.0 &&
            facultyLoad.getPreparations() <= 3)
         {
             /* Remove Load from previous faculty if ever */
             if(selectedOffering.getFaculty() != null)
-                facultyService.assignAcademicLoadToFaculty(currentTerm, selectedOffering.getFaculty(), totalUnits * -1);
+            {
+                /* Remove Faculty from Course Offering */
+                selectedOffering.setFaculty(null);
+                offeringService.saveCourseOffering(selectedOffering);
 
-            /* Assign Academic Load to Faculty */
-            facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, totalUnits);
+                /* Deduct Academic Load from Faculty */
+                facultyService.assignAcademicLoadToFaculty(currentTerm, selectedOffering.getFaculty(), loadUnits * -1);
+            }
 
             /* Assign Faculty to Course Offering */
             selectedOffering.setFaculty(selectedFaculty);
             offeringService.saveCourseOffering(selectedOffering);
 
-            /* Check preparations */
-            int numPreparations = facultyService.retrieveFacultyPreparations(currentTerm, selectedFaculty);
+            /* Assign Academic Load to Faculty */
+            facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, loadUnits);
 
             return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
         }
