@@ -12,7 +12,7 @@ $(function()
 {
     retrieveRecentConcerns();
     setInterval(function() {
-        retrieveRecentConcerns();
+        updateRecentConcerns();
     }, 5000);
 
     /*
@@ -21,8 +21,9 @@ $(function()
      *
      */
 
-    // Toggles for dropdowns
-    $(".workspace-user-avatar").click(function(){
+    /* Toggle for User Icon */
+    $(".workspace-user-avatar").click(function()
+    {
         /* Hide Concerns Dropdown if ever */
         if ($("#header-dropdown-concerns").is(":visible"))
         {
@@ -40,8 +41,20 @@ $(function()
         $("#header-dropdown-user").toggle();
     });
 
-    $(".workspace-user-inbox").click(function(){
+    /* Toggle for Inbox Icon */
+    $(".workspace-user-inbox").click(function()
+    {
+        /* Turn off notification */
         $(".header-concerns-notif").hide();
+
+        var location = window.location.href;
+        var url = (location.substr(location.length - 1) === "/") ? "disable-concern-notifs" : "/disable-concern-notifs";
+        $.ajax({
+            type : "POST",
+            url : url,
+            success : function(result) {}
+        });
+
 
         if ($("#header-dropdown-user").is(":visible"))
         {
@@ -62,13 +75,14 @@ $(function()
     window.onclick = function(event)
     {
         if(!event.target.matches(".workspace-user-icons") &&
-            !event.target.matches(".header-dropdown-content li"))
+            !event.target.matches(".header-dropdown-content img") &&
+            !event.target.matches(".header-dropdown-content a"))
         {
             $(".header-dropdown-content").hide();
             $(".workspace-user-inbox").attr("src", "/images/black-icons/concerns-inbox.png");
             $(".workspace-user-avatar").attr("src", "/images/black-icons/user-avatar.png");
         }
-    }
+    };
 
     /*
      *  CONCERNS
@@ -76,42 +90,51 @@ $(function()
      *
     */
 
-    // Mark as acknowledged
-    $(".header-dropdown-content-list").on("click", "li:not(:nth-child(1))", function(e)
+    /*  This event listener marks the
+     *  selected concern as acknowledged.
+     */
+    $(".header-dropdown-content-list").on("click", "img.dropdown-concerns-unacknowledged", function(e)
     {
-        e.preventDefault();
-
-        /* TODO: FIX CONCERNS DROPDOWN ACKNOWLEDGE */
-        if ($(this).hasClass("concerns-dropdown-unmarked"))
+        if ($(this).closest("li").hasClass("concerns-dropdown-unmarked"))
         {
             /* Get Concern Number */
-            var id = "" + $(this).data('concern-num');
+            var id = "" + $(this).closest("li").find("p.dropdown-concerns-content").data('concern-num');
 
-            console.log("ID Num = " + id);
+            var location = window.location.href;
+            var url = (location.substr(location.length - 1) === "/") ? "mark-acknowledged-concern" : "/mark-acknowledged-concern";
 
-            /*
             $.ajax({
                 method : "POST",
+                contentType : "application/json",
                 data : id,
-                url : window.location + "/mark-acknowledged-concern",
+                dataType : "json",
+                url : url,
                 success : function(result)
                 {
                     if (result.status === "Done")
                     {
-                        $(this).removeClass("concerns-unacknowledged");
+                        /* Remove gray background */
+                        $(this).closest("li").removeClass("concerns-dropdown-unmarked");
+
+                        /* Switch to gray button */
+                        $(this).addClass("dropdown-concerns-acknowledged");
+                        $(this).removeClass("dropdown-concerns-unacknowledged");
+                        $(this).attr("img", "/images/gray-icons/check-button.png");
                     }
                 },
                 error : function(e)
                 {
                     console.log("Error: " + e);
                 }
-            });*/
+            });
         }
 
         //$(this).parent("li").removeClass("concerns-dropdown-unmarked");
     });
 
-    /* Mark all as acknowledged */
+    /*  This event listener marks all
+     *  of the recent concerns as acknowledged.
+     */
     $("#dropdown-concerns-mark-all").click(function()
     {
         var location = window.location.href;
@@ -123,7 +146,13 @@ $(function()
             success : function(result)
             {
                 if (result.status === "Done")
-                    $("#header-dropdown-concerns li.concerns-dropdown-unmarked").removeClass("concerns-dropdown-unmarked");
+                {
+                    $("#header-dropdown-concerns li.concerns-dropdown-unmarked")
+                        .removeClass("concerns-dropdown-unmarked")
+                        .find("img")
+                        .addClass("dropdown-concerns-acknowledged")
+                        .removeClass("dropdown-concerns-unacknowledged");
+                }
             }
         });
     });
@@ -230,27 +259,81 @@ $(function()
                             concernText += ">" +
                                       "<p class='dropdown-concerns-header'>" + senderUpperCase + concern.subject + "</p>" +
                                       "<p class='dropdown-concerns-time'>" + concern.timestamp + "</p>" +
-                                      "<p class='dropdown-concerns-content' data-concern-num='" + concern.id + "'>" + concern.content + "</p>" +
-                                      "</li>" +
-                                      "<hr class='dropdown-concerns-border' />";
+                                      "<p class='dropdown-concerns-content' data-concern-num='" + concern.id + "'>" + concern.content + "</p>";
+
+                            if(concern.acknowledged === false)
+                                concernText += "<img class='dropdown-concerns-unacknowledged' src='/images/green-icons/check-button.png' />";
+                            else
+                                concernText += "<img class='dropdown-concerns-acknowledged' src='/images/gray-icons/check-button.png' />";
+
+                            concernText += "</li>" +
+                                           "<hr class='dropdown-concerns-border' />";
 
                         $(concernText).insertAfter("#concerns-dropdown-header-border");
                     });
+                }
 
-                    // Shorten concerns dropdown text
-                    $(".dropdown-concerns-content").shorten({
-                        chars: 40,
-                        more: "See More",
-                        less: "See Less",
-                        ellipses: '...'
-                    });
+                /* Appear notif if ever */
+                if(result.message === false)
+                {
+                    $(".workspace-user-inbox").attr('src', '/images/white-icons/concerns-inbox.png');
+                    $(".header-concerns-notif").show();
+                }
+            }
+        });
+    }
 
-                    /* Appear notif if ever */
-                    if(unreadCtr > 0)
+    /*  This function updates the recent
+     *  concerns addressed to the user.
+     */
+    function updateRecentConcerns()
+    {
+        var location = window.location.href;
+        var url = (location.substr(location.length - 1) === "/") ? "update-recent-concerns" : "/update-recent-concerns";
+
+        $.ajax({
+            method : "GET",
+            url : window.location + url,
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    $(".header-dropdown-content-list li:not(:nth-child(1))").remove();
+                    $(".header-dropdown-content-list hr.dropdown-concerns-border").remove();
+
+                    var unreadCtr = 0;
+                    $.each(result.data, function(i, concern)
                     {
-                        $(".workspace-user-inbox").attr('src', '/images/white-icons/concerns-inbox.png');
-                        $(".header-concerns-notif").show();
-                    }
+                        var senderUpperCase = concern.sender;
+                        senderUpperCase = senderUpperCase.toUpperCase() + ": ";
+                        var concernText = "<li";
+                        if(concern.acknowledged === false)
+                        {
+                            concernText += " class='concerns-dropdown-unmarked'";
+                            unreadCtr++;
+                        }
+                        concernText += ">" +
+                            "<p class='dropdown-concerns-header'>" + senderUpperCase + concern.subject + "</p>" +
+                            "<p class='dropdown-concerns-time'>" + concern.timestamp + "</p>" +
+                            "<p class='dropdown-concerns-content' data-concern-num='" + concern.id + "'>" + concern.content + "</p>";
+
+                        if(concern.acknowledged === false)
+                            concernText += "<img class='dropdown-concerns-unacknowledged' src='/images/green-icons/check-button.png' />";
+                        else
+                            concernText += "<img class='dropdown-concerns-acknowledged' src='/images/gray-icons/check-button.png' />";
+
+                        concernText += "</li>" +
+                            "<hr class='dropdown-concerns-border' />";
+
+                        $(concernText).insertAfter("#concerns-dropdown-header-border");
+                    });
+                }
+
+                /* Appear notif if ever */
+                if(result.message === false)
+                {
+                    $(".workspace-user-inbox").attr('src', '/images/white-icons/concerns-inbox.png');
+                    $(".header-concerns-notif").show();
                 }
             }
         });

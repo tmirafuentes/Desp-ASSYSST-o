@@ -27,6 +27,8 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private TermRepository termRepository;
+    @Autowired
+    private UserActivityRepository userActivityRepository;
 
     /* Services */
     @Autowired
@@ -117,6 +119,16 @@ public class UserService {
     {
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    public UserActivity retrieveUserActivity(User user)
+    {
+        return userActivityRepository.findUserActivityByUserId(user.getUserId());
+    }
+
+    public void saveUserActivity(UserActivity userActivity)
+    {
+        userActivityRepository.save(userActivity);
     }
 
     /*** Delete User ***/

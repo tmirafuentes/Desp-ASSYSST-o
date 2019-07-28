@@ -331,6 +331,6 @@ public class WorkspaceController
         else if(offeringType.equals("Special"))
             return new Response("Done", messages.getMessage("message.markSpecialClass", null, null));
 
-        return new Response("Done", messages.getMessage("message.DissolvedOffering", null, null));
+        return new Response("Done", messages.getMessage("message.markDissolvedOffering", null, null));
     }
 }

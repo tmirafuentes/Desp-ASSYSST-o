@@ -29,8 +29,8 @@ public class ConcernsService
      */
 
     /* Create/Update Concerns */
-    public void saveConcern(Concern concern) {
-        concernRepository.save(concern);
+    public Concern saveConcern(Concern concern) {
+        return concernRepository.save(concern);
     }
 
     /* Retrieve Individual Concern */

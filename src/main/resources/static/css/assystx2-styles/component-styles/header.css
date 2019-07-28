@@ -226,20 +226,20 @@
     margin: 0;
     font-family: Gotham Black;
     font-size: 0.75em;
-    color: #000000;
+    color: #2b2b2b;
 }
 
 #header-dropdown-concerns .header-dropdown-content-list li:not(:first-child):not(:last-child)
 {
-    cursor: pointer;
+    //cursor: pointer;
     box-sizing: border-box;
     width: 100%;
-    height: 50px;
+    height: 65px;
 }
 
 #header-dropdown-concerns .header-dropdown-content-list li:not(:first-child):not(:last-child):hover
 {
-//background-color: #00e08e;
+    //background-color: #00e08e;
     color: #ffffff;
 }
 
@@ -247,6 +247,7 @@
 {
     padding: 0 0 5px 5px;
     margin: 0;
+    height: 1.25em;
 }
 
 .dropdown-concerns-header
@@ -254,8 +255,8 @@
     float: left;
     font-family: Open Sans;
     font-size: 1em;
-    font-weight: bold;
-    color: #000000;
+    font-weight: 700;
+    color: #2b2b2b;
 }
 
 .dropdown-concerns-time
@@ -275,18 +276,34 @@
 {
     float: left;
     font-family: Open Sans;
-    font-size: 0.90em;
+    font-size: 0.85em;
     color: #2b2b2b;
     text-align: justify;
-    width: 95%;
+    width: 75%;
     text-overflow: ellipsis;
+}
+
+.dropdown-concerns-unacknowledged
+{
+    float: right;
+    margin-top: 0.5em;
+    max-width: 6.5%;
+    cursor: pointer;
+}
+
+.dropdown-concerns-acknowledged
+{
+    float: right;
+    margin-top: 0.5em;
+    max-width: 6.5%;
+    cursor: text;
 }
 
 #header-dropdown-concerns .header-dropdown-content-list li:last-child
 {
     font-family: Open Sans;
     font-size: 0.75em;
-    color: #00e08e;
+    color: #00ba72;
     float: right;
     margin-right: 10px;
 }
@@ -298,7 +315,7 @@
 
 .concerns-dropdown-unmarked
 {
-    background-color: #dedede;
+    background-color: #d3d3d3;
 }
 
 #dropdown-concerns-mark-all
@@ -314,7 +331,7 @@
     padding: 2px 4px 6px 3px;
     height: 22%;
     max-width: 12%;
-    background: #ed1c24;
+    background: #ff7b7b;
     border-radius: 3px;
     text-align: center;
     font-family: Open Sans;

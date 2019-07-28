@@ -86,7 +86,13 @@ public class ConcernsController
         newConcern.setDateTimeCommitted(LocalDateTime.now());
 
         /* Send Concern */
-        concernsService.saveConcern(newConcern);
+        Concern savedConcern = concernsService.saveConcern(newConcern);
+
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(receiver);
+        userActivity.setLastConcern(savedConcern.getconcernId());
+        userActivity.setConcernNotified(false);
+        userService.saveUserActivity(userActivity);
 
         return new Response("Done", messages.getMessage("message.sendConcern", null, null));
     }
@@ -116,7 +122,33 @@ public class ConcernsController
             ctr++;
         }
 
-        return new Response("Done", dtos.iterator());
+        /* Show Notification or not */
+        UserActivity userActivity = userService.retrieveUserActivity(currentUser);
+        boolean concernsNotification = false;
+        if(userActivity.isConcernNotified())
+            concernsNotification = true;
+
+        return new Response("Done", dtos.iterator(), concernsNotification);
+    }
+
+    @GetMapping(value = "/update-recent-concerns")
+    public Response updateRecentConcerns()
+    {
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        Response response = retrieveRecentConcerns();
+
+        Long concernID = null;
+        Iterator data = (Iterator) response.getData();
+        while(data.hasNext())
+        {
+            SendConcernDTO concern = (SendConcernDTO) data.next();
+            concernID = concern.getId();
+        }
+
+        if(concernID == userActivity.getLastConcern().longValue())
+            return new Response("No Change", null, response.getMessage());
+
+        return retrieveRecentConcerns();
     }
 
     @GetMapping(value = "/mark-all-recent-concerns")
@@ -178,11 +210,22 @@ public class ConcernsController
     @PostMapping(value = "/mark-acknowledged-concern")
     public Response markAcknowledgedConcern(@RequestBody String id)
     {
-        id = id.substring(0, id.length() - 1);
+        //id = id.substring(0, id.length() - 1);
 
         Concern concern = concernsService.findConcernByConcernId(Long.parseLong(id));
         concern.setAcknowledged(true);
         concernsService.saveConcern(concern);
+
+        return new Response("Done", null);
+    }
+
+    @PostMapping(value = "/disable-concern-notifs")
+    public Response disableConcernNotifs()
+    {
+        User currentUser = userService.retrieveUser();
+        UserActivity userActivity = userService.retrieveUserActivity(currentUser);
+        userActivity.setConcernNotified(true);
+        userService.saveUserActivity(userActivity);
 
         return new Response("Done", null);
     }

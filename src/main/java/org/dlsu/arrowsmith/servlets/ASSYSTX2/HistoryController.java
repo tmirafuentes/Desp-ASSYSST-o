@@ -39,7 +39,7 @@ public class HistoryController
 
         /* Transfer to new list */
         ArrayList<RecentChangesDTO> mostRecent = new ArrayList<>();
-        for(int i = 0; i < 10 && workspaceHistory.hasNext(); i++)
+        for(int i = 0; i < 8 && workspaceHistory.hasNext(); i++)
         {
             RecentChangesDTO dto = (RecentChangesDTO) workspaceHistory.next();
             mostRecent.add(dto);
