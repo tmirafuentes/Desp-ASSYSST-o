@@ -49,6 +49,58 @@
 
 /*
  *
+ *  CREATE OFFERING MODAL
+ *
+ */
+
+#create-offering-modal
+{
+    width: 400px;
+}
+
+#create-offering-modal label
+{
+    display: inline-block;
+    margin-left: 3%;
+    margin-bottom: 10px;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    color: #000000;
+}
+
+#create-offering-modal input[type="text"]
+{
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 25%;
+    padding-bottom: 1px;
+    background-color: #ffffff;
+    border: 1.5px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    text-indent: 3px;
+    text-transform: uppercase;
+    width: 100px;
+}
+
+#create-offering-submit
+{
+    display: block;
+    float: right;
+    padding: 2%;
+    margin-right: 2.5%;
+    background-color: #00ba72;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/*
+ *
  *  RAISE CONCERNS MODAL
  *
  */
@@ -65,8 +117,8 @@
     margin-bottom: 10px;
     font-family: Open Sans;
     font-size: 0.80em;
-    font-weight: 650;
-    color: #000000;
+    font-weight: 700;
+    color: #2b2b2b;
 }
 
 #raise-concerns-modal input[type="text"]
@@ -77,10 +129,9 @@
     padding-bottom: 1px;
     background-color: #ffffff;
     border: none;
-    border-bottom: 1.5px solid #00e08e;
     font-family: Open Sans;
     font-size: 0.80em;
-    color: #000000;
+    color: #2b2b2b;
     text-indent: 3px;
     width: 125px;
 }
@@ -92,11 +143,11 @@
     margin-top: 5px;
     margin-bottom: 10px;
     height: 100px;
-    width: 92.5%;
+    width: 95%;
     border: 1.5px solid #00e08e;
     font-family: Open Sans;
     font-size: 0.80em;
-    color: #000000;
+    color: #2b2b2b;
 }
 
 #raise-concerns-submit
@@ -105,7 +156,7 @@
     float: right;
     padding: 2%;
     margin-right: 2.5%;
-    background-color: #00e08e;
+    background-color: #00ba72;
     border: none;
     font-family: Gotham Black;
     font-size: 0.80em;
@@ -121,7 +172,7 @@
 
 #view-history-modal
 {
-    padding: 1% 1% 1% 1%;
+    padding: 1%;
     height: auto;
     width: 800px;
 }
@@ -135,12 +186,10 @@
 
 .view-history-row > li
 {
-    //display: inline;
     list-style-type: none;
-//padding-bottom: 5px;
-    font-family: OpenSans-Regular;
+    font-family: Open Sans;
     font-size: 0.80em;
-    color: #000000;
+    color: #2b2b2b;
 }
 
 .view-history-row > li:nth-child(1)
@@ -169,4 +218,77 @@
 {
     border: 1px solid #efefef;
     width: 95%;
+}
+
+/*
+ *
+ *  DELOAD FACULTY MODAL
+ *
+ */
+
+#deload-faculty-modal
+{
+    width: 400px;
+}
+
+#deload-faculty-modal table
+{
+    margin: 0 auto;
+    width: 95%;
+}
+
+#deload-faculty-modal label
+{
+    display: inline-block;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    color: #2b2b2b;
+}
+
+#deload-faculty-modal input[type="text"]
+{
+    display: inline-block;
+    margin-bottom: 0.25em;
+    background-color: #ffffff;
+    border: none;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: text;
+}
+
+#deload-faculty-modal select
+{
+    padding: 0.25em;
+    margin-bottom: 0.25em;
+    border: 1px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: pointer;
+    width: 100%;
+}
+
+#deload-faculty-modal button
+{
+    display: block;
+    float: right;
+    padding: 0.5em;
+    margin-left: 0.5em;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.75em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#deload-faculty-submit
+{
+    background-color: #00ba72;
+}
+
+#deload-faculty-cancel
+{
+    background-color: #d3d3d3;
 }

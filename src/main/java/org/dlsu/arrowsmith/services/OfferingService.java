@@ -102,9 +102,25 @@ public class OfferingService {
     }
 
     /* Retrieve All Course Offerings Per Term */
-    public Iterator retrieveAllOfferingsByTerm(Term term) {
-        ArrayList<CourseOffering> courseOfferings = courseOfferingRepository.findAllByTerm(term);
-        return courseOfferings.iterator();
+    public Iterator retrieveAllOfferingsByTerm(Term term)
+    {
+        /* Determine User */
+        User currUser = userService.retrieveUser();
+        ArrayList<CourseOffering> finalListOfferings = null;
+
+        if (currUser.getUserType().equals("Academic Programming Officer") ||
+            currUser.getUserType().equals("Dean") ||
+            currUser.getUserType().equals("Vice-Dean"))
+            finalListOfferings = courseOfferingRepository.findAllByTerm(term);
+        else if (currUser.getUserType().equals("Chair") ||
+                 currUser.getUserType().equals("Vice-Chair"))
+        {
+            finalListOfferings = courseOfferingRepository.findAllByCourseDepartmentAndTerm(currUser.getDepartment(), term);
+            ArrayList<CourseOffering> serviceCourses = courseOfferingRepository.findAllByServiceToAndTerm(currUser.getDepartment().getDeptId(), term);
+            finalListOfferings.addAll(serviceCourses);
+        }
+
+        return finalListOfferings.iterator();
     }
 
     /* Retrieve All Course Offerings Per Faculty Per Term */

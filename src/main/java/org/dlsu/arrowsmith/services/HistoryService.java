@@ -238,21 +238,22 @@ public class HistoryService
         /* Created new offering */
         if(revisionType.name().equals("ADD"))
             return offeringName + " is created";
-            /* Timeslot and Room assigned/modified */
+        /* Timeslot and Room assigned/modified */
         else if(hasRoom && hasDays && revisionType.name().equals("MOD"))
             return "Timeslot and Room assigned to " + offeringName;
-            /* Timeslot assigned/modified */
+        /* Timeslot assigned/modified */
         else if(hasDays && revisionType.name().equals("MOD"))
             return "Timeslot assigned to " + offeringName;
-            /* Faculty assigned/modified */
+        /* Faculty assigned/modified */
         else if(hasUser && revisionType.name().equals("MOD") && offering.getFaculty() != null)
             return "Faculty assigned to " + offeringName;
-            /* Faculty unassigned/deloaded */
+        /* Faculty unassigned/deloaded */
         else if(hasUser && revisionType.name().equals("MOD") && offering.getFaculty() == null)
             return "Faculty unassigned from " + offeringName;
-            /* Section edited */
+        /* Section edited */
         else if(!hasDays && !hasRoom && !hasUser && revisionType.name().equals("MOD"))
             return offeringName + " is modified";
+        /* Dissolved offering */
         else if(revisionType.name().equals("MOD") && offering.getType().equals("Dissolved"))
             return offeringName + " is dissolved";
 

@@ -7,6 +7,7 @@
             <table id="all-offerings-table" class="hover row-border order-column">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Course</th>
                         <th>Section</th>
                         <th>Days</th>

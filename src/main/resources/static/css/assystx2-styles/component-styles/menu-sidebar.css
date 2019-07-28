@@ -61,15 +61,14 @@
 
 .menu-subset-list a li:not(.menu-subset-list-header):hover
 {
-    background-color: #00e08e;
-    //border: 0.5px solid #999999;
+    background-color: #00ba72;
     color: #ffffff;
 }
 
 .menu-subset-list a li.menu-selected-page
 {
     font-weight: 750;
-    color: #00e08e;  
+    color: #00ba72;
 }
 
 .menu-subset-list li.menu-subset-list-header

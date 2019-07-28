@@ -51,6 +51,11 @@ public class FacultyService {
         return deloading;
     }
 
+    public Iterator retrieveDeloadingByDeloadType(String deloadType)
+    {
+        return deloadingRepository.findAllByDeloadType(deloadType).iterator();
+    }
+
     /**
      **
      ** DELOAD INSTANCE
@@ -146,6 +151,18 @@ public class FacultyService {
             facultyLoad.setLeaveType(leave_type);
         }
     } */
+
+    /* Assign Research or Administrative Load to a Faculty in a given Term */
+    public void assignDeloadingLoadToFaculty(Term term, User faculty, Deloading deloading)
+    {
+        FacultyLoad facultyLoad = retrieveFacultyLoadByFaculty(term, faculty);
+        if(deloading.getDeloadType().equals("AL"))
+            facultyLoad.setAdminLoad(facultyLoad.getAdminLoad() + deloading.getUnits());
+        else if(deloading.getDeloadType().equals("RL"))
+            facultyLoad.setResearchLoad(facultyLoad.getResearchLoad() + deloading.getUnits());
+
+        saveFacultyLoad(facultyLoad);
+    }
 
     /* Assign Academic Load to a Faculty in a given Term */
     public void assignAcademicLoadToFaculty(Term term, User faculty, double units)

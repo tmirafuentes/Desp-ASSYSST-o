@@ -12,6 +12,7 @@ public class DisplayOfferingDTO
     private String endTime;
     private String roomCode;
     private String facultyName;
+    private String offeringType;
 
     public DisplayOfferingDTO() { }
 
@@ -85,5 +86,13 @@ public class DisplayOfferingDTO
 
     public void setFacultyName(String facultyName) {
         this.facultyName = facultyName;
+    }
+
+    public String getOfferingType() {
+        return offeringType;
+    }
+
+    public void setOfferingType(String offeringType) {
+        this.offeringType = offeringType;
     }
 }

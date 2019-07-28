@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -83,6 +84,7 @@ public class Deloading {
 
     @ManyToOne
     @JoinColumn(name = "collegeId")
+    @JsonIgnore
     public College getCollege() {
         return college;
     }
@@ -93,6 +95,7 @@ public class Deloading {
 
     @ManyToOne
     @JoinColumn(name = "departmentId")
+    @JsonIgnore
     public Department getDepartment() {
         return department;
     }
@@ -102,6 +105,7 @@ public class Deloading {
     }
 
     @OneToMany(mappedBy = "deloading", cascade = CascadeType.ALL)
+    @JsonIgnore
     public Set<DeloadInstance> getDeloadInstances() {
         return deloadInstances;
     }

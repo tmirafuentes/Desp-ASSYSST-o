@@ -8,6 +8,8 @@
 @import "component-styles/general-page-style.css";
 @import "component-styles/header.css";
 @import "component-styles/menu-sidebar.css";
+@import "component-styles/feedback-message.css";
+@import "component-styles/modals.css";
 
 /* FACULTY PROFILES */
 #faculty-profiles-list
@@ -137,8 +139,9 @@
 
 #faculty-list-table thead th
 {
-    font-family: Gotham-Black;
+    font-family: Open Sans;
     font-size: 0.80em;
+    font-weight: 700;
     color: #2b2b2b;
     text-align: left;
     padding-bottom: 8px;
@@ -152,10 +155,11 @@
 }
 
 #faculty-list-table tbody td:nth-child(1) { width: 25%; }
-#faculty-list-table tbody td:nth-child(2) { width: 15%; }
-#faculty-list-table tbody td:nth-child(3) { width: 35%; }
-#faculty-list-table tbody td:nth-child(4) { width: 10%; }
-#faculty-list-table tbody td:nth-child(5) { width: 15%; }
+#faculty-list-table tbody td:nth-child(2) { width: 12.5%; }
+#faculty-list-table tbody td:nth-child(3) { width: 30%; }
+#faculty-list-table tbody td:nth-child(4) { width: 12.5%; }
+#faculty-list-table tbody td:nth-child(5) { width: 12%; }
+#faculty-list-table tbody td:nth-child(6) { width: 8%; }
 
 .dataTables_info
 {

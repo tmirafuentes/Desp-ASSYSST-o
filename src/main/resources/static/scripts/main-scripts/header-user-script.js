@@ -134,8 +134,8 @@ $(function()
     $("#all-offerings-table").on('click', ".offering-raise-concerns-button", function()
     {
         /* Find course offering */
-        var courseCode = $(this).closest("tr").find("td:nth-child(1)").text();
-        var section = $(this).closest("tr").find("td:nth-child(2)").text();
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
 
         /* Get Receiver */
         $.ajax({

@@ -20,8 +20,7 @@
                 <p id="signin-intro-description">
                     ASSYSTX is the course scheduling and faculty load assignment
                     system for the College of Computer Studies. This is for exclusive
-                    use of its faculty and Academic Programming Officer. Please do not
-                    hack us huhu.
+                    use of its faculty and Academic Programming Officer.
                     <br><br>
                     This is an undergraduate thesis by Roi Ante, Troy Mirafuentes,
                     and Gavin Sanchez as advised by Mr. Jordan Deja.

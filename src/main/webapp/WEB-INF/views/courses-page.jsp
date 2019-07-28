@@ -69,10 +69,6 @@
                 <!-- Course Profiles List -->
                 <section id="course-profiles-list-container">
                     <div id="course-profiles-list-box">
-                        <!--
-                        <p class="section-header-text">Course List</p>
-                        <hr class="section-header-border" />-->
-
                         <!-- Course Profiles Table -->
                         <table id="course-list-table" class="hover row-border order-column">
                             <thead>
@@ -80,28 +76,13 @@
                                     <th>Course Code</th>
                                     <th>Course Name</th>
                                     <th>Units</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
 
                             </tbody>
                         </table>
-                        <!--
-                        <ul id="course-list-header">
-                            <li>Code</li>
-                            <li>Name</li>
-                            <li>Units</li>
-                            <li>
-                                <select id="course-list-table-filter">
-                                    <option value="ALL" selected>All Courses</option>
-                                    <c:forEach items="${selectDept}" var="dept">
-                                        <option value="${dept.deptCode}">${dept.deptName}</option>
-                                    </c:forEach>
-                                </select>
-                            </li>
-                        </ul>
-                        <hr id="course-list-header-border" />
-                        <div id="course-list-accordion">-->
                     </div>
                 </section>
             </section>
@@ -109,6 +90,9 @@
 
         <!-- Feedback Messages -->
         <%@include file="screens/feedback-message-screen.jsp" %>
+
+        <!-- Modals -->
+        <%@include file="screens/modals-screen.jsp" %>
 
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>

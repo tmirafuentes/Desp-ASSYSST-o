@@ -420,7 +420,10 @@ public class AssignController
             offeringService.saveCourseOffering(selectedOffering);
 
             /* Assign Academic Load to Faculty */
-            facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, loadUnits);
+            if(selectedOffering.getType().equals("Special"))
+                facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, 0);
+            else
+                facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, loadUnits);
 
             return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
         }

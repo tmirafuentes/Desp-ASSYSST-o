@@ -18,6 +18,7 @@ public class CourseOffering {
     private Course course;
     private User faculty;
     private Set<Days> daysSet;
+    private Long serviceTo;
 
     public CourseOffering() {
     }
@@ -103,5 +104,13 @@ public class CourseOffering {
 
     public void setDaysSet(Set<Days> daysSet) {
         this.daysSet = daysSet;
+    }
+
+    public Long getServiceTo() {
+        return serviceTo;
+    }
+
+    public void setServiceTo(Long serviceTo) {
+        this.serviceTo = serviceTo;
     }
 }

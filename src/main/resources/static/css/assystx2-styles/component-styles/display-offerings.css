@@ -181,8 +181,9 @@
 
 #all-offerings-table thead th
 {
-    font-family: Gotham-Black;
+    font-family: Open Sans;
     font-size: 0.80em;
+    font-weight: 700;
     color: #2b2b2b;
     text-align: left;
     padding-bottom: 8px;
@@ -195,13 +196,14 @@
     color: #2b2b2b;
 }
 
-#all-offerings-table tbody td:nth-child(1) { width: 14%; }
-#all-offerings-table tbody td:nth-child(2) { width: 10%; }
+#all-offerings-table tbody td:nth-child(1) { width: 8%; }
+#all-offerings-table tbody td:nth-child(2) { width: 14%; }
 #all-offerings-table tbody td:nth-child(3) { width: 10%; }
-#all-offerings-table tbody td:nth-child(4) { width: 16%; }
-#all-offerings-table tbody td:nth-child(5) { width: 12%; }
-#all-offerings-table tbody td:nth-child(6) { width: 20%; }
-#all-offerings-table tbody td:nth-child(7) { width: 8%; }
+#all-offerings-table tbody td:nth-child(4) { width: 10%; }
+#all-offerings-table tbody td:nth-child(5) { width: 16%; }
+#all-offerings-table tbody td:nth-child(6) { width: 12%; }
+#all-offerings-table tbody td:nth-child(7) { width: 22%; }
+#all-offerings-table tbody td:nth-child(8) { width: 8%; }
 
 #all-offerings-table thead th:nth-child(7) img,
 #all-offerings-table tbody td:nth-child(7) img
@@ -217,4 +219,23 @@
 {
     margin-left: 2.5%;
     padding-bottom: 15px;
+}
+
+#all-offerings-table_wrapper #all-offerings-table_new_offering
+{
+    float: left;
+    margin-left: 1em;
+}
+
+#all-offerings-table_new_offering button
+{
+    border: none;
+    background: #00ba72;
+    padding: 0.5em;
+    font-family: Gotham-Black;
+    font-size: 0.75em;
+    font-weight: 800;
+    color: #ffffff;
+    cursor: pointer;
+
 }

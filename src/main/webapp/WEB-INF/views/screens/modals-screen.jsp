@@ -9,13 +9,15 @@
 <html>
     <!-- Modals -->
     <div id="all-modals">
-        <!-- Edit Section Modal -->
-        <div id="edit-section-modal" class="modal">
-            <p class="section-header-text">Edit Section</p>
+        <!-- Create New Offering Modal -->
+        <div id="create-offering-modal" class="modal">
+            <p class="section-header-text">Create New Course Offering</p>
             <hr class="section-header-border" />
-            <input id="edit-section-offering" type="text" value="Offering: CCPROG1 S17" />
-            <input id="edit-section-input" type="text" placeholder="New Section" />
-            <button type="button" id="edit-section-submit">Save</button>
+            <label for="create-offering-course">Course Code: </label>
+            <input type="text" id="create-offering-course" value=""/><br>
+            <label for="create-offering-section">Section: </label>
+            <input type="text" id="create-offering-section" value=""/><br>
+            <button type="button" id="create-offering-submit">Save Offering</button>
         </div>
 
         <!-- Raise Concerns Modal -->
@@ -30,10 +32,52 @@
             <button type="button" id="raise-concerns-submit">Send Concern</button>
         </div>
 
-        <!-- View More Details Modal -->
+        <!-- View Offering History Modal -->
         <div id="view-history-modal" class="modal">
             <p class="section-header-text">Offering History</p>
             <hr class="section-header-border" id="view-history-header-border" />
+        </div>
+
+        <!-- Deload Faculty Modal -->
+        <div id="deload-faculty-modal" class="modal">
+            <p class="section-header-text">Deload Faculty</p>
+            <hr class="section-header-border" id="deload-faculty-header-border" />
+            <table>
+                <tr>
+                    <td><label for="deload-faculty-name">Faculty: </label></td>
+                    <td><input type="text" id="deload-faculty-name" value="Deja, Jordan" disabled /></td>
+                </tr>
+                <tr>
+                    <td><label for="deload-faculty-type">Deloading Type: </label></td>
+                    <td>
+                        <select id="deload-faculty-type">
+                            <option value="-" selected>Select type</option>
+                            <option value="AL">Administrative Load</option>
+                            <option value="RL">Research Load</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="deload-faculty-instance">Deloading Code: </label></td>
+                    <td>
+                        <select id="deload-faculty-instance">
+                            <option value="-">Select instance</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="deload-faculty-units-deloaded">Units Deloaded: </label></td>
+                    <td><input type="text" id="deload-faculty-units-deloaded" value="0.0 units" disabled /></td>
+                </tr>
+                <!-- Optional: Choose which teaching load to be removed -->
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" id="deload-faculty-submit">Deload</button>
+                        <button type="button" id="deload-faculty-cancel">Cancel</button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </html>

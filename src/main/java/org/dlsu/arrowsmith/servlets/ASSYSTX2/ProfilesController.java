@@ -9,6 +9,7 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
  *  faculty profiles of the ASSYSTX system.
  */
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.dlsu.arrowsmith.classes.main.Response;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.ManageCourseDTO;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.ManageFacultyDTO;
@@ -154,6 +155,14 @@ public class ProfilesController
         else if(facultyType.equalsIgnoreCase("INACTIVE"))
             allFaculty = userService.retrieveAllInactiveFaculty();*/
 
+        /* Check user type */
+        User currentUser = userService.retrieveUser();
+        String message = currentUser.getUserType();
+        Department dept = null;
+
+        if(message.equals("Chair") || message.equals("Vice-Chair"))
+            dept = currentUser.getDepartment();
+
         /* Retrieve the faculty */
         ArrayList<ManageFacultyDTO> dtos = new ArrayList<>();
         while(allFaculty.hasNext())
@@ -179,13 +188,15 @@ public class ProfilesController
             else
                 dto.setTotalUnits(load.getTotalLoad());
 
-            dtos.add(dto);
+            if((dept != null && dept == faculty.getDepartment()) ||
+               (dept == null && message.equals("Academic Programming Officer")))
+                dtos.add(dto);
         }
 
         if(dtos.size() == 0)
             return new Response("Empty", null);
 
-        return new Response("Done", dtos.iterator());
+        return new Response("Done", dtos.iterator(), message);
     }
 
     /* Retrieve specific faculty profile */
@@ -275,5 +286,62 @@ public class ProfilesController
         newUser.setLastName(names[0]);
 
         return new Response();
+    }
+
+    /* Retrieve all possible deloadings from the deloading type */
+    @PostMapping(value = "/retrieve-deloading-instances")
+    public Response retrieveDeloadingInstances(@RequestBody String deloadingType)
+    {
+        /* Retrieve from database */
+        Iterator deloadings = facultyService.retrieveDeloadingByDeloadType(deloadingType);
+
+        return new Response("Done", deloadings);
+    }
+
+    /* Deload Faculty */
+    @PostMapping(value = "/deload-faculty")
+    public Response deloadFaculty(@RequestBody ObjectNode request)
+    {
+        /* Get faculty name and deload code */
+        String facultyName = request.get("facultyName").asText();
+        String deloadCode = request.get("deloadCode").asText();
+
+        Term currTerm = userService.retrieveCurrentTerm();
+        User faculty = userService.findUserByFirstNameLastName(facultyName);
+        Deloading deloading = facultyService.retrieveDeloadingByDeloadCode(deloadCode);
+        FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByFaculty(currTerm, faculty);
+
+        /* Remove teaching load from faculty */
+        Iterator teachingLoad = offeringService.retrieveAllOfferingsByFaculty(faculty, currTerm);
+        double unitsDeloaded = deloading.getUnits();
+
+        while(unitsDeloaded >= 0.0 && teachingLoad.hasNext())
+        {
+            /* Get number of units of offering */
+            CourseOffering currOffering = (CourseOffering) teachingLoad.next();
+            double unitsOffering = currOffering.getCourse().getUnits();
+
+            /* Remove faculty from offering */
+            currOffering.setFaculty(null);
+            offeringService.saveCourseOffering(currOffering);
+
+            /* Update faculty load */
+            facultyService.assignAcademicLoadToFaculty(currTerm, faculty, -1 * unitsOffering);
+
+            unitsDeloaded -= unitsOffering;
+        }
+
+        /* Create Deloading Instance */
+        DeloadInstance instance = new DeloadInstance();
+        instance.setTerm(currTerm);
+        instance.setDeloading(deloading);
+        instance.setFaculty(faculty);
+        instance.setRemarks("None");
+        facultyService.saveDeloadInstance(instance);
+
+        /* Update Faculty Load with Deloading */
+        facultyService.assignDeloadingLoadToFaculty(currTerm, faculty, deloading);
+
+        return new Response("Done", null, "Faculty successfully deloaded!");
     }
 }

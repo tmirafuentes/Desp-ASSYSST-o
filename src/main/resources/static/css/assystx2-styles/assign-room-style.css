@@ -8,7 +8,6 @@
 @import "component-styles/header.css";
 @import "component-styles/general-task-style.css";
 @import "component-styles/assign-left-partition.css";
-@import "component-styles/assign-room.css";
 @import "component-styles/feedback-message.css";
 
 #assign-room-right-partition
@@ -18,6 +17,47 @@
     height: auto;
     width: 100%;
     box-sizing: border-box;
+}
+
+/*** ASSIGN ROOM HEADER/MENU ***/
+#assign-room-dropdowns-container
+{
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 5%;
+    padding-left: 21%;
+}
+
+/* Box Seen in UI */
+#assign-room-dropdowns-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-room-dropdowns-box select
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    border: none;
+    border-bottom: 2px solid #000000;
+    font-family: Open Sans;
+    font-size: 0.85em;
+    color: #000000;
+    cursor: pointer;
+    width: 90%;
+}
+
+#assign-room-building-menu option
+{
+    padding: 3%;
 }
 
 /*** ASSIGN ROOM TABLE ***/
@@ -55,8 +95,7 @@
     border-collapse: collapse;
     font-family: Open Sans;
     font-size: 0.80em;
-    //font-weight: bold;
-    color: #000000;
+    color: #2b2b2b;
     width: 95%;
     border: 2px solid #000;
 }
@@ -65,8 +104,7 @@
 {
     height: 8px;
     width: 100px;
-    border-right: 2px solid black;
-    border-bottom: 1px solid gray;
+    border-right: 2px solid #2b2b2b;
     background-color: #ffffff;
     text-align: center;
     cursor: pointer;
@@ -87,7 +125,17 @@
     width: 25px;
 }
 
+#room-assign-table .room-table-available
+{
+    background-color: #ffffff;
+}
+
 #room-assign-table .room-table-unavailable
+{
+    background-color: #ff7b7b;
+}
+
+#room-assign-table .room-table-selected
 {
     background-color: #d3d3d3;
 }

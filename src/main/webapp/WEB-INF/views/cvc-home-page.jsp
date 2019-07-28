@@ -53,7 +53,6 @@
             <!-- Right Partition -->
             <section id="collab-sidebar">
                 <!-- Recent Changes -->
-                <%@include file="screens/recent-changes-screen.jsp" %>
             </section>
         </div>
 

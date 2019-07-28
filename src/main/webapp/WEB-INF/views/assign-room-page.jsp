@@ -103,9 +103,8 @@
                             </c:if>
                             <tr id="confirm-table-button-row">
                                 <td colspan="2">
-                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-cancel-btn">Go Back</button>
-                                    <!--<button id="assign-room-reset" type="reset" class="assign-confirm-btns assign-room-btn">Reset</button>-->
                                     <button id="assign-room-submit" type="submit" class="assign-confirm-btns assign-submit-btn">Assign Room</button>
+                                    <button id="assign-room-cancel" formaction="/assystx2/apo" class="assign-confirm-btns assign-cancel-btn">Cancel</button>
                                 </td>
                             </tr>
                         </table>

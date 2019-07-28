@@ -15,13 +15,6 @@
                 Workspace
             </h3>
         </a>
-        <!--
-        <div class="workspace-search">
-            <input type="text" placeholder="Search for a course offering..." class="workspace-search-textfield" name="workspace-search-textfield" />
-            <button type="button" class="workspace-search-button">
-                <img src="/images/white-icons/search.png" class="workspace-search-image" />
-            </button>
-        </div>-->
         <div class="workspace-user">
             <img src="/images/black-icons/user-avatar.png" class="workspace-user-avatar workspace-user-icons" />
             <div id="header-dropdown-user" class="header-dropdown-content">

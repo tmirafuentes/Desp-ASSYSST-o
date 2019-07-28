@@ -18,11 +18,9 @@ $(function() {
      *
      */
 
-    loadMostRecentChanges();
-    setInterval(loadMostRecentChanges, 15000);
-
     /* Initialize DataTables */
     var offeringsTable = $("#all-offerings-table").DataTable({
+        "select" : true,
         "stateSave" : true,
         "lengthChange" : false,
         "searching" : true,
@@ -37,27 +35,32 @@ $(function() {
             "paginate": {
                 "next":       "Next",
                 "previous":   "Prev"
-            },
+            }
         },
         "columnDefs" : [
             {
                 "orderable" : false,
-                "targets" : 6
+                "targets" : [0, 7]
             }
         ]
     });
+
+    /* Add Create Offering Button */
+    var createOfferingCode = "<div id='all-offerings-table_new_offering'>" +
+                             "<a href='#create-offering-modal' rel='modal:open'>" +
+                             "<button type='button' class='offering-create-button'>Create New Offering</button>" +
+                             "</a></div>";
+    $(createOfferingCode).prependTo("#all-offerings-table_wrapper");
+
     /* Show Offerings */
     showOfferings();
+
+    /* Load Recent Changes */
+    loadMostRecentChanges();
 
     /* Retrieve Course Codes for Create New Offering */
     var courseCodes = [];
     retrieveAllCourses();
-
-    /* Retrieve Options for Filters
-    retrieveFilterCourses();
-    retrieveFilterTimeslots();
-    retrieveFilterBuildings();
-    */
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -67,7 +70,6 @@ $(function() {
 
     /*  This event listener refreshes
      *  the course offerings table.
-
     $("#all-offerings-refresh").on('click', function()
     {
         showOfferings();
@@ -80,16 +82,62 @@ $(function() {
     $("#all-offerings-box").on('click', ".offering-special-class-button", function()
     {
         /* Change UI of specific offering */
-        $(this).closest("ul").css("background-color", "blue");
+        //$(this).closest("ul").css("background-color", "blue");
         //$(".all-offerings-row").contains(this).css("background-color", "blue");
 
-        /* Retrieve Course Offering ID */
-        var currOffering = $(this).closest("ul").data("offering-id");
-        //var currOffering = $(".all-offerings-row").contains(this).data("offering-id");
+        /* Retrieve Course Offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
 
         /* Perform AJAX */
         var formData = {
-            offeringID : currOffering,
+            courseCode : courseCode,
+            section : section,
+            offeringType : "Special"
+        };
+
+        $.ajax({
+            method : "POST",
+            contentType : "application/json",
+            url : window.location + "update-offering-type",
+            data : JSON.stringify(formData),
+            dataType : "json",
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    displayPositiveMessage(result.data);
+
+                    /* Remove Change Special Class Option to Regular */
+                    $(this).addClass("offering-regular-offering-button");
+                    $(this).removeClass("offering-special-class-button");
+                    $(this).text("Mark as Regular Offering");
+
+                    /* Add Signifier to the row */
+                    $(this).closest("tr").find("td:nth-child(1)").val("SPCL");
+                }
+            }
+        });
+    });
+
+    /*  This event listener marks the
+     *  selected course offering as
+     *  a regular offering.
+     */
+    $("#all-offerings-box").on('click', ".offering-regular-class-button", function()
+    {
+        /* Change UI of specific offering */
+        //$(this).closest("ul").css("background-color", "blue");
+        //$(".all-offerings-row").contains(this).css("background-color", "blue");
+
+        /* Retrieve Course Offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
+
+        /* Perform AJAX */
+        var formData = {
+            courseCode : courseCode,
+            section : section,
             offeringType : "Special"
         };
 
@@ -116,21 +164,21 @@ $(function() {
 
     /*  This event listener marks the
      *  selected course offering as
-     *  a regular offering.
+     *  a dissolved offering.
      */
-    $("#all-offerings-box").on('click', ".offering-regular-offering-button", function()
+    $("#all-offerings-box").on('click', ".offering-dissolve-offering-button", function()
     {
-        /* Change UI of specific offering */
-        $(this).parent("ul").css("background-color", "white");
-
-        /* Retrieve Course Offering ID */
-        var currOffering = $(this).parent("ul").data("offering-id");
+        /* Retrieve Course Offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
 
         /* Perform AJAX */
         var formData = {
-            offeringID : currOffering,
-            offeringType : "Regular"
+            courseCode : courseCode,
+            section : section,
+            offeringType : "Dissolved"
         };
+
         $.ajax({
             method : "POST",
             contentType : "application/json",
@@ -144,47 +192,12 @@ $(function() {
                     displayPositiveMessage(result.data);
 
                     /* Remove Change Special Class Option to Regular */
-                    $(this).removeClass("offering-regular-offering-button");
-                    $(this).addClass("offering-special-class-button");
-                    $(this).text("Mark as Special Class");
-                }
-            }
-        });
-    });
-
-    /*  This event listener marks the
-     *  selected course offering as
-     *  a dissolved offering.
-     */
-    $("#all-offerings-box").on('click', ".offering-dissolve-offering-button", function()
-    {
-        /* Change UI of specific offering */
-        $(this).parent("ul").css("background-color", "yellow");
-
-        /* Retrieve Course Offering ID */
-        var currOffering = $(this).parent("ul").data("offering-id");
-
-        /* Perform AJAX */
-        var formData = {
-            offeringID : currOffering,
-            offeringType : "Dissolved"
-        };
-        $.ajax({
-            method : "POST",
-            contentType : "application/json",
-            url : window.location + "update-offering-type",
-            data : JSON.stringify(formData),
-            dataType : "json",
-            success : function(result)
-            {
-                if(result.status === "Done")
-                {
-                    displayPositiveMessage("Course Offering is now dissolved.");
-
-                    /* Remove Change Special Class Option to Regular */
                     $(this).addClass("offering-regular-offering-button");
                     $(this).removeClass("offering-special-class-button");
                     $(this).text("Mark as Regular Offering");
+
+                    /* Add Signifier to the row */
+                    $(this).closest("tr").find("td:nth-child(1)").val("DSLV");
                 }
             }
         });
@@ -223,22 +236,32 @@ $(function() {
                 {
                     $.each(result.data, function(i, offering)
                     {
-                        var menus = "<div class='all-offerings-row-popup'>" +
-                            "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
-                            "<div class='all-offerings-dropdown-menu'>" +
+                        /* Drop Down Menu */
+                        var menus = "<div class='datatables-row-popup'>" +
+                            "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                            "<div class='datatables-dropdown-menu'>" +
                             "<form action='/assign-room' method='POST'>" +
                             "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
                             "<input value='" + offering.section + "' name='section' hidden />" +
                             "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
                             "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
-                            "<a href='#edit-section-modal' rel='modal:open'><button type='button' class='offering-edit-section-button'>Edit Section</button></a>" +
                             "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
                             "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
                             "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
                             "</div></div>";
 
+                        /* Offering Status/Type */
+                        var offeringType = "";
+                        if (offering.offeringType === "Special")
+                            offeringType += "SPCL";
+                        else if (offering.offeringType === "Dissolved")
+                            offeringType += "DSLV";
+
+                        var imgLink = "<img src='/images/other-icons/caution-sign.png' class='all-offerings-row-img' />";
+
                         /* Create row array */
-                        var tempRowArr = [offering.courseCode,
+                        var tempRowArr = [offeringType,
+                                          offering.courseCode,
                                           offering.section,
                                           offering.day1 + " " + offering.day2,
                                           offering.startTime + " - " + offering.endTime,
@@ -273,7 +296,7 @@ $(function() {
      * the list of courses to guide
      * the APO in creating an offering.
     */
-    $("#add-offering-course").autocomplete({
+    $("#create-offering-course").autocomplete({
         minLength : 3,
         source : courseCodes
     });
@@ -282,11 +305,11 @@ $(function() {
      *  which includes the course offering
      *  and section to the database.
     */
-    $("#add-offering-box").on('click', "#add-offering-submit", function()
+    $("#create-offering-modal").on('click', "#create-offering-submit", function()
     {
         /* Retrieve input from text fields */
-        var courseCode = $("#add-offering-course").val();
-        var section = $("#add-offering-section").val();
+        var courseCode = $("#create-offering-course").val();
+        var section = $("#create-offering-section").val();
 
         /* Check if it's not empty and then submit */
         if (courseCode.length === 7 && section.length <= 4 && section.length > 0)
@@ -386,14 +409,41 @@ $(function() {
                 if(result.status === "Done")
                 {
                     /* Reset text fields */
-                    $("#add-offering-course").val("");
-                    $("#add-offering-section").val("");
+                    $("#create-offering-course").val("");
+                    $("#create-offering-section").val("");
+
+                    var offering = result.data;
 
                     /* TODO: Input new row to datatable; Update course offerings */
-                    showOfferings();
+                    var menus = "<div class='all-offerings-row-popup'>" +
+                        "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
+                        "<div class='all-offerings-dropdown-menu'>" +
+                        "<form action='/assign-room' method='POST'>" +
+                        "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
+                        "<input value='" + offering.section + "' name='section' hidden />" +
+                        "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
+                        "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
+                        "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
+                        "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
+                        "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
+                        "</div></div>";
+
+                    var tempRowArr = ["",
+                        offering.courseCode,
+                        offering.section,
+                        offering.day1 + " " + offering.day2,
+                        offering.startTime + " - " + offering.endTime,
+                        offering.roomCode,
+                        offering.facultyName];
+                    tempRowArr.push(menus);
+
+                    var newRow = offeringsTable.row.add(tempRowArr).draw(true).node();
+                    //setTimeout(function(){offeringsTable.row(newRow).deselect();}, 2500);
+
+                    $("#create-offering-modal").modal('close');
 
                     /* Display Message */
-                    displayPositiveMessage(result.data);
+                    displayPositiveMessage(result.message);
                 }
                 else if(result.status === "Error")
                 {
@@ -470,7 +520,8 @@ $(function() {
     }
 
     /* Load Buildings Available For Dropdown Filter */
-    function retrieveFilterBuildings() {
+    function retrieveFilterBuildings()
+    {
         $.ajax({
             type: "GET",
             url: window.location + "retrieve-filter-rooms",
@@ -494,8 +545,8 @@ $(function() {
     $("#all-offerings-table").on("click", ".offering-view-history-button", function()
     {
         /* Find course offering */
-        var courseCode = $(this).closest("tr").find("td:nth-child(1)").text();
-        var section = $(this).closest("tr").find("td:nth-child(2)").text();
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
 
         var courseSection = courseCode + " " + section;
 

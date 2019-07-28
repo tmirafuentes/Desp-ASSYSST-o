@@ -48,7 +48,6 @@
 
             <!-- Select Faculty Table -->
             <section id="faculty-profiles-list">
-
                 <c:if test="${userType == 'CVC'}">
                     <!-- Add Faculty Container -->
                     <section id="add-faculty-container">
@@ -70,17 +69,6 @@
                 <!-- Faculty Profiles List -->
                 <section id="faculty-profiles-list-container">
                     <div id="faculty-profiles-list-box">
-                        <!--
-                        <p class="section-header-text">Faculty List</p>
-                        <hr class="section-header-border" />
-
-                        <select id="faculty-list-table-filter">
-                            <option value="All">All Faculty</option>
-                            <option value="Active" selected>Active Faculty</option>
-                            <option value="Leave">Faculty On Leave</option>
-                            <option value="Inactive">Inactive Faculty</option>
-                        </select> -->
-
                         <!-- Faculty Profiles Table -->
                         <table id="faculty-list-table" class="hover row-border order-column">
                             <thead>
@@ -90,26 +78,26 @@
                                     <th>Department</th>
                                     <th>Status</th>
                                     <th>Total Load</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
 
                             </tbody>
                         </table>
-
                     </div>
                 </section>
             </section>
 
-            <!-- Selected Faculty -->
+            <!-- Selected Faculty
             <section id="selected-faculty">
-                <!-- Faculty Information -->
+                <!-- Faculty Information
                 <section id="selected-faculty-container">
                     <div id="selected-faculty-box">
                         <p class="section-header-text">Faculty Profile</p>
                         <hr class="section-header-border" />
 
-                        <!-- Faculty Profile -->
+                        <!-- Faculty Profile
                         <table id="selected-faculty-info-table" class="selected-faculty-tables">
                             <tr>
                                 <td colspan="3">
@@ -141,7 +129,7 @@
                             </tr>
                         </table>
 
-                        <!-- Faculty Load Profile -->
+                        <!-- Faculty Load Profile
                         <table id="selected-faculty-load-table" class="selected-faculty-tables">
                             <tr class="faculty-load-header-row">
                                 <td>Teaching Load: </td>
@@ -192,11 +180,14 @@
                         </table>
                     </div>
                 </section>
-            </section>
+            </section>-->
         </div>
 
         <!-- Feedback Messages -->
         <%@include file="screens/feedback-message-screen.jsp" %>
+
+        <!-- Modals -->
+        <%@include file="screens/modals-screen.jsp" %>
 
         <script src="${minJquery}"></script>
         <script src="${jqueryUI}"></script>

@@ -3,6 +3,7 @@ package org.dlsu.arrowsmith.classes.main;
 public class Response {
     private String status;
     private Object data;
+    private Object message;
 
     public Response() {
     }
@@ -10,6 +11,20 @@ public class Response {
     public Response(String status, Object data) {
         this.status = status;
         this.data = data;
+    }
+
+    public Response(String status, Object data, Object message) {
+        this.status = status;
+        this.data = data;
+        this.message = message;
+    }
+
+    public Object getMessage() {
+        return message;
+    }
+
+    public void setMessage(Object message) {
+        this.message = message;
     }
 
     public String getStatus() {

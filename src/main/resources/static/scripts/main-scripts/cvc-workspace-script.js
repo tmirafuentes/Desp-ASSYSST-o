@@ -18,17 +18,35 @@ $(function() {
      *
      */
 
-    loadMostRecentChanges();
-    setInterval(loadMostRecentChanges, 15000);
+    /* Initialize DataTables */
+    var offeringsTable = $("#all-offerings-table").DataTable({
+        "select" : true,
+        "stateSave" : true,
+        "lengthChange" : false,
+        "searching" : true,
+        "pageLength" : 10,
+        "pagingType" : "numbers",
+        "language" : {
+            "info" : "Displaying _START_ to _END_ of _TOTAL_ offerings",
+            "infoEmpty" : "There are currently no course offerings.",
+            "infoFiltered" : "(Filtered from _MAX_ offerings)",
+            "search" : "Search offering: ",
+            "zeroRecords":    "No matching course offerings found",
+            "paginate": {
+                "next":       "Next",
+                "previous":   "Prev"
+            },
+        },
+        "columnDefs" : [
+            {
+                "targets" : [0, 7],
+                "orderable" : false
+            }
+        ]
+    });
 
     /* Show Offerings */
     showOfferings();
-
-    /* Retrieve Options for Filters
-    retrieveFilterCourses();
-    retrieveFilterTimeslots();
-    retrieveFilterBuildings();
-    */
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -38,7 +56,6 @@ $(function() {
 
     /*  This event listener refreshes
      *  the course offerings table.
-
     $("#all-offerings-refresh").on('click', function()
     {
         showOfferings();
@@ -78,17 +95,7 @@ $(function() {
                     /* Display each offering into the system */
                     $.each(result.data, function(i, offering)
                     {
-                        /* Create row */
-                        var row =   "<tr>" +
-                                    "<td>" + offering.courseCode + "</td>" +
-                                    "<td>" + offering.section + "</td>" +
-                                    "<td>" + offering.day1 + " " + offering.day2 + "</td>" +
-                                    "<td>" + offering.startTime + " - " + offering.endTime + "</td>" +
-                                    "<td>" + offering.roomCode + "</td>" +
-                                    "<td>" + offering.facultyName + "</td>";
-
-                        var menus = "<td>" +
-                            "<div class='all-offerings-row-popup'>" +
+                        var menus = "<div class='all-offerings-row-popup'>" +
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                             "<div class='all-offerings-dropdown-menu'>" +
                             "<form action='/assign-faculty' method='POST'>" +
@@ -98,27 +105,23 @@ $(function() {
                             "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
                             "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
                             "<button type='button' class='offering-special-class-button'>Mark as Service Course</button>" +
-                            "</div></div></td></tr>";
+                            "</div></div>";
 
-                        var offeringRow = row + menus;
+                        /* Offering Status Logos */
+                        var imgLink = "<img src='/images/other-icons/caution-sign.png' class='all-offerings-row-img' />";
 
-                        $(offeringRow).appendTo("#all-offerings-table tbody");
-                    });
+                        /* Create row array */
+                        var tempRowArr = [imgLink,
+                                        offering.courseCode,
+                                        offering.section,
+                                        offering.day1 + " " + offering.day2,
+                                        offering.startTime + " - " + offering.endTime,
+                                        offering.roomCode,
+                                        offering.facultyName];
+                        tempRowArr.push(menus);
 
-                    $("#all-offerings-table").DataTable({
-                        stateSave : true,
-                        lengthChange : false,
-                        searching: false,
-                        "language" : {
-                            "info" : "Displaying _MAX_ of _TOTAL_ offerings",
-                            "infoEmpty" : "There are currently no course offerings."
-                        },
-                        "columnDefs" : [
-                            {
-                                "orderable" : false,
-                                "targets" : 6
-                            }
-                        ]
+                        /* Add to Row */
+                        offeringsTable.row.add(tempRowArr).draw(true);
                     });
                 }
             },
@@ -193,6 +196,94 @@ $(function() {
             }
         });
     }
+
+    /*
+     *  WORKSPACE HISTORY
+     *  EVENT LISTENERS
+     *
+    */
+
+    /* Event listener for View Offering History. */
+    $("#all-offerings-table").on("click", ".offering-view-history-button", function()
+    {
+        /* Find course offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
+
+        var courseSection = courseCode + " " + section;
+
+        /* Get Receiver */
+        $.ajax({
+            method : "POST",
+            url : window.location + "retrieve-offering-history",
+            data : courseSection,
+            beforeSend : function()
+            {
+                /* Remove previous history */
+                $(".view-history-row").remove();
+                $(".view-history-row-border").remove();
+
+                $("#view-history-modal .section-header-text").text(courseSection + " History");
+            },
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    $.each(result.data, function(i, changes)
+                    {
+                        var list_row = "<ul class='view-history-row'>" +
+                            "<li>" + changes.subject + "</li>" +
+                            "<li>by " + changes.fullName + " ";
+
+                        /* Format Timestamp representation */
+                        /* Get Times */
+                        var revisionDate = new Date(changes.timestamp).getTime();
+                        var currDate = new Date().getTime();
+
+                        /* Get Difference */
+                        var timeDifference = currDate - revisionDate;
+
+                        /* Get appropriate string for time */
+                        if (timeDifference < 60000) // Less than a minute
+                        {
+                            list_row += "a few seconds ago ";
+                        } else if (timeDifference >= 60000 && timeDifference < 3600000) // Less than an hour
+                        {
+                            var tempTime = Math.floor(timeDifference / 60000);
+                            list_row += tempTime + " minute";
+                            if (tempTime > 1)
+                                list_row += "s";
+                            list_row += " ago ";
+                        } else if (timeDifference >= 3600000 && timeDifference < 86400000) // Less than a day
+                        {
+                            var tempTime = Math.floor(timeDifference / 3600000);
+                            list_row += tempTime + " hour";
+                            if (tempTime > 1)
+                                list_row += "s";
+                            list_row += " ago ";
+                        } else if (timeDifference >= 86400000 && timeDifference < 2678400000) // Less than a month or 30 days
+                        {
+                            var tempTime = Math.floor(timeDifference / 86400000);
+                            list_row += tempTime + " day";
+                            if (tempTime > 1)
+                                list_row += "s";
+                            list_row += " ago ";
+                        } else
+                        {
+                            var revDateAgain = new Date(result.data.timestamp);
+                            list_row += "at " + revDateAgain.toLocaleDateString() + " ";
+                        }
+
+                        var end_list_row = "</li></ul>";
+                        var row_border = "<hr class='view-history-row-border' />";
+                        var whole_row = list_row + end_list_row + row_border;
+
+                        $(whole_row).insertAfter("#view-history-header-border");
+                    });
+                }
+            }
+        });
+    });
 
     /*
      *  WORKSPACE HISTORY

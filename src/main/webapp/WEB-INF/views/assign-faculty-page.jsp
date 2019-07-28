@@ -74,9 +74,8 @@
                             </c:if>
                             <tr>
                                 <td colspan="2">
-                                    <button id="assign-faculty-cancel" class="assign-confirm-btns assign-cancel-btn">Cancel</button>
-                                    <button id="assign-faculty-reset" class="assign-confirm-btns assign-reset-btn">Reset</button>
                                     <button id="assign-faculty-submit" class="assign-confirm-btns assign-submit-btn">Assign Faculty</button>
+                                    <button id="assign-faculty-cancel" class="assign-confirm-btns assign-cancel-btn">Cancel</button>
                                 </td>
                             </tr>
                         </table>

@@ -219,13 +219,13 @@ $(function()
                 dataType : "json",
                 success : function(result)
                 {
-                    if(result.status == "Done")
+                    if(result.status === "Done")
                     {
                         displayPositiveMessage(result.data);
 
                         setTimeout(function()
                         {
-                            window.location.href = "../../../../..";
+                            window.location.href = "/faculty";
                         }, 1500);
                     }
                 },

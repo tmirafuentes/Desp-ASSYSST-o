@@ -103,7 +103,7 @@ public class UserService {
     /* Retrieve all Faculty */
     public Iterator retrieveAllFaculty()
     {
-        return userRepository.findAllByUserType("Faculty").iterator();
+        return userRepository.findAllByUserTypeNot("Academic Programming Officer").iterator();
     }
 
     /* Retrieve All Faculty that are active */
