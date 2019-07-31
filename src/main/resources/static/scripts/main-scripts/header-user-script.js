@@ -27,15 +27,8 @@ $(function()
         /* Hide Concerns Dropdown if ever */
         if ($("#header-dropdown-concerns").is(":visible"))
         {
-            $(".workspace-user-inbox").attr("src", "/images/black-icons/concerns-inbox.png");
             $("#header-dropdown-concerns").hide();
         }
-
-        /* Change Image */
-        if(!$("#header-dropdown-user").is(":visible"))
-            $(".workspace-user-avatar").attr("src", "/images/white-icons/user-avatar.png");
-        else
-            $(".workspace-user-avatar").attr("src", "/images/black-icons/user-avatar.png");
 
         /* Show User Dropdown */
         $("#header-dropdown-user").toggle();
@@ -58,15 +51,8 @@ $(function()
 
         if ($("#header-dropdown-user").is(":visible"))
         {
-            $(".workspace-user-avatar").attr("src", "/images/black-icons/user-avatar.png");
             $("#header-dropdown-user").hide();
         }
-
-        /* Change Image */
-        if(!$("#header-dropdown-concerns").is(":visible"))
-            $(".workspace-user-inbox").attr("src", "/images/white-icons/concerns-inbox.png");
-        else
-            $(".workspace-user-inbox").attr("src", "/images/black-icons/concerns-inbox.png");
 
         $("#header-dropdown-concerns").toggle();
     });
@@ -79,8 +65,6 @@ $(function()
             !event.target.matches(".header-dropdown-content a"))
         {
             $(".header-dropdown-content").hide();
-            $(".workspace-user-inbox").attr("src", "/images/black-icons/concerns-inbox.png");
-            $(".workspace-user-avatar").attr("src", "/images/black-icons/user-avatar.png");
         }
     };
 

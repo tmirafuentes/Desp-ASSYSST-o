@@ -68,23 +68,12 @@ $(function() {
      *
      */
 
-    /*  This event listener refreshes
-     *  the course offerings table.
-    $("#all-offerings-refresh").on('click', function()
-    {
-        showOfferings();
-    });*/
-
     /*  This event listener marks the
      *  selected course offering as
      *  a special class.
      */
     $("#all-offerings-box").on('click', ".offering-special-class-button", function()
     {
-        /* Change UI of specific offering */
-        //$(this).closest("ul").css("background-color", "blue");
-        //$(".all-offerings-row").contains(this).css("background-color", "blue");
-
         /* Retrieve Course Offering */
         var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
         var section = $(this).closest("tr").find("td:nth-child(3)").text();
@@ -126,10 +115,6 @@ $(function() {
      */
     $("#all-offerings-box").on('click', ".offering-regular-class-button", function()
     {
-        /* Change UI of specific offering */
-        //$(this).closest("ul").css("background-color", "blue");
-        //$(".all-offerings-row").contains(this).css("background-color", "blue");
-
         /* Retrieve Course Offering */
         var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
         var section = $(this).closest("tr").find("td:nth-child(3)").text();
@@ -240,6 +225,7 @@ $(function() {
                         var menus = "<div class='datatables-row-popup'>" +
                             "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
                             "<div class='datatables-dropdown-menu'>" +
+                            "<div class='datatables-row-arrow'></div>" +
                             "<form action='/assign-room' method='POST'>" +
                             "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
                             "<input value='" + offering.section + "' name='section' hidden />" +
@@ -322,36 +308,6 @@ $(function() {
         }
     });
 
-    /* Add Offering partition's front-end
-     * functionality of appearing and disappearing
-     * text fields
-    */
-    $("#add-offering-course").focusin(function(e)
-    {
-        /* Change color of course code */
-        $("#add-offering-course").css("background-color", "#ffffff");
-
-        /* Make the other fields appear */
-        $("#add-offering-section").fadeIn(500);
-        $("#add-offering-room").fadeIn(500);
-        $("#add-offering-submit").fadeIn(500);
-    });
-
-    $("#add-offering-course").focusout(function(e)
-    {
-        /* Make the other fields disappear unless there is content */
-        if ($("#add-offering-course").val() == "")
-        {
-            /* Change color of course code */
-            $("#add-offering-course").css("background-color", "#00e08e");
-
-            $("#add-offering-section").val("");
-            $("#add-offering-section").fadeOut(500);
-            $("#add-offering-room").fadeOut(500);
-            $("#add-offering-submit").fadeOut(500);
-        }
-    });
-
     /*
      *  CREATE NEW OFFERING
      *  FUNCTION IMPLEMENTATIONS
@@ -369,7 +325,7 @@ $(function() {
             url : window.location +  "autocomplete-course-code",
             success : function(result)
             {
-                if(result.status == "Done")
+                if(result.status === "Done")
                 {
                     $.each(result.data, function(i, cc)
                     {
@@ -418,6 +374,7 @@ $(function() {
                     var menus = "<div class='all-offerings-row-popup'>" +
                         "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
                         "<div class='all-offerings-dropdown-menu'>" +
+                        "<div class='datatables-row-arrow'></div>" +
                         "<form action='/assign-room' method='POST'>" +
                         "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
                         "<input value='" + offering.section + "' name='section' hidden />" +
@@ -459,83 +416,6 @@ $(function() {
     }
 
     /*
-     *  FILTER OFFERINGS
-     *  EVENT LISTENER
-     *
-    */
-    $("#filters-no-room-assigned").click(function() {
-        if($(this).prop("checked") === true)
-        {
-            offeringsTable
-                .column(4)
-                .data()
-                .filter(function(value, index)
-                {
-                    return value === "Unassigned" ? true : false;
-                })
-                .draw(true);
-        }
-    });
-
-    /*
-     *  FILTER OFFERINGS
-     *  FUNCTION IMPLEMENTATIONS
-     *
-    */
-
-    /* Load Courses Available For Dropdown Filter */
-    function retrieveFilterCourses()
-    {
-        $.ajax({
-            type : "GET",
-            url : window.location + "retrieve-filter-courses",
-            success : function(result)
-            {
-                $.each(result.data, function(i, courseCode)
-                {
-                    courseOption = "<option value='" + courseCode + "'>" +
-                                   courseCode + "</option>";
-                    $("#filters-course").append(courseOption);
-                });
-            }
-        });
-    }
-
-    /* Load Time Slots Available For Dropdown Filter */
-    function retrieveFilterTimeslots()
-    {
-        $.ajax({
-            type : "GET",
-            url : window.location + "retrieve-filter-timeslots",
-            success : function(result)
-            {
-                $.each(result.data, function(i, timeslot)
-                {
-                    timeOption = "<option value='" + timeslot + "'>" +
-                        timeslot + "</option>";
-                    $("#filters-timeslot").append(timeOption);
-                });
-            }
-        });
-    }
-
-    /* Load Buildings Available For Dropdown Filter */
-    function retrieveFilterBuildings()
-    {
-        $.ajax({
-            type: "GET",
-            url: window.location + "retrieve-filter-rooms",
-            success: function (result) {
-                $.each(result.data, function (i, roomCode) {
-                    roomOption = "<option value='" + roomCode + "'>" +
-                        roomCode + "</option>";
-                    $("#filters-room").append(roomOption);
-                });
-            }
-        });
-    }
-
-    /*
      *  WORKSPACE HISTORY
      *  EVENT LISTENERS
      *
@@ -547,7 +427,6 @@ $(function() {
         /* Find course offering */
         var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
         var section = $(this).closest("tr").find("td:nth-child(3)").text();
-
         var courseSection = courseCode + " " + section;
 
         /* Get Receiver */

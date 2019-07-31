@@ -40,12 +40,6 @@
             <!-- Header -->
             <%@ include file="screens/main-header-screen.jsp" %>
 
-            <!-- Left Partition -->
-            <section id="workspace-menu">
-                <!-- ASSYSTX Menu -->
-                <%@include file="screens/main-menu-screen.jsp" %>
-            </section>
-
             <!-- Select Faculty Table -->
             <section id="faculty-profiles-list">
                 <c:if test="${userType == 'CVC'}">
@@ -87,6 +81,11 @@
                         </table>
                     </div>
                 </section>
+            </section>
+
+            <!-- Right Partition-->
+            <section id="collab-sidebar">
+                <%@include file="screens/recent-changes-screen.jsp"%>
             </section>
 
             <!-- Selected Faculty

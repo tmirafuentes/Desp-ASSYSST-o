@@ -5,8 +5,9 @@
 #collab-workspace
 {
     grid-row: 2;
-    grid-column: 2;
+    grid-column: 1;
     height: auto;
     width: 100%;
     box-sizing: border-box;
+    padding: 2% 0 0 5.5%;
 }

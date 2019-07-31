@@ -38,12 +38,6 @@
             <!-- Header -->
             <%@include file="screens/main-header-screen.jsp"%>
 
-            <!-- Left Partition -->
-            <section id="workspace-menu-filters">
-                <!-- ASSYSTX Menu -->
-                <%@include file="screens/main-menu-screen.jsp" %>
-            </section>
-
             <!-- Middle Partition -->
             <section id="collab-workspace">
                 <!-- All Offerings -->
@@ -53,6 +47,7 @@
             <!-- Right Partition -->
             <section id="collab-sidebar">
                 <!-- Recent Changes -->
+                <%@include file="screens/recent-changes-screen.jsp" %>
             </section>
         </div>
 

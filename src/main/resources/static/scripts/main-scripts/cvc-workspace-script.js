@@ -39,8 +39,8 @@ $(function() {
         },
         "columnDefs" : [
             {
-                "targets" : [0, 7],
-                "orderable" : false
+                "orderable" : false,
+                "targets" : [0, 7]
             }
         ]
     });
@@ -48,18 +48,55 @@ $(function() {
     /* Show Offerings */
     showOfferings();
 
+    /* Load Recent Changes */
+    loadMostRecentChanges();
+
     /*
      *  COURSE OFFERING MANAGEMENT
      *  EVENT LISTENERS
      *
      */
 
-    /*  This event listener refreshes
-     *  the course offerings table.
-    $("#all-offerings-refresh").on('click', function()
+    /*  This event listener marks the
+     *  selected course offering as
+     *  a special class.
+     */
+    $("#all-offerings-box").on('click', ".offering-service-course-button", function()
     {
-        showOfferings();
-    }); */
+        /* Retrieve Course Offering */
+        var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
+        var section = $(this).closest("tr").find("td:nth-child(3)").text();
+
+        /* Perform AJAX */
+        var formData = {
+            courseCode : courseCode,
+            section : section,
+            offeringType : "Service"
+        };
+
+        $.ajax({
+            method : "POST",
+            contentType : "application/json",
+            url : window.location + "update-offering-type",
+            data : JSON.stringify(formData),
+            dataType : "json",
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    displayPositiveMessage(result.data);
+
+                    /* Remove Change Special Class Option to Regular */
+                    $(this).addClass("offering-regular-offering-button");
+                    $(this).removeClass("offering-special-class-button");
+                    $(this).text("Mark as Regular Offering");
+
+                    /* Add Signifier to the row */
+                    $(this).closest("tr").find("td:nth-child(1)").val("SPCL");
+                }
+            }
+        });
+    });
 
     /*
      *  COURSE OFFERING MANAGEMENT
@@ -104,14 +141,20 @@ $(function() {
                             "<button type='submit' class='offering-assign-room-button'>Assign Faculty</button></form>" +
                             "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
                             "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
-                            "<button type='button' class='offering-special-class-button'>Mark as Service Course</button>" +
+                            "<button type='button' class='offering-service-course-button'>Mark as Service Course</button>" +
                             "</div></div>";
 
-                        /* Offering Status Logos */
+                        /* Offering Status/Type */
+                        var offeringType = "";
+                        if (offering.offeringType === "Special")
+                            offeringType += "SPCL";
+                        else if (offering.offeringType === "Dissolved")
+                            offeringType += "DSLV";
+
                         var imgLink = "<img src='/images/other-icons/caution-sign.png' class='all-offerings-row-img' />";
 
                         /* Create row array */
-                        var tempRowArr = [imgLink,
+                        var tempRowArr = [offeringType,
                                         offering.courseCode,
                                         offering.section,
                                         offering.day1 + " " + offering.day2,
@@ -138,66 +181,6 @@ $(function() {
     }
 
     /*
-     *  FILTER OFFERINGS
-     *  FUNCTION IMPLEMENTATIONS
-     *
-    */
-
-    /* Load Courses Available For Dropdown Filter */
-    function retrieveFilterCourses()
-    {
-        $.ajax({
-            type : "GET",
-            url : window.location + "retrieve-filter-courses",
-            success : function(result)
-            {
-                $.each(result.data, function(i, courseCode)
-                {
-                    courseOption = "<option value='" + courseCode + "'>" +
-                                   courseCode + "</option>";
-                    $("#filters-course").append(courseOption);
-                });
-            }
-        });
-    }
-
-    /* Load Time Slots Available For Dropdown Filter */
-    function retrieveFilterTimeslots()
-    {
-        $.ajax({
-            type : "GET",
-            url : window.location + "retrieve-filter-timeslots",
-            success : function(result)
-            {
-                $.each(result.data, function(i, timeslot)
-                {
-                    timeOption = "<option value='" + timeslot + "'>" +
-                        timeslot + "</option>";
-                    $("#filters-timeslot").append(timeOption);
-                });
-            }
-        });
-    }
-
-    /* Load Buildings Available For Dropdown Filter */
-    function retrieveFilterBuildings()
-    {
-        $.ajax({
-            type : "GET",
-            url : window.location + "retrieve-filter-rooms",
-            success : function(result)
-            {
-                $.each(result.data, function(i, roomCode)
-                {
-                    roomOption = "<option value='" + roomCode + "'>" +
-                        roomCode + "</option>";
-                    $("#filters-room").append(roomOption);
-                });
-            }
-        });
-    }
-
-    /*
      *  WORKSPACE HISTORY
      *  EVENT LISTENERS
      *
@@ -209,7 +192,6 @@ $(function() {
         /* Find course offering */
         var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
         var section = $(this).closest("tr").find("td:nth-child(3)").text();
-
         var courseSection = courseCode + " " + section;
 
         /* Get Receiver */

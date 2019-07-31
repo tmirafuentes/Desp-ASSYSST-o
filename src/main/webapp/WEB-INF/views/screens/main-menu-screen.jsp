@@ -3,7 +3,7 @@
     <!-- Menu Container -->
     <section id="menu-container">
         <div id="menu-box">
-            <p class="section-header-text" id="menu-current-term">${termString}</p>
+            <p class="section-header-text" id="menu-current-term">Course Offerings for<br> ${termString}</p>
             <!-- Main Menu -->
             <ul class="menu-subset-list" id="menu-list-main">
                 <a href="/"><li <c:if test="${context == 'workspace'}"> class="menu-selected-page" </c:if>>Workspace</li></a>
@@ -18,7 +18,7 @@
             </ul>
             <!-- Actions Menu -->
             <ul class="menu-subset-list" id="menu-list-actions">
-                <li class="menu-subset-list-header">User Actions</li>
+                <!--<li class="menu-subset-list-header">User Actions</li>-->
                 <!--<a href="#"><li class="menu-subset-list-item">Start New Term</li></a>-->
             </ul>
         </div>

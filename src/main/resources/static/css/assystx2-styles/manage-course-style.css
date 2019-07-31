@@ -8,15 +8,18 @@
 @import "component-styles/general-page-style.css";
 @import "component-styles/header.css";
 @import "component-styles/menu-sidebar.css";
+@import "component-styles/collab-sidebar.css";
 @import "component-styles/modals.css";
 
 /* COURSE PROFILES */
 #course-profiles-list
 {
-    grid-column: 2;
+    grid-row: 2;
+    grid-column: 1;
     box-sizing: border-box;
     height: auto;
     width: 100%;
+    padding: 2% 0 0 5.5%;
 }
 
 /* CREATE FACULTY */

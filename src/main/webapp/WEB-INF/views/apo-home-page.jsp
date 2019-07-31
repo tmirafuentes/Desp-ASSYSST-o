@@ -38,22 +38,18 @@
             <!-- Header -->
             <%@include file="screens/main-header-screen.jsp"%>
 
-            <!-- Left Partition -->
+            <!-- Left Partition
             <section id="workspace-menu">
-                <!-- ASSYSTX Menu -->
-                <%@include file="screens/main-menu-screen.jsp" %>
-            </section>
+            </section>-->
 
-            <!-- Middle Partition -->
+            <!-- Middle Partition-->
             <section id="collab-workspace">
-                <!-- All Offerings -->
-                <%@include file="screens/all-offerings-screen.jsp" %>
+                <%@include file="screens/all-offerings-screen.jsp"%>
             </section>
 
-            <!-- Right Partition -->
+            <!-- Right Partition-->
             <section id="collab-sidebar">
-                <!-- Recent Changes -->
-                <%@include file="screens/recent-changes-screen.jsp" %>
+                <%@include file="screens/recent-changes-screen.jsp"%>
             </section>
         </div>
 
