@@ -28,7 +28,9 @@
     color: #2b2b2b;
 }
 
-.form-modal-tables input[type="text"]
+.form-modal-tables input[type="text"],
+.form-modal-tables input[type="number"],
+.form-modal-tables textarea
 {
     display: inline-block;
     margin-bottom: 0.5em;
@@ -58,6 +60,7 @@
     display: block;
     float: right;
     padding: 0.5em;
+    margin-top: 0.5em;
     margin-left: 0.5em;
     border: none;
     font-family: Gotham Black;
@@ -88,6 +91,42 @@
 }
 
 #create-offering-modal input[type="text"]
+{
+    border: 1px solid #00e08e;
+    cursor: text;
+}
+
+/*
+ *
+ *  CREATE COURSE MODAL
+ *
+ */
+
+#create-course-modal
+{
+    width: 400px;
+}
+
+#create-course-modal input[type="text"],
+#create-course-modal input[type="number"],
+#create-course-modal textarea
+{
+    border: 1px solid #00e08e;
+    cursor: text;
+}
+
+/*
+ *
+ *  CREATE FACULTY MODAL
+ *
+ */
+
+#create-faculty-modal
+{
+    width: 400px;
+}
+
+#create-faculty-modal input[type="text"]
 {
     border: 1px solid #00e08e;
     cursor: text;

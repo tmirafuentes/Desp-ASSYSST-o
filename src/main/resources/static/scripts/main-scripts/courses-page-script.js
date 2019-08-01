@@ -44,6 +44,13 @@ $(function()
         ]
     });
 
+    /* Add Create Course Button */
+    var createCourseCode = "<div id='course_list-table_new_course' class='create-instance-button'>" +
+        "<a href='#create-course-modal' rel='modal:open'>" +
+        "<button type='button' class='course-create-button'>Create New Course</button>" +
+        "</a></div>";
+    $(createCourseCode).prependTo("#course-list-table_wrapper");
+
     retrieveCourseProfiles("ALL");
 
     /*

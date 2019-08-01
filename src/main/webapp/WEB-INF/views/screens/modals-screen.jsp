@@ -33,6 +33,82 @@
             </table>
         </div>
 
+        <!-- Create New Course Modal -->
+        <div id="create-course-modal" class="modal">
+            <p class="section-header-text">Create New Course</p>
+            <hr class="section-header-border" />
+            <table class="form-modal-tables">
+                <tr>
+                    <td><label for="create-course-code">Course Code: </label></td>
+                    <td><input type="text" id="create-course-code" value=""/></td>
+                </tr>
+                <tr>
+                    <td><label for="create-course-name">Course Name: </label></td>
+                    <td><input type="text" id="create-course-name" value=""/></td>
+                </tr>
+                <tr>
+                    <td><label for="create-course-units">Units: </label></td>
+                    <td><input type="number" id="create-course-units" value=""/></td>
+                </tr>
+                <tr>
+                    <td><label for="create-course-desc">Course Description: </label></td>
+                    <td>
+                        <textarea id="create-course-desc"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="create-course-desc">Room Type: </label></td>
+                    <td>
+                        <select id="create-course-roomType">
+                            <option value="Lecture" selected>Lecture</option>
+                            <option value="Laboratory">Laboratory</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="create-course-numHours">No. of Hours: </label></td>
+                    <td><input type="number" id="create-course-numHours" value=""/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" id="create-course-submit" class="form-modal-submit">Create Course</button>
+                        <button type="button" id="create-course-cancel" class="form-modal-cancel">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Create New Faculty Modal -->
+        <div id="create-faculty-modal" class="modal">
+            <p class="section-header-text">Create New Faculty</p>
+            <hr class="section-header-border" />
+            <table class="form-modal-tables">
+                <tr>
+                    <td><label for="create-faculty-firstName">First Name: </label></td>
+                    <td><input type="text" id="create-faculty-firstName" value=""/></td>
+                </tr>
+                <tr>
+                    <td><label for="create-faculty-lastName">Last Name: </label></td>
+                    <td><input type="text" id="create-faculty-lastName" value=""/></td>
+                </tr>
+                <tr>
+                    <td><label for="create-faculty-type">Faculty Type: </label></td>
+                    <td>
+                        <select id="create-faculty-type">
+                            <option value="FT" selected>Full-Time</option>
+                            <option value="PT">Part-Time</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" id="create-offering-submit" class="form-modal-submit">Create Faculty</button>
+                        <button type="button" id="create-offering-cancel" class="form-modal-cancel">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <!-- Raise Concerns Modal -->
         <div id="raise-concerns-modal" class="modal">
             <p class="section-header-text">Raise Concerns</p>

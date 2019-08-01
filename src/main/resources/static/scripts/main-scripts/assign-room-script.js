@@ -17,7 +17,6 @@ $(function()
     *
     */
     retrieveBuildingNames();
-    //createRoomTable();
 
     /* Day Number */
     var dayNumber = 1;
@@ -36,12 +35,6 @@ $(function()
     {
         /* Check if it isn't null value */
         if(this.value != "-") {
-            /* Remove previous options */
-            //$("#assign-room-room-menu option").slice(1).remove();
-
-            /* Remove existing confirm table rows */
-            //$(".confirm-table-row").remove();
-
             /* Retrieve room names based on selected building */
             retrieveRoomNames(this.value);
 
@@ -62,6 +55,8 @@ $(function()
 
             /* Remove assign room table */
             $("#room-assign-table").remove();
+
+            $("#room-assign-unavailable").hide();
         }
     });
 
@@ -74,49 +69,27 @@ $(function()
        /* Check if it isn't null value */
        if(this.value != "-")
        {
-           /* Remove existing confirm table rows */
-           //$(".confirm-table-row").remove();
-
-           //var roomColLabel = "Room";
-           //if ($("#confirm-table-assigned-row").length)
-               //roomColLabel = "New " + roomColLabel;
-
-           /* Reflect changes in the confirm table */
-           //var roomRow = createConfirmTableRow(roomColLabel, this.value, "confirm-table-room-row");
-           //if($("#confirm-table-assigned-row").length)
-                //$(roomRow).insertAfter("#confirm-table-assigned-row");
-           //else
-                //$(roomRow).insertAfter("#confirm-table-offering-row");
-
-           /* Make every cell considered available */
-           //$(".room-table-cells").text("");
-           //$(".room-table-cells").removeClass("room-table-unavailable", "room-table-selected");
-           //$(".room-table-cells").addClass("room-table-available");
-
            /* Retrieve All Days per Room and reflect it in the table */
            var bldgCode = $("#assign-room-building-menu").val();
            displayOccupiedSlotsTable(this.value, bldgCode);
+           $("#room-assign-unavailable").hide();
        }
        else
        {
-           /* Remove existing confirm table rows */
-           //$(".confirm-table-row").remove();
-
-           //var roomColLabel = "Room";
-           //if ($("#confirm-table-assigned-row").length)
-               //roomColLabel = "New " + roomColLabel;
-
-           /* Update Room row in confirm table */
-           //var roomRow = createConfirmTableRow(roomColLabel, "No Room Selected", "confirm-table-room-row");
-           //if($("#confirm-table-assigned-row").length)
-               //$(roomRow).insertAfter("#confirm-table-assigned-row");
-          //else
-               //$(roomRow).insertAfter("#confirm-table-offering-row");
-
            /* Make every cell considered unavailable */
            $(".room-table-cells").text("");
-           $(".room-table-cells").removeClass("room-table-available", "room-table-selected");
-           $(".room-table-cells").addClass("room-table-unavailable");
+           $(".room-table-cells").removeClass("room-table-unavailable", "room-table-selected");
+           $(".room-table-cells").addClass("room-table-available");
+
+           /* Show unavailable layer */
+           var tableHeight = $("#room-assign-table").height(),
+               tableWidth = $("#room-assign-table").width(),
+               tablePosition = $("#room-assign-table").offset();
+           $("#room-assign-unavailable").css("height", tableHeight);
+           $("#room-assign-unavailable").css("width", tableWidth);
+           $("#room-assign-unavailable").css(tablePosition);
+           $("#room-assign-unavailable-message").css("vertical-align", "middle");
+           $("#room-assign-unavailable").show();
        }
     });
 
@@ -368,7 +341,7 @@ $(function()
 
         var roomTable = "<table id='room-assign-table'>" +
                         "<tr>" +
-                        "<td class='room-table-header'></td>" +
+                        "<td class='room-table-header'>ROOMS</td>" +
                         "<td class='room-table-header'>MON</td>" +
                         "<td class='room-table-header'>TUE</td>" +
                         "<td class='room-table-header'>WED</td>" +
@@ -395,7 +368,17 @@ $(function()
         roomTable += "</table>";
 
         $(roomTable).insertAfter("#assign-room-table-border");
-        $(".room-table-cells").addClass("room-table-unavailable");
+        $(".room-table-cells").addClass("room-table-available");
+
+        /* Show unavailable layer */
+        var tableHeight = $("#room-assign-table").height(),
+            tableWidth = $("#room-assign-table").width(),
+            tablePosition = $("#room-assign-table").offset();
+        $("#room-assign-unavailable").height(tableHeight);
+        $("#room-assign-unavailable").width(tableWidth);
+        $("#room-assign-unavailable").css(tablePosition);
+        $("#room-assign-unavailable-message").css("vertical-align", "middle");
+        $("#room-assign-unavailable").show();
     }
 
     /*  This function automates creating a table row

@@ -132,9 +132,9 @@ $(function() {
                     /* Display each offering into the system */
                     $.each(result.data, function(i, offering)
                     {
-                        var menus = "<div class='all-offerings-row-popup'>" +
-                            "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
-                            "<div class='all-offerings-dropdown-menu'>" +
+                        var menus = "<div class='datatables-row-popup'>" +
+                            "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                            "<div class='datatables-dropdown-menu'>" +
                             "<form action='/assign-faculty' method='POST'>" +
                             "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
                             "<input value='" + offering.section + "' name='section' hidden />" +

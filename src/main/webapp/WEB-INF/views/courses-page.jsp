@@ -42,25 +42,11 @@
 
             <!-- Select Course Table -->
             <section id="course-profiles-list">
-                <c:if test="${userType == 'CVC'}">
-                    <!-- Add Course Container -->
-                    <section id="add-course-container">
-                        <div id="add-course-box">
-                            <p class="section-header-text">Create New Course</p>
-                            <hr class="section-header-border" />
-                            <div id="add-course-form">
-                                <input type="text" id="add-course-code" placeholder="Course Code" />
-                                <input type="text" id="add-course-name" placeholder="Course Name" />
-                                <input type="number" id="add-course-units" placeholder="Units" />
-                                <textarea id="add-course-description" placeholder="Course Description"></textarea>
-                                <button type="submit" id="add-course-submit" alt="Creates New Course">Save New Course</button>
-                            </div>
-                        </div>
-                    </section>
-                </c:if>
-
                 <!-- Course Profiles List -->
                 <section id="course-profiles-list-container">
+                    <p class="datatables-title">
+                        CCS Course Profiles
+                    </p>
                     <div id="course-profiles-list-box">
                         <!-- Course Profiles Table -->
                         <table id="course-list-table" class="hover row-border order-column">

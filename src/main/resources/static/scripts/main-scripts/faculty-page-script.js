@@ -34,6 +34,7 @@ $(function()
                 "previous":   "Prev"
             }
         },
+        "order" : [[4, "desc"]],
         "columnDefs" : [
             {
                 "orderable" : false,
@@ -41,6 +42,13 @@ $(function()
             }
         ]
     });
+
+    /* Add Create Faculty Button */
+    var createFacultyCode = "<div id='faculty_list-table_new_faculty' class='create-instance-button'>" +
+        "<a href='#create-faculty-modal' rel='modal:open'>" +
+        "<button type='button' class='faculty-create-button'>Create New Faculty</button>" +
+        "</a></div>";
+    $(createFacultyCode).prependTo("#faculty-list-table_wrapper");
 
     /* Retrieve Faculty Profiles */
     retrieveFacultyProfiles();

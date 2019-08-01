@@ -36,34 +36,29 @@
         <link rel="stylesheet" type="text/css" href="${mainCss}">
     </head>
     <body>
-        <div id="assystx-container">
+        <div id="assystx-concerns-container">
             <!-- Header -->
             <%@include file="screens/main-header-screen.jsp"%>
 
             <!-- Left Partition -->
-            <section id="workspace-menu-filters">
-                <!-- ASSYSTX Menu -->
-                <%@include file="screens/main-menu-screen.jsp" %>
+            <section id="concerns-menu">
+                <!-- Menu Container -->
+                <section id="menu-container">
+                    <div id="menu-box">
+                        <p class="section-header-text" id="menu-current-term">Concerns</p>
+                        <!-- Main Menu -->
+                        <ul class="menu-subset-list" id="menu-list-main">
+                            <a href="#inbox" id="concerns-filter-inbox"><li class="menu-selected-page">Inbox</li></a>
+                            <a href="#sent" id="concerns-filter-sent"><li>Sent</li></a>
+                        </ul>
+                    </div>
+                </section>
             </section>
 
             <!-- Middle Partition -->
             <section id="concerns-inbox">
                 <section id="concerns-inbox-container">
                     <div id="concerns-inbox-box">
-                        <p class="section-header-text">Concerns</p>
-                        <hr class="section-header-border" />
-
-                        <table id="concerns-filter-table">
-                            <tr>
-                                <td class="concerns-filter-selected">
-                                    <a href="#inbox" id="concerns-filter-inbox">Inbox</a>
-                                </td>
-                                <td>
-                                    <a href="#sent" id="concerns-filter-sent">Sent</a>
-                                </td>
-                            </tr>
-                        </table>
-
                         <!-- Concerns Table -->
                         <div id="concerns-list-accordion">
                         </div>

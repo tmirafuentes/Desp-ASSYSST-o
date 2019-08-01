@@ -42,6 +42,15 @@ body
     padding-bottom: 15px;
 }
 
+.datatables-title
+{
+    margin: 0;
+    padding: 0 0 1% 0;
+    font-family: Gotham Black;
+    font-size: 1.05em;
+    color: #2b2b2b;
+}
+
 /* Datatables Row Menu Template */
 .datatables-row-img, .datatables-row-menu
 {
@@ -56,25 +65,10 @@ body
     display: inline-block;
 }
 
-.datatables-row-arrow
-{
-    position: absolute;
-    top: 42.5%;
-    left: -6%;
-    width: 0;
-    height: 0;
-    border-right: 10px solid #ffffff;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    float: right;
-}
-
 .datatables-dropdown-menu
 {
     display: none;
     position: absolute;
-    left: 80%;
-    bottom: -550%;
     background-color: #ffffff;
     min-width: 165px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -114,4 +108,23 @@ body
 .datatables-row-popup:hover .datatables-dropdown-menu
 {
     display: block;
+}
+
+.dataTables_wrapper .create-instance-button
+{
+    float: left;
+    margin-left: 1em;
+}
+
+.create-instance-button button
+{
+    border: none;
+    background: #00ba72;
+    padding: 0.5em;
+    font-family: Gotham-Black;
+    font-size: 0.75em;
+    font-weight: 800;
+    color: #ffffff;
+    cursor: pointer;
+
 }

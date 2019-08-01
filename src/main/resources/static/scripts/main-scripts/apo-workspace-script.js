@@ -37,6 +37,7 @@ $(function() {
                 "previous":   "Prev"
             }
         },
+        "order" : [[1, "asc"]],
         "columnDefs" : [
             {
                 "orderable" : false,
@@ -46,7 +47,7 @@ $(function() {
     });
 
     /* Add Create Offering Button */
-    var createOfferingCode = "<div id='all-offerings-table_new_offering'>" +
+    var createOfferingCode = "<div id='all-offerings-table_new_offering' class='create-instance-button'>" +
                              "<a href='#create-offering-modal' rel='modal:open'>" +
                              "<button type='button' class='offering-create-button'>Create New Offering</button>" +
                              "</a></div>";

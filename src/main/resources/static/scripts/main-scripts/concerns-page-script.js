@@ -13,14 +13,14 @@ $(function() {
     {
         e.preventDefault();
 
-        if(!$(this).closest("td").hasClass("concerns-filter-selected"))
+        if(!$(this).find("li").hasClass("menu-selected-page"))
         {
             /* Retrieve received concerns */
             retrieveConcerns("inbox");
 
             /* Change appearance as selected */
-            $("#concerns-filter-table td").removeClass("concerns-filter-selected");
-            $(this).closest("td").addClass("concerns-filter-selected");
+            $("#menu-list-main li").removeClass("menu-selected-page");
+            $(this).find("li").addClass("menu-selected-page");
         }
     });
 
@@ -29,14 +29,14 @@ $(function() {
     {
         e.preventDefault();
 
-        if(!$(this).closest("td").hasClass("concerns-filter-selected"))
+        if(!$(this).find("li").hasClass("menu-selected-page"))
         {
             /* Retrieve received concerns */
             retrieveConcerns("sent");
 
             /* Change appearance as selected */
-            $("#concerns-filter-table td").removeClass("concerns-filter-selected");
-            $(this).closest("td").addClass("concerns-filter-selected");
+            $("#menu-list-main li").removeClass("menu-selected-page");
+            $(this).find("li").addClass("menu-selected-page");
         }
     });
 

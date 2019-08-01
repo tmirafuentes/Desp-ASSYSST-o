@@ -116,6 +116,9 @@
             <section id="assign-room-right-partition">
                 <section id="assign-room-table-container">
                     <div id="assign-room-table-box">
+                        <div id="room-assign-unavailable">
+                            <p id="room-assign-unavailable-message">Please select a timeslot.</p>
+                        </div>
                         <p class="section-header-text">Select Day and Timeslot</p>
                         <hr class="section-header-border" id="assign-room-table-border" />
                     </div>

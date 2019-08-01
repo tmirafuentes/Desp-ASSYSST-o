@@ -10,6 +10,32 @@
 @import "component-styles/menu-sidebar.css";
 @import "component-styles/concerns-table.css";
 
+#assystx-concerns-container
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    padding-bottom: 1.5%;
+}
+
+#concerns-menu
+{
+    grid-row: 2;
+    grid-column: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#menu-current-term
+{
+    font-size: 1.1em;
+}
+
 /* CONCERNS INBOX */
 #concerns-inbox
 {
@@ -31,9 +57,8 @@
 /* Box Seen in UI */
 #concerns-inbox-box
 {
-    margin: 0 auto;
     height: auto;
-    width: 80%;
+    width: 85%;
     background: #ffffff;
     box-sizing: border-box;
     padding-top: 10px;

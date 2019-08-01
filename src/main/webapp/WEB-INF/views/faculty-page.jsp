@@ -42,26 +42,11 @@
 
             <!-- Select Faculty Table -->
             <section id="faculty-profiles-list">
-                <c:if test="${userType == 'CVC'}">
-                    <!-- Add Faculty Container -->
-                    <section id="add-faculty-container">
-                        <div id="add-faculty-box">
-                            <p class="section-header-text">Create New Faculty</p>
-                            <hr class="section-header-border" />
-                            <div id="add-faculty-form">
-                                <input type="text" id="add-faculty-name" placeholder="Last Name, First Name" />
-                                <select id="add-faculty-type">
-                                    <option value="FT">Full-Time</option>
-                                    <option value="PT">Part-Time</option>
-                                </select>
-                                <button type="submit" id="add-faculty-submit" alt="Creates New Faculty">Save New Faculty</button>
-                            </div>
-                        </div>
-                    </section>
-                </c:if>
-
                 <!-- Faculty Profiles List -->
                 <section id="faculty-profiles-list-container">
+                    <p class="datatables-title">
+                        CCS Faculty Profiles
+                    </p>
                     <div id="faculty-profiles-list-box">
                         <!-- Faculty Profiles Table -->
                         <table id="faculty-list-table" class="hover row-border order-column">
