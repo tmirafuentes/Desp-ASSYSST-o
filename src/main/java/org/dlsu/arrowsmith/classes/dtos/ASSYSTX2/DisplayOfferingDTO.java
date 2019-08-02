@@ -13,6 +13,7 @@ public class DisplayOfferingDTO
     private String roomCode;
     private String facultyName;
     private String offeringType;
+    private boolean relatedConcern;
 
     public DisplayOfferingDTO() { }
 
@@ -94,5 +95,13 @@ public class DisplayOfferingDTO
 
     public void setOfferingType(String offeringType) {
         this.offeringType = offeringType;
+    }
+
+    public boolean isRelatedConcern() {
+        return relatedConcern;
+    }
+
+    public void setRelatedConcern(boolean relatedConcern) {
+        this.relatedConcern = relatedConcern;
     }
 }

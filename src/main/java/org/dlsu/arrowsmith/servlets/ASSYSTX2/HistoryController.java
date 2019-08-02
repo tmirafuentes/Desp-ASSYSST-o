@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 @RestController
-@RequestMapping({"/", "/history"})
+@RequestMapping({"/", "/courses", "/faculty"})
 public class HistoryController
 {
     /*** Services ***/
@@ -35,11 +35,11 @@ public class HistoryController
     public Response retrieveMostRecentChanges()
     {
         /* Retrieve all changes */
-        Iterator workspaceHistory = historyService.retrieveWorkspaceHistory();
+        Iterator workspaceHistory = historyService.retrieveOfferingHistory(null);
 
         /* Transfer to new list */
         ArrayList<RecentChangesDTO> mostRecent = new ArrayList<>();
-        for(int i = 0; i < 8 && workspaceHistory.hasNext(); i++)
+        for(int i = 0; i < 5 && workspaceHistory.hasNext(); i++)
         {
             RecentChangesDTO dto = (RecentChangesDTO) workspaceHistory.next();
             mostRecent.add(dto);

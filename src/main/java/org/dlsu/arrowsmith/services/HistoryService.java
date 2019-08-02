@@ -51,10 +51,12 @@ public class HistoryService
     {
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
 
-        /* Create query for courseOffering */
+        /* Create query for Course Offering */
         AuditQuery courseOfferingQuery = auditReader.createQuery()
-                .forRevisionsOfEntity(CourseOffering.class, false, true)
-                .add(AuditEntity.id().eq(selectedOffering.getOfferingId()));
+                .forRevisionsOfEntity(CourseOffering.class, false, true);
+
+        if(selectedOffering != null)
+                courseOfferingQuery.add(AuditEntity.id().eq(selectedOffering.getOfferingId()));
 
         /* Get result list */
         List<Object[]> audit = courseOfferingQuery.getResultList();
@@ -74,6 +76,9 @@ public class HistoryService
 
             /* Revision Type */
             RevisionType revType = (RevisionType) a[2];
+
+            if(tempARE.getId() < 60)
+                continue;
 
             /* Check Revised Entities */
             Set<ModifiedEntityTypeEntity> mete = tempARE.getModifiedEntityTypes();
@@ -110,99 +115,6 @@ public class HistoryService
         }
 
         return history.iterator();
-    }
-
-    /* Retrieve All Revision History for Course Offering and Days and sort by most recent */
-    public Iterator retrieveWorkspaceHistory()
-    {
-        /* Get all entities */
-        ArrayList<AuditedRevisionEntity> revisionEntities = (ArrayList<AuditedRevisionEntity>)revisionHistoryRepository.findAll();
-
-        /* Create DTO ArrayList */
-        ArrayList<RecentChangesDTO> allRevisions = new ArrayList<>();
-
-        /* Loop through entries and modify it for DTO */
-        CourseOffering prevOffering = null;
-        boolean filledPrevOffering = false;
-        Date prevDate = null;
-        for(AuditedRevisionEntity are : revisionEntities)
-        {
-            if (are.getId() < 60)
-                continue;
-
-            /* Query Course Offering, Days, Faculty Load, Deloading Entities
-            AuditQuery courseOfferingQuery = auditReader.createQuery().forRevisionsOfEntity(CourseOffering.class, true, true)
-                                                                        .add(AuditEntity.revisionNumber().eq(are.getId()));
-                                                                        */
-
-            /* Create DTO */
-            RecentChangesDTO dto = createNewChangesDTO(are);
-
-            /* Check Date */
-            if(prevDate != null && prevDate.equals(are.getDateModified()))
-                continue;
-
-            /* Determine the subject by the entities updated */
-            boolean hasOffering = false, hasUser = false, hasDays = false, hasDeloading = false;
-            CourseOffering offering = null;
-            DeloadInstance deloadInstance = null;
-            Iterator entityTypes = are.getModifiedEntityTypes().iterator();
-
-            while(entityTypes.hasNext())
-            {
-                ModifiedEntityTypeEntity entity = (ModifiedEntityTypeEntity) entityTypes.next();
-                if (entity.getEntityClassName().equals("CourseOffering"))
-                {
-                    hasOffering = true;
-                    offering = offeringService.retrieveCourseOffering(entity.getEntityID());
-                }
-                else if (entity.getEntityClassName().equals("Days"))
-                {
-                    hasDays = true;
-                }
-                else if (entity.getEntityClassName().equals("User"))
-                    hasUser = true;
-                else if (entity.getEntityClassName().equals("DeloadInstance"))
-                {
-                    hasDeloading = true;
-                    deloadInstance = facultyService.retrieveDeloadInstanceByID(entity.getEntityID());
-                }
-            }
-
-            try {
-                boolean isADuplicate = false;
-
-                String selectedOffering = offering.getCourse().getCourseCode() + " " + offering.getSection();
-
-                /* Room assignment */
-                if(hasOffering && hasDays)
-                    dto.setSubject("Room assigned to " + selectedOffering);
-                    /* Faculty assignment */
-                else if(hasOffering && hasUser)
-                    dto.setSubject("Faculty assigned to " + selectedOffering);
-                    /* Dissolved OFfering */
-                else if(hasOffering && !hasDays && !hasUser &&
-                        offering.getType().equals("Dissolved"))
-                    dto.setSubject(selectedOffering + " is dissolved");
-                    /* Faculty deloading */
-                else if(hasDeloading)
-                    dto.setSubject("Faculty is deloaded");
-                    /* Modified Offering */
-                else
-                    dto.setSubject(selectedOffering + " is modified");
-            } catch(Exception e) { }
-            finally
-            {
-                /* Save if current term */
-                if (offering != null && offering.getTerm() == userService.retrieveCurrentTerm() ||
-                        deloadInstance != null && deloadInstance.getTerm() == userService.retrieveCurrentTerm())
-                    allRevisions.add(dto);
-            }
-
-            prevDate = are.getDateModified();
-        }
-
-        return allRevisions.iterator();
     }
 
     /* Create a template RecentChangesDTO */

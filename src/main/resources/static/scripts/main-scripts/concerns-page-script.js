@@ -83,7 +83,6 @@ $(function() {
 
                     $.each(result.data, function(i, concern)
                     {
-
                         var header = "<h3 data-concern-num='" + concern.id + "'";
                         if (concern.acknowledged === false)
                             header += " class='concerns-unacknowledged'";
@@ -99,7 +98,7 @@ $(function() {
 
                         var concern = header + div;
 
-                        $(concern).prependTo("#concerns-list-accordion");
+                        $(concern).appendTo("#concerns-list-accordion");
                     });
 
                     /* Accordion look of table */

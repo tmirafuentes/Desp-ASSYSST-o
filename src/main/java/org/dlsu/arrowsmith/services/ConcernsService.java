@@ -1,9 +1,6 @@
 package org.dlsu.arrowsmith.services;
 
-import org.dlsu.arrowsmith.classes.main.College;
-import org.dlsu.arrowsmith.classes.main.Concern;
-import org.dlsu.arrowsmith.classes.main.Department;
-import org.dlsu.arrowsmith.classes.main.User;
+import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.repositories.ConcernRepository;
 import org.dlsu.arrowsmith.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +38,13 @@ public class ConcernsService
 
     /* Retrieve All Concerns By Sender */
     public Iterator retrieveAllConcernsBySender(User user) {
-        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrderByDateTimeCommittedAsc(user);
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllBySenderOrderByDateTimeCommittedDesc(user);
         return concerns.iterator();
     }
 
     /* Retrieve All Concerns By Receiver */
     public Iterator retrieveAllConcernsByReceiver(User user) {
-        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiverOrderByDateTimeCommittedAsc(user);
+        ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiverOrderByDateTimeCommittedDesc(user);
         return concerns.iterator();
     }
 
@@ -55,6 +52,19 @@ public class ConcernsService
     {
         ArrayList<Concern> concerns = (ArrayList<Concern>) concernRepository.findAllByReceiverAndAcknowledged(user, ack);
         return concerns.size();
+    }
+
+    /* Retrieve All Unacknowledged Concerns By Receiver */
+    public boolean retrieveAllUnacknowledgedConcernsByReceiver(User user, boolean ack, CourseOffering courseOffering)
+    {
+        Iterator concerns = concernRepository.findAllByReceiverAndAcknowledged(user, ack).iterator();
+        while(concerns.hasNext())
+        {
+            Concern concern = (Concern) concerns.next();
+            if(concern.getSubject().equals(courseOffering.getCourse().getCourseCode() + " " + courseOffering.getSection()))
+                return true;
+        }
+        return false;
     }
 
     /* Retrieve All Concerns By Receiver or Sender */
@@ -77,7 +87,7 @@ public class ConcernsService
 
     public Iterator retrievePartialConcernsByReceiver(User receiver)
     {
-        ArrayList<Concern> partialConcerns = concernRepository.findAllByReceiverOrderByDateTimeCommittedAsc(receiver);
+        ArrayList<Concern> partialConcerns = concernRepository.findAllByReceiverOrderByDateTimeCommittedDesc(receiver);
         return partialConcerns.iterator();
     }
 }

@@ -15,6 +15,6 @@ public interface ConcernRepository extends CrudRepository<Concern, Long> {
     ArrayList<Concern> findAllByReceiver(User user);
     ArrayList<Concern> findAllBySenderOrReceiver(User sender, User receiver);
     ArrayList<Concern> findAllByReceiverAndAcknowledged(User receiver, boolean acknowledged);
-    ArrayList<Concern> findAllByReceiverOrderByDateTimeCommittedAsc(User receiver);
-    ArrayList<Concern> findAllBySenderOrderByDateTimeCommittedAsc(User sender);
+    ArrayList<Concern> findAllByReceiverOrderByDateTimeCommittedDesc(User receiver);
+    ArrayList<Concern> findAllBySenderOrderByDateTimeCommittedDesc(User sender);
 }

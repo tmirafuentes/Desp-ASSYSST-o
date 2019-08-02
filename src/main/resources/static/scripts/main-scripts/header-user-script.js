@@ -13,7 +13,10 @@ $(function()
     retrieveRecentConcerns();
     setInterval(function() {
         updateRecentConcerns();
-    }, 5000);
+    }, 1000);
+
+    /* Load Recent Changes */
+    loadMostRecentChanges();
 
     /*
      *  MENU
@@ -62,7 +65,7 @@ $(function()
     {
         if(!event.target.matches(".workspace-user-icons") &&
             !event.target.matches(".header-dropdown-content img") &&
-            !event.target.matches(".header-dropdown-content a"))
+            !event.target.matches(".header-dropdown-content li a"))
         {
             $(".header-dropdown-content").hide();
         }
@@ -100,10 +103,14 @@ $(function()
                         /* Remove gray background */
                         $(this).closest("li").removeClass("concerns-dropdown-unmarked");
 
+                        console.log("Concern background is changed");
+
                         /* Switch to gray button */
                         $(this).addClass("dropdown-concerns-acknowledged");
                         $(this).removeClass("dropdown-concerns-unacknowledged");
-                        $(this).attr("img", "/images/gray-icons/check-button.png");
+                        $(this).attr("src", "/images/gray-icons/check-button.png");
+
+                        console.log("Concern is unmarked");
                     }
                 },
                 error : function(e)
@@ -135,7 +142,8 @@ $(function()
                         .removeClass("concerns-dropdown-unmarked")
                         .find("img")
                         .addClass("dropdown-concerns-acknowledged")
-                        .removeClass("dropdown-concerns-unacknowledged");
+                        .removeClass("dropdown-concerns-unacknowledged")
+                        .attr("src", "/images/gray-icons/check-button.png");
                 }
             }
         });
@@ -195,6 +203,9 @@ $(function()
                 if(result.status === "Done")
                 {
                     displayPositiveMessage(result.data);
+                    $("#raise-concerns-receiver").val("");
+                    $("#raise-concerns-offering").val("");
+                    $("#raise-concerns-content").val("");
                     $("#raise-concerns-modal").modal('close');
                 }
             },
@@ -261,6 +272,7 @@ $(function()
                 if(result.message === false)
                 {
                     $(".workspace-user-inbox").attr('src', '/images/white-icons/concerns-inbox.png');
+                    $(".header-concerns-notif").text(unreadCtr);
                     $(".header-concerns-notif").show();
                 }
             }
@@ -280,10 +292,12 @@ $(function()
             url : window.location + url,
             success : function(result)
             {
+                console.log("Status = " + result.status);
+
                 if(result.status === "Done")
                 {
-                    $(".header-dropdown-content-list li:not(:nth-child(1))").remove();
-                    $(".header-dropdown-content-list hr.dropdown-concerns-border").remove();
+                    $("#header-dropdown-concerns ul li:not(:nth-child(1))").remove();
+                    $("#header-dropdown-concerns ul hr.dropdown-concerns-border").remove();
 
                     var unreadCtr = 0;
                     $.each(result.data, function(i, concern)
@@ -317,10 +331,87 @@ $(function()
                 if(result.message === false)
                 {
                     $(".workspace-user-inbox").attr('src', '/images/white-icons/concerns-inbox.png');
+                    $(".header-concerns-notif").text(unreadCtr);
                     $(".header-concerns-notif").show();
                 }
             }
         });
+    }
+
+    /*
+     *  WORKSPACE HISTORY
+     *  FUNCTION IMPLEMENTATIONS
+     *
+    */
+
+    /* Load most recent changes */
+    function loadMostRecentChanges()
+    {
+        var location = window.location.href;
+        var url = (location.substr(location.length - 1) === "/") ? "retrieve-recent-changes" : "/retrieve-recent-changes";
+
+        $.ajax({
+            type : "GET",
+            url : url,
+            success : function(result)
+            {
+                /* Remove past changes */
+                $(".recent-changes-row").remove();
+                $(".recent-changes-row-border").remove();
+
+                $.each(result.data, function(i, change)
+                {
+                    var startList = "<ul class='recent-changes-row'>";
+                    var subject = "<li>" + change.subject + "</li>";
+                    var revision = "<li>by " + change.fullName + " ";
+
+                    /* Format Timestamp representation */
+
+                    /* Get Times */
+                    var revisionDate = new Date(change.timestamp).getTime();
+                    var currDate = new Date().getTime();
+
+                    /* Get Difference */
+                    var timeDifference = currDate - revisionDate;
+
+                    /* Get appropriate string for time */
+                    if (timeDifference < 60000) // Less than a minute
+                    {
+                        revision += "a few seconds ago ";
+                    } else if (timeDifference >= 60000 && timeDifference < 3600000) // Less than an hour
+                    {
+                        var tempTime = Math.floor(timeDifference / 60000);
+                        revision += tempTime + " minute";
+                        if (tempTime > 1)
+                            revision += "s";
+                        revision += " ago ";
+                    } else if (timeDifference >= 3600000 && timeDifference < 86400000) // Less than a day
+                    {
+                        var tempTime = Math.floor(timeDifference / 3600000);
+                        revision += tempTime + " hour";
+                        if (tempTime > 1)
+                            revision += "s";
+                        revision += " ago ";
+                    } else if (timeDifference >= 86400000 && timeDifference < 2678400000) // Less than a month or 30 days
+                    {
+                        var tempTime = Math.floor(timeDifference / 86400000);
+                        revision += tempTime + " day";
+                        if (tempTime > 1)
+                            revision += "s";
+                        revision += " ago ";
+                    } else
+                    {
+                        var revDateAgain = new Date(result.data.timestamp);
+                        revision += "at " + revDateAgain.toLocaleDateString() + " ";
+                    }
+
+                    var endList = "</ul><hr class='recent-changes-row-border' />";
+                    var entryChange = startList + subject + revision + endList;
+
+                    $(entryChange).insertAfter("#recent-changes-header-border");
+                });
+            }
+        })
     }
 
     /*

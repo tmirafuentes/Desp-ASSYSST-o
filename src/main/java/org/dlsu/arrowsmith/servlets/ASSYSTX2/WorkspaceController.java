@@ -3,6 +3,7 @@ package org.dlsu.arrowsmith.servlets.ASSYSTX2;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.dlsu.arrowsmith.classes.main.*;
 import org.dlsu.arrowsmith.classes.dtos.ASSYSTX2.*;
+import org.dlsu.arrowsmith.services.ConcernsService;
 import org.dlsu.arrowsmith.services.FacultyService;
 import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
@@ -44,6 +45,9 @@ public class WorkspaceController
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ConcernsService concernsService;
 
     @Autowired
     private MessageSource messages;
@@ -133,6 +137,24 @@ public class WorkspaceController
      *  FUNCTION IMPLEMENTATIONS
      *
      */
+
+    /* Transfer a list of CourseOfferings to each Data Transfer Object */
+    private Iterator transferListOfferingToDTO(Iterator listOfferings)
+    {
+        ArrayList<DisplayOfferingDTO> displayOfferingDTOArrayList = new ArrayList<>();
+        while (listOfferings.hasNext())
+        {
+            CourseOffering offering = (CourseOffering) listOfferings.next();
+            DisplayOfferingDTO newDTO = transferToDisplayOfferingDTO(offering);
+
+            /* Check if concern is related to offering */
+            boolean relatedConcern = concernsService.retrieveAllUnacknowledgedConcernsByReceiver(userService.retrieveUser(), false, offering);
+            newDTO.setRelatedConcern(relatedConcern);
+
+            displayOfferingDTOArrayList.add(newDTO);
+        }
+        return displayOfferingDTOArrayList.iterator();
+    }
 
     /* Transfer a CourseOffering instance to a Data Transfer Object */
     private DisplayOfferingDTO transferToDisplayOfferingDTO(CourseOffering offering)
@@ -241,19 +263,6 @@ public class WorkspaceController
         return displayOfferingDTO;
     }
 
-    /* Transfer a list of CourseOfferings to each Data Transfer Object */
-    private Iterator transferListOfferingToDTO(Iterator listOfferings)
-    {
-        ArrayList<DisplayOfferingDTO> displayOfferingDTOArrayList = new ArrayList<>();
-        while (listOfferings.hasNext())
-        {
-            CourseOffering offering = (CourseOffering) listOfferings.next();
-            DisplayOfferingDTO newDTO = transferToDisplayOfferingDTO(offering);
-            displayOfferingDTOArrayList.add(newDTO);
-        }
-        return displayOfferingDTOArrayList.iterator();
-    }
-
     /*
      *  MODIFY OFFERINGS
      *  URL MAPPING
@@ -293,7 +302,7 @@ public class WorkspaceController
         offeringService.saveCourseOffering(selectedOffering);
 
         /* Reduce Faculty Load units */
-        if(offeringType.equals("Special") && selectedOffering.getFaculty() != null )
+        if(offeringType.equals("Special") && selectedOffering.getFaculty() != null)
         {
             facultyService.assignAcademicLoadToFaculty(userService.retrieveCurrentTerm(),
                                                        selectedOffering.getFaculty(),

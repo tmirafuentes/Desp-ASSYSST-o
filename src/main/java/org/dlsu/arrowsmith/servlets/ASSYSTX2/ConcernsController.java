@@ -90,7 +90,6 @@ public class ConcernsController
 
         /* Update User Activity */
         UserActivity userActivity = userService.retrieveUserActivity(receiver);
-        userActivity.setLastConcern(savedConcern.getconcernId());
         userActivity.setConcernNotified(false);
         userService.saveUserActivity(userActivity);
 
@@ -117,7 +116,7 @@ public class ConcernsController
             /* Get sender */
             String sender = concern.getSender().getLastName() + ", " + concern.getSender().getFirstName();
 
-            dtos.add(createSendConcernDTO(concern, sender));
+            dtos.add(0, createSendConcernDTO(concern, sender));
 
             ctr++;
         }
@@ -145,10 +144,27 @@ public class ConcernsController
             concernID = concern.getId();
         }
 
-        if(concernID == userActivity.getLastConcern().longValue())
-            return new Response("No Change", null, response.getMessage());
+        //if(concernID == userActivity.getLastConcern().longValue())
+            //return new Response("No Change", null, response.getMessage());
 
         return retrieveRecentConcerns();
+    }
+
+    @PostMapping(value = "/mark-acknowledged-concern")
+    public Response markAcknowledgedConcern(@RequestBody String id)
+    {
+        //id = id.substring(0, id.length() - 1);
+
+        Concern concern = concernsService.findConcernByConcernId(Long.parseLong(id));
+        concern.setAcknowledged(true);
+        concernsService.saveConcern(concern);
+
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(concern.getReceiver());
+        userActivity.setLastConcern(concern.getconcernId());
+        userService.saveUserActivity(userActivity);
+
+        return new Response("Done", null);
     }
 
     @GetMapping(value = "/mark-all-recent-concerns")
@@ -160,6 +176,9 @@ public class ConcernsController
         /* Retrieve partial concerns */
         Iterator partialConcerns = concernsService.retrievePartialConcernsByReceiver(currentUser);
 
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(currentUser);
+
         /* Mark all partial concerns as acknowledged */
         while(partialConcerns.hasNext())
         {
@@ -167,7 +186,10 @@ public class ConcernsController
 
             selectedConcern.setAcknowledged(true);
             concernsService.saveConcern(selectedConcern);
+
+            userActivity.setLastConcern(selectedConcern.getconcernId());
         }
+        userService.saveUserActivity(userActivity);
 
         return new Response("Done", null);
     }
@@ -205,18 +227,6 @@ public class ConcernsController
         }
 
         return new Response("Done", dtos.iterator());
-    }
-
-    @PostMapping(value = "/mark-acknowledged-concern")
-    public Response markAcknowledgedConcern(@RequestBody String id)
-    {
-        //id = id.substring(0, id.length() - 1);
-
-        Concern concern = concernsService.findConcernByConcernId(Long.parseLong(id));
-        concern.setAcknowledged(true);
-        concernsService.saveConcern(concern);
-
-        return new Response("Done", null);
     }
 
     @PostMapping(value = "/disable-concern-notifs")
