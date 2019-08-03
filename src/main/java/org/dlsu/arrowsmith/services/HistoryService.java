@@ -47,7 +47,7 @@ public class HistoryService
      */
 
     /* Retrieve Course Offering History */
-    public Iterator retrieveOfferingHistory(CourseOffering selectedOffering)
+    public ArrayList<RecentChangesDTO> retrieveOfferingHistory(CourseOffering selectedOffering)
     {
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
 
@@ -114,7 +114,7 @@ public class HistoryService
             prevDate = tempARE.getDateModified();
         }
 
-        return history.iterator();
+        return history;
     }
 
     /* Create a template RecentChangesDTO */

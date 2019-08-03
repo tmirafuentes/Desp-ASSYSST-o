@@ -10,12 +10,13 @@
 
 $(function()
 {
+    /* Retrieve and Update Concerns */
     retrieveRecentConcerns();
     setInterval(function() {
         updateRecentConcerns();
-    }, 1000);
+    }, 3000);
 
-    /* Load Recent Changes */
+    /* Retrieve and Update Recent Changes */
     loadMostRecentChanges();
 
     /*

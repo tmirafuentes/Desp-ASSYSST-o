@@ -4,13 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class UserActivity
-{
+public class UserActivity {
     private Long userId;
-    private Long lastConcern;
+    private Long lastConcernSeen;
     private boolean concernNotified;
-    private Long lastOffering;
+    private Long lastOfferingModified;
     private boolean offeringNotified;
+    private Long lastRevisionSeen;
+    private Long revisionNotified;
 
     public UserActivity() {
     }
@@ -24,12 +25,12 @@ public class UserActivity
         this.userId = userId;
     }
 
-    public Long getLastConcern() {
-        return lastConcern;
+    public Long getLastConcernSeen() {
+        return lastConcernSeen;
     }
 
-    public void setLastConcern(Long lastConcern) {
-        this.lastConcern = lastConcern;
+    public void setLastConcernSeen(Long lastConcernSeen) {
+        this.lastConcernSeen = lastConcernSeen;
     }
 
     public boolean isConcernNotified() {
@@ -40,12 +41,12 @@ public class UserActivity
         this.concernNotified = concernNotified;
     }
 
-    public Long getLastOffering() {
-        return lastOffering;
+    public Long getLastOfferingModified() {
+        return lastOfferingModified;
     }
 
-    public void setLastOffering(Long lastOffering) {
-        this.lastOffering = lastOffering;
+    public void setLastOfferingModified(Long lastOfferingModified) {
+        this.lastOfferingModified = lastOfferingModified;
     }
 
     public boolean isOfferingNotified() {
@@ -54,5 +55,21 @@ public class UserActivity
 
     public void setOfferingNotified(boolean offeringNotified) {
         this.offeringNotified = offeringNotified;
+    }
+
+    public Long getLastRevisionSeen() {
+        return lastRevisionSeen;
+    }
+
+    public void setLastRevisionSeen(Long lastRevisionSeen) {
+        this.lastRevisionSeen = lastRevisionSeen;
+    }
+
+    public Long getRevisionNotified() {
+        return revisionNotified;
+    }
+
+    public void setRevisionNotified(Long revisionNotified) {
+        this.revisionNotified = revisionNotified;
     }
 }

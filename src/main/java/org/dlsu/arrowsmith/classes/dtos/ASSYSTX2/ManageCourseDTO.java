@@ -3,11 +3,13 @@ package org.dlsu.arrowsmith.classes.dtos.ASSYSTX2;
 public class ManageCourseDTO
 {
     private String courseCode;
-    private String courseDesc;
     private String courseName;
     private double courseUnits;
+    private String courseDesc;
     private String roomType;
-    private int numHours;
+    private double numHours;
+    private String deptName;
+    private String college;
 
     public String getCourseCode() {
         return courseCode;
@@ -49,11 +51,27 @@ public class ManageCourseDTO
         this.roomType = roomType;
     }
 
-    public int getNumHours() {
+    public double getNumHours() {
         return numHours;
     }
 
-    public void setNumHours(int numHours) {
+    public void setNumHours(double numHours) {
         this.numHours = numHours;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
     }
 }

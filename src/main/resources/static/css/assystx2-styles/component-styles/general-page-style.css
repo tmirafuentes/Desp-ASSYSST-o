@@ -126,5 +126,9 @@ body
     font-weight: 800;
     color: #ffffff;
     cursor: pointer;
+}
 
+.datatables-row-dissolved
+{
+    color: #ff7b7b;
 }

@@ -8,8 +8,10 @@ public class DisplayOfferingDTO
     private String section;
     private char day1;
     private char day2;
+    private String combinedDays;
     private String startTime;
     private String endTime;
+    private String combinedTime;
     private String roomCode;
     private String facultyName;
     private String offeringType;
@@ -103,5 +105,21 @@ public class DisplayOfferingDTO
 
     public void setRelatedConcern(boolean relatedConcern) {
         this.relatedConcern = relatedConcern;
+    }
+
+    public String getCombinedDays() {
+        return combinedDays;
+    }
+
+    public void setCombinedDays(String combinedDays) {
+        this.combinedDays = combinedDays;
+    }
+
+    public String getCombinedTime() {
+        return combinedTime;
+    }
+
+    public void setCombinedTime(String combinedTime) {
+        this.combinedTime = combinedTime;
     }
 }

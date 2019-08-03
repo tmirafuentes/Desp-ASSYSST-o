@@ -20,12 +20,15 @@ $(function() {
 
     /* Initialize DataTables */
     var offeringsTable = $("#all-offerings-table").DataTable({
+        "ajax" : "/show-offerings",
+        "rowId" : "offeringID",
         "select" : true,
         "stateSave" : true,
         "lengthChange" : false,
         "searching" : true,
         "pageLength" : 10,
         "pagingType" : "numbers",
+        "order" : [[1, "asc"]],
         "language" : {
             "info" : "Displaying _START_ to _END_ of _TOTAL_ offerings",
             "infoEmpty" : "There are currently no course offerings.",
@@ -37,11 +40,55 @@ $(function() {
                 "previous":   "Prev"
             }
         },
-        "order" : [[1, "asc"]],
         "columnDefs" : [
             {
                 "orderable" : false,
                 "targets" : [0, 7]
+            }
+        ],
+        "columns" : [
+            { "data" : function(data, type, dataToSet)
+                {
+                    /* Offering Status/Type */
+                    var offeringType = "";
+                    if (data.offeringType === "Special")
+                        offeringType += "<span class='offering-status-special'>SPCL</span>";
+                    else if (data.offeringType === "Dissolved")
+                        offeringType += "<span class='offering-status-dissolved'>DSLV</span>";
+
+                    /* If there is an unacknowledged
+                       concern about the offerng */
+                    if(data.relatedConcern)
+                        offeringType = "<img src='/images/other-icons/envelope.png' class='datatables-row-img' />";
+
+                    return offeringType;
+                }
+            },
+            { "data" : "courseCode" },
+            { "data" : "section" },
+            { "data" : "combinedDays" },
+            { "data" : "combinedTime" },
+            { "data" : "roomCode" },
+            { "data" : "facultyName" },
+            { "data" : function(data, type, dataToSet)
+                {
+                    /* Drop Down Menu */
+                    var menus = "<div class='datatables-row-popup'>" +
+                        "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                        "<div class='datatables-dropdown-menu'>" +
+                        "<div class='datatables-row-arrow'></div>" +
+                        "<form action='/assign-room' method='POST'>" +
+                        "<input value='" + data.courseCode + "' name='courseCode' hidden />" +
+                        "<input value='" + data.section + "' name='section' hidden />" +
+                        "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
+                        "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
+                        "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
+                        "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
+                        "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
+                        "</div></div>";
+
+                    return menus;
+                }
             }
         ]
     });
@@ -53,8 +100,11 @@ $(function() {
                              "</a></div>";
     $(createOfferingCode).prependTo("#all-offerings-table_wrapper");
 
-    /* Show Offerings */
-    showOfferings();
+    /* Update Offerings Table */
+    setInterval( function () {
+        offeringsTable.ajax.reload( null, false ); // user paging is not reset on reload
+    }, 5000 );
+    //showOfferings();
 
     /* Retrieve Course Codes for Create New Offering */
     var courseCodes = [];
@@ -191,86 +241,6 @@ $(function() {
      *  FUNCTION IMPLEMENTATIONS
      *
     */
-
-    /*  This function retrieves a partial list
-     *  of course offerings from the database
-     *  and displays it in the system.
-     */
-    function showOfferings()
-    {
-        $.ajax({
-            type : "GET",
-            url : window.location + "show-offerings",
-            success : function(result)
-            {
-                /* Code for removing the currently displayed course offerings */
-                $("#all-offerings-table tbody tr").remove();
-
-                if(result.status === "Empty")
-                {
-                    var startPageList = "<ul id='all-offerings-page-menu'>" +
-                                        "<li class='unavailable-page'>&nbsp;</li>" +
-                                        "<li>" + result.data + "</li>" +
-                                        "<li class='unavailable-page'>&nbsp;</li>" +
-                                        "</ul>";
-                    $(startPageList).appendTo("#all-offerings-box");
-                }
-                else if(result.status === "Done")
-                {
-                    $.each(result.data, function(i, offering)
-                    {
-                        /* Drop Down Menu */
-                        var menus = "<div class='datatables-row-popup'>" +
-                            "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
-                            "<div class='datatables-dropdown-menu'>" +
-                            "<div class='datatables-row-arrow'></div>" +
-                            "<form action='/assign-room' method='POST'>" +
-                            "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
-                            "<input value='" + offering.section + "' name='section' hidden />" +
-                            "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
-                            "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
-                            "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
-                            "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
-                            "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
-                            "</div></div>";
-
-                        /* Offering Status/Type */
-                        var offeringType = "";
-                        if (offering.offeringType === "Special")
-                            offeringType += "<span class='offering-status-special'>SPCL</span>";
-                        else if (offering.offeringType === "Dissolved")
-                            offeringType += "<span class='offering-status-dissolved'>DSLV</span>";
-
-                        /* Icons */
-                        if(offering.relatedConcern)
-                            offeringType = "<img src='/images/other-icons/envelope.png' class='datatables-row-img' />";
-
-                        /* Create row array */
-                        var tempRowArr = [offeringType,
-                                          offering.courseCode,
-                                          offering.section,
-                                          offering.day1 + " " + offering.day2,
-                                          offering.startTime + " - " + offering.endTime,
-                                          offering.roomCode,
-                                          offering.facultyName];
-                        tempRowArr.push(menus);
-
-                        /* Add to Row */
-                        offeringsTable.row.add(tempRowArr).draw(true);
-                    });
-                }
-            },
-            error : function(e)
-            {
-                var startPageList = "<ul id='all-offerings-page-menu'>" +
-                    "<li class='unavailable-page'>&nbsp;</li>" +
-                    "<li>" + "There is an error loading the course offerings." + "</li>" +
-                    "<li class='unavailable-page'>&nbsp;</li>" +
-                    "</ul>";
-                $(startPageList).appendTo("#all-offerings-box");
-            }
-        });
-    }
 
     /*
      *  CREATE NEW OFFERING

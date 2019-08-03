@@ -260,6 +260,10 @@ public class WorkspaceController
             }
         }
 
+        /* Combined Time and Days */
+        displayOfferingDTO.setCombinedDays(displayOfferingDTO.getDay1() + " " + displayOfferingDTO.getDay2());
+        displayOfferingDTO.setCombinedTime(displayOfferingDTO.getStartTime() + " - " + displayOfferingDTO.getEndTime());
+
         return displayOfferingDTO;
     }
 
@@ -306,7 +310,7 @@ public class WorkspaceController
         {
             facultyService.assignAcademicLoadToFaculty(userService.retrieveCurrentTerm(),
                                                        selectedOffering.getFaculty(),
-                                                       selectedOffering.getCourse().getUnits() * -1);
+                                                       selectedOffering.getCourse().getNumHours() * -1);
         }
         else if(offeringType.equals("Dissolved"))
         {
@@ -315,7 +319,7 @@ public class WorkspaceController
             {
                 facultyService.assignAcademicLoadToFaculty(userService.retrieveCurrentTerm(),
                         selectedOffering.getFaculty(),
-                        selectedOffering.getCourse().getUnits() * -1);
+                        selectedOffering.getCourse().getNumHours() * -1);
 
                 /* Remove Faculty from offering */
                 selectedOffering.setFaculty(null);

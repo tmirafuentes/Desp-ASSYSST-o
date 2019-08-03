@@ -67,12 +67,43 @@ $(function()
         var deptCode = $(this).children("option:selected").val();
         $("#course-list-accordion").children().remove();
         retrieveCourseProfiles(deptCode);
+    });
 
-        /* Initialize accordion */
-        $("#course-list-accordion").accordion({
-            collapsible: true,
-            heightStyle: "content",
-            active: false
+    /*  This event listener retrieves
+     *  other course details.
+     */
+    $("#course-profiles-list-box").on('click', ".view-course-details-button", function()
+    {
+        /* Retrieve Course */
+        var data = {
+            courseCode: $(this).closest("tr").find("td:nth-child(1)").text()
+        };
+
+        $.ajax({
+            method : "POST",
+            contentType : "application/json",
+            dataType : "json",
+            data : JSON.stringify(data),
+            url : window.location + "/retrieve-more-course-details",
+            beforeSend : function()
+            {
+                $("#view-course-details-modal p.section-header-text").text(data.courseCode + " Profile");
+            },
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    $("#view-course-details-modal input").val("");
+                    $("#view-course-details-modal textarea").text("");
+
+                    var course_details = result.data;
+                    $("#view-course-details-desc").text(course_details.courseDesc);
+                    $("#view-course-details-hours").val(course_details.numHours + " Hours");
+                    $("#view-course-details-room").val(course_details.roomType);
+                    $("#view-course-details-dept").val(course_details.deptName);
+                    $("#view-course-details-college").val(course_details.college);
+                }
+            }
         });
     });
 

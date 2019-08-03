@@ -60,6 +60,116 @@ $(function()
      */
 
     /*  This event listener retrieves
+     *  a faculty's load.
+     */
+    $("#faculty-profiles-list-box").on('click', ".view-faculty-load-button", function()
+    {
+        /* Retrieve Faculty */
+        var data = {
+            facultyName : $(this).closest("tr").find("td:nth-child(1)").text()
+        };
+
+        $.ajax({
+            method : "POST",
+            contentType : "application/json",
+            dataType : "json",
+            data : JSON.stringify(data),
+            url : window.location + "/retrieve-specific-faculty-profile",
+            beforeSend : function()
+            {
+                $("#view-faculty-load-modal p.section-header-text").text(data.facultyName + "'s Faculty Load");
+            },
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    /* Remove Tables */
+                    $(".form-modal-tables tbody tr").remove();
+
+                    /* Teaching Load */
+                    var teaching_load = result.data.teachingLoad,
+                        teaching_units = result.data.teachingUnits;
+
+                    $("#view-teaching-load-table thead th:nth-child(2)").text(teaching_units);
+                    if(teaching_units === 0)
+                    {
+                        var load_row =  "<tr>" +
+                            "<td>None</td>" +
+                            "<td></td>" +
+                            "</tr>";
+
+                        $("#view-teaching-load-table tbody").append(load_row);
+                    }
+                    else
+                    {
+                        $.each(teaching_load, function(i, load)
+                        {
+                            var load_row =  "<tr>" +
+                                "<td>" + load.loadName + "</td>" +
+                                "<td>" + load.loadUnits + "</td>" +
+                                "</tr>";
+
+                            $("#view-teaching-load-table tbody").append(load_row);
+                        });
+                    }
+
+                    /* Admin Load */
+                    var admin_load = result.data.adminLoad,
+                        admin_units = result.data.adminUnits;
+
+                    $("#view-admin-load-table thead th:nth-child(2)").text(admin_units);
+                    if(admin_units == 0)
+                    {
+                        var load_row =  "<tr>" +
+                            "<td>None</td>" +
+                            "<td></td>" +
+                            "</tr>";
+
+                        $("#view-admin-load-table tbody").append(load_row);
+                    }
+                    else
+                    {
+                        $.each(admin_load, function (i, load) {
+                            var load_row = "<tr>" +
+                                "<td>" + load.loadName + "</td>" +
+                                "<td>" + load.loadUnits + "</td>" +
+                                "</tr>";
+
+                            $("#view-admin-load-table tbody").append(load_row);
+                        });
+                    }
+
+                    /* Research Load */
+                    var research_load = result.data.researchLoad,
+                        research_units = result.data.researchUnits;
+
+                    $("#view-research-load-table thead th:nth-child(2)").text(research_units);
+                    if(teaching_units == 0)
+                    {
+                        var load_row =  "<tr>" +
+                            "<td>None</td>" +
+                            "<td></td>" +
+                            "</tr>";
+
+                        $("#view-research-load-table tbody").append(load_row);
+                    }
+                    else
+                    {
+                        $.each(research_load, function (i, load) {
+                            var load_row = "<tr>" +
+                                "<td>" + load.loadName + "</td>" +
+                                "<td>" + load.loadUnits + "</td>" +
+                                "</tr>";
+
+                            $("#view-research-load-table tbody").append(load_row);
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+    /*  This event listener retrieves
      *  the faculty to be deloaded.
      */
     $("#faculty-profiles-list-box").on('click', ".deload-faculty-button", function()
@@ -198,7 +308,10 @@ $(function()
                              "<div class='datatables-dropdown-menu'>";
 
                          if(result.message !== "Academic Programming Officer")
+                         {
                              menus += deloadButton;
+                             $(".create-instance-button").hide();
+                         }
 
                          menus += "<a href='#view-faculty-load-modal' rel='modal:open'><button type='button' class='view-faculty-load-button'>View Faculty Load</button></a>" +
                              "<button type='button' class='view-course-history-button'>Set as Inactive Faculty</button>" +

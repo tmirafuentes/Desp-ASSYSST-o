@@ -225,14 +225,32 @@
                 <thead>
                     <tr>
                         <th>Teaching Load</th>
-                        <th>3.0</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><label>CCPROG1 S11</label></td>
-                        <td><input type="text" class="view-faculty-load-instance" value="3.0" disabled /></td>
-                    </tr>
+                </tbody>
+            </table>
+
+            <table class="form-modal-tables" id="view-admin-load-table">
+                <thead>
+                <tr>
+                    <th>Administrative Load</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <table class="form-modal-tables" id="view-research-load-table">
+                <thead>
+                <tr>
+                    <th>Research Load</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
                 </tbody>
             </table>
         </div>

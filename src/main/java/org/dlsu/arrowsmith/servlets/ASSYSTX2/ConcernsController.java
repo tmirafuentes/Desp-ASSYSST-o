@@ -161,7 +161,7 @@ public class ConcernsController
 
         /* Update User Activity */
         UserActivity userActivity = userService.retrieveUserActivity(concern.getReceiver());
-        userActivity.setLastConcern(concern.getconcernId());
+        userActivity.setLastConcernSeen(concern.getconcernId());
         userService.saveUserActivity(userActivity);
 
         return new Response("Done", null);
@@ -187,7 +187,7 @@ public class ConcernsController
             selectedConcern.setAcknowledged(true);
             concernsService.saveConcern(selectedConcern);
 
-            userActivity.setLastConcern(selectedConcern.getconcernId());
+            userActivity.setLastConcernSeen(selectedConcern.getconcernId());
         }
         userService.saveUserActivity(userActivity);
 

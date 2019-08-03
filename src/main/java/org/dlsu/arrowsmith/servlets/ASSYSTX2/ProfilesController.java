@@ -93,6 +93,26 @@ public class ProfilesController
         return new Response("Done", dtos.iterator());
     }
 
+    /* Retrieve a specific course details */
+    @PostMapping(value = "/retrieve-more-course-details")
+    public Response retrieveMoreCourseDetails(@RequestBody ObjectNode request)
+    {
+        /* Retrieve data */
+        String courseCode = request.get("courseCode").asText();
+
+        Course selectedCourse = offeringService.retrieveCourseByCourseCode(courseCode);
+
+        ManageCourseDTO dto = new ManageCourseDTO();
+        dto.setCourseDesc(selectedCourse.getCourseDesc());
+        dto.setCourseUnits(selectedCourse.getUnits());
+        dto.setNumHours(selectedCourse.getNumHours());
+        dto.setRoomType(selectedCourse.getRoomType());
+        dto.setDeptName(selectedCourse.getDepartment().getDeptName());
+        dto.setCollege(selectedCourse.getCollege().getCollegeName());
+
+        return new Response("Done", dto);
+    }
+
     /* Create a new course profile */
     @PostMapping(value = "/create-new-course-profile")
     public Response createNewCourseProfile(@RequestBody ManageCourseDTO dto)
@@ -201,8 +221,10 @@ public class ProfilesController
 
     /* Retrieve specific faculty profile */
     @PostMapping(value = "/retrieve-specific-faculty-profile")
-    public Response retrieveSpecificFacultyList(@RequestBody String facultyName)
+    public Response retrieveSpecificFacultyList(@RequestBody ObjectNode request)
     {
+        String facultyName = request.get("facultyName").asText();
+
         /* Retrieve Selected Faculty */
         User selectedFaculty = userService.findUserByFirstNameLastName(facultyName);
 
@@ -212,8 +234,6 @@ public class ProfilesController
         /* Transfer to DTO */
         ManageFacultyDTO dto = new ManageFacultyDTO();
         dto.setFacultyName(facultyName);
-        dto.setFacultyType(selectedFaculty.getUserPosition());
-        dto.setDepartment(selectedFaculty.getDepartment().getDeptCode());
 
         /* Active Status */
         if(selectedFaculty.isActive() && !facultyLoad.isOnLeave())

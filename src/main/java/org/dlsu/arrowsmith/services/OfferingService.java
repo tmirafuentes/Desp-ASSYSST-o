@@ -222,13 +222,20 @@ public class OfferingService {
     }
 
     /* Retrieve All Rooms */
-    public Iterator retrieveAllRooms() {
+    public Iterator retrieveAllRooms()
+    {
         ArrayList<Room> allRooms = (ArrayList<Room>) roomRepository.findAll();
         return allRooms.iterator();
     }
 
     /* Retrieve All Rooms By Building */
     public Iterator retrieveAllRoomsByBuilding(Building building) { return roomRepository.findAllByBuilding(building).iterator(); }
+
+    /* Retrieve All Rooms By Building and Room Type */
+    public Iterator retrieveAllRoomsByBuildingAndRoomType(Building building, String roomType)
+    {
+        return roomRepository.findAllByBuildingAndRoomType(building, roomType).iterator();
+    }
 
     /* Retrieve Room by Room Code */
     public Room retrieveRoomByRoomCode(String roomCode) {

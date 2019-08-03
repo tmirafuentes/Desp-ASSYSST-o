@@ -52,15 +52,19 @@ public class AssignController
 
     /* Retrieve all room names based on the building selected. */
     @PostMapping(value = "/retrieve-room-names")
-    public Response retrieveRoomNames(@RequestBody String buildingCode)
+    public Response retrieveRoomNames(@RequestBody ObjectNode request)
     {
-        buildingCode = buildingCode.substring(0, buildingCode.length() - 1);
+        String buildingCode = request.get("buildingCode").asText();
+        String courseCode = request.get("courseCode").asText();
+
+        Course course = offeringService.retrieveCourseByCourseCode(courseCode);
+        String roomType = course.getRoomType();
 
         /* Get Building selected */
         Building selectedBuilding = offeringService.retrieveBuildingByBuildingCode(buildingCode);
 
         /* Get all rooms of that building */
-        Iterator allRooms = offeringService.retrieveAllRoomsByBuilding(selectedBuilding);
+        Iterator allRooms = offeringService.retrieveAllRoomsByBuildingAndRoomType(selectedBuilding, roomType);
 
         return new Response("Done", allRooms);
     }
@@ -146,37 +150,6 @@ public class AssignController
         }
 
         return new Response("Done", dtos.iterator());
-
-        /* Find equivalent room in database */
-        //Room selectedRoom = offeringService.retrieveRoomByRoomCode(bldgCode);
-
-        /* Find latest term */
-        //Term currentTerm = userService.retrieveCurrentTerm();
-
-        /* Find all Days that occupy room */
-        //Iterator allDaysOccupied = offeringService.retrieveAllDaysByRoomAndTerm(selectedRoom, currentTerm);
-
-        /* Iterate list to filter out offerings not in the selected term */
-        //ArrayList<OccupiedRoomDTO> allOccupiers = new ArrayList<>();
-        //while(allDaysOccupied.hasNext())
-        //{
-            /* Retrieve Days object from the list */
-            //Days daysItem = (Days) allDaysOccupied.next();
-
-            /* Transfer to DTO */
-            //OccupiedRoomDTO dto = new OccupiedRoomDTO();
-            //dto.setRoomCode(daysItem.getRoom().getRoomCode());
-            //dto.setCourseCode(daysItem.getCourseOffering().getCourse().getCourseCode());
-            //dto.setSection(daysItem.getCourseOffering().getSection());
-            //dto.setBeginTime(daysItem.getbeginTime());
-            //dto.setEndTime(daysItem.getendTime());
-            //dto.setDay(daysItem.getclassDay());
-
-            /* Add to new list */
-            //allOccupiers.add(dto);
-        //}
-
-        //return new Response("Done", allOccupiers.iterator());
     }
 
     /* Update the selected course offering's room assignment */
@@ -394,7 +367,7 @@ public class AssignController
         */
 
         /* Get units */
-        double loadUnits = selectedOffering.getCourse().getUnits();
+        double loadUnits = selectedOffering.getCourse().getNumHours();
 
         /* Retrieve current term */
         Term currentTerm = userService.retrieveCurrentTerm();

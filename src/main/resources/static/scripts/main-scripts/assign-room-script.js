@@ -247,9 +247,16 @@ $(function()
     */
     function retrieveRoomNames(buildingCode)
     {
+        var data = {
+            buildingCode : buildingCode,
+            courseCode : courseCode
+        };
+
         $.ajax({
             type : "POST",
-            data : buildingCode,
+            contentType : "application/json",
+            data : JSON.stringify(data),
+            dataType : "json",
             url : window.location + "/retrieve-room-names",
             success : function(result)
             {

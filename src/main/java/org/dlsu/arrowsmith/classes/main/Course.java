@@ -15,6 +15,8 @@ public class Course {
     private String courseName;
     private String courseDesc;
     private double units;
+    private double numHours;
+    private String roomType;
     private College college;
     private Department department;
     private Set<CourseOffering> courseOfferings;
@@ -72,6 +74,22 @@ public class Course {
 
     public void setUnits(double units) {
         this.units = units;
+    }
+
+    public double getNumHours() {
+        return numHours;
+    }
+
+    public void setNumHours(double numHours) {
+        this.numHours = numHours;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
     @ManyToOne

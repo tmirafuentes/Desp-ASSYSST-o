@@ -9,6 +9,20 @@
     width: 95%;
 }
 
+.form-modal-tables th:nth-child(1)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    text-align: left;
+}
+
+.form-modal-tables th:nth-child(2)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    text-align: right;
+}
+
 .form-modal-tables td:nth-child(1)
 {
     width: 40%;
@@ -41,6 +55,11 @@
     color: #2b2b2b;
     cursor: text;
     width: 100%;
+}
+
+.form-modal-tables textarea
+{
+    resize: none;
 }
 
 .form-modal-tables select
@@ -218,4 +237,54 @@
 {
     border: 1px solid #efefef;
     width: 95%;
+}
+
+/*
+ *
+ *  VIEW COURSE DETAILS MODAL
+ *
+ */
+
+#view-course-details-modal
+{
+    width: 450px;
+}
+
+/*
+ *
+ *  VIEW FACULTY LOAD MODAL
+ *
+ */
+
+#view-faculty-load-modal
+{
+    width: 350px;
+}
+
+#view-faculty-load-modal .form-modal-tables th:nth-child(1)
+{
+    width: 75%;
+}
+
+#view-faculty-load-modal .form-modal-tables th:nth-child(2)
+{
+    width: 25%;
+}
+
+#view-faculty-load-modal .form-modal-tables td:nth-child(1)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: text;
+    text-indent: 0.5em;
+}
+
+#view-faculty-load-modal .form-modal-tables td:nth-child(2)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: text;
+    text-align: right;
 }

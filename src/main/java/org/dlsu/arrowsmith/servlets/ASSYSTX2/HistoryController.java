@@ -35,14 +35,14 @@ public class HistoryController
     public Response retrieveMostRecentChanges()
     {
         /* Retrieve all changes */
-        Iterator workspaceHistory = historyService.retrieveOfferingHistory(null);
+        ArrayList<RecentChangesDTO> workspaceHistory = historyService.retrieveOfferingHistory(null);
 
         /* Transfer to new list */
         ArrayList<RecentChangesDTO> mostRecent = new ArrayList<>();
-        for(int i = 0; i < 5 && workspaceHistory.hasNext(); i++)
+        for(int i = 0; i < 5; i++)
         {
-            RecentChangesDTO dto = (RecentChangesDTO) workspaceHistory.next();
-            mostRecent.add(dto);
+            RecentChangesDTO dto = workspaceHistory.remove(workspaceHistory.size() - 1);
+            mostRecent.add(0, dto);
         }
 
         return new Response("Done", mostRecent.iterator());
@@ -58,7 +58,7 @@ public class HistoryController
         /* Find Course Offering */
         CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(offeringString[0], offeringString[1]);
 
-        Iterator offeringHistory = historyService.retrieveOfferingHistory(selectedOffering);
+        Iterator offeringHistory = historyService.retrieveOfferingHistory(selectedOffering).iterator();
 
         return new Response("Done", offeringHistory);
     }
