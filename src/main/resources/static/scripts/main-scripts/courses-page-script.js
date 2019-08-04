@@ -17,8 +17,11 @@ $(function()
      *
      */
 
-    /* Initialize DataTables */
+    /* Initialize DataTables for Course List */
     var coursesTable = $("#course-list-table").DataTable({
+        "ajax" : "/retrieve-course-list",
+        "rowId" : "courseID",
+        "autoWidth" : false,
         "stateSave" : true,
         "lengthChange" : false,
         "searching" : true,
@@ -41,6 +44,28 @@ $(function()
                 "orderable" : false,
                 "targets" : 3
             }
+        ],
+        "columns" : [
+            { "data" : "courseCode" },
+            { "data" : "courseName" },
+            { "data" : "courseUnits" },
+            { "data" : function(data, type, dataToSet)
+                {
+                    var modifyProfileButton = "<a href='#modify-course-modal' rel='modal:open'><button type='button' class='modify-course-profile-button'>Modify Course Profile</button></a>";
+
+                    var menus = "<div class='datatables-row-popup'>" +
+                        "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                        "<div class='datatables-dropdown-menu'>" +
+                        "<a href='#view-course-details-modal' rel='modal:open'><button type='button' class='view-course-details-button'>View More Details</button></a>";
+
+                    if(!$("#workspace-menu-title").text().includes("APO Workspace"))
+                        menus += modifyProfileButton;
+
+                    menus += "</div></div>";
+
+                    return menus;
+                }
+            }
         ]
     });
 
@@ -49,25 +74,20 @@ $(function()
         "<a href='#create-course-modal' rel='modal:open'>" +
         "<button type='button' class='course-create-button'>Create New Course</button>" +
         "</a></div>";
-    $(createCourseCode).prependTo("#course-list-table_wrapper");
 
-    retrieveCourseProfiles("ALL");
+    if($("#workspace-menu-title").text().includes("Chairs Workspace"))
+        $(createCourseCode).prependTo("#course-list-table_wrapper");
+
+    /* Update Offerings Table */
+    setInterval( function () {
+        coursesTable.ajax.reload( null, false );
+    }, 30000 );
 
     /*
-     *
+     *  RETRIEVE COURSE DETAILS
      *  EVENT LISTENERS
      *
      */
-
-    /*  This event listener is for
-     *  the course profiles row.
-     */
-    $("#course-list-table-filter").change(function()
-    {
-        var deptCode = $(this).children("option:selected").val();
-        $("#course-list-accordion").children().remove();
-        retrieveCourseProfiles(deptCode);
-    });
 
     /*  This event listener retrieves
      *  other course details.
@@ -108,49 +128,43 @@ $(function()
     });
 
     /*
-     *
+     *  FEEDBACK MESSAGES
      *  FUNCTION IMPLEMENTATIONS
      *
-     */
+    */
 
-    /*  This function retrieves all the
-     *  course profiles from the database.
+    /*  This function creates a feedback
+     *  message and displays it in the system.
      */
-    function retrieveCourseProfiles(deptCode)
+    function displayPositiveMessage(message)
     {
-        $.ajax({
-            type : "POST",
-            data : deptCode,
-            url : window.location + "/retrieve-course-list",
-            success : function(result)
-            {
-                 if(result.status === "Done")
-                 {
-                     /* Load all course profiles */
-                     $.each(result.data, function(i, course)
-                     {
-                         var menus = "<div class='datatables-row-popup'>" +
-                             "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
-                             "<div class='datatables-dropdown-menu'>" +
-                             "<a href='#modify-course-modal' rel='modal:open'><button type='button' class='modify-course-profile-button'>Modify Course Profile</button></a>" +
-                             "<a href='#view-course-details-modal' rel='modal:open'><button type='button' class='view-course-details-button'>View More Details</button></a>" +
-                             "</div></div>";
+        /* Put message */
+        $("#positive-feedback-message").text(message);
 
-                         /* Create row array */
-                         var tempRowArr = [course.courseCode,
-                                           course.courseName,
-                                           course.courseUnits];
-                         tempRowArr.push(menus);
+        /* Show feedback message */
+        $("#positive-feedback-message").slideDown(500, function()
+        {
+            setTimeout(function()
+                {
+                    $("#positive-feedback-message").slideUp(500);
+                },
+                5000);
+        });
+    }
 
-                         /* Add to Row */
-                         coursesTable.row.add(tempRowArr).draw(true);
-                     });
-                 }
-            },
-            error : function(e)
-            {
-                console.log("Error: " + e);
-            }
+    function displayNegativeMessage(message)
+    {
+        /* Put message */
+        $("#negative-feedback-message").text(message);
+
+        /* Show feedback message */
+        $("#negative-feedback-message").slideDown(500, function()
+        {
+            setTimeout(function()
+                {
+                    $("#negative-feedback-message").slideUp(500);
+                },
+                5000);
         });
     }
 });

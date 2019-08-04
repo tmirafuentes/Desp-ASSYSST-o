@@ -49,22 +49,21 @@ public class ProfilesController
      */
 
     /* Retrieve all courses depending on constraints */
-    @PostMapping(value = "/retrieve-course-list")
-    public Response retrieveCourseList(@RequestBody String deptCode)
+    @GetMapping(value = "/retrieve-course-list")
+    public Response retrieveCourseList()
     {
-        deptCode = deptCode.substring(0, deptCode.length() - 1);
+        /* Retrieve current user */
+        User currentUser = userService.retrieveUser();
 
         /* Initialize iterator */
         Iterator allCourses;
 
-        if(deptCode.equalsIgnoreCase("ALL"))
+        if(!currentUser.getUserType().contains("Chair"))
             allCourses = offeringService.retrieveAllCourses();
         else
         {
             /* Retrieve Department */
-            Department department = facultyService.retrieveDepartmentByDeptCode(deptCode);
-
-            System.out.println("Department: " + department.getDeptCode());
+            Department department = currentUser.getDepartment();
 
             allCourses = offeringService.retrieveAllCoursesByDepartment(department);
         }
@@ -85,10 +84,6 @@ public class ProfilesController
 
             dtos.add(dto);
         }
-
-        /* Check if empty */
-        if(dtos.size() == 0)
-            return new Response("Empty", null);
 
         return new Response("Done", dtos.iterator());
     }
@@ -213,9 +208,6 @@ public class ProfilesController
                 dtos.add(dto);
         }
 
-        if(dtos.size() == 0)
-            return new Response("Empty", null);
-
         return new Response("Done", dtos.iterator(), message);
     }
 
@@ -251,7 +243,9 @@ public class ProfilesController
             dto.setResearchUnits(facultyLoad.getResearchLoad());
             dto.setAdminUnits(facultyLoad.getAdminLoad());
 
-            /* Teaching Load */
+            /* Teaching Load and Preparations */
+            dto.setNumPreparations(facultyLoad.getPreparations());
+
             ArrayList<ManageFacultyLoadListDTO> teachingLoads = new ArrayList<>();
             Iterator offerings = offeringService.retrieveAllOfferingsByFaculty(selectedFaculty, userService.retrieveCurrentTerm());
             while(offerings.hasNext())
@@ -260,8 +254,13 @@ public class ProfilesController
 
                 /* Create load instance */
                 ManageFacultyLoadListDTO load = new ManageFacultyLoadListDTO();
-                load.setLoadName(offering.getCourse().getCourseCode());
-                load.setLoadUnits(3.0);
+                load.setLoadName(offering.getCourse().getCourseCode() + " " + offering.getSection());
+                load.setLoadUnits(offering.getCourse().getNumHours());
+                if(offering.getType().equals("Special"))
+                {
+                    load.setLoadName(load.getLoadName() + " (Special)");
+                    load.setLoadUnits(0.0);
+                }
                 teachingLoads.add(load);
             }
 
@@ -285,6 +284,7 @@ public class ProfilesController
                     adminLoads.add(load);
             }
 
+            /* Set iterators to DTO */
             dto.setTeachingLoad(teachingLoads.iterator());
             dto.setAdminLoad(adminLoads.iterator());
             dto.setResearchLoad(researchLoads.iterator());

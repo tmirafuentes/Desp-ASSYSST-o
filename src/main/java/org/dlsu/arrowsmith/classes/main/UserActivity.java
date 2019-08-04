@@ -11,7 +11,7 @@ public class UserActivity {
     private Long lastOfferingModified;
     private boolean offeringNotified;
     private Long lastRevisionSeen;
-    private Long revisionNotified;
+    private boolean revisionNotified;
 
     public UserActivity() {
     }
@@ -65,11 +65,11 @@ public class UserActivity {
         this.lastRevisionSeen = lastRevisionSeen;
     }
 
-    public Long getRevisionNotified() {
+    public boolean isRevisionNotified() {
         return revisionNotified;
     }
 
-    public void setRevisionNotified(Long revisionNotified) {
+    public void setRevisionNotified(boolean revisionNotified) {
         this.revisionNotified = revisionNotified;
     }
 }

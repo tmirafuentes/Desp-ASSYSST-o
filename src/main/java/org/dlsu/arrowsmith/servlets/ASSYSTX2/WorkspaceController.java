@@ -116,20 +116,11 @@ public class WorkspaceController
         /* Retrieve a partial list of course offerings */
         Iterator allOfferings = offeringService.retrieveAllOfferingsByTerm(term);
 
-        /* Check if empty list or not */
-        if (!allOfferings.hasNext())
-        {
-            /* Return a response */
-            return new Response("Empty", messages.getMessage("message.noOfferings", null, null));
-        }
-        else
-        {
-            /* Convert partial list of course offerings into DTOs */
-            Iterator partialOfferingDTOs = transferListOfferingToDTO(allOfferings);
+        /* Convert partial list of course offerings into DTOs */
+        Iterator partialOfferingDTOs = transferListOfferingToDTO(allOfferings);
 
-            /* Return a response */
-            return new Response("Done", partialOfferingDTOs);
-        }
+        /* Return a response */
+        return new Response("Done", partialOfferingDTOs);
     }
 
     /*
@@ -150,6 +141,10 @@ public class WorkspaceController
             /* Check if concern is related to offering */
             boolean relatedConcern = concernsService.retrieveAllUnacknowledgedConcernsByReceiver(userService.retrieveUser(), false, offering);
             newDTO.setRelatedConcern(relatedConcern);
+
+            /* Check if offering is being modified */
+            boolean offeringModified = userService.retrieveOfferingInUserActivity(offering);
+            newDTO.setOfferingEdited(offeringModified);
 
             displayOfferingDTOArrayList.add(newDTO);
         }

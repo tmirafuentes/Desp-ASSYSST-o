@@ -35,6 +35,8 @@ $(function()
     {
         /* Check if it isn't null value */
         if(this.value != "-") {
+
+
             /* Retrieve room names based on selected building */
             retrieveRoomNames(this.value);
 
@@ -248,8 +250,7 @@ $(function()
     function retrieveRoomNames(buildingCode)
     {
         var data = {
-            buildingCode : buildingCode,
-            courseCode : courseCode
+            buildingCode : buildingCode
         };
 
         $.ajax({

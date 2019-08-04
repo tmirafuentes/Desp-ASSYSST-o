@@ -16,6 +16,7 @@ public class DisplayOfferingDTO
     private String facultyName;
     private String offeringType;
     private boolean relatedConcern;
+    private boolean offeringEdited;
 
     public DisplayOfferingDTO() { }
 
@@ -105,6 +106,14 @@ public class DisplayOfferingDTO
 
     public void setRelatedConcern(boolean relatedConcern) {
         this.relatedConcern = relatedConcern;
+    }
+
+    public boolean isOfferingEdited() {
+        return offeringEdited;
+    }
+
+    public void setOfferingEdited(boolean offeringEdited) {
+        this.offeringEdited = offeringEdited;
     }
 
     public String getCombinedDays() {

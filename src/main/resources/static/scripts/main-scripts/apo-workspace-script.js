@@ -6,8 +6,7 @@
  *  This script is for the collaborative workspace
  *  pages of the ASSYSTX2 system. These includes
  *  functions for course offering management, create
- *  a new offering, concerns management, online users,
- *  and revision history/recent changes.
+ *  a new offering.
  *
  */
 
@@ -18,11 +17,11 @@ $(function() {
      *
      */
 
-    /* Initialize DataTables */
+    /* Initialize DataTables for Offerings */
     var offeringsTable = $("#all-offerings-table").DataTable({
         "ajax" : "/show-offerings",
         "rowId" : "offeringID",
-        "select" : true,
+        "autoWidth" : false,
         "stateSave" : true,
         "lengthChange" : false,
         "searching" : true,
@@ -56,8 +55,13 @@ $(function() {
                     else if (data.offeringType === "Dissolved")
                         offeringType += "<span class='offering-status-dissolved'>DSLV</span>";
 
+                    /* If the offering is currently
+                       being modified by a user */
+                    if(data.offeringEdited)
+                        offeringType = "<img src='/images/other-icons/edit.png' class='datatables-row-img' />";
+
                     /* If there is an unacknowledged
-                       concern about the offerng */
+                       concern about the offering */
                     if(data.relatedConcern)
                         offeringType = "<img src='/images/other-icons/envelope.png' class='datatables-row-img' />";
 
@@ -92,6 +96,7 @@ $(function() {
             }
         ]
     });
+    //$("#all-offerings-table").css("width", "95%");
 
     /* Add Create Offering Button */
     var createOfferingCode = "<div id='all-offerings-table_new_offering' class='create-instance-button'>" +
@@ -104,7 +109,6 @@ $(function() {
     setInterval( function () {
         offeringsTable.ajax.reload( null, false ); // user paging is not reset on reload
     }, 5000 );
-    //showOfferings();
 
     /* Retrieve Course Codes for Create New Offering */
     var courseCodes = [];
@@ -150,8 +154,6 @@ $(function() {
                     $(this).removeClass("offering-special-class-button");
                     $(this).text("Mark as Regular Offering");
 
-                    /* Add Signifier to the row */
-                    $(this).closest("tr").find("td:nth-child(1)").html("<span class='offering-status-special'>SPCL</span>");
                 }
             }
         });
@@ -235,12 +237,6 @@ $(function() {
             }
         });
     });
-
-    /*
-     *  COURSE OFFERING MANAGEMENT
-     *  FUNCTION IMPLEMENTATIONS
-     *
-    */
 
     /*
      *  CREATE NEW OFFERING
@@ -334,40 +330,13 @@ $(function() {
             {
                 if(result.status === "Done")
                 {
+                    offeringsTable.ajax.reload( null, false );
+
                     /* Reset text fields */
                     $("#create-offering-course").val("");
                     $("#create-offering-section").val("");
-
-                    var offering = result.data;
-
-                    /* TODO: Input new row to datatable; Update course offerings */
-                    var menus = "<div class='all-offerings-row-popup'>" +
-                        "<img src='/images/black-icons/vertical-dot-menu.png' class='all-offerings-row-img' />" +
-                        "<div class='all-offerings-dropdown-menu'>" +
-                        "<div class='datatables-row-arrow'></div>" +
-                        "<form action='/assign-room' method='POST'>" +
-                        "<input value='" + offering.courseCode + "' name='courseCode' hidden />" +
-                        "<input value='" + offering.section + "' name='section' hidden />" +
-                        "<button type='submit' class='offering-assign-room-button'>Assign Time And Room</button></form>" +
-                        "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
-                        "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
-                        "<button type='button' class='offering-special-class-button'>Mark as Special Class</button>" +
-                        "<button type='button' class='offering-dissolve-offering-button'>Dissolve Offering</button>" +
-                        "</div></div>";
-
-                    var tempRowArr = ["",
-                        offering.courseCode,
-                        offering.section,
-                        offering.day1 + " " + offering.day2,
-                        offering.startTime + " - " + offering.endTime,
-                        offering.roomCode,
-                        offering.facultyName];
-                    tempRowArr.push(menus);
-
-                    var newRow = offeringsTable.row.add(tempRowArr).draw(true).node();
-                    //setTimeout(function(){offeringsTable.row(newRow).deselect();}, 2500);
-
-                    $("#create-offering-modal").modal('close');
+                    $(".blocker").hide();
+                    $("#create-offering-modal").modal("close");
 
                     /* Display Message */
                     displayPositiveMessage(result.message);

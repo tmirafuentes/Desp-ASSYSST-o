@@ -293,8 +293,6 @@ $(function()
             url : window.location + url,
             success : function(result)
             {
-                console.log("Status = " + result.status);
-
                 if(result.status === "Done")
                 {
                     $("#header-dropdown-concerns ul li:not(:nth-child(1))").remove();

@@ -133,7 +133,7 @@ public class FacultyService {
 
     /* Retrieve All Faculty Load Per Department */
     public Iterator retrieveAllFacultyLoadByTerm(Term term, Department department) {
-        ArrayList<FacultyLoad> allLoads = (ArrayList<FacultyLoad>) facultyLoadRepository.findAllByTermAndDepartment(term, department);
+        ArrayList<FacultyLoad> allLoads = facultyLoadRepository.findAllByTermAndDepartment(term, department);
         return allLoads.iterator();
     }
 

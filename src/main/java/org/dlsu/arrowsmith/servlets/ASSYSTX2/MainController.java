@@ -76,9 +76,6 @@ public class MainController
         /* Retrieve Current Term */
         model = retrieveCurrentTerm(model);
 
-        /* Test History */
-        //userService.retrieveOfferingHistory(offeringService.retrieveCourseOffering(Long.valueOf(241)));
-
         /* Retrieve User Type */
         String userType = retrieveUserType();
         model.addAttribute("userType", userType);
@@ -86,8 +83,11 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "workspace");
 
-        /* Revision History Test */
-        //model.addAttribute("history", userService.findLatestRevisionEntity());
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(null);
+        userActivity.setOfferingNotified(false);
+        userService.saveUserActivity(userActivity);
 
         if (userType.equalsIgnoreCase("APO"))
             return "apo-home-page";
@@ -113,6 +113,12 @@ public class MainController
         /* Context Path */
         model.addAttribute("context", "concerns");
 
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(null);
+        userActivity.setOfferingNotified(false);
+        userService.saveUserActivity(userActivity);
+
         return "concerns-page";
     }
 
@@ -132,6 +138,12 @@ public class MainController
 
         /* Context Path */
         model.addAttribute("context", "history");
+
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(null);
+        userActivity.setOfferingNotified(false);
+        userService.saveUserActivity(userActivity);
 
         return "workspace-history-page";
     }
@@ -169,6 +181,12 @@ public class MainController
         }
         model.addAttribute("selectDept", listDepts.iterator());
 
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(null);
+        userActivity.setOfferingNotified(false);
+        userService.saveUserActivity(userActivity);
+
         return "courses-page";
     }
 
@@ -188,6 +206,12 @@ public class MainController
 
         /* Context Path */
         model.addAttribute("context", "faculty");
+
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(null);
+        userActivity.setOfferingNotified(false);
+        userService.saveUserActivity(userActivity);
 
         return "faculty-page";
     }
@@ -223,6 +247,12 @@ public class MainController
             dayCtr++;
         }
 
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(selectedOffering.getOfferingId());
+        userActivity.setOfferingNotified(true);
+        userService.saveUserActivity(userActivity);
+
         return modelAndView;
     }
 
@@ -250,6 +280,12 @@ public class MainController
             String facultyName = assignedFaculty.getLastName() + ", " + assignedFaculty.getFirstName();
             modelAndView.addObject("assignedFaculty", facultyName);
         }
+
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(selectedOffering.getOfferingId());
+        userActivity.setOfferingNotified(true);
+        userService.saveUserActivity(userActivity);
 
         return modelAndView;
     }

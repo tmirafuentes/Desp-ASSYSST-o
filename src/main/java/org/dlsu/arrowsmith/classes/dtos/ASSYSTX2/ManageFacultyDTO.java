@@ -16,6 +16,7 @@ public class ManageFacultyDTO
     private double researchUnits;
     private double adminUnits;
     private double totalUnits;
+    private double numPreparations;
 
     public String getFacultyName() {
         return facultyName;
@@ -103,5 +104,13 @@ public class ManageFacultyDTO
 
     public void setTotalUnits(double totalUnits) {
         this.totalUnits = totalUnits;
+    }
+
+    public double getNumPreparations() {
+        return numPreparations;
+    }
+
+    public void setNumPreparations(double numPreparations) {
+        this.numPreparations = numPreparations;
     }
 }

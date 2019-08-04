@@ -54,10 +54,12 @@ public class AssignController
     @PostMapping(value = "/retrieve-room-names")
     public Response retrieveRoomNames(@RequestBody ObjectNode request)
     {
+        /* Retrieve building code from request */
         String buildingCode = request.get("buildingCode").asText();
-        String courseCode = request.get("courseCode").asText();
 
-        Course course = offeringService.retrieveCourseByCourseCode(courseCode);
+        /* Retrieve course from user activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        Course course = offeringService.retrieveCourseOffering(userActivity.getLastOfferingModified()).getCourse();
         String roomType = course.getRoomType();
 
         /* Get Building selected */
@@ -185,6 +187,12 @@ public class AssignController
             offeringService.saveDays(day2);
         }
 
+        /* Update User Activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        userActivity.setLastOfferingModified(null);
+        userActivity.setOfferingNotified(false);
+        userService.saveUserActivity(userActivity);
+
         return new Response("Done", messages.getMessage("message.assignRoom", null, null));
     }
 
@@ -267,6 +275,13 @@ public class AssignController
             }
         }
 
+        /* Sort Alphabetically */
+        Collections.sort(dtos, new Comparator<FacultyOptionDTO>(){
+            public int compare(FacultyOptionDTO f1, FacultyOptionDTO f2) {
+                return f1.getFacultyName().compareToIgnoreCase(f2.getFacultyName());
+            }
+        });
+
         return new Response("Done", dtos);
     }
 
@@ -274,60 +289,14 @@ public class AssignController
     @PostMapping(value = "/retrieve-preferred-course-faculty")
     public Response retrievePreferredCourseFaculty()
     {
-        /* Find Chair's department */
-        User currUser = userService.retrieveUser();
-        Department userDept = currUser.getDepartment();
-
-        /* Find latest term */
-        Term currentTerm = userService.retrieveCurrentTerm();
-
-        /* Retrieve all Faculty Load in the term */
-        Iterator facultyLoads = facultyService.retrieveAllFacultyLoadByTerm(currentTerm, userDept);
-
-        /* Transfer into DTO object */
-        ArrayList<FacultyOptionDTO> dtos = new ArrayList<>();
-        while(facultyLoads.hasNext())
-        {
-            /* Retrieve current load */
-            FacultyLoad facultyLoad = (FacultyLoad) facultyLoads.next();
-
-            if(!facultyLoad.isOnLeave())
-            {
-                dtos.add(transferFacultyLoadToFacultyOptionDTO(facultyLoad));
-            }
-        }
-
-        return new Response("Done", dtos);
+        return null;
     }
 
-    /* Retrieve available faculty who previously taugh the course in a given term */
+    /* Retrieve available faculty who previously taught the course in a given term */
     @GetMapping(value = "/retrieve-previous-experienced-faculty")
     public Response retrieveExperiencedFaculty()
     {
-        /* Find Chair's department */
-        User currUser = userService.retrieveUser();
-        Department userDept = currUser.getDepartment();
-
-        /* Find latest term */
-        Term currentTerm = userService.retrieveCurrentTerm();
-
-        /* Retrieve all Faculty Load in the term */
-        Iterator facultyLoads = facultyService.retrieveAllFacultyLoadByTerm(currentTerm, userDept);
-
-        /* Transfer into DTO object */
-        ArrayList<FacultyOptionDTO> dtos = new ArrayList<>();
-        while(facultyLoads.hasNext())
-        {
-            /* Retrieve current load */
-            FacultyLoad facultyLoad = (FacultyLoad) facultyLoads.next();
-
-            if(!facultyLoad.isOnLeave())
-            {
-                dtos.add(transferFacultyLoadToFacultyOptionDTO(facultyLoad));
-            }
-        }
-
-        return new Response("Done", dtos);
+        return null;
     }
 
     /* Update the selected course offering's faculty assignment */
@@ -343,28 +312,6 @@ public class AssignController
         /* Check if same faculty as the one selected */
         if(selectedOffering.getFaculty() == selectedFaculty)
             return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
-
-        /* Retrieve the days
-        Iterator days = offeringService.retrieveAllDaysByOffering(selectedOffering);
-        double totalUnits = 0;
-        while(days.hasNext())
-        {
-            /* Retrieve an instance
-            Days dayInstance = (Days) days.next();
-
-            /* Retrieve start and end time
-            int startTime = Integer.parseInt(dayInstance.getbeginTime());
-            int endTime = Integer.parseInt(dayInstance.getendTime());
-
-            /* Calculate
-            double quotient = (endTime - startTime) / 100.0;
-            double remainder = quotient - (int) quotient;
-
-            totalUnits += (int) quotient;
-            if (remainder > 0.0)
-                totalUnits += 0.5;
-        }
-        */
 
         /* Get units */
         double loadUnits = selectedOffering.getCourse().getNumHours();
@@ -397,6 +344,12 @@ public class AssignController
                 facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, 0);
             else
                 facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, loadUnits);
+
+            /* Update User Activity */
+            UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+            userActivity.setLastOfferingModified(null);
+            userActivity.setOfferingNotified(false);
+            userService.saveUserActivity(userActivity);
 
             return new Response("Done", messages.getMessage("message.assignFaculty", null, null));
         }

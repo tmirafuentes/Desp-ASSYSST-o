@@ -16,7 +16,6 @@ body
     height: auto;
     width: 100%;
     display: grid;
-    //grid-template-rows: 18% 82%;
     grid-template-columns: 70% 30%;
     padding-bottom: 1.5%;
 }

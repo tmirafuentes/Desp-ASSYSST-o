@@ -17,12 +17,17 @@ $(function()
      *
      */
 
-    /* Initialize DataTables */
+    /* Initialize DataTables for Faculty List */
     var facultyTables = $("#faculty-list-table").DataTable({
+        "ajax" : "/retrieve-faculty-list",
+        "rowId" : "facultyID",
+        "autoWidth" : false,
+        "stateSave" : true,
         "lengthChange" : false,
         "searching" : true,
         "pageLength" : 10,
         "pagingType" : "numbers",
+        "order" : [[4, "desc"]],
         "language" : {
             "info" : "Displaying _START_ to _END_ of _TOTAL_ faculty profiles",
             "infoEmpty" : "There are currently no faculty profiles.",
@@ -34,11 +39,38 @@ $(function()
                 "previous":   "Prev"
             }
         },
-        "order" : [[4, "desc"]],
         "columnDefs" : [
             {
                 "orderable" : false,
                 "targets" : 5
+            }
+        ],
+        "columns" : [
+            { "data" : "facultyName" },
+            { "data" : "facultyType" },
+            { "data" : "department" },
+            { "data" : "active" },
+            { "data" : "totalUnits" },
+            { "data" : function(data, type, dataToSet)
+                {
+                    var deloadButton = "<a href='#deload-faculty-modal' rel='modal:open'><button type='button' class='deload-faculty-button'>Deload Faculty</button></a>";
+                    var inactiveFacultyButton = "<button type='button' class='view-course-history-button'>Set as Inactive Faculty</button>";
+
+                    var menus = "<div class='datatables-row-popup'>" +
+                        "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                        "<div class='datatables-dropdown-menu'>" +
+                        "<a href='#view-faculty-load-modal' rel='modal:open'><button type='button' class='view-faculty-load-button'>View Faculty Load</button></a>";
+
+                    if(!$("#workspace-menu-title").text().includes("APO Workspace"))
+                    {
+                        menus += deloadButton;
+                        menus += inactiveFacultyButton;
+                    }
+
+                    menus += "</div></div>";
+
+                    return menus;
+                }
             }
         ]
     });
@@ -48,14 +80,18 @@ $(function()
         "<a href='#create-faculty-modal' rel='modal:open'>" +
         "<button type='button' class='faculty-create-button'>Create New Faculty</button>" +
         "</a></div>";
-    $(createFacultyCode).prependTo("#faculty-list-table_wrapper");
 
-    /* Retrieve Faculty Profiles */
-    retrieveFacultyProfiles();
+    if($("#workspace-menu-title").text().includes("Chairs Workspace"))
+        $(createFacultyCode).prependTo("#faculty-list-table_wrapper");
+
+    /* Update Faculty Table */
+    setInterval( function () {
+        facultyTables.ajax.reload( null, false );
+    }, 30000 );
 
     /*
-     *
-     *  EVENT LISTENERS
+     *  RETRIEVE FACULTY LOAD
+     *  EVENT LISTENER
      *
      */
 
@@ -88,10 +124,11 @@ $(function()
 
                     /* Teaching Load */
                     var teaching_load = result.data.teachingLoad,
-                        teaching_units = result.data.teachingUnits;
+                        teaching_units = result.data.teachingUnits,
+                        teaching_prep = result.data.numPreparations;
 
                     $("#view-teaching-load-table thead th:nth-child(2)").text(teaching_units);
-                    if(teaching_units === 0)
+                    if(teaching_units === 0 && teaching_prep === 0)
                     {
                         var load_row =  "<tr>" +
                             "<td>None</td>" +
@@ -169,6 +206,12 @@ $(function()
         });
     });
 
+    /*
+     *  DELOADING MODULE
+     *  EVENT LISTENERS
+     *
+    */
+
     /*  This event listener retrieves
      *  the faculty to be deloaded.
      */
@@ -239,14 +282,6 @@ $(function()
             $("#deload-faculty-units-deloaded").val(code + ".0 units");
     });
 
-    /*  This event listener closes
-     *  the deload faculty modal.
-     */
-    $("#deload-faculty-cancel").click(function()
-    {
-        $("#deload-faculty-modal").modal("close");
-    });
-
     /*  This event listener deloads
      *  the faculty in the system.
      */
@@ -270,72 +305,25 @@ $(function()
                 if(result.status === "Done")
                 {
                     displayPositiveMessage(result.message);
-                    setTimeout(function()
-                    {
-                        window.location.href = "/";
-                    }, 1500);
+
+                    $("#deload-faculty-type").children("option:nth-child(1)").selected();
+                    $("#deload-faculty-instance").children("option:nth-child(1)").selected();
+                    $("#deload-faculty-units-deloaded").val("0.0 units");
+
                     $("#deload-faculty-modal").modal("close");
+                    $(".blocker").hide();
                 }
             }
         });
     });
 
-    /*
-     *
-     *  FUNCTION IMPLEMENTATIONS
-     *
+    /*  This event listener closes
+     *  the deload faculty modal.
      */
-
-    /*  This function retrieves all the
-     *  faculty profiles from the database.
-     */
-    function retrieveFacultyProfiles()
+    $("#deload-faculty-cancel").click(function()
     {
-        $.ajax({
-            type : "GET",
-            url : window.location + "/retrieve-faculty-list",
-            success : function(result)
-            {
-                 if(result.status === "Done")
-                 {
-                     /* Load all faculty profiles */
-                     $.each(result.data, function(i, faculty)
-                     {
-                         var deloadButton = "<a href='#deload-faculty-modal' rel='modal:open'><button type='button' class='deload-faculty-button'>Deload Faculty</button></a>";
-
-                         var menus = "<div class='datatables-row-popup'>" +
-                             "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
-                             "<div class='datatables-dropdown-menu'>";
-
-                         if(result.message !== "Academic Programming Officer")
-                         {
-                             menus += deloadButton;
-                             $(".create-instance-button").hide();
-                         }
-
-                         menus += "<a href='#view-faculty-load-modal' rel='modal:open'><button type='button' class='view-faculty-load-button'>View Faculty Load</button></a>" +
-                             "<button type='button' class='view-course-history-button'>Set as Inactive Faculty</button>" +
-                             "</div></div>";
-
-                         /* Create row array */
-                         var tempRowArr = [faculty.facultyName,
-                                           faculty.facultyType,
-                                           faculty.department,
-                                           faculty.active,
-                                           faculty.totalUnits];
-                         tempRowArr.push(menus);
-
-                         /* Add to Row */
-                         facultyTables.row.add(tempRowArr).draw(true);
-                     });
-                 }
-            },
-            error : function(e)
-            {
-                console.log("Error: " + e);
-            }
-        });
-    }
+        $("#deload-faculty-modal").modal("close");
+    });
 
     /*
      *  FEEDBACK MESSAGES

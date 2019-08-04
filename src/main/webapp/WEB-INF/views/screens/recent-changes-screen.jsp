@@ -3,7 +3,7 @@
     <!-- Recent Changes Container -->
     <section id="recent-changes-container">
         <div id="recent-changes-box">
-            <p class="section-header-text">Recent Changes</p>
+            <p class="section-header-text">Recent Workspace Changes</p>
             <hr class="section-header-border" id="recent-changes-header-border" />
             <!--
             <ul class="recent-changes-row">

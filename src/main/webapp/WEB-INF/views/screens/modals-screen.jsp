@@ -61,7 +61,7 @@
                     <td>
                         <select id="create-course-roomType">
                             <option value="Lecture" selected>Lecture</option>
-                            <option value="Laboratory">Laboratory</option>
+                            <option value="Computer Laboratory">Computer Laboratory</option>
                         </select>
                     </td>
                 </tr>

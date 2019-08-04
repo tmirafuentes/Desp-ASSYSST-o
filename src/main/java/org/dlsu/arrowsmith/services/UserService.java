@@ -126,6 +126,14 @@ public class UserService {
         return userActivityRepository.findUserActivityByUserId(user.getUserId());
     }
 
+    public boolean retrieveOfferingInUserActivity(CourseOffering modifiedOffering)
+    {
+        ArrayList<UserActivity> allActivities = userActivityRepository.findAllByLastOfferingModified(modifiedOffering.getOfferingId());
+        if(allActivities.size() >= 1)
+            return true;
+        return false;
+    }
+
     public void saveUserActivity(UserActivity userActivity)
     {
         userActivityRepository.save(userActivity);
