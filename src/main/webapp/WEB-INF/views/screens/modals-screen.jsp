@@ -18,11 +18,11 @@
             <table class="form-modal-tables">
                 <tr>
                     <td><label for="create-offering-course">Course Code: </label></td>
-                    <td><input type="text" id="create-offering-course" value=""/></td>
+                    <td><input type="text" id="create-offering-course" value="" maxlength="7" /></td>
                 </tr>
                 <tr>
                     <td><label for="create-offering-section">Section: </label></td>
-                    <td><input type="text" id="create-offering-section" value=""/></td>
+                    <td><input type="text" id="create-offering-section" value="" maxlength="3" /></td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -40,7 +40,7 @@
             <table class="form-modal-tables">
                 <tr>
                     <td><label for="create-course-code">Course Code: </label></td>
-                    <td><input type="text" id="create-course-code" value=""/></td>
+                    <td><input type="text" id="create-course-code" value="" maxlength="7"/></td>
                 </tr>
                 <tr>
                     <td><label for="create-course-name">Course Name: </label></td>

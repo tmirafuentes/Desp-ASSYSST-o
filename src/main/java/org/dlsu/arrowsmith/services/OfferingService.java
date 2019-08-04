@@ -129,6 +129,15 @@ public class OfferingService {
         return courseOfferings.iterator();
     }
 
+    public boolean isCourseTaughtByFaculty(User faculty, Course course)
+    {
+        ArrayList<CourseOffering> courseOfferings = courseOfferingRepository.findAllByFacultyAndCourse(faculty, course);
+
+        if(courseOfferings.size() == 0)
+            return false;
+        return true;
+    }
+
     /* Retrieve All Course Offerings Per Department Per Term */
     public Iterator retrieveAllOfferingsByDepartment(Department department, Term term) {
         ArrayList<CourseOffering> courseOfferings = courseOfferingRepository.findAllByCourseDepartmentAndTerm(department, term);

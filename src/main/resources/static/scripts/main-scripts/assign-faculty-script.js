@@ -16,7 +16,7 @@ $(function()
      *   AND VARIABLES
      *
      */
-    retrieveFacultyNames();
+    retrieveFacultyNames("ALL");
 
     /*
      *
@@ -27,7 +27,13 @@ $(function()
     /*  TODO: This event listener retrieves
      *  the faculty when a filter is selected.
     */
-    $("#assign-faculty-filter-menu").on('change', function() {});
+    $("#assign-faculty-filter-menu").on('change', function()
+    {
+        /* Retrieve select value */
+        var filterValue = $("#assign-faculty-filter-menu").find("option:selected").val();
+
+        retrieveFacultyNames(filterValue);
+    });
 
     /*  This event listener selects
      *  the clicked cell in the
@@ -142,17 +148,28 @@ $(function()
      */
 
     /* Retrieve and display all faculty */
-    function retrieveFacultyNames()
+    function retrieveFacultyNames(filter)
     {
+        /* Determine URL */
+        var url = window.location + "/";
+        if(filter === "ALL")
+            url += "retrieve-available-faculty";
+        else if(filter === "PAST")
+            url += "retrieve-previous-experienced-faculty";
+
         $.ajax({
             method : "GET",
-            url : window.location + "/retrieve-available-faculty",
+            url : url,
             success : function(result)
             {
                 if(result.status === "Done")
                 {
+                    /* Clear Table */
+                    $("#faculty-assign-table").empty();
+
                     var col_ctr = 1;
                     var output_cell = "";
+                    var length = result.data.length;
                     $.each(result.data, function(i, faculty)
                     {
                         var start_row = "<tr>",
@@ -172,9 +189,10 @@ $(function()
 
                         output_cell += cell_faculty;
                         col_ctr += 1;
+                        length -= 1;
 
                         /* End of row */
-                        if(col_ctr === 6)
+                        if(col_ctr === 6 || length === 0)
                         {
                             output_cell += end_row;
                             col_ctr = 1;

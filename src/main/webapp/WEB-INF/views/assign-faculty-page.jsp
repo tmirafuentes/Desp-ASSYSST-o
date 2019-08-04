@@ -49,7 +49,6 @@
                         <!-- Faculty Filter Menu -->
                         <select id="assign-faculty-filter-menu">
                             <option value="ALL" selected>All Available Faculty</option>
-                            <option value="PREFERRED">Course is Preferred by Faculty</option>
                             <option value="PAST">Course is Previously Taught by Faculty</option>
                         </select>
                     </div>

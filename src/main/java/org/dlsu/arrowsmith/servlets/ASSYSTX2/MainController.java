@@ -246,6 +246,7 @@ public class MainController
             modelAndView.addObject("day" + dayCtr, formatDays);
             dayCtr++;
         }
+        modelAndView.addObject("numHours", selectedOffering.getCourse().getNumHours());
 
         /* Update User Activity */
         UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());

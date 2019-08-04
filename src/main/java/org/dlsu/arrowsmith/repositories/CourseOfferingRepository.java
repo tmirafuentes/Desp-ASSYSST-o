@@ -20,4 +20,5 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     ArrayList<CourseOffering> findAllByTerm(Term term);
     Page<CourseOffering> findAllByTermOrderByOfferingIdAsc(Term term, Pageable pageable);
     ArrayList<CourseOffering> findAllByCourseCourseCode(String courseCode);
+    ArrayList<CourseOffering> findAllByFacultyAndCourse(User user, Course course);
 }

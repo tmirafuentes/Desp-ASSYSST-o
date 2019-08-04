@@ -9,16 +9,35 @@
 {
     box-sizing: border-box;
     margin: 0 auto;
-    height: auto;
+    max-height: 350px;
     width: 100%;
     background: #ffffff;
     padding-top: 10px;
     padding-bottom: 15px;
+
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+#recent-changes-box.closed
+{
+    max-height: 50px;
 }
 
 #recent-changes-header-border
 {
     width: 90%;
+}
+
+#recent-changes-button
+{
+    float: right;
+    max-width: 4%;
+    height: auto;
+    margin-right: 5%;
+    margin-top: 0.5%;
+    cursor: pointer;
 }
 
 /* General Recent Changes Row */
@@ -27,6 +46,7 @@
     margin: 0;
     padding: 0;
     padding-left: 5%;
+    display: none;
 }
 
 .recent-changes-row > li
@@ -67,6 +87,7 @@
 {
     border: 1px solid #efefef;
     width: 90%;
+    display: none;
 }
 
 #rev-history-link

@@ -55,6 +55,7 @@
     color: #2b2b2b;
     cursor: text;
     width: 100%;
+    text-indent: 0.5em;
 }
 
 .form-modal-tables textarea
@@ -113,6 +114,7 @@
 {
     border: 1px solid #00e08e;
     cursor: text;
+    text-transform: uppercase;
 }
 
 /*

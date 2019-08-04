@@ -120,6 +120,15 @@ $(function()
                 $(".confirm-table-row[data-cell-room='" + room + "'][data-cell-day='" + cell_day + "']").remove();
                 dayNumber--;
             }
+
+            /* Compute hours */
+            var numHours = $("#assign-room-offering-hours").val();
+            var selHours = $("#assign-room-timeslot-menu").find("option:selected").closest("optgroup").attr("label").split(" ");
+            var hoursDiff = numHours + Number(selHours[0]);
+            $("#assign-room-offering-hours").val(hoursDiff);
+
+            if(hoursDiff > 0)
+                $(".room-table-unavailable").addClass("room-table-available").removeClass("room-table-unavailable");
         }
         else
         {
@@ -139,6 +148,17 @@ $(function()
             dayNumber++;
             var dayRow = createConfirmTableRow(colLabel, assignedSlot, "confirm-table-day-row", day, room);
             $(dayRow).insertBefore("#confirm-table-button-row");
+
+            /* Compute hours */
+            var numHours = $("#assign-room-offering-hours").val();
+            var selHours = $("#assign-room-timeslot-menu").find("option:selected").closest("optgroup").attr("label").split(" ");
+            var hoursDiff = numHours - Number(selHours[0]);
+            $("#assign-room-offering-hours").val(hoursDiff);
+
+            if(hoursDiff === 0)
+                $(".room-table-available").addClass("room-table-unavailable").removeClass("room-table-available");
+
+            console.log("Num Hours = " + numHours + "; SelHours = " + selHours + "; HoursDiff = " + hoursDiff);
         }
     });
 
@@ -200,7 +220,7 @@ $(function()
 
                         setTimeout(function()
                         {
-                            window.location.href = "/faculty";
+                            window.location.href = "/";
                         }, 1500);
                     }
                 },

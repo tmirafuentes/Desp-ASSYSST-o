@@ -286,7 +286,7 @@ public class AssignController
     }
 
     /* Retrieve available faculty who prefers the course in a given term */
-    @PostMapping(value = "/retrieve-preferred-course-faculty")
+    @GetMapping(value = "/retrieve-preferred-course-faculty")
     public Response retrievePreferredCourseFaculty()
     {
         return null;
@@ -296,7 +296,24 @@ public class AssignController
     @GetMapping(value = "/retrieve-previous-experienced-faculty")
     public Response retrieveExperiencedFaculty()
     {
-        return null;
+        /* Retrieve user activity */
+        UserActivity userActivity = userService.retrieveUserActivity(userService.retrieveUser());
+        Course selectedCourse = offeringService.retrieveCourseOffering(userActivity.getLastOfferingModified()).getCourse();
+
+        /* Retrieve available faculty */
+        ArrayList<FacultyOptionDTO> availableFaculty = (ArrayList<FacultyOptionDTO>) retrieveAvailableFaculty().getData();
+        ArrayList<FacultyOptionDTO> experiencedFaculty = new ArrayList<FacultyOptionDTO>();
+
+        for(FacultyOptionDTO faculty : availableFaculty)
+        {
+            User selectedFaculty = userService.findUserByFirstNameLastName(faculty.getFacultyName());
+
+            /* Search for offering -- If yes, continue loop */
+            if(offeringService.isCourseTaughtByFaculty(selectedFaculty, selectedCourse))
+                experiencedFaculty.add(faculty);
+        }
+
+        return new Response("Done", experiencedFaculty.iterator());
     }
 
     /* Update the selected course offering's faculty assignment */

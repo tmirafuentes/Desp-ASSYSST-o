@@ -52,8 +52,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/scripts/**",
                             "/images/**",
                             "/signin"
-                            //"/signin",
-                            //"/assystx2/**"
                 ).permitAll()
                 .antMatchers("/autocomplete-course-code",
                              "/create-new-offering",

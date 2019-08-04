@@ -120,8 +120,6 @@ $(function()
                 }
             });
         }
-
-        //$(this).parent("li").removeClass("concerns-dropdown-unmarked");
     });
 
     /*  This event listener marks all
@@ -342,6 +340,22 @@ $(function()
      *  FUNCTION IMPLEMENTATIONS
      *
     */
+
+    $("#recent-changes-button").click(function()
+    {
+        $(".recent-changes-row").toggle("fast");
+        $(".recent-changes-row-border").toggle("fast");
+        if($("#recent-changes-box").hasClass("closed"))
+        {
+            $("#recent-changes-box").removeClass("closed");
+            $(this).attr("src", "/images/black-icons/sort-up.png");
+        }
+        else
+        {
+            $("#recent-changes-box").addClass("closed");
+            $(this).attr("src", "/images/black-icons/sort-down.png");
+        }
+    });
 
     /* Load most recent changes */
     function loadMostRecentChanges()

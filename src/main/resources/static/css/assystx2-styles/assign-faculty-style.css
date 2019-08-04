@@ -72,8 +72,9 @@
 
 .faculty-assign-name
 {
-    font-family: Gotham Black;
+    font-family: Open Sans;
     font-size: 0.80em;
+    font-weight: 700;
     text-align: center;
 }
 
@@ -88,6 +89,6 @@
 
 .faculty-table-selected
 {
-    background: #00e08e;
+    background: #00ba72;
     color: #ffffff;
 }
