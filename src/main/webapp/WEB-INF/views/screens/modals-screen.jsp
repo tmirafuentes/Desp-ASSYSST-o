@@ -177,6 +177,32 @@
             </table>
         </div>
 
+        <!-- Service Course Modal -->
+        <div id="service-course-modal" class="modal form-modal">
+            <p class="section-header-text">Service Course</p>
+            <hr class="section-header-border" />
+            <table class="form-modal-tables">
+                <tr>
+                    <td><label for="raise-concerns-receiver">Course Offering: </label></td>
+                    <td><input type="text" id="service-course-offering" value="" disabled /></td>
+                </tr>
+                <tr>
+                    <td><label for="service-course-department">Department: </label></td>
+                    <td>
+                        <select id="service-course-department">
+                            <option value="-" selected>Select department</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" id="service-course-submit" class="form-modal-submit">Service Course</button>
+                        <button type="button" id="service-course-cancel" class="form-modal-cancel">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <!-- Information Modals -->
 
         <!-- View Offering History Modal -->

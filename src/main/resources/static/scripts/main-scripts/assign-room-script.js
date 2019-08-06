@@ -121,14 +121,14 @@ $(function()
                 dayNumber--;
             }
 
-            /* Compute hours */
+            /* Compute hours
             var numHours = $("#assign-room-offering-hours").val();
             var selHours = $("#assign-room-timeslot-menu").find("option:selected").closest("optgroup").attr("label").split(" ");
             var hoursDiff = numHours + Number(selHours[0]);
             $("#assign-room-offering-hours").val(hoursDiff);
 
             if(hoursDiff > 0)
-                $(".room-table-unavailable").addClass("room-table-available").removeClass("room-table-unavailable");
+                $(".room-table-unavailable").addClass("room-table-available").removeClass("room-table-unavailable"); */
         }
         else
         {
@@ -149,14 +149,14 @@ $(function()
             var dayRow = createConfirmTableRow(colLabel, assignedSlot, "confirm-table-day-row", day, room);
             $(dayRow).insertBefore("#confirm-table-button-row");
 
-            /* Compute hours */
+            /* Compute hours
             var numHours = $("#assign-room-offering-hours").val();
             var selHours = $("#assign-room-timeslot-menu").find("option:selected").closest("optgroup").attr("label").split(" ");
             var hoursDiff = numHours - Number(selHours[0]);
             $("#assign-room-offering-hours").val(hoursDiff);
 
             if(hoursDiff === 0)
-                $(".room-table-available").addClass("room-table-unavailable").removeClass("room-table-available");
+                $(".room-table-available").addClass("room-table-unavailable").removeClass("room-table-available"); */
 
             console.log("Num Hours = " + numHours + "; SelHours = " + selHours + "; HoursDiff = " + hoursDiff);
         }

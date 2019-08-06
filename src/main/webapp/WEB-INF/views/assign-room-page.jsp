@@ -93,9 +93,7 @@
                         <table id="assign-room-confirm-table" class="assign-confirm-table">
                             <tr id="confirm-table-offering-row">
                                 <td>Course Offering</td>
-                                <td>${courseCode} ${section}
-                                    <input type="hidden" value="${numHours}" id="assign-room-offering-hours" />
-                                </td>
+                                <td>${courseCode} ${section}</td>
                             </tr>
                             <c:if test="${not empty day1}">
                                 <tr id="confirm-table-assigned-row">

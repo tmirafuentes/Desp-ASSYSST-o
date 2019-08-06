@@ -12,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -160,7 +161,10 @@ public class WorkspaceController
         displayOfferingDTO.setOfferingID(offering.getOfferingId());
 
         /* Offering Type */
-        displayOfferingDTO.setOfferingType(offering.getType());
+        if(offering.getType().equals("Regular") && offering.getServiceTo() != null)
+            displayOfferingDTO.setOfferingType("Service");
+        else
+            displayOfferingDTO.setOfferingType(offering.getType());
 
         /* Course Code */
         displayOfferingDTO.setCourseCode(offering.getCourse().getCourseCode());
@@ -296,10 +300,6 @@ public class WorkspaceController
         /* Retrieve course offering from database */
         CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(courseCode, section);
 
-        /* Update course offering's type */
-        selectedOffering.setType(offeringType);
-        offeringService.saveCourseOffering(selectedOffering);
-
         /* Reduce Faculty Load units */
         if(offeringType.equals("Special") && selectedOffering.getFaculty() != null)
         {
@@ -318,7 +318,6 @@ public class WorkspaceController
 
                 /* Remove Faculty from offering */
                 selectedOffering.setFaculty(null);
-                offeringService.saveCourseOffering(selectedOffering);
             }
 
             /* Remove Days from offering */
@@ -333,6 +332,10 @@ public class WorkspaceController
             }
         }
 
+        /* Update course offering's type */
+        selectedOffering.setType(offeringType);
+        offeringService.saveCourseOffering(selectedOffering);
+
         /* Send different messages */
         if(offeringType.equals("Regular"))
             return new Response("Done", messages.getMessage("message.markRegularOffering", null, null));
@@ -340,5 +343,60 @@ public class WorkspaceController
             return new Response("Done", messages.getMessage("message.markSpecialClass", null, null));
 
         return new Response("Done", messages.getMessage("message.markDissolvedOffering", null, null));
+    }
+
+    /* Service Course */
+    @GetMapping(value = "/retrieve-all-departments")
+    public Response retrieveAllDepartments()
+    {
+        Iterator allDepartments = facultyService.retrieveAllDepartments();
+        ArrayList<SelectDeptDTO> dtos = new ArrayList<>();
+
+        while(allDepartments.hasNext())
+        {
+            Department dept = (Department) allDepartments.next();
+            SelectDeptDTO dto = new SelectDeptDTO();
+            dto.setDeptName(dept.getDeptName());
+            dto.setDeptCode(dept.getDeptCode());
+
+            dtos.add(dto);
+        }
+
+        return new Response("Done", dtos.iterator());
+    }
+
+    @PostMapping(value = "/service-course")
+    public Response serviceCourse(@RequestBody ObjectNode request)
+    {
+        /* Retrieve data */
+        String courseCode = request.get("courseCode").asText();
+        String section = request.get("section").asText();
+        String deptCode = request.get("deptCode").asText();
+
+        /* Retrieve Department */
+        Department serviceDept = facultyService.retrieveDepartmentByDeptCode(deptCode);
+
+        /* Retrieve Course Offering */
+        CourseOffering courseOffering = offeringService.retrieveOfferingByCourseCodeAndSection(courseCode, section);
+
+        /* Service the Course to another department */
+        courseOffering.setServiceTo(serviceDept.getDeptId());
+        offeringService.saveCourseOffering(courseOffering);
+
+        /* Retrieve respective chairs */
+        User senderChair = userService.retrieveUser();
+        User receiverChair = concernsService.retrieveDepartmentHead(serviceDept, "Vice-Chair");
+
+        /* Send a concern to inform other chair */
+        Concern serviceConcern = new Concern();
+        serviceConcern.setAcknowledged(false);
+        serviceConcern.setDateTimeCommitted(LocalDateTime.now());
+        serviceConcern.setSubject(courseCode + " " + section);
+        serviceConcern.setMessage("Greetings! Our department would like your department to service this course. Thank you!");
+        serviceConcern.setReceiver(receiverChair);
+        serviceConcern.setSender(senderChair);
+        concernsService.saveConcern(serviceConcern);
+
+        return new Response("Done", messages.getMessage("message.markServiceCourse", null, null));
     }
 }

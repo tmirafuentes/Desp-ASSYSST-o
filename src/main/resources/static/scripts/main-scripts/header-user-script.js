@@ -18,6 +18,9 @@ $(function()
 
     /* Retrieve and Update Recent Changes */
     loadMostRecentChanges();
+    setInterval(function() {
+        loadMostRecentChanges();
+    }, 3000);
 
     /*
      *  MENU

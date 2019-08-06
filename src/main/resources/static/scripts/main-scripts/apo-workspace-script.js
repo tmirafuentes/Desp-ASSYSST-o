@@ -52,6 +52,8 @@ $(function() {
                     var offeringType = "";
                     if (data.offeringType === "Special")
                         offeringType += "<span class='offering-status-special'>SPCL</span>";
+                    else if (data.offeringType === "Service")
+                        offeringType += "<span class='offering-status-service'>SERV</span>";
                     else if (data.offeringType === "Dissolved")
                         offeringType += "<span class='offering-status-dissolved'>DSLV</span>";
 

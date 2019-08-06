@@ -53,8 +53,15 @@ $(function() {
                     var offeringType = "";
                     if (data.offeringType === "Special")
                         offeringType += "<span class='offering-status-special'>SPCL</span>";
+                    else if (data.offeringType === "Service")
+                        offeringType += "<span class='offering-status-service'>SERV</span>";
                     else if (data.offeringType === "Dissolved")
                         offeringType += "<span class='offering-status-dissolved'>DSLV</span>";
+
+                    /* If the offering is currently
+                       being modified by a user */
+                    if(data.offeringEdited)
+                        offeringType = "<img src='/images/other-icons/edit.png' class='datatables-row-img' />";
 
                     /* If there is an unacknowledged
                        concern about the offerng */
@@ -82,7 +89,7 @@ $(function() {
                         "<button type='submit' class='offering-assign-room-button'>Assign Faculty</button></form>" +
                         "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
                         "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
-                        "<button type='button' class='offering-service-course-button'>Mark as Service Course</button>" +
+                        "<a href='#service-course-modal' rel='modal:open'><button type='button' class='offering-service-course-button'>Mark as Service Course</button></a>" +
                         "</div></div>";
 
                     return menus;
@@ -113,33 +120,63 @@ $(function() {
         var courseCode = $(this).closest("tr").find("td:nth-child(2)").text();
         var section = $(this).closest("tr").find("td:nth-child(3)").text();
 
-        /* Perform AJAX */
-        var formData = {
-            courseCode : courseCode,
-            section : section,
-            offeringType : "Service"
+        /* Put into modal */
+        $.ajax({
+            type : "GET",
+            url : window.location + "retrieve-all-departments",
+            beforeSend : function()
+            {
+                $("#service-course-offering").val(courseCode + " " + section);
+            },
+            success : function(result)
+            {
+                if(result.status === "Done")
+                {
+                    /* Remove previous options */
+                    $("#service-course-department option:not(:first-child)").remove();
+
+                    /* Put options to dropdown */
+                    $.each(result.data, function(i, department)
+                    {
+                        var deload_option = "<option value='" + department.deptCode + "'>" +
+                            department.deptName +
+                            "</option>";
+
+                        $(deload_option).appendTo("#service-course-department");
+                    });
+                }
+            }
+        });
+    });
+
+    $("#service-course-submit").click(function()
+    {
+        /* Retrieve Course Offering */
+        var courseOffering = $("#service-course-offering").val().split(" ");
+
+        var data = {
+            "courseCode" : courseOffering[0],
+            "section" : courseOffering[1],
+            "deptCode" : $("#service-course-department").find("option:selected").val()
         };
 
         $.ajax({
             method : "POST",
             contentType : "application/json",
-            url : window.location + "update-offering-type",
-            data : JSON.stringify(formData),
             dataType : "json",
+            data : JSON.stringify(data),
+            url : window.location + "service-course",
             success : function(result)
             {
                 if(result.status === "Done")
                 {
+                    $("#service-course-modal").modal("close");
+                    $(".blocker").hide();
+
                     displayPositiveMessage(result.data);
-
-                    /* Remove Change Special Class Option to Regular */
-                    $(this).addClass("offering-regular-offering-button");
-                    $(this).removeClass("offering-special-class-button");
-                    $(this).text("Mark as Regular Offering");
-
                 }
             }
-        });
+        })
     });
 
     /*
