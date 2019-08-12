@@ -13,7 +13,7 @@
                             Chairs Workspace
                         </c:when>
                         <c:when test="${userType == 'FACULTY'}">
-                            ASSYSTX
+                            Faculty Home
                         </c:when>
                     </c:choose>
                 </h3>

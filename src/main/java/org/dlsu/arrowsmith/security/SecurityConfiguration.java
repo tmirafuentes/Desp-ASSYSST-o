@@ -70,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                              "/history/**",
                              "/courses/**",
                              "/faculty/**"
-                ).hasAnyRole("APO", "CVC", "Faculty")
+                ).hasAnyRole("APO", "CVC", "FACULTY")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

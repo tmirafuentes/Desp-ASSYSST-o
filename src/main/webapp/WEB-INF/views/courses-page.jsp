@@ -11,6 +11,9 @@
     <head>
         <title>ASSYSTX - Course Profiles</title>
 
+        <link rel="icon" type="image/png" href="/images/other-icons/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/images/other-icons/favicon-16x16.png" sizes="16x16" />
+
         <meta name="_csrf" content="${_csrf.token}"/>
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" content="${_csrf.headerName}"/>
@@ -68,7 +71,9 @@
 
             <!-- Right Partition-->
             <section id="collab-sidebar">
-                <%@include file="screens/recent-changes-screen.jsp"%>
+                <c:if test="${userType == 'FACULTY'}">
+                    <%@include file="screens/recent-changes-screen.jsp"%>
+                </c:if>
             </section>
         </div>
 

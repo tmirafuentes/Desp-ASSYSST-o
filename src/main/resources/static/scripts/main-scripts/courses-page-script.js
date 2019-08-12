@@ -58,7 +58,7 @@ $(function()
                         "<div class='datatables-dropdown-menu'>" +
                         "<a href='#view-course-details-modal' rel='modal:open'><button type='button' class='view-course-details-button'>View More Details</button></a>";
 
-                    if(!$("#workspace-menu-title").text().includes("APO Workspace"))
+                    if($("#workspace-menu-title").text().includes("CVC Workspace"))
                         menus += modifyProfileButton;
 
                     menus += "</div></div>";

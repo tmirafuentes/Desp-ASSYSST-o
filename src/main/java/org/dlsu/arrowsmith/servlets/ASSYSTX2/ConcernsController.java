@@ -49,7 +49,8 @@ public class ConcernsController
         Course selectedCourse = offeringService.retrieveCourseByCourseCode(courseCode);
 
         /* If sender is APO, he/she must send to a chair */
-        if(currentUser.getUserType().equals("Academic Programming Officer"))
+        if(currentUser.getUserType().equals("Academic Programming Officer") ||
+           currentUser.getUserType().equals("Faculty"))
         {
             /* Retrieve department */
             Department department = selectedCourse.getDepartment();

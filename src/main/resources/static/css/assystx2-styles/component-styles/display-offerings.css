@@ -81,13 +81,14 @@
  *
  */
 
-#all-offerings-table
+#all-offerings-table,
+#compare-load-table
 {
     margin: 0 auto;
     width: 95%;
 }
 
-#all-offerings-table thead th
+.offerings-table thead th
 {
     font-family: Open Sans;
     font-size: 0.80em;
@@ -97,24 +98,24 @@
     padding-bottom: 8px;
 }
 
-#all-offerings-table tbody td
+.offerings-table tbody td
 {
     font-family: Open Sans;
     font-size: 0.80em;
     color: #2b2b2b;
 }
 
-#all-offerings-table tbody td:nth-child(1) { width: 8%; }
-#all-offerings-table tbody td:nth-child(2) { width: 13%; }
-#all-offerings-table tbody td:nth-child(3) { width: 10%; }
-#all-offerings-table tbody td:nth-child(4) { width: 10%; }
-#all-offerings-table tbody td:nth-child(5) { width: 16%; }
-#all-offerings-table tbody td:nth-child(6) { width: 13%; }
-#all-offerings-table tbody td:nth-child(7) { width: 23%; }
-#all-offerings-table tbody td:nth-child(8) { width: 6%; }
+.offerings-table tbody td:nth-child(1) { width: 8%; }
+.offerings-table tbody td:nth-child(2) { width: 13%; }
+.offerings-table tbody td:nth-child(3) { width: 10%; }
+.offerings-table tbody td:nth-child(4) { width: 10%; }
+.offerings-table tbody td:nth-child(5) { width: 16%; }
+.offerings-table tbody td:nth-child(6) { width: 13%; }
+.offerings-table tbody td:nth-child(7) { width: 23%; }
+.offerings-table tbody td:nth-child(8) { width: 6%; }
 
-#all-offerings-table thead th:nth-child(7) img,
-#all-offerings-table tbody td:nth-child(7) img
+.offerings-table thead th:nth-child(7) img,
+.offerings-table tbody td:nth-child(7) img
 {
     display: block;
     margin: 0 auto;
@@ -129,13 +130,13 @@
     padding-bottom: 15px;
 }
 
-#all-offerings-table_wrapper #all-offerings-table_new_offering
+.offerings-table_wrapper .offerings-table_new_offering
 {
     float: left;
     margin-left: 1em;
 }
 
-#all-offerings-table_new_offering button
+.offerings-table_new_offering button
 {
     border: none;
     background: #00ba72;
@@ -158,4 +159,50 @@
 {
     font-weight: 600;
     color: #ff7b7b;
+}
+
+/*
+ *
+ *  TEACHING LOAD COMPARISON
+ *
+ */
+
+#teaching-load-compare-box
+{
+    margin: 0 auto;
+    width: 45%;
+    padding-bottom: 1%;
+}
+
+#teaching-load-compare-box label
+{
+    display: inline-block;
+    margin: 0 auto;
+    font-family: OpenSans-Regular;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: #2b2b2b;
+}
+
+#teaching-load-compare-dropdown
+{
+    display: inline-block;
+    margin: 0 auto;
+    padding: 1%;
+    width: 175px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    border: 1px solid #00e08e;
+    cursor: pointer;
+}
+
+#teaching-load-compare-dropdown option
+{
+    cursor: pointer;
+}
+
+#compare-load-table_wrapper
+{
+    display: none;
 }

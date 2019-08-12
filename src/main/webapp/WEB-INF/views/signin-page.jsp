@@ -8,7 +8,10 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 
-        <title>ASSYSTX</title>
+        <title>ASSYSTX - Signin</title>
+
+        <link rel="icon" type="image/png" href="/images/other-icons/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/images/other-icons/favicon-16x16.png" sizes="16x16" />
 
         <c:url value="/css/assystx2-styles/signin-style.css" var="signinStyle" />
         <link rel="stylesheet" type="text/css" href="${signinStyle}" />

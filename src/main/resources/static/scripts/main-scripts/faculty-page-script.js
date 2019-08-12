@@ -61,7 +61,7 @@ $(function()
                         "<div class='datatables-dropdown-menu'>" +
                         "<a href='#view-faculty-load-modal' rel='modal:open'><button type='button' class='view-faculty-load-button'>View Faculty Load</button></a>";
 
-                    if(!$("#workspace-menu-title").text().includes("APO Workspace"))
+                    if($("#workspace-menu-title").text().includes("CVC Workspace"))
                     {
                         menus += deloadButton;
                         menus += inactiveFacultyButton;
@@ -181,7 +181,7 @@ $(function()
                         research_units = result.data.researchUnits;
 
                     $("#view-research-load-table thead th:nth-child(2)").text(research_units);
-                    if(teaching_units == 0)
+                    if(research_units == 0)
                     {
                         var load_row =  "<tr>" +
                             "<td>None</td>" +

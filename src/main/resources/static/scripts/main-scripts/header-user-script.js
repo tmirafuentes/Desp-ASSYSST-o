@@ -14,13 +14,13 @@ $(function()
     retrieveRecentConcerns();
     setInterval(function() {
         updateRecentConcerns();
-    }, 3000);
+    }, 5000);
 
     /* Retrieve and Update Recent Changes */
     loadMostRecentChanges();
     setInterval(function() {
         loadMostRecentChanges();
-    }, 3000);
+    }, 5000);
 
     /*
      *  MENU
@@ -426,6 +426,13 @@ $(function()
 
                     $(entryChange).insertAfter("#recent-changes-header-border");
                 });
+
+                /* Check if visible or not */
+                if (!$("#recent-changes-box").hasClass("closed"))
+                {
+                    $(".recent-changes-row").show();
+                    $(".recent-changes-row-border").show();
+                }
             }
         })
     }

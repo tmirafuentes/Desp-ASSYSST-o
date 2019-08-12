@@ -7,7 +7,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
     <head>
-        <title>ASSYSTX - CVC Workspace</title>
+        <title>ASSYSTX - Faculty Home</title>
 
         <link rel="icon" type="image/png" href="/images/other-icons/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="/images/other-icons/favicon-16x16.png" sizes="16x16" />
@@ -24,7 +24,7 @@
         <c:url value="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/extension-scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
         <c:url value="/scripts/extension-scripts/jquery-shorten.min.js" var="shortenExt" />
-        <c:url value="/scripts/main-scripts/cvc-workspace-script.js" var="mainScript" />
+        <c:url value="/scripts/main-scripts/faculty-home-script.js" var="mainScript" />
         <c:url value="/scripts/main-scripts/header-user-script.js" var="userScript" />
         <c:url value="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js" var="dataTablesExt" />
         <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js" var="modalScriptExt" />
@@ -41,16 +41,41 @@
             <!-- Header -->
             <%@include file="screens/main-header-screen.jsp"%>
 
-            <!-- Middle Partition -->
+            <!-- Middle Partition-->
             <section id="collab-workspace">
-                <!-- All Offerings -->
-                <%@include file="screens/all-offerings-screen.jsp" %>
+                <%@include file="screens/all-offerings-screen.jsp"%>
             </section>
 
-            <!-- Right Partition -->
+            <!-- Right Partition-->
             <section id="collab-sidebar">
-                <!-- Recent Changes -->
-                <%@include file="screens/recent-changes-screen.jsp" %>
+                <section id="deloaded-load-container">
+                    <div id="deloaded-load-box">
+                        <p class="section-header-text">Deloaded Load</p>
+                        <hr class="section-header-border" id="deloaded-load-header-border" />
+
+                        <table class="load-tables" id="view-admin-load-table">
+                            <thead>
+                            <tr>
+                                <th>Administrative Load</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <table class="load-tables" id="view-research-load-table">
+                            <thead>
+                            <tr>
+                                <th>Research Load</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </section>
         </div>
 

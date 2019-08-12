@@ -1,5 +1,6 @@
 @import "online-users.css";
 @import "recent-changes.css";
+@import "deloaded-load.css";
 
 #collab-sidebar 
 {
@@ -8,5 +9,5 @@
     height: auto;
     width: 100%;
     box-sizing: border-box;
-    padding: 4.5% 20% 0 0;
+    padding: 11.5% 20% 0 0;
 }

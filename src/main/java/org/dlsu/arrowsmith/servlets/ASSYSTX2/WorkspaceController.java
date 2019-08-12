@@ -124,6 +124,44 @@ public class WorkspaceController
         return new Response("Done", partialOfferingDTOs);
     }
 
+    /* Retrieve the teaching load of course offerings */
+    @GetMapping(value = "/retrieve-teaching-load")
+    public Response retrieveTeachingLoad(Model model)
+    {
+        /* Get current term */
+        Term term = userService.retrieveCurrentTerm();
+
+        /* Retrieve a partial list of course offerings */
+        Iterator allOfferings = offeringService.retrieveAllOfferingsByFaculty(userService.retrieveUser(), term);
+
+        /* Convert partial list of course offerings into DTOs */
+        Iterator partialOfferingDTOs = transferListOfferingToDTO(allOfferings);
+
+        /* Return a response */
+        return new Response("Done", partialOfferingDTOs);
+    }
+
+    /* Retrieve the teaching load of course offerings */
+    @PostMapping(value = "/retrieve-teaching-load")
+    public Response retrieveTeachingLoad(Model model, @RequestBody ObjectNode request)
+    {
+        /* Get user */
+        String facultyName = request.get("facultyName").asText();
+        User selectedFaculty = userService.findUserByFirstNameLastName(facultyName);
+
+        /* Get current term */
+        Term term = userService.retrieveCurrentTerm();
+
+        /* Retrieve a partial list of course offerings */
+        Iterator allOfferings = offeringService.retrieveAllOfferingsByFaculty(selectedFaculty, term);
+
+        /* Convert partial list of course offerings into DTOs */
+        Iterator partialOfferingDTOs = transferListOfferingToDTO(allOfferings);
+
+        /* Return a response */
+        return new Response("Done", partialOfferingDTOs);
+    }
+
     /*
      *  DISPLAY OFFERINGS
      *  FUNCTION IMPLEMENTATIONS

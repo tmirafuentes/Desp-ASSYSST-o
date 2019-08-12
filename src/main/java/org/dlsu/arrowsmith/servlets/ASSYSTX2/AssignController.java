@@ -269,7 +269,12 @@ public class AssignController
             /* Retrieve current load */
             FacultyLoad facultyLoad = (FacultyLoad) facultyLoads.next();
 
-            if(!facultyLoad.isOnLeave() && facultyLoad.getFaculty().getUserType().equals("Faculty"))
+            /* Check if self is included */
+            boolean selfIncluded = false;
+            if(facultyLoad.getFaculty() == currUser && currUser.getUserType().equals("Faculty"))
+                selfIncluded = true;
+
+            if(!facultyLoad.isOnLeave() && facultyLoad.getFaculty().getUserType().equals("Faculty") && !selfIncluded)
             {
                 dtos.add(transferFacultyLoadToFacultyOptionDTO(facultyLoad));
             }

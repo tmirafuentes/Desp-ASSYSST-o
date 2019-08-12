@@ -20,6 +20,7 @@ import org.dlsu.arrowsmith.services.OfferingService;
 import org.dlsu.arrowsmith.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -147,35 +148,12 @@ public class ProfilesController
         /* Initialize iterator */
         Iterator allFaculty = userService.retrieveAllFaculty();
 
-        /* Check the constraint
-        if(facultyType.equalsIgnoreCase("ALL"))
-            allFaculty = userService.retrieveAllFaculty();
-        else if(facultyType.equalsIgnoreCase("ACTIVE"))
-            allFaculty = userService.retrieveAllActiveFaculty();
-        else if(facultyType.equalsIgnoreCase("LEAVE"))
-        {
-            /* Retrieve all faculty load
-            Iterator allFacultyLoad = facultyService.retrieveAllFacultyLoadByTerm(userService.retrieveCurrentTerm());
-
-            ArrayList<User> onLeaveFaculty = new ArrayList<>();
-            while(allFacultyLoad.hasNext())
-            {
-                FacultyLoad currLoad = (FacultyLoad) allFacultyLoad.next();
-                if (currLoad.isOnLeave())
-                    onLeaveFaculty.add(currLoad.getFaculty());
-            }
-
-            allFaculty = onLeaveFaculty.iterator();
-        }
-        else if(facultyType.equalsIgnoreCase("INACTIVE"))
-            allFaculty = userService.retrieveAllInactiveFaculty();*/
-
         /* Check user type */
         User currentUser = userService.retrieveUser();
-        String message = currentUser.getUserType();
+        String userType = currentUser.getUserType();
         Department dept = null;
 
-        if(message.equals("Chair") || message.equals("Vice-Chair"))
+        if(userType.equals("Chair") || userType.equals("Vice-Chair") || userType.equals("Faculty"))
             dept = currentUser.getDepartment();
 
         /* Retrieve the faculty */
@@ -204,11 +182,91 @@ public class ProfilesController
                 dto.setTotalUnits(load.getTotalLoad());
 
             if((dept != null && dept == faculty.getDepartment()) ||
-               (dept == null && message.equals("Academic Programming Officer")))
+               (dept == null && userType.equals("Academic Programming Officer")))
                 dtos.add(dto);
         }
 
-        return new Response("Done", dtos.iterator(), message);
+        return new Response("Done", dtos.iterator(), userType);
+    }
+
+    /* Retrieve specific faculty profile */
+    @GetMapping(value = "/retrieve-specific-faculty-profile")
+    public Response retrieveSpecificFacultyProfile(Model model)
+    {
+        /* Retrieve Selected Faculty */
+        User selectedFaculty = userService.retrieveUser();
+
+        /* Retrieve Faculty Load */
+        FacultyLoad facultyLoad = facultyService.retrieveFacultyLoadByFaculty(userService.retrieveCurrentTerm(), selectedFaculty);
+
+        /* Transfer to DTO */
+        ManageFacultyDTO dto = new ManageFacultyDTO();
+        dto.setFacultyName(selectedFaculty.getLastName() + ", " + selectedFaculty.getFirstName());
+
+        /* Active Status */
+        if(selectedFaculty.isActive() && !facultyLoad.isOnLeave())
+            dto.setActive("Yes");
+        else if(selectedFaculty.isActive() && facultyLoad.isOnLeave())
+            dto.setActive("On Leave");
+        else if(!selectedFaculty.isActive())
+            dto.setActive("Inactive");
+
+        /* Only Active Faculty have Faculty Load */
+        if(selectedFaculty.isActive())
+        {
+            /* Numerical Units */
+            dto.setTeachingUnits(facultyLoad.getTeachingLoad());
+            dto.setResearchUnits(facultyLoad.getResearchLoad());
+            dto.setAdminUnits(facultyLoad.getAdminLoad());
+
+            /* Teaching Load and Preparations */
+            dto.setNumPreparations(facultyLoad.getPreparations());
+
+            ArrayList<ManageFacultyLoadListDTO> teachingLoads = new ArrayList<>();
+            Iterator offerings = offeringService.retrieveAllOfferingsByFaculty(selectedFaculty, userService.retrieveCurrentTerm());
+            while(offerings.hasNext())
+            {
+                CourseOffering offering = (CourseOffering) offerings.next();
+
+                /* Create load instance */
+                ManageFacultyLoadListDTO load = new ManageFacultyLoadListDTO();
+                load.setLoadName(offering.getCourse().getCourseCode() + " " + offering.getSection());
+                load.setLoadUnits(offering.getCourse().getNumHours());
+                if(offering.getType().equals("Special"))
+                {
+                    load.setLoadName(load.getLoadName() + " (Special)");
+                    load.setLoadUnits(0.0);
+                }
+                teachingLoads.add(load);
+            }
+
+            /* Admin and Research Load */
+            ArrayList<ManageFacultyLoadListDTO> adminLoads = new ArrayList<>();
+            ArrayList<ManageFacultyLoadListDTO> researchLoads = new ArrayList<>();
+            Iterator deloadings = facultyService.retrieveAllDeloadInstanceByFaculty(userService.retrieveCurrentTerm(), selectedFaculty);
+            while(deloadings.hasNext())
+            {
+                DeloadInstance deloading = (DeloadInstance) deloadings.next();
+
+                /* Create load instance */
+                ManageFacultyLoadListDTO load = new ManageFacultyLoadListDTO();
+                load.setLoadName(deloading.getDeloading().getDeloadCode());
+                load.setLoadUnits(deloading.getDeloading().getUnits());
+
+                /* Determine where to add: research or admin */
+                if(deloading.getDeloading().getDeloadType().equals("RL"))
+                    researchLoads.add(load);
+                else if(deloading.getDeloading().getDeloadType().equals("AL"))
+                    adminLoads.add(load);
+            }
+
+            /* Set iterators to DTO */
+            dto.setTeachingLoad(teachingLoads.iterator());
+            dto.setAdminLoad(adminLoads.iterator());
+            dto.setResearchLoad(researchLoads.iterator());
+        }
+
+        return new Response("Done", dto);
     }
 
     /* Retrieve specific faculty profile */
