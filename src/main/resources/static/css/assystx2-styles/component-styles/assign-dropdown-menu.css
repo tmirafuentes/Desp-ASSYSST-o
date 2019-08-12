@@ -1,0 +1,40 @@
+/*** ASSIGN ROOM HEADER/MENU ***/
+.assign-dropdowns-container
+{
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 5%;
+    padding-left: 21%;
+}
+
+.assign-dropdowns-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+
+.assign-dropdowns-box select
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    border: none;
+    border-bottom: 2px solid #000000;
+    font-family: Open Sans;
+    font-size: 0.85em;
+    color: #0000000;
+    cursor: pointer;
+    width: 90%;
+}
+
+.assign-building-menu option
+{
+    padding: 3%;
+}

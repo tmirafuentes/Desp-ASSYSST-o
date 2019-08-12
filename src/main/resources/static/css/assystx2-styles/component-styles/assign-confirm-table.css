@@ -1,0 +1,74 @@
+/*** CONFIRMATION/SUMMARY SECTION ***/
+.assign-confirm-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 5%;
+    padding-left: 21%;
+}
+
+.assign-confirm-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.assign-confirm-table
+{
+    margin: 0 auto;
+    width: 90%;
+    border-collapse: collapse;
+}
+
+.assign-confirm-table tr td:first-child
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: bold;
+    color: #2b2b2b;
+    border-bottom: 2px solid #efefef;
+    padding: 5px;
+}
+
+.assign-confirm-table tr td:nth-child(2)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    border-bottom: 2px solid #efefef;
+}
+
+.assign-confirm-table tr:last-child td
+{
+    border: none;
+    padding-top: 6px;
+    padding-right: 0;
+}
+
+.assign-confirm-btns
+{
+    margin-left: 8px;
+    padding: 0.50em;
+    font-family: Gotham Black;
+    font-size: 0.90em;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+
+.assign-cancel-btn
+{
+    background-color: #d3d3d3;
+}
+
+.assign-submit-btn
+{
+    background-color: #00ba72;
+}

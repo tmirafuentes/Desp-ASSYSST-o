@@ -1,0 +1,292 @@
+/*
+ *  INPUT FORM
+ *  MODAL TEMPLATE
+ */
+
+.form-modal-tables
+{
+    margin: 0 auto;
+    width: 95%;
+}
+
+.form-modal-tables th:nth-child(1)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    text-align: left;
+}
+
+.form-modal-tables th:nth-child(2)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    text-align: right;
+}
+
+.form-modal-tables td:nth-child(1)
+{
+    width: 40%;
+}
+
+.form-modal-tables td:nth-child(2)
+{
+    width: 60%;
+}
+
+.form-modal-tables label
+{
+    display: inline-block;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    color: #2b2b2b;
+}
+
+.form-modal-tables input[type="text"],
+.form-modal-tables input[type="number"],
+.form-modal-tables textarea
+{
+    display: inline-block;
+    margin-bottom: 0.5em;
+    background-color: #ffffff;
+    border: none;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: text;
+    width: 100%;
+    text-indent: 0.5em;
+}
+
+.form-modal-tables textarea
+{
+    resize: none;
+}
+
+.form-modal-tables select
+{
+    padding: 0.25em;
+    margin-bottom: 0.25em;
+    border: 1px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: pointer;
+    width: 100%;
+}
+
+.form-modal-tables tr td button
+{
+    display: block;
+    float: right;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.75em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.form-modal-submit
+{
+    background-color: #00ba72;
+}
+
+.form-modal-cancel
+{
+    background-color: #d3d3d3;
+}
+
+/*
+ *
+ *  CREATE OFFERING MODAL
+ *
+ */
+
+#create-offering-modal
+{
+    width: 300px;
+}
+
+#create-offering-modal input[type="text"]
+{
+    border: 1px solid #00e08e;
+    cursor: text;
+    text-transform: uppercase;
+}
+
+/*
+ *
+ *  CREATE COURSE MODAL
+ *
+ */
+
+#create-course-modal
+{
+    width: 400px;
+}
+
+#create-course-modal input[type="text"],
+#create-course-modal input[type="number"],
+#create-course-modal textarea
+{
+    border: 1px solid #00e08e;
+    cursor: text;
+}
+
+/*
+ *
+ *  CREATE FACULTY MODAL
+ *
+ */
+
+#create-faculty-modal
+{
+    width: 400px;
+}
+
+#create-faculty-modal input[type="text"]
+{
+    border: 1px solid #00e08e;
+    cursor: text;
+}
+
+/*
+ *
+ *  RAISE CONCERNS MODAL
+ *
+ */
+
+#raise-concerns-modal
+{
+    width: 400px;
+}
+
+#raise-concerns-modal #raise-concerns-content
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 100px;
+    width: 100%;
+    border: 1.5px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+}
+
+/*
+ *
+ *  DELOAD FACULTY MODAL
+ *
+ */
+
+#deload-faculty-modal
+{
+    width: 400px;
+}
+
+/*
+ *
+ *  VIEW HISTORY MODAL
+ *
+ */
+
+#view-history-modal
+{
+    padding: 1%;
+    height: auto;
+    width: 800px;
+}
+
+.view-history-row
+{
+    margin: 0 auto;
+    padding: 0;
+    width: 95%;
+}
+
+.view-history-row > li
+{
+    list-style-type: none;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    padding-left: 2%;
+}
+
+.view-history-row > li:nth-child(1)
+{
+    font-weight: 700;
+    font-size: 0.80em;
+}
+
+.view-history-row > li:nth-child(2)
+{
+    font-size: 0.75em;
+}
+
+.view-history-row > li:nth-child(3)
+{
+    font-size: 0.75em;
+    color: #2b2b2b;
+}
+
+.view-history-row-border
+{
+    border: 1px solid #efefef;
+    width: 95%;
+}
+
+/*
+ *
+ *  VIEW COURSE DETAILS MODAL
+ *
+ */
+
+#view-course-details-modal
+{
+    width: 450px;
+}
+
+/*
+ *
+ *  VIEW FACULTY LOAD MODAL
+ *
+ */
+
+#view-faculty-load-modal
+{
+    width: 300px;
+}
+
+#view-faculty-load-modal .form-modal-tables th:nth-child(1)
+{
+    width: 75%;
+}
+
+#view-faculty-load-modal .form-modal-tables th:nth-child(2)
+{
+    width: 25%;
+}
+
+#view-faculty-load-modal .form-modal-tables td:nth-child(1)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: text;
+    text-indent: 0.5em;
+}
+
+#view-faculty-load-modal .form-modal-tables td:nth-child(2)
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    cursor: text;
+    text-align: right;
+}

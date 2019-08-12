@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface BuildingRepository extends CrudRepository<Building, Long> {
     Building findBuildingByBldgId(Long bldg_id);
     Building findBuildingByBldgName(String bldg_name);
+    Building findBuildingByBldgCode(String bldg_code);
 }

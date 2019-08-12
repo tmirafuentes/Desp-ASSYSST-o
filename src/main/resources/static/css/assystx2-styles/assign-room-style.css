@@ -1,0 +1,164 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/header.css";
+@import "component-styles/general-task-style.css";
+@import "component-styles/assign-left-partition.css";
+@import "component-styles/feedback-message.css";
+
+#assign-room-right-partition
+{
+    grid-row: 2;
+    grid-column: 2;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/*** ASSIGN ROOM HEADER/MENU ***/
+#assign-room-dropdowns-container
+{
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 5%;
+    padding-left: 21%;
+}
+
+/* Box Seen in UI */
+#assign-room-dropdowns-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-room-dropdowns-box select
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    border: none;
+    border-bottom: 2px solid #000000;
+    font-family: Open Sans;
+    font-size: 0.85em;
+    color: #000000;
+    cursor: pointer;
+    width: 90%;
+}
+
+#assign-room-building-menu option
+{
+    padding: 3%;
+}
+
+/*** ASSIGN ROOM TABLE ***/
+#assign-room-table-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-left: 2.5%;
+    padding-right: 15%;
+    padding-top: 2%;
+}
+
+/* Box Seen in UI */
+#assign-room-table-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-room-table-box hr
+{
+    width: 95%;
+}
+
+#room-assign-unavailable
+{
+    display: none;
+    position: absolute;
+    top: 14.5%;
+    left: 33.3%;
+    z-index: 2;
+    width: auto;
+    height: auto;
+    background-color: #2b2b2b;
+    opacity: 0.8;
+}
+
+#room-assign-unavailable-message
+{
+    font-family: Open Sans;
+    font-size: 0.90em;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+}
+
+#room-assign-table
+{
+    margin: 0 auto;
+    margin-top: 15px;
+    border-collapse: collapse;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+    width: 95%;
+    border: 2px solid #000;
+}
+
+#room-assign-table td 
+{
+    height: 8px;
+    width: 100px;
+    border-right: 2px solid #2b2b2b;
+    border-bottom: 2px solid #2b2b2b;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+#room-assign-table .room-table-header 
+{
+    border-bottom: 2px solid black;
+}
+
+#room-assign-table tr:first-child td 
+{
+    padding: 5px;
+}
+
+#room-assign-table tr:first-child td:not(:nth-child(1)) 
+{
+    width: 25px;
+}
+
+#room-assign-table .room-table-available
+{
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+#room-assign-table .room-table-unavailable
+{
+    background-color: #ff7b7b;
+}
+
+#room-assign-table .room-table-selected
+{
+    background-color: #d3d3d3;
+}

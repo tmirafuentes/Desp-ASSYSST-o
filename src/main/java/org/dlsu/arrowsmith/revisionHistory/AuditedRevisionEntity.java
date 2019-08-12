@@ -1,11 +1,14 @@
 package org.dlsu.arrowsmith.revisionHistory;
 
+import org.dlsu.arrowsmith.classes.main.Term;
 import org.dlsu.arrowsmith.classes.main.User;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +27,7 @@ public class AuditedRevisionEntity {
     private Date dateModified;
 
     // Name of User
-    private String fullName;
+    private String userID;
 
     @OneToMany(mappedBy = "revision", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<ModifiedEntityTypeEntity> modifiedEntityTypes = new HashSet<ModifiedEntityTypeEntity>();
@@ -51,12 +54,12 @@ public class AuditedRevisionEntity {
         this.dateModified = dateModified;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public Set<ModifiedEntityTypeEntity> getModifiedEntityTypes() {
@@ -67,8 +70,9 @@ public class AuditedRevisionEntity {
         this.modifiedEntityTypes = modifiedEntityTypes;
     }
 
-    public void addModifiedEntityType(String entityClassName)
+    public void addModifiedEntityType(String entityClassName, Serializable serializable)
     {
-        modifiedEntityTypes.add(new ModifiedEntityTypeEntity(this, entityClassName));
+        String entityID = serializable.toString();
+        modifiedEntityTypes.add(new ModifiedEntityTypeEntity(this, entityClassName, Long.parseLong(entityID)));
     }
 }

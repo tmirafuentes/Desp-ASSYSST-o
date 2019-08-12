@@ -18,6 +18,18 @@ public class Concern {
     private boolean acknowledged;
     private User sender;
     private User receiver;
+    private String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    @Basic
+    private java.time.LocalDateTime dateTimeCommitted;
 
     public LocalDateTime getDateTimeCommitted() {
         return dateTimeCommitted;
@@ -26,9 +38,6 @@ public class Concern {
     public void setDateTimeCommitted(LocalDateTime dateTimeCommitted) {
         this.dateTimeCommitted = dateTimeCommitted;
     }
-
-    @Basic
-    private java.time.LocalDateTime dateTimeCommitted;
 
     public Concern() {
         this.dateTimeCommitted = LocalDateTime.now();

@@ -11,11 +11,13 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 public class User {
     private Long userId;
-    private String username;
     private String firstName;
     private String lastName;
     private String userType;
+    private String userPosition;
+    private String username;
     private String password;
+    private boolean isActive;
     private College college;
     private Set<Course> coursePreferences;
     private Set<CourseOffering> teachingLoads;
@@ -31,7 +33,6 @@ public class User {
 
     public User(Long userId, String firstName, String lastName, String userType, String password) {
         this.userId = userId;
-        this.username = String.valueOf(userId);
         this.firstName = firstName;
         this.lastName = lastName;
         this.userType = userType;
@@ -46,15 +47,6 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-        this.username = String.valueOf(userId);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstName() {
@@ -81,12 +73,36 @@ public class User {
         this.userType = userType;
     }
 
+    public String getUserPosition() {
+        return userPosition;
+    }
+
+    public void setUserPosition(String userPosition) {
+        this.userPosition = userPosition;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @ManyToOne

@@ -1,0 +1,185 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/general-page-style.css";
+@import "component-styles/header.css";
+@import "component-styles/menu-sidebar.css";
+@import "component-styles/collab-sidebar.css";
+@import "component-styles/modals.css";
+
+/* COURSE PROFILES */
+#course-profiles-list
+{
+    grid-row: 2;
+    grid-column: 1;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2% 0 0 5.5%;
+}
+
+/* CREATE FACULTY */
+#add-course-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2% 2% 0 2%;
+}
+
+#add-course-box
+{
+    margin: 0 auto;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 10px 0 15px 0;
+    background-color: #ffffff;
+}
+
+#add-course-box input
+{
+    margin-top: 3px;
+    padding: 3px 5px 3px 5px;
+    border: 2px solid #00e08e;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+}
+
+#add-course-code
+{
+    margin-left: 2.5%;
+    width: 95px;
+    background-color: #00e08e;
+    cursor: pointer;
+}
+
+#add-course-code::placeholder
+{
+    font-family: Gotham Black;
+    font-size: 1em;
+    color: #ffffff;
+    text-align: center;
+}
+
+#add-course-name
+{
+    margin-left: 1%;
+    width: 300px;
+    background-color: #ffffff;
+    border: #00e08e;
+    cursor: text;
+}
+
+#add-course-units
+{
+    margin-left: 1%;
+    width: 50px;
+    cursor: text;
+}
+
+#add-course-description
+{
+    margin-top: 1.5%;
+    margin-left: 2.5%;
+    border: 2px solid #00e08e;
+    height: 50px;
+    width: 500px;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    text-indent: 1%;
+    cursor: text;
+}
+
+#add-course-description:focus
+{
+    cursor: text;
+}
+
+#add-course-submit
+{
+    
+    float: right;
+    margin-top: 6%;
+    margin-right: 2.5%;
+    padding: 8px;
+    background-color: #00e08e;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.75em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* COURSE PROFILES LIST */
+#course-profiles-list-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-right: 2%;
+}
+
+#course-profiles-list-box
+{
+    margin: 0 auto;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    background-color: #ffffff;
+}
+
+#course-list-table-filter
+{
+    margin-top: -12.5%;
+    margin-left: 28%;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 1em;
+    font-weight: 500;
+    color: #000000;
+    cursor: pointer;
+}
+
+/*
+ *
+ *  ALL COURSES TABLE
+ *
+ */
+
+#course-list-table
+{
+    margin: 0 auto;
+    width: 95%;
+}
+
+#course-list-table thead th
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    color: #2b2b2b;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+#course-list-table tbody td
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+}
+
+#course-list-table tbody td:nth-child(1) { width: 20%; }
+#course-list-table tbody td:nth-child(2) { width: 55%; }
+#course-list-table tbody td:nth-child(3) { width: 17%; }
+#course-list-table tbody td:nth-child(4) { width: 8%; }

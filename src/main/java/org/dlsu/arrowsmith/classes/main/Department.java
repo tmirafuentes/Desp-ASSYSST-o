@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -56,6 +57,7 @@ public class Department {
 
     @ManyToOne
     @JoinColumn(name = "collegeId")
+    @JsonIgnore
     public College getCollege() {
         return college;
     }

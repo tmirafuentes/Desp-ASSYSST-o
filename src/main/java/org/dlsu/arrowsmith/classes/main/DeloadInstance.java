@@ -1,6 +1,7 @@
 package org.dlsu.arrowsmith.classes.main;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -10,9 +11,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited
 public class DeloadInstance {
     private Long deloadInId;
-    private int startAY;
-    private int endAY;
-    private int term;
+    private Term term;
     private String remarks;
     private Deloading deloading;
     private User faculty;
@@ -20,10 +19,8 @@ public class DeloadInstance {
     public DeloadInstance() {
     }
 
-    public DeloadInstance(Long deloadInId, int startAY, int endAY, int term, String remarks) {
+    public DeloadInstance(Long deloadInId, Term term, String remarks) {
         this.deloadInId = deloadInId;
-        this.startAY = startAY;
-        this.endAY = endAY;
         this.term = term;
         this.remarks = remarks;
     }
@@ -38,27 +35,14 @@ public class DeloadInstance {
         this.deloadInId = deloadInId;
     }
 
-    public int getStartAY() {
-        return startAY;
-    }
-
-    public void setStartAY(int startAY) {
-        this.startAY = startAY;
-    }
-
-    public int getEndAY() {
-        return endAY;
-    }
-
-    public void setEndAY(int endAY) {
-        this.endAY = endAY;
-    }
-
-    public int getTerm() {
+    @NotAudited
+    @ManyToOne
+    @JoinColumn(name = "termID")
+    public Term getTerm() {
         return term;
     }
 
-    public void setTerm(int term) {
+    public void setTerm(Term term) {
         this.term = term;
     }
 

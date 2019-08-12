@@ -1,0 +1,133 @@
+body
+{
+    top: 0;
+    left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #efefef;
+}
+
+#assystx-container
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    padding-bottom: 1.5%;
+}
+
+.section-header-text
+{
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    display: block;
+    margin: 0;
+    margin-left: 1.5em;
+}
+
+.section-header-border
+{
+    border: 1px solid #00e08e;
+    width: 95%;
+}
+
+.dataTables_info
+{
+    margin-left: 2.5%;
+    padding-bottom: 15px;
+}
+
+.datatables-title
+{
+    margin: 0;
+    padding: 0 0 1% 0;
+    font-family: Gotham Black;
+    font-size: 1.05em;
+    color: #2b2b2b;
+}
+
+/* Datatables Row Menu Template */
+.datatables-row-img, .datatables-row-menu
+{
+    height: auto;
+    max-width: 45%;
+    cursor: pointer;
+}
+
+.datatables-row-popup
+{
+    position: relative;
+    display: inline-block;
+}
+
+.datatables-dropdown-menu
+{
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 165px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.datatables-dropdown-menu button
+{
+    width: 100%;
+    color: #2b2b2b;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    border: none;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+.datatables-dropdown-menu a
+{
+    text-decoration: none;
+}
+
+.datatables-dropdown-menu form
+{
+    padding: 0;
+    margin: 0;
+}
+
+.datatables-dropdown-menu a:hover, .datatables-dropdown-menu button:hover
+{
+    background-color: #00ba72;
+    color: #ffffff;
+}
+
+.datatables-row-popup:hover .datatables-dropdown-menu
+{
+    display: block;
+}
+
+.dataTables_wrapper .create-instance-button
+{
+    float: left;
+    margin-left: 1em;
+}
+
+.create-instance-button button
+{
+    border: none;
+    background: #00ba72;
+    padding: 0.5em;
+    font-family: Gotham-Black;
+    font-size: 0.75em;
+    font-weight: 800;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.datatables-row-dissolved
+{
+    color: #ff7b7b;
+}

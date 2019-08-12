@@ -1,0 +1,94 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/header.css";
+@import "component-styles/general-task-style.css";
+@import "component-styles/assign-left-partition.css";
+@import "component-styles/feedback-message.css";
+
+/*** ASSIGN FACULTY TABLE ***/
+#assign-faculty-table-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-left: 2.5%;
+    padding-right: 15%;
+    padding-top: 2%;
+}
+
+/* Box Seen in UI */
+#assign-faculty-table-box
+{
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#assign-faculty-table-box hr
+{
+    width: 95%;
+}
+
+/*** Faculty Assignment ***/
+#faculty-assign-table
+{
+    margin: 0 auto;
+    margin-top: 15px;
+    border-collapse: collapse;
+    border: 2px solid #000000;
+    width: 95%;
+}
+
+#faculty-assign-table tr
+{
+    height: auto;
+}
+
+#faculty-assign-table td
+{
+    width: 20%;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+.faculty-assign-img
+{
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10%;
+    padding: 0;
+}
+
+.faculty-assign-name
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.faculty-assign-details
+{
+    margin-top: -10px;
+    font-family: Open Sans;
+    font-size: 0.75em;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.faculty-table-selected
+{
+    background: #00ba72;
+    color: #ffffff;
+}

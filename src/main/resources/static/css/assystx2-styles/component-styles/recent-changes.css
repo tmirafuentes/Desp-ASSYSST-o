@@ -1,0 +1,101 @@
+#recent-changes-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+}
+
+#recent-changes-box
+{
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-height: 350px;
+    width: 100%;
+    background: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 15px;
+
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+#recent-changes-box.closed
+{
+    max-height: 50px;
+}
+
+#recent-changes-header-border
+{
+    width: 90%;
+}
+
+#recent-changes-button
+{
+    float: right;
+    max-width: 4%;
+    height: auto;
+    margin-right: 5%;
+    margin-top: 0.5%;
+    cursor: pointer;
+}
+
+/* General Recent Changes Row */
+.recent-changes-row, .recent-changes-row-details
+{
+    margin: 0;
+    padding: 0;
+    padding-left: 5%;
+    display: none;
+}
+
+.recent-changes-row > li
+{
+    list-style-type: none;
+    padding-bottom: 5px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.recent-changes-user-colors
+{
+    display: inline;
+    float: left;
+    padding: 0;
+    margin-top: 7.5px;
+    height: 40px;
+    width: 40px;
+    background: blue;
+    border-radius: 50%;
+}
+
+.recent-changes-row > li
+{
+    list-style-type: none;
+    padding-bottom: 2px;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.recent-changes-row > li:nth-child(1) { font-family: Open Sans; font-weight: 700; font-size: 0.80em; }
+.recent-changes-row > li:nth-child(2) { font-size: 0.75em; color: #2b2b2b;  }
+.recent-changes-row > li:nth-child(3) { font-size: 0.75em; }
+
+.recent-changes-row-border
+{
+    border: 1px solid #efefef;
+    width: 90%;
+    display: none;
+}
+
+#rev-history-link
+{
+    font-family: Gotham-Black;
+    font-size: 0.80em;
+    color: #00a864;
+    text-align: center;
+    text-decoration: underline;
+    cursor: pointer;
+}

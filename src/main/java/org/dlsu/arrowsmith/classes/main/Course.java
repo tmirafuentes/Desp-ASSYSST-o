@@ -1,5 +1,6 @@
 package org.dlsu.arrowsmith.classes.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -14,6 +15,8 @@ public class Course {
     private String courseName;
     private String courseDesc;
     private double units;
+    private double numHours;
+    private String roomType;
     private College college;
     private Department department;
     private Set<CourseOffering> courseOfferings;
@@ -73,8 +76,25 @@ public class Course {
         this.units = units;
     }
 
+    public double getNumHours() {
+        return numHours;
+    }
+
+    public void setNumHours(double numHours) {
+        this.numHours = numHours;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
     @ManyToOne
     @JoinColumn(name = "college_id")
+    @JsonIgnore
     public College getCollege() {
         return college;
     }

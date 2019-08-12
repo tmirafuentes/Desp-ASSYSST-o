@@ -1,0 +1,383 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/general-page-style.css";
+@import "component-styles/header.css";
+@import "component-styles/menu-sidebar.css";
+@import "component-styles/collab-sidebar.css";
+@import "component-styles/feedback-message.css";
+@import "component-styles/modals.css";
+
+/* FACULTY PROFILES */
+#faculty-profiles-list
+{
+    grid-row: 2;
+    grid-column: 1;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2% 0 0 5.5%;
+}
+
+/* CREATE FACULTY */
+#add-faculty-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2% 2% 0 2%;
+}
+
+#add-faculty-box
+{
+    margin: 0 auto;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 10px 0 15px 0;
+    background-color: #ffffff;
+}
+
+#add-faculty-box input[type=text]
+{
+    margin-top: 3px;
+    padding: 3px 5px 3px 5px;
+    border: 2px solid #00e08e;
+    font-family: OpenSans-Regular;
+    font-size: 0.80em;   
+}
+
+#add-faculty-name
+{
+    margin-left: 2.5%;
+    width: 148px;
+    background-color: #00e08e;
+    cursor: pointer;
+}
+
+#add-faculty-name::placeholder
+{
+    font-family: Gotham Black;
+    font-size: 1em;
+    color: #ffffff;
+    text-align: center;
+}
+
+#add-faculty-type
+{
+    display: inline-block;
+    width: 100px;
+    margin-left: 1%;
+    padding-bottom: 2px;
+    border: none;
+    border-bottom: 2px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    cursor: pointer;
+}
+
+#add-faculty-submit
+{
+    float: right;
+    margin-right: 2.5%;
+    margin-top: 3px;
+    padding: 8px;
+    background-color: #00e08e;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.75em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* FACULTY PROFILES LIST */
+#faculty-profiles-list-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-right: 2%;
+}
+
+#faculty-profiles-list-box
+{
+    margin: 0 auto;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    background-color: #ffffff;
+}
+
+#faculty-list-table-filter
+{
+    float: right;
+    margin-right: 2.5%;
+    margin-bottom: 2%;
+    border: none;
+    border-bottom: 2px solid #00e08e;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    cursor: pointer;
+}
+
+/*
+ *
+ *  ALL FACULTY TABLE
+ *
+ */
+
+#faculty-list-table
+{
+    margin: 0 auto;
+    width: 95%;
+}
+
+#faculty-list-table thead th
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 700;
+    color: #2b2b2b;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+#faculty-list-table tbody td
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #2b2b2b;
+}
+
+#faculty-list-table tbody td:nth-child(1) { width: 25%; }
+#faculty-list-table tbody td:nth-child(2) { width: 12.5%; }
+#faculty-list-table tbody td:nth-child(3) { width: 30%; }
+#faculty-list-table tbody td:nth-child(4) { width: 12.5%; }
+#faculty-list-table tbody td:nth-child(5) { width: 12%; }
+#faculty-list-table tbody td:nth-child(6) { width: 8%; }
+
+.dataTables_info
+{
+    margin-left: 2.5%;
+    padding-bottom: 15px;
+}
+
+/* FACULTY PROFILE LIST TABLE */
+#faculty-profile-table
+{
+    margin: 0 auto;
+    margin-top: 15px;
+    width: 95%;
+    border-collapse: collapse;
+    border: 2px solid #000000;
+}
+
+#faculty-profile-table tr
+{
+    height: auto;
+}
+
+#faculty-profile-table td
+{
+    width: 20%;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+.faculty-profile-img
+{
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10%;
+    padding: 0;
+}
+
+.faculty-profile-name
+{
+    //margin-top: 25px;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    text-align: center;
+}
+
+.faculty-profile-details
+{
+    margin-top: -10px;
+    font-family: Open Sans;
+    font-size: 0.70em;
+    text-align: center;
+}
+
+/* SELECTED FACULTY PROFILE */
+#selected-faculty
+{
+    grid-column: 3;
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+}
+
+#selected-faculty-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    //padding: 4.5% 15% 0 0;
+    padding: 38% 15% 0 0;
+}
+
+#selected-faculty-box
+{
+    box-sizing: border-box;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+    background: #ffffff; 
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.selected-faculty-tables
+{
+    margin: 0 auto;
+    margin-top: 5%;
+    height: auto;
+    width: 90%;
+    border-collapse: collapse;
+    //border: 1px solid #000;
+}
+
+.selected-faculty-border
+{
+    width: 100%;
+    border: 1px solid #00e08e;
+}
+
+#selected-faculty-img
+{
+    margin: 0 auto;
+    display: block;
+    height: auto;
+    width: 50px;
+}
+
+#selected-faculty-name
+{
+    font-family: Gotham Black;
+    font-size: 1.0em;
+    color: #000000;
+    line-height: 30px;
+    text-indent: 5px;
+}
+
+.selected-faculty-info-header td
+{
+    width: 33.34%;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+    text-align: center;
+}
+
+.selected-faculty-info-row td
+{
+    padding-top: 3px;
+    width: 33.34%;
+    font-family: Open Sans;
+    font-size: 0.75em;
+    color: #666666;
+    text-align: center;
+}
+
+#selected-faculty-active
+{
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.selected-faculty-info-row td.active-faculty
+{
+    color: #00e08e;
+}
+
+.selected-faculty-info-row td.inactive-faculty
+{
+    color: #e71d36;
+}
+
+#selected-faculty-load-table td:nth-child(2)
+{
+    width: 15%;
+    text-align: center;
+}
+
+.faculty-load-header-row td
+{
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.faculty-load-header-row td:nth-child(1)
+{
+    text-indent: 5%;
+}
+
+.faculty-load-row td
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.faculty-load-row td:first-child
+{
+    text-indent: 10%;
+}
+
+.faculty-load-row td:nth-child(2)
+{
+    color: #666666;
+}
+
+.faculty-load-footer-row td:first-child button
+{
+    margin: 0;
+    padding: 5px;
+    background-color: #00e08e;
+    border: none;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.faculty-load-footer-row td:first-child span
+{
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+    float: right;
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+.faculty-load-footer-row td:nth-child(2)
+{
+    font-family: Gotham Black;
+    font-size: 0.80em;
+    color: #00e08e;
+    text-align: center;
+}

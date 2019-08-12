@@ -1,0 +1,13 @@
+@import "add-offering.css";
+@import "filter-offerings.css";
+@import "display-offerings.css";
+
+#collab-workspace
+{
+    grid-row: 2;
+    grid-column: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2% 0 0 5.5%;
+}

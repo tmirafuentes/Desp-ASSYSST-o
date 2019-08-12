@@ -1,0 +1,192 @@
+/*
+ *
+ *  IMPORTED GENERAL STYLES
+ *
+ */
+
+@import "component-styles/fonts.css";
+@import "component-styles/general-page-style.css";
+@import "component-styles/header.css";
+@import "component-styles/menu-sidebar.css";
+@import "component-styles/concerns-table.css";
+
+#assystx-concerns-container
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    padding-bottom: 1.5%;
+}
+
+#concerns-menu
+{
+    grid-row: 2;
+    grid-column: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#menu-current-term
+{
+    font-size: 1.1em;
+}
+
+/* CONCERNS INBOX */
+#concerns-inbox
+{
+    grid-row: 2;
+    grid-column: 2;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#concerns-inbox-container
+{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 2%;
+}
+
+/* Box Seen in UI */
+#concerns-inbox-box
+{
+    height: auto;
+    width: 85%;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+#concerns-filter-table
+{
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border-collapse: collapse;
+}
+
+#concerns-filter-table td
+{
+    border: 1px solid #00e08e;
+    padding: 3px 10px 3px 10px;
+}
+
+#concerns-filter-table td a
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    font-weight: 600;
+    color: #000000;
+    text-decoration: none;
+}
+
+.concerns-filter-selected
+{
+    background-color: #00e08e;
+}
+
+.concerns-filter-selected a
+{
+    color: #ffffff;
+}
+
+#concerns-list-accordion
+{
+    margin: 0 auto;
+    margin-top: 1%;
+    width: 95%;
+}
+
+#concerns-list-accordion span.ui-accordion-header-icon
+{
+    float: right;
+}
+
+#concerns-list-accordion h3
+{
+    box-sizing: border-box;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #efefef;
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+}
+
+#concerns-list-accordion h3:first-child
+{
+    border-top: 1px solid #efefef;
+}
+
+#concerns-list-accordion h3:hover
+{
+    box-shadow: 0px 0px 25px #efefef;
+    //background-color: #00e08e;
+    //color: #ffffff;
+}
+
+#concerns-list-accordion h3[aria-selected="true"]
+{
+    border: none;
+    background-color: #00e08e;
+    color: #ffffff;
+}
+
+#concerns-list-accordion h3 span.concerns-list-sender
+{
+    display: inline-block;
+    margin-left: 1.5%;
+    width: 25%;
+}
+
+#concerns-list-accordion h3 span.concerns-list-subject
+{
+    display: inline-block;
+    margin-left: 0;
+    width: 20%;
+}
+
+#concerns-list-accordion h3 span.concerns-list-message
+{
+    display: inline-block;
+    margin-left: 0;
+    width: 38%;
+}
+
+#concerns-list-accordion h3 span.concerns-list-timestamp
+{
+    display: inline-block;
+    margin-left: 30%;
+    width: 20%;
+}
+
+#concerns-list-accordion h3.concerns-unacknowledged span
+{
+    font-weight: 600;
+}
+
+#concerns-list-accordion div.concerns-list-accordion-div
+{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #00e08e;
+    border-top: none;
+}
+
+#concerns-list-accordion p.concerns-list-accordion-content
+{
+    font-family: Open Sans;
+    font-size: 0.80em;
+    color: #000000;
+    width: 95%;
+    padding-left: 2.5%;
+}
