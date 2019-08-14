@@ -232,6 +232,14 @@ $(function()
         }
     });
 
+    /*  This event listener returns
+     *  the user to home page
+     */
+    $("#assign-room-cancel").click(function()
+    {
+        window.location.href = "/";
+    });
+
     /*
      *
      *  FUNCTION IMPLEMENTATIONS

@@ -71,7 +71,7 @@
 
             <!-- Right Partition-->
             <section id="collab-sidebar">
-                <c:if test="${userType == 'FACULTY'}">
+                <c:if test="${userType != 'FACULTY'}">
                     <%@include file="screens/recent-changes-screen.jsp"%>
                 </c:if>
             </section>

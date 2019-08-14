@@ -87,7 +87,7 @@ $(function()
     /* Update Faculty Table */
     setInterval( function () {
         facultyTables.ajax.reload( null, false );
-    }, 30000 );
+    }, 30000);
 
     /*
      *  RETRIEVE FACULTY LOAD
@@ -310,8 +310,8 @@ $(function()
                     $("#deload-faculty-instance").children("option:nth-child(1)").selected();
                     $("#deload-faculty-units-deloaded").val("0.0 units");
 
-                    $("#deload-faculty-modal").modal("close");
                     $(".blocker").hide();
+                    $("#deload-faculty-modal").modal("close");
                 }
             }
         });
@@ -322,6 +322,7 @@ $(function()
      */
     $("#deload-faculty-cancel").click(function()
     {
+        $(".blocker").hide();
         $("#deload-faculty-modal").modal("close");
     });
 

@@ -79,18 +79,31 @@ $(function() {
             { "data" : "facultyName" },
             { "data" : function(data, type, dataToSet)
                 {
-                    /* Drop Down Menu */
-                    var menus = "<div class='datatables-row-popup'>" +
-                        "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
-                        "<div class='datatables-dropdown-menu'>" +
-                        "<form action='/assign-faculty' method='POST'>" +
-                        "<input value='" + data.courseCode + "' name='courseCode' hidden />" +
-                        "<input value='" + data.section + "' name='section' hidden />" +
-                        "<button type='submit' class='offering-assign-room-button'>Assign Faculty</button></form>" +
-                        "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
-                        "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
-                        "<a href='#service-course-modal' rel='modal:open'><button type='button' class='offering-service-course-button'>Mark as Service Course</button></a>" +
-                        "</div></div>";
+                    var menus = "";
+
+                    if(data.offeringType === 'Dissolved')
+                    {
+                        menus += "<div class='datatables-row-popup'>" +
+                            "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                            "<div class='datatables-dropdown-menu'>" +
+                            "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
+                            "</div></div>";
+                    }
+                    else
+                    {
+                        /* Drop Down Menu */
+                        menus += "<div class='datatables-row-popup'>" +
+                            "<img src='/images/black-icons/vertical-dot-menu.png' class='datatables-row-img' />" +
+                            "<div class='datatables-dropdown-menu'>" +
+                            "<form action='/assign-faculty' method='POST'>" +
+                            "<input value='" + data.courseCode + "' name='courseCode' hidden />" +
+                            "<input value='" + data.section + "' name='section' hidden />" +
+                            "<button type='submit' class='offering-assign-room-button'>Assign Faculty</button></form>" +
+                            "<a href='#raise-concerns-modal' rel='modal:open'><button type='button' class='offering-raise-concerns-button'>Raise Concerns</button></a>" +
+                            "<a href='#view-history-modal' rel='modal:open'><button type='button' class='offering-view-history-button'>View Offering History</button></a>" +
+                            "<a href='#service-course-modal' rel='modal:open'><button type='button' class='offering-service-course-button'>Mark as Service Course</button></a>" +
+                            "</div></div>";
+                    }
 
                     return menus;
                 }
@@ -170,8 +183,8 @@ $(function() {
             {
                 if(result.status === "Done")
                 {
-                    $("#service-course-modal").modal("close");
                     $(".blocker").hide();
+                    $("#service-course-modal").modal("close");
 
                     displayPositiveMessage(result.data);
                 }
@@ -251,7 +264,7 @@ $(function() {
                             list_row += " ago ";
                         } else
                         {
-                            var revDateAgain = new Date(result.data.timestamp);
+                            var revDateAgain = new Date(changes.timestamp);
                             list_row += "at " + revDateAgain.toLocaleDateString() + " ";
                         }
 

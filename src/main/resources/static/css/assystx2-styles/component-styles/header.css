@@ -90,7 +90,7 @@
     padding: 0;
     padding-top: 3%;
     list-style-type: none;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.90em;
     font-weight: 600;
     color: #ffffff;
@@ -185,7 +185,7 @@
 
 .header-dropdown-content li
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #000000;
     text-decoration: none;
@@ -229,7 +229,7 @@
 {
     padding: 5px 5px 5px 10px;
     margin: 0;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.75em;
     color: #2b2b2b;
 }
@@ -256,7 +256,7 @@
 .dropdown-concerns-header
 {
     float: left;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 1em;
     font-weight: 700;
     color: #2b2b2b;
@@ -265,7 +265,7 @@
 .dropdown-concerns-time
 {
     float: right;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.90em;
     color: #999999;
 }
@@ -278,7 +278,7 @@
 .dropdown-concerns-content
 {
     float: left;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.85em;
     color: #2b2b2b;
     text-align: justify;
@@ -304,7 +304,7 @@
 
 #header-dropdown-concerns .header-dropdown-content-list li:last-child
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.75em;
     color: #00ba72;
     float: right;
@@ -334,10 +334,10 @@
     padding: 0px 2px 8px 1px;
     height: 25%;
     width: 5%;
-    background: #ff7b7b;
+    background: #e71d36;
     border-radius: 3px;
     text-align: center;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-weight: 600;
     font-size: 0.80em;
     color: #ffffff;

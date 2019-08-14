@@ -61,7 +61,7 @@
 
 #add-faculty-name::placeholder
 {
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 1em;
     color: #ffffff;
     text-align: center;
@@ -75,7 +75,7 @@
     padding-bottom: 2px;
     border: none;
     border-bottom: 2px solid #00e08e;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #000000;
     cursor: pointer;
@@ -89,7 +89,7 @@
     padding: 8px;
     background-color: #00e08e;
     border: none;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.75em;
     color: #ffffff;
     cursor: pointer;
@@ -122,7 +122,7 @@
     margin-bottom: 2%;
     border: none;
     border-bottom: 2px solid #00e08e;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #000000;
     cursor: pointer;
@@ -142,7 +142,7 @@
 
 #faculty-list-table thead th
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     font-weight: 700;
     color: #2b2b2b;
@@ -152,7 +152,7 @@
 
 #faculty-list-table tbody td
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #2b2b2b;
 }
@@ -205,7 +205,7 @@
 .faculty-profile-name
 {
     //margin-top: 25px;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.80em;
     text-align: center;
 }
@@ -213,7 +213,7 @@
 .faculty-profile-details
 {
     margin-top: -10px;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.70em;
     text-align: center;
 }
@@ -273,7 +273,7 @@
 
 #selected-faculty-name
 {
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 1.0em;
     color: #000000;
     line-height: 30px;
@@ -283,7 +283,7 @@
 .selected-faculty-info-header td
 {
     width: 33.34%;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.80em;
     color: #000000;
     text-align: center;
@@ -293,7 +293,7 @@
 {
     padding-top: 3px;
     width: 33.34%;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.75em;
     color: #666666;
     text-align: center;
@@ -323,7 +323,7 @@
 
 .faculty-load-header-row td
 {
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.80em;
     color: #000000;
     margin-bottom: 5px;
@@ -336,7 +336,7 @@
 
 .faculty-load-row td
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #000000;
 }
@@ -357,7 +357,7 @@
     padding: 5px;
     background-color: #00e08e;
     border: none;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.80em;
     color: #ffffff;
     cursor: pointer;
@@ -369,14 +369,14 @@
     margin-top: 5px;
     padding: 0;
     float: right;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.80em;
     color: #000000;
 }
 
 .faculty-load-footer-row td:nth-child(2)
 {
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.80em;
     color: #00e08e;
     text-align: center;

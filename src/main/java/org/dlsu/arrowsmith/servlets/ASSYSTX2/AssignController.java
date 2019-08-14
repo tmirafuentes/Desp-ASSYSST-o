@@ -118,36 +118,40 @@ public class AssignController
                 }
             }
 
+            String day = currDay.getCourseOffering().getCourse().getCourseCode() +
+                    " " + currDay.getCourseOffering().getSection() +
+                    "\n(" + currDay.getbeginTime() + " - " + currDay.getendTime() + ")\n";
+
             /* Mark availability of room */
             if(currDay.getclassDay() == 'M')
             {
                 occupiedRoom.setAvailDay1(false);
-                occupiedRoom.setOffDay1(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+                occupiedRoom.setOffDay1(occupiedRoom.getOffDay1() + day);
             }
             else if(currDay.getclassDay() == 'T')
             {
                 occupiedRoom.setAvailDay2(false);
-                occupiedRoom.setOffDay2(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+                occupiedRoom.setOffDay2(occupiedRoom.getOffDay2() + day);
             }
             else if(currDay.getclassDay() == 'W')
             {
                 occupiedRoom.setAvailDay3(false);
-                occupiedRoom.setOffDay3(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+                occupiedRoom.setOffDay3(occupiedRoom.getOffDay3() + day);
             }
             else if(currDay.getclassDay() == 'H')
             {
                 occupiedRoom.setAvailDay4(false);
-                occupiedRoom.setOffDay4(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+                occupiedRoom.setOffDay4(occupiedRoom.getOffDay4() + day);
             }
             else if(currDay.getclassDay() == 'F')
             {
                 occupiedRoom.setAvailDay5(false);
-                occupiedRoom.setOffDay5(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+                occupiedRoom.setOffDay5(occupiedRoom.getOffDay5() + day);
             }
             else if(currDay.getclassDay() == 'S')
             {
                 occupiedRoom.setAvailDay6(false);
-                occupiedRoom.setOffDay6(currDay.getCourseOffering().getCourse().getCourseCode() + " " + currDay.getCourseOffering().getSection());
+                occupiedRoom.setOffDay6(occupiedRoom.getOffDay6() + day);
             }
         }
 
@@ -290,13 +294,6 @@ public class AssignController
         return new Response("Done", dtos);
     }
 
-    /* Retrieve available faculty who prefers the course in a given term */
-    @GetMapping(value = "/retrieve-preferred-course-faculty")
-    public Response retrievePreferredCourseFaculty()
-    {
-        return null;
-    }
-
     /* Retrieve available faculty who previously taught the course in a given term */
     @GetMapping(value = "/retrieve-previous-experienced-faculty")
     public Response retrieveExperiencedFaculty()
@@ -319,6 +316,13 @@ public class AssignController
         }
 
         return new Response("Done", experiencedFaculty.iterator());
+    }
+
+    /* Retrieve available faculty who prefers the course in a given term */
+    @GetMapping(value = "/retrieve-preferred-course-faculty")
+    public Response retrievePreferredCourseFaculty()
+    {
+        return null;
     }
 
     /* Update the selected course offering's faculty assignment */
@@ -349,12 +353,15 @@ public class AssignController
             /* Remove Load from previous faculty if ever */
             if(selectedOffering.getFaculty() != null)
             {
+                /* Deduct Academic Load to Faculty */
+                if (selectedOffering.getType().equals("Special"))
+                    facultyService.assignAcademicLoadToFaculty(currentTerm, selectedOffering.getFaculty(), 0);
+                else
+                    facultyService.assignAcademicLoadToFaculty(currentTerm, selectedOffering.getFaculty(), loadUnits * -1);
+
                 /* Remove Faculty from Course Offering */
                 selectedOffering.setFaculty(null);
                 offeringService.saveCourseOffering(selectedOffering);
-
-                /* Deduct Academic Load from Faculty */
-                facultyService.assignAcademicLoadToFaculty(currentTerm, selectedOffering.getFaculty(), loadUnits * -1);
             }
 
             /* Assign Faculty to Course Offering */
@@ -362,7 +369,7 @@ public class AssignController
             offeringService.saveCourseOffering(selectedOffering);
 
             /* Assign Academic Load to Faculty */
-            if(selectedOffering.getType().equals("Special"))
+            if (selectedOffering.getType().equals("Special"))
                 facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, 0);
             else
                 facultyService.assignAcademicLoadToFaculty(currentTerm, selectedFaculty, loadUnits);

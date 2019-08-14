@@ -44,7 +44,7 @@
     margin: 0 auto;
     margin-top: 15px;
     border-collapse: collapse;
-    border: 2px solid #000000;
+    border: 1px solid #2b2b2b;
     width: 95%;
 }
 
@@ -55,8 +55,9 @@
 
 #faculty-assign-table td
 {
+    padding: 0.5em;
     width: 20%;
-    border: 2px solid #000000;
+    border: 1px solid #2b2b2b;
     cursor: pointer;
 }
 
@@ -72,23 +73,43 @@
 
 .faculty-assign-name
 {
-    font-family: Open Sans;
-    font-size: 0.80em;
-    font-weight: 700;
-    text-align: center;
+    font-family: Gotham-Black;
+    font-size: 0.85em;
+    color: #2b2b2b;
 }
 
 .faculty-assign-details
 {
-    margin-top: -10px;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.75em;
-    text-align: center;
-    padding-bottom: 15px;
+    color: #2b2b2b;
 }
 
 .faculty-table-selected
 {
     background: #00ba72;
+}
+
+.faculty-table-selected p,
+.faculty-table-selected span
+{
     color: #ffffff;
+}
+
+.faculty-assign-units-green
+{
+    font-weight: 700;
+    color: #00ba72;
+}
+
+.faculty-assign-units-orange
+{
+    font-weight: 700;
+    color: #ffa500;
+}
+
+.faculty-assign-units-red
+{
+    font-weight: 700;
+    color: #e71d36;
 }

@@ -16,6 +16,7 @@ $(function()
      *   AND VARIABLES
      *
      */
+
     retrieveFacultyNames("ALL");
 
     /*
@@ -24,7 +25,7 @@ $(function()
      *
      */
 
-    /*  TODO: This event listener retrieves
+    /*  This event listener retrieves
      *  the faculty when a filter is selected.
     */
     $("#assign-faculty-filter-menu").on('change', function()
@@ -141,6 +142,14 @@ $(function()
         }
     });
 
+    /*  This event listener returns
+ *  the user to home page
+ */
+    $("#assign-faculty-cancel").click(function()
+    {
+        window.location.href = "/";
+    });
+
     /*
      *
      *  FUNCTION IMPLEMENTATIONS
@@ -175,13 +184,22 @@ $(function()
                         var start_row = "<tr>",
                             end_row = "</tr>";
 
+                        var units = "";
+                        if(faculty.teachingUnits >= 0 && faculty.teachingUnits < 6)
+                            units += "Teaching Load: <span class='faculty-assign-units-green'>" +
+                                     faculty.teachingUnits + " units</span>";
+                        else if(faculty.teachingUnits >= 6 && faculty.teachingUnits < 12)
+                            units += "Teaching Load: <span class='faculty-assign-units-orange'>" +
+                                faculty.teachingUnits + " units</span>";
+                        else
+                            units += "Teaching Load: <span class='faculty-assign-units-red'>" +
+                                faculty.teachingUnits + " units</span>";
+
                         /* Create faculty name cell */
                         var cell_faculty = "<td data-cell-faculty-name='" + faculty.facultyName + "'>" +
-                            "<img class='faculty-assign-img' src='images/black-icons/user-avatar.png' alt='This is a picture of a faculty.' />" +
                             "<p class='faculty-assign-name'>" + faculty.facultyName + "</p>" +
-                            "<p class='faculty-assign-details'>" + faculty.facultyPosition +
-                            "<br>Teaching Load: " + faculty.teachingUnits + " units</p>" +
-                            "</td>";
+                            "<p class='faculty-assign-details'>" + faculty.facultyPosition + "<br>" +
+                            units + "</td>";
 
                         /* Start of row */
                         if(col_ctr === 1)

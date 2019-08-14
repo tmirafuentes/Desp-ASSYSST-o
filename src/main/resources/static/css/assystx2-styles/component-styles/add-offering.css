@@ -45,7 +45,7 @@
 
 #add-offering-course::placeholder
 {
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.95em;
     color: #ffffff;
 }
@@ -74,7 +74,7 @@
     margin-left: 10px;
     padding: 9px;
     background: #05386B;
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 0.75em;
     color: #fff;
     cursor: pointer;

@@ -16,7 +16,7 @@
 
 #concerns-table .concerns-course-header
 {
-    font-family: Gotham Black;
+    font-family: Gotham-Black;
     font-size: 1em;
     color: #000000;
     margin: 0;
@@ -24,7 +24,7 @@
 
 #concerns-table .concerns-sender-details
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.75em;
     color: #666666;
     margin: 0;
@@ -48,7 +48,7 @@
 
 #concerns-table .concerns-sender-body
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     width: 100%;
     margin: 0;

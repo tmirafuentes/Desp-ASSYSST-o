@@ -235,7 +235,7 @@ public class MainController
         /* OPTIONAL - If it has current days and room assigned, retrieve as well */
         CourseOffering selectedOffering = offeringService.retrieveOfferingByCourseCodeAndSection(dto.getCourseCode(), dto.getSection());
         Iterator offeringDays = offeringService.retrieveAllDaysByOffering(selectedOffering);
-        int dayCtr = 1;
+        int dayCtr = -1;
         while(offeringDays.hasNext())
         {
             Days selDays = (Days) offeringDays.next();
@@ -243,8 +243,15 @@ public class MainController
                                 selDays.getclassDay() + " " +
                                 selDays.getbeginTime() + " - " +
                                 selDays.getendTime();
+
+            if(!offeringDays.hasNext() && dayCtr == -1)
+                dayCtr = 1;
+            else if(selDays.getclassDay() == 'M' || selDays.getclassDay() == 'T')
+                dayCtr = 1;
+            else if(selDays.getclassDay() == 'W' || selDays.getclassDay() == 'H')
+                dayCtr = 2;
+
             modelAndView.addObject("day" + dayCtr, formatDays);
-            dayCtr++;
         }
         modelAndView.addObject("numHours", selectedOffering.getCourse().getNumHours());
 

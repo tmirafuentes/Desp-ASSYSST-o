@@ -186,7 +186,7 @@ public class OfferingService {
     /* Retrieve All Days Per Building and Time Slot */
     public Iterator retrieveAllDaysByBuildingAndTimeslot(Building building, String beginTime, String endTime, Term term)
     {
-        /* Transform into integers */
+        /* Transform into integers the current timeslot */
         int begin_time = Integer.parseInt(beginTime);
         int end_time = Integer.parseInt(endTime);
 
@@ -197,16 +197,27 @@ public class OfferingService {
         ArrayList<Days> filteredList = new ArrayList<>();
         for(Days day : allDays)
         {
-            /* Transform days' times into integers */
+            /* Disregards Dissolved classes */
+            if(day.getCourseOffering().getType().equals("Dissolved"))
+                continue;
+
+            /* Transform days' times into integers for current Days */
             int dayBeginTime = Integer.parseInt(day.getbeginTime());
             int dayEndTime = Integer.parseInt(day.getendTime());
 
-            /* Check if dayBeginTime is between begin and end time.
-             * If so, include the day in the list.
-             */
-            if(begin_time >= dayBeginTime && begin_time < dayEndTime)
+            /* Check if conflict with set begin-end time */
+            if(dayBeginTime == begin_time && dayEndTime == end_time)    /* Exactly the same begin and end time */
                 filteredList.add(day);
-            else if(end_time > dayBeginTime && end_time < dayEndTime)
+            else if(dayBeginTime >= begin_time &&
+                    dayBeginTime < end_time &&                          // Day in question is between begin and end time,
+                    dayEndTime > begin_time &&                          // e.g. (0900 - 1200) 0915 - 1045
+                    dayEndTime <= end_time)
+                filteredList.add(day);
+            else if(dayBeginTime >= begin_time &&                       // Day in question has its start time between begin and end time
+                    dayBeginTime < end_time)                            // however its finish time beyond end time e.g. (0900 - 1200) 1100 - 1230
+                filteredList.add(day);
+            else if(dayEndTime > begin_time &&                          // Day in question has its finish time between begin and end time
+                    dayEndTime <= end_time)                             // however its start time before begin time e.g. (1300 - 1600) 1245 - 1415
                 filteredList.add(day);
         }
 

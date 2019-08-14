@@ -24,6 +24,7 @@ public class FacultyService {
     @Autowired
     private DepartmentRepository departmentRepository;
     @Autowired
+    private FacultyLoadRepository facultyLoadRepository;
 
     /**
      **

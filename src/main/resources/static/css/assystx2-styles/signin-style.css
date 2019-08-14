@@ -96,7 +96,7 @@ input[type=text]:focus, input[type=password]:focus
     padding: 0;
     background: none;
     border: none;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size:0.90em;
     font-weight: 500;
     color: #e71d36;

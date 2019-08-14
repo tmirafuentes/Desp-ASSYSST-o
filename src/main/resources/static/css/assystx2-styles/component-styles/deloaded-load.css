@@ -79,7 +79,7 @@
     color: #000000;
 }
 
-.deloaded-load-row > li:nth-child(1) { font-family: Open Sans; font-weight: 700; font-size: 0.80em; }
+.deloaded-load-row > li:nth-child(1) { font-family: OpenSans-Regular; font-weight: 700; font-size: 0.80em; }
 .deloaded-load-row > li:nth-child(2) { font-size: 0.75em; color: #2b2b2b;  }
 .deloaded-load-row > li:nth-child(3) { font-size: 0.75em; }
 

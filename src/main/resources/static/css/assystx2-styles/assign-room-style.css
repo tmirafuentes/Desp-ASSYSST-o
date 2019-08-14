@@ -48,7 +48,7 @@
     margin-top: 15px;
     border: none;
     border-bottom: 2px solid #000000;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.85em;
     color: #000000;
     cursor: pointer;
@@ -103,7 +103,7 @@
 
 #room-assign-unavailable-message
 {
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.90em;
     font-weight: 600;
     color: #ffffff;
@@ -115,7 +115,7 @@
     margin: 0 auto;
     margin-top: 15px;
     border-collapse: collapse;
-    font-family: Open Sans;
+    font-family: OpenSans-Regular;
     font-size: 0.80em;
     color: #2b2b2b;
     width: 95%;
@@ -156,6 +156,7 @@
 #room-assign-table .room-table-unavailable
 {
     background-color: #ff7b7b;
+    color: #ffffff;
 }
 
 #room-assign-table .room-table-selected

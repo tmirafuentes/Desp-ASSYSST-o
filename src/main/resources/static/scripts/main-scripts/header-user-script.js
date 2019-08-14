@@ -208,6 +208,7 @@ $(function()
                     $("#raise-concerns-receiver").val("");
                     $("#raise-concerns-offering").val("");
                     $("#raise-concerns-content").val("");
+                    $(".blocker").hide();
                     $("#raise-concerns-modal").modal('close');
                 }
             },
@@ -417,7 +418,7 @@ $(function()
                         revision += " ago ";
                     } else
                     {
-                        var revDateAgain = new Date(result.data.timestamp);
+                        var revDateAgain = new Date(change.timestamp);
                         revision += "at " + revDateAgain.toLocaleDateString() + " ";
                     }
 
