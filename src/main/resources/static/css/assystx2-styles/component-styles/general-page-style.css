@@ -115,16 +115,24 @@ body
     margin-left: 1em;
 }
 
-.create-instance-button button
+.create-instance-button button,
+.dt-buttons button
 {
     border: none;
     background: #00ba72;
     padding: 0.5em;
     font-family: Gotham-Black;
     font-size: 0.75em;
-    font-weight: 800;
+    font-weight: 700;
     color: #ffffff;
     cursor: pointer;
+    margin-left: 1em;
+}
+
+.create-instance-button button:hover,
+.dt-buttons button:hover
+{
+    background: #00e08e;
 }
 
 .datatables-row-dissolved

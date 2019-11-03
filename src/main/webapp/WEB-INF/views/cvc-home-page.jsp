@@ -7,7 +7,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
     <head>
-        <title>ASSYSTX - CVC Workspace</title>
+        <title>${termString} Course Offerings List</title>
 
         <link rel="icon" type="image/png" href="/images/other-icons/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="/images/other-icons/favicon-16x16.png" sizes="16x16" />
@@ -20,13 +20,17 @@
         <c:url value="/css/jquery/jquery-ui.min.css" var="jqueryCss" />
         <c:url value="/css/assystx2-styles/component-styles/shorten.min.css" var="shortenCss" />
         <c:url value="/css/assystx2-styles/component-styles/datatables.css" var="dataTablesCss" />
+        <c:url value="/css/datatables/buttons.dataTables.min.css" var="dataTablesBtnCss" />
         <c:url value="/css/assystx2-styles/workspace-home-style.css" var="mainCss" />
         <c:url value="/scripts/extension-scripts/jquery/jquery-3.3.1.min.js" var="minJquery" />
         <c:url value="/scripts/extension-scripts/jquery/jquery-ui.min.js" var="jqueryUI" />
         <c:url value="/scripts/extension-scripts/jquery-shorten.min.js" var="shortenExt" />
-        <c:url value="/scripts/main-scripts/cvc-workspace-script.js" var="mainScript" />
+        <c:url value="/scripts/main-scripts/apo-workspace-script.js" var="mainScript" />
         <c:url value="/scripts/main-scripts/header-user-script.js" var="userScript" />
-        <c:url value="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js" var="dataTablesExt" />
+        <c:url value="/scripts/extension-scripts/datatables/jquery.dataTables.min.js" var="dataTablesExt" />
+        <c:url value="/scripts/extension-scripts/datatables/dataTables.buttons.min.js" var="dataTablesBtnExt" />
+        <c:url value="/scripts/extension-scripts/datatables/buttons.html5.min.js" var="dataTablesHTMLBtnExt" />
+        <c:url value="/scripts/extension-scripts/datatables/jszip.min.js" var="dataTablesJSBtnExt" />
         <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js" var="modalScriptExt" />
         <c:url value="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" var="modalCssExt" />
 

@@ -39,6 +39,26 @@ $(function() {
                 "previous":   "Prev"
             }
         },
+        "dom" : "Bfrtip",
+        "buttons" : [
+            {
+                "text" : "Create New Offering",
+                "action" : function (e, dt, node, config)
+                {
+                    // Fix Modal issues when I have internet
+                    $("#create-offering-modal").modal("open");
+                }
+            },
+            {
+                "extend" : "excel",
+                "text" : "Export Current Schedule",
+                "exportOptions" : {
+                    "modifier" : {
+                        "page" : "current"
+                    }
+                }
+            }
+        ],
         "columnDefs" : [
             {
                 "orderable" : false,
@@ -119,7 +139,7 @@ $(function() {
                              "<a href='#create-offering-modal' rel='modal:open'>" +
                              "<button type='button' class='offering-create-button'>Create New Offering</button>" +
                              "</a></div>";
-    $(createOfferingCode).prependTo("#all-offerings-table_wrapper");
+    //$(createOfferingCode).prependTo("#all-offerings-table_wrapper");
 
     /* Update Offerings Table */
     setInterval( function () {

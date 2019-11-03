@@ -40,6 +40,26 @@ $(function() {
                 "previous":   "Prev"
             }
         },
+        "dom" : "Bfrtip",
+        "buttons" : [
+            {
+                "text" : "Create New Offering",
+                "action" : function (e, dt, node, config)
+                {
+                    // Fix Modal issues when I have internet
+                    $("#create-offering-modal").modal("open");
+                }
+            },
+            {
+                "extend" : "excel",
+                "text" : "Export Current Schedule",
+                "exportOptions" : {
+                    "modifier" : {
+                        "page" : "current"
+                    }
+                }
+            }
+        ],
         "columnDefs" : [
             {
                 "orderable" : false,
